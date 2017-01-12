@@ -1,0 +1,242 @@
+<header ng-include="'sections/admin/header.html'"></header>
+<div class="row">
+    <div class="col-md-12 col-lg-12">
+        <div id="main-container">
+            <h3 id="clothing">Maquette Customizé</h3>
+            <div class="btn-group" role="group" style="margin-bottom: 15px">
+                <button type="button" class="btn btn-warning" ng-click="model.fnOpenModal()">Sauvegarder</button>
+                <button type="button" class="btn btn-warning" ng-click="model.fnGallery()">Gallery</button>
+            </div>
+            <div id="model" class="fpd-container fpd-shadow-2 fpd-topbar fpd-tabs fpd-tabs-side fpd-top-actions-centered fpd-bottom-actions-centered fpd-views-inside-left">
+                <!--div data-ng-repeat="product in model.productList" class="fpd-product" title="{{product.title}}" data-thumbnail="{{product.thumbnail_src}}">
+                    <div class="fpd-product" title="{{product.elemback.title}}" data-thumbnail="{{product.elemback.src}}">
+                        <img ng-repeat="content in  product.elemback.params" ng-if="content.type=='image'" src="{{content.source}}"   title="{{content.title}}" data-parameters='{"left": {{content.parameters.left}}, "top": {{content.parameters.top}},"height":{{content.parameters.height}}, "width":{{content.parameters.width}}, "scaleX":{{content.parameters.scaleX}},"scaleY":{{content.parameters.scaleY}}, "price": 20}'/>
+                    </div>
+                    <img ng-repeat="content in  product.elemfront.params" src="{{content.source}}" ng-if="content.type=='image'"  title="{{content.title}}" data-parameters='{"left": {{content.parameters.left}}, "top": {{content.parameters.top}}, "height":{{content.parameters.height}}, "width":{{content.parameters.width}}, "scaleX":{{content.parameters.scaleX}},"scaleY":{{content.parameters.scaleY}}, "price": 20}'/>
+                </div-->
+                <!--div data-ng-repeat="product in model.productList" class="fpd-product" title="{{product.title}}" data-thumbnail="{{product.thumbnail_src}}">
+                    <div class="fpd-product" title="Arrière Plan" data-thumbnail="images/gabarits/maquette_complet1.png">
+                        <img ng-repeat="source in  product.img_src" src="{{source.src}}"   title="Base" data-parameters='{"left": 325, "top": 329, "colors": "#d59211", "price": 20}'/>
+                    </div>
+                    <img ng-repeat="source in  product.img_src" src="{{source.src}}"   title="Base" data-parameters='{"left": 325, "top": 329, "colors": "#d59211", "price": 20}'/>
+                </div-->
+
+
+                <!--div class="fpd-design">
+                    <div ng-repeat="design in model.productsDesign" class="fpd-category" title="{{design.title}}">
+                        <img ng-repeat="image in design.imgsrc" src="{{image.src}}"  title="{{image.title}}" data-parameters='{"zChangeable": true, "left": 215, "top": 200, "colors": "#000000", "removable": true, "draggable": true, "rotatable": true, "resizable": true, "price": 10, "boundingBox": "Base", "autoCenter": true}' />
+                    </div>
+                </div-->
+                <div class="fpd-design">
+                    <div ng-repeat="design in model.productsDesign" class="fpd-category" title="{{design.libelle}}">
+                        <img ng-repeat="image in design.data" src="{{image.src}}"  title="{{image.libelle}}" data-parameters='{"zChangeable": true, "left": 215, "top": 200, "colors": "#000000", "removable": true, "draggable": true, "rotatable": true, "resizable": true, "price": 0, "boundingBox": "Base", "autoCenter": true}' />
+                    </div>
+                </div>
+            </div>
+            <br />
+
+            <div class="fpd-clearfix" style="margin-top: 30px;">
+                <div class="api-buttons fpd-container fpd-left">
+                    <a id="print-button" class="fpd-btn">Print</a>
+                    <a id="image-button" class="fpd-btn">Create Image</a>
+                    <a href="#" id="checkout-button" class="fpd-btn">Sauvegarder</a>
+                    <a href="#" id="recreation-button" class="fpd-btn">Recreate product</a>
+                </div>
+            </div>
+
+            <p class="fpd-container">
+                Only working on a webserver:<br />
+                <span class="fpd-btn" id="save-image-php">Save image with php</span>
+                <span class="fpd-btn" id="send-image-mail-php">Send image to mail</span>
+            </p>
+
+        </div>
+    </div>
+</div>
+<div id="myModel" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 75%;height: 500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> Info Sample</h4>
+            </div>
+            <div class="modal-body" style="height: 400px">
+                <div class="col-md-2"><b>Libelle </b></div>
+                <div class="col-md-10 input-group" style="margin-bottom: 5px;">
+                    <input type="text" class="form-control" ng-model="model.libelle" placeholder="Libelle" aria-describedby="basic-addon1">
+                </div>
+                <div class="col-md-2"><b>Reference </b></div>
+                <div class="col-md-10 input-group" style="margin-bottom: 5px;">
+                    <input type="text" class="form-control" ng-model="model.reference" placeholder="Reference" aria-describedby="basic-addon1">
+                </div>
+                <div class="col-md-2"><b>Description </b></div>
+                <div class="col-md-10 input-group" style="margin-bottom: 5px;">
+                    <textarea class="form-control custom-control" ng-model="model.description" rows="3" style="resize:none"></textarea>
+                </div>
+                <div class="col-md-2" style="margin-bottom: 5px; margin-top: 5px;"><b>Model</b></div>
+                <div class="col-md-10" style="margin-bottom: 5px; margin-top: 5px;">
+                    <!--select class="selObj" style="width: 100%" ng-model="strData">
+                        <option ng-repeat="data in model.arrData" value="{{data.categoryid}}">{{data.modeldescription}} - {{data.categorydescription}}</option>
+                    </select-->
+
+                    <select class="sel_model" style="width: 75%;"></select>
+                </div>
+                <div class="row">
+                    <div class="col-md-2" style="margin-bottom: 5px; margin-top: 5px;">
+                        <b>Dimensions</b>
+                    </div>
+                    <div class="col-md-10">
+                        <button class="btn btn-circle btn-warning" style="outline-style: none;" ng-click="model.fnClickDimensions()"><span class="glyphicon glyphicon-pencil"></span></button>
+                        <!--select class="sel_dimension" style="width: 75%;" multiple="multiple" ng-model="model.strDimension">
+                        </select-->
+                    </div>
+                </div>
+                <div class="row" style="padding: 10px">
+                    <div class="col-md-2">
+
+                    </div>
+                    <div class="col-md-10 well">
+                        <div class="col-md-2">
+                            <b>Attache Escargot/Trou</b>
+                        </div>
+                        <div class="col-md-1">
+                            <label><input type="checkbox" ng-model="model.chkEscargo"></label>
+                        </div>
+                        <div class="col-md-1">
+                            <b>Contours</b>
+                        </div>
+                        <div class="col-md-1" style="margin-left: 10px">
+                            <label><input type="checkbox" ng-model="model.chkContours"></label>
+                        </div>
+                        <div class="col-md-1">
+                            <b>Liserai</b>
+                        </div>
+                        <div class="col-md-1">
+                            <label><input type="checkbox" ng-model="model.chkLiserai"></label>
+                        </div>
+                        <div class="col-md-1">
+                            <b>Affichage Couché</b>
+                        </div>
+                        <div class="col-md-1"  style="margin-left: 10px">
+                            <label><input type="checkbox" ng-model="model.chkCoucher"></label>
+                        </div>
+                        <div class="col-md-1">
+                            <b>Gabarit</b>
+                        </div>
+                        <div class="col-md-1"  style="margin-left: 10px">
+                            <label><input type="checkbox" ng-model="model.chkGabarit"></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success pull-right" style="margin-right: 5px" ng-show="model.isModifier" ng-click="model.fnValider()">Nouvelle Model</button>
+                <button class="btn btn-primary pull-right" style="margin-right: 5px" ng-show="model.isModifier" ng-click="model.fnValiderModif()">Modification Model</button>
+                <button class="btn btn-success pull-right" ng-show="!model.isModifier" ng-click="model.fnValider()">Valider</button>
+                <button class="btn btn-danger pull-left" ng-click="model.fnQuitter()">Annuler</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="gallery" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 75%;height: 500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> Gallery Models</h4>
+            </div>
+            <div class="modal-body" style="height: 400px;overflow: scroll">
+                <div class="row" style="padding: 3px;">
+                    <div class="col-md-2">Type de model: </div>
+                    <div id="selModelMetier" class="col-md-10" >
+                        <select class="sel_model_metier" style="width: 75%;"></select>
+                    </div>
+                </div>
+                <ul class="nav nav-tabs">
+                    <li ng-class="{ active: model.activeId == 1 }" style="cursor: pointer" ng-click="model.fnClickTabs(1)"><a>Models</a></li>
+                    <li ng-class="{ active: model.activeId == 2 }" style="cursor: pointer" ng-click="model.fnClickTabs(2)"><a>Gabarits</a></li>
+                </ul>
+                <div class="row" ng-show="model.isShow == 1">
+                    <div class="col-md-12">
+                        <div class="col-md-3" style="margin-bottom: 5px; margin-top: 5px;" ng-repeat="mo in model.galleryModels">
+                            <!--div class="tileImg" ng-click="model.fnImgClick(mo)"-->
+                            <div class="tileImg" style="height: 300px">
+                                <img style="width: 200px; height: 200px" src="{{mo.src}}">
+                                <div style="font-weight: bold;text-decoration: underline">{{mo.reference}}</div>
+                                <div>{{mo.libelle}}</div>
+                                <div>
+                                    <button ng-click="model.fnDel(mo)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                                    <button ng-click="model.fnEdit(mo)" class="btn btn-info" ><span class="glyphicon glyphicon-pencil"></span></button>
+                                    <button ng-click="model.fnTransfer(mo)" class="btn btn-warning" ><span class="glyphicon glyphicon-sort"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" ng-show="model.isShow == 2">
+                    <div class="col-md-12">
+                        <div class="col-md-3" style="margin-bottom: 5px; margin-top: 5px;" ng-repeat="mo in model.galleryModels">
+                            <!--div class="tileImg" ng-click="model.fnImgClick(mo)"-->
+                            <div class="tileImg">
+                                <img style="width: 200px; height: 200px" src="{{mo.src}}">
+                                <div style="font-weight: bold;text-decoration: underline">{{mo.reference}}</div>
+                                <div>{{mo.libelle}}</div>
+                                <div>
+                                    <button ng-click="model.fnDel(mo)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                                    <button ng-click="model.fnEdit(mo)" class="btn btn-info" ><span class="glyphicon glyphicon-pencil"></span></button>
+                                    <button ng-click="model.fnTransfer(mo)" class="btn btn-warning" ><span class="glyphicon glyphicon-sort"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger pull-left" ng-click="model.fnQuitter()">Annuler</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="transfer" class="modal fade" data-backdrop="static" style="overflow: hidden">
+    <div class="modal-dialog" style="width: 70%;height: 100px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Transfer du produit - {{model.transferTxt}}</h4>
+            </div>
+            <div class="modal-body" style="height: 75px;overflow: hidden">
+                <div class="row" style="padding: 3px;">
+                    <div class="col-md-2">Transferer vers: </div>
+                    <div id="selTransfer" class="col-md-10" >
+                        <select class="sel_transfer" style="width: 75%;"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger pull-left" data-dismiss="modal">Annuler</button>
+                <button class="btn btn-success pull-right" ng-click="model.fnTransferProduit()">Valider</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="dimensions" class="modal fade" data-backdrop="static" style="overflow: hidden">
+    <div class="modal-dialog" style="width: 50%;height: 500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Dimensions</h4>
+            </div>
+            <div class="modal-body" style="height: 450px;overflow: hidden">
+                <div  ui-grid="gridOptDimensions" style="height: 400px;width:90%" ui-grid-auto-resize ui-grid-edit ui-grid-cellnav class="myGridColumns"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger pull-left" data-dismiss="modal">Annuler</button>
+                <button class="btn btn-success pull-right" ng-click="model.fnValidDim()">Valider</button>
+                <button class="btn btn-info pull-right" ng-click="model.fnAjoutDim()">Nouveau</button>
+            </div>
+        </div>
+    </div>
+</div>

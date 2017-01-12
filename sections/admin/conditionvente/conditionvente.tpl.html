@@ -1,0 +1,26 @@
+<header ng-include="'sections/admin/header.html'"></header>
+<div class="row">
+    <div class="col-md-3"><h4>Titre</h4></div>
+    <div class="col-md-7">
+        <input type="text" class="form-control" style="width: 100%" ng-model="conditionvente.objconditionvente.title" placeholder="" aria-describedby="basic-addon1">
+        <button class="btn btn-large btn-success pull-right" style="margin:5px;"  ng-click="conditionvente.fnValidHeader()">Valider</button>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <h4>Contenu</h4>
+    </div>
+    <div class="col-md-8">
+        <div ng-repeat="objText in conditionvente.objconditionvente.data">
+            <textarea  style="margin:5px" class="form-control" rows="10" id="comment" ng-model="objText.description"></textarea>
+            <button class="btn btn-large btn-success pull-right" style="margin:5px;"  ng-click="conditionvente.fnValidLigne(objText)">Valider</button>
+            <button class="btn btn-large btn-danger pull-right" style="margin:5px;" ng-click="conditionvente.fnDelLigne(objText)">Supprimer</button>
+        </div>
+    </div>
+</div>
+<footer class="sig">
+    <!--button class="btn btn-large btn-success pull-right" style="margin-top:5px;margin-right: 10px"  ng-click="conditionvente.fnValid()">Valider</button-->
+    <button class="btn btn-large btn-info pull-right" style="margin-top:5px;margin-right: 10px" ng-click="conditionvente.fnInit()">Initialiser</button>
+    <button class="btn btn-large btn-primary pull-right" style="margin-top:5px;margin-right: 10px" ng-click="conditionvente.fnNew()">Nouveau</button>
+</footer>
+

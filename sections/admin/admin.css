@@ -1,0 +1,32 @@
+header, footer {
+    background-color: #e7e7e7;
+    clear: left;
+    text-align: center;
+}
+
+.tileImg {
+    border:1px solid #f2f2f2;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.4rem;
+    width:207px;
+}
+
+.tileImg p.ng-binding
+{
+
+    color:#666;
+    padding: 1rem 0;
+    text-transform:uppercase;
+    background: #eaeaea;
+    margin:0;
+    transition: all 0.3s ease 0s;
+    font-size: 1.2rem;
+
+
+}
+
+.tileImg p.ng-binding:hover
+{
+    background: #c9e89d;
+}

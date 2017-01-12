@@ -1,0 +1,45 @@
+<header ng-include="'sections/admin/header.html'"></header>
+<div class="row" >
+    <div class="col-md-9" style="overflow: auto">
+        <table>
+            <th>Mot Clé</th>
+            <th> Anglais</th>
+            <th>Francais</th>
+            <th>Espagnole</th>
+            <th>Allemand</th>
+            <th>Italien</th>
+            <th>Actions</th>
+            <tr ng-repeat="ligne in langue.arrData">
+
+                <td style="">{{ ligne.key_identifier }}</td>
+                <td>
+                    <input type="text" class="form-control" style="width: 100%" ng-model="ligne.english" placeholder="" aria-describedby="basic-addon1">
+                </td>
+                <td>
+                    <input type="text" class="form-control" style="width: 100%" ng-model="ligne.french" placeholder="" aria-describedby="basic-addon1">
+                </td>
+                <td>
+                    <input type="text" class="form-control" style="width: 100%" ng-model="ligne.spanish" placeholder="" aria-describedby="basic-addon1">
+                </td>
+                <td>
+                    <input type="text" class="form-control" style="width: 100%" ng-model="ligne.german" placeholder="" aria-describedby="basic-addon1">
+                </td>
+                <td>
+                    <input type="text" class="form-control" style="width: 100%" ng-model="ligne.italien" placeholder="" aria-describedby="basic-addon1">
+                </td>
+                <td>
+                    <div>
+                        <button type='button' title="Sauvegarder" class='btn btn-success btn-circle' style='margin-left: 5px;margin-top: 5px;' ng-click="langue.fnValider(ligne)"><i class='glyphicon glyphicon-ok'></i></button>
+                        <button type='button' title="Annuler les modifs pour cette ligne" class='btn btn-danger btn-circle' style='margin-left: 5px;margin-top: 5px;' ng-click="langue.fnInitialiser(ligne)"><i class='glyphicon glyphicon-remove'></i></button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-md-3">
+        <p ng-bind-html="langue.message"></p>
+    </div>
+</div>
+<footer class="sig">
+    <button title="Création d'une nouvelle ligne" class="btn btn-large btn-primary pull-right" style="margin-top:5px;margin-right: 10px" ng-click="langue.fnNew()">Nouvelle ligne</button>
+</footer>

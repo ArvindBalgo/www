@@ -1,0 +1,97 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand">EXAKOM</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active"  ng-click="admin.fnDisplay(1)"><a>Dashboard</a></li>
+                <li ng-click="admin.fnDisplay(2)"><a>Design</a></li>
+                <li ng-click="admin.fnDisplay(3)"><a>Parametrage</a></li>
+                <li ng-click="admin.fnDisplay(4)"><a>Commande</a></li>
+                <li ng-click="admin.fnDisplay(5)"><a>Clients</a></li>
+                <li ng-click="admin.fnDisplay(6)"><a>Revendeurs</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a >Action</a></li>
+                        <li><a >Another action</a></li>
+                        <li><a >Something else here</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li><a >Separated link</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+
+<div class="container" style="width: 100%">
+    <div data-ng-show="admin.isDisplay==1">PAGE ONE</div>
+    <div data-ng-show="admin.isDisplay==2">
+        <section class="content">
+            <div class="btn-group" role="group" aria-label="...">
+                <button type="button" class="btn btn-primary">Categorie</button>
+                <button type="button" class="btn btn-info">Models</button>
+                <button type="button" class="btn btn-success">Ajout Image</button>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <!--button class="btn btn-large btn-success">Nouveau categorie</button>
+                    <button class="btn btn-large btn-success">Nouvelle Model</button>
+                    <button class="btn btn-large btn-success">Ajout Image/s</button-->
+                </div>
+                <div class="col-md-12">
+                    <div id="main-container">
+                        <h3 id="clothing">Maquette Customizé</h3>
+                        <div id="model" class="fpd-container fpd-shadow-2 fpd-topbar fpd-tabs fpd-tabs-side fpd-top-actions-centered fpd-bottom-actions-centered fpd-views-inside-left">
+                            <div data-ng-repeat="product in admin.productList" class="fpd-product" title="{{product.title}}" data-thumbnail="{{product.thumbnail_src}}">
+                                <img ng-repeat="source in  product.img_src" src="{{source.src}}"   title="Base" data-parameters='{"left": 325, "top": 329, "colors": "#d59211", "price": 20}'/>
+                            </div>
+                            <div class="fpd-design">
+                                <div ng-repeat="design in admin.productsDesign" class="fpd-category" title="{{design.title}}">
+                                    <img ng-repeat="image in design.imgsrc" src="{{image.src}}"  title="{{image.title}}" data-parameters='{"zChangeable": true, "left": 215, "top": 200, "colors": "#000000", "removable": true, "draggable": true, "rotatable": true, "resizable": true, "price": 10, "boundingBox": "Base", "autoCenter": true}' />
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+
+                        <div class="fpd-clearfix" style="margin-top: 30px;">
+                            <div class="api-buttons fpd-container fpd-left">
+                                <a href="#" id="print-button" class="fpd-btn">Print</a>
+                                <a href="#" id="image-button" class="fpd-btn">Create Image</a>
+                                <a href="#" id="checkout-button" class="fpd-btn">Checkout</a>
+                                <a href="#" id="recreation-button" class="fpd-btn">Recreate product</a>
+                            </div>
+                            <div class="fpd-right">
+                                <span class="price badge badge-inverse"><span id="thsirt-price"></span> $</span>
+                            </div>
+                        </div>
+
+                        <p class="fpd-container">
+                            Only working on a webserver:<br />
+                            <span class="fpd-btn" id="save-image-php">Save image with php</span>
+                            <span class="fpd-btn" id="send-image-mail-php">Send image to mail</span>
+                        </p>
+
+                    </div>
+                </div>
+            </div><!-- /.row -->
+        </section><!-- /.content -->
+    </div>
+    <div data-ng-show="admin.isDisplay==3">PAGE THREE</div>
+    <div data-ng-show="admin.isDisplay==4">PAGE 4</div>
+    <div data-ng-show="admin.isDisplay==5">PAGE 5</div>
+    <div data-ng-show="admin.isDisplay==6">PAGE 5</div>
+</div>

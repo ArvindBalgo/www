@@ -1,0 +1,69 @@
+<header ng-include="'sections/admin/header.html'"></header>
+<style>
+    .myGrid {
+        width: 100%;
+        height: 100%;
+
+    }
+    .myGridColumns {
+        width: 100%;
+        height: 100%;
+
+    }
+</style>
+<div style="padding: 10px" class="row">
+    <div class="col-md-4 col-md-offset-4 btn-group">
+        <button type="button" class="btn btn-primary" ng-click="support.fnCrudMetier(0)"><span class="glyphicon glyphicon-plus"> Nouveau</span></button>
+    </div>
+</div>
+<div  ui-grid="gridOptions"  ui-grid-resize-columns ui-grid-selection class="myGrid"></div>
+
+<div id="ajoutSupport" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 50%;height: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> Nouvelle support</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2"><b>Libelle </b></div>
+                        <div class="col-md-8 input-group" style="margin-bottom: 5px;">
+                            <input type="text" class="form-control" style="width: 50%" ng-model="support.modelLibelle" placeholder="Libelle" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger pull-left" ng-click="support.fnQuitter()">Annuler</button>
+                <button type="button" class="btn btn-success" ng-click="support.fnAjouter()"><span class="glyphicon glyphicon-ok"></span> Valider</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="editSupport" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 50%;height: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> Modification support</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2"><b>Libelle </b></div>
+                        <div class="col-md-8 input-group" style="margin-bottom: 5px;">
+                            <input type="text" class="form-control" style="width: 50%" ng-model="support.editModelLibelle" placeholder="Libelle" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger pull-left" ng-click="support.fnQuitter()">Annuler</button>
+                <button type="button" class="btn btn-success" ng-click="support.fnEdit()"><span class="glyphicon glyphicon-ok"></span> Modifier</button>
+            </div>
+        </div>
+    </div>
+</div>

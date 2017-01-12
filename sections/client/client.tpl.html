@@ -1,0 +1,124 @@
+<header ng-include="'sections/header.html'"></header>
+<div class="row">
+    <div class="col-sm-3 col-md-3">
+        <div class="panel-group" id="accordion">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" ng-click="client.fnToggleTab(1)"><span class="glyphicon glyphicon-folder-close">
+                            </span>Commandes</a>
+                    </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in">
+                    <div class="panel-body">
+                        <table class="table">
+                            <tr>
+                                <td>
+                                    <span class="glyphicon glyphicon-flash text-primary"></span><a ng-click='client.fnChangeDiv()'>Commande en cours</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="glyphicon glyphicon-file text-success"></span><a ng-click='client.fnChangeDiv()'>Historique des commandes</a>
+                                </td>
+                            </tr>
+                            <!--tr>
+                                <td>
+                                    <span class="glyphicon glyphicon-file text-info"></span><a ng-click='client.fnChangeDiv()'>Newsletters</a>
+                                </td>
+                            </tr-->
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" ng-click="client.fnToggleTab(2)"><span class="glyphicon glyphicon-th">
+                            </span>Factures</a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table">
+                            <tr>
+                                <td>
+                                    <a ng-click='client.fnChangeDiv()'>Commandes</a> <span class="label label-success">0</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a ng-click='client.fnChangeDiv()'>Livraison</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a ng-click='client.fnChangeDiv()'>Outre-mers</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" ng-click="client.fnToggleTab(3)"><span class="glyphicon glyphicon-user">
+                            </span>Compte</a>
+                    </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <table class="table">
+                            <tr>
+                                <td>
+                                    <span class="glyphicon glyphicon-random text-danger"></span><a ng-click='client.fnChangeDiv()'>Changer le Mot de passe</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="glyphicon glyphicon-info-sign text-info"></span><a ng-click='client.fnChangeDiv()'>Notifications</a> <span class="label label-info">5</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="glyphicon glyphicon-cog text-warning"></span><a ng-click='client.fnChangeDiv()'>Parametres</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span class="glyphicon glyphicon-trash text-danger"></span><a ng-click='client.fnChangeDiv()' class="text-danger">
+                                    Suppression Compte</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-9 col-md-9" id="espaceClient">
+        <div class="well">
+            <h1>Client</h1>
+            Espace client
+        </div>
+    </div>
+
+    <div class="col-sm-9 col-md-9" id="divClient" style="display: none">
+        <div class="well">
+            <h1>Client</h1>
+           Pas de données
+        </div>
+    </div>
+</div>
+
+<footer>
+    <div class="signature">
+        <div class="col-md-1">
+            <div class='block-image'><img style="width: 100px;height: 75px" src="assets/img/logo%20exakom.png"></div>
+        </div>
+        <div class="col-md-offset-4" style="padding-top: 50px">
+            <a href="#/apropos" style="color: white">Qui sommes nous?</a> / <a style="color: white " href="#/conditionvente">Conditions de vente</a> / <a style="color: white " href="#/utilisation">Mentions d'utilisation</a> / <a style="color: white " href="#/legale">Mentions Légales</a>
+        </div>
+    </div>
+</footer>

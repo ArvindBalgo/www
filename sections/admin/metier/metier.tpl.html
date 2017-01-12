@@ -1,0 +1,406 @@
+<header ng-include="'sections/admin/header.html'"></header>
+<style>
+    .myGrid {
+        width: 100%;
+        height: 100%;
+
+    }
+    .myGridColumns {
+        width: 100%;
+        height: 100%;
+
+    }
+</style>
+<div style="padding: 10px" class="row">
+    <div id="selMetier" class="col-md-5"><select class="sel_metier" style="width: 100%;"></select></div>
+    <div class="col-md-4 btn-group">
+        <button type="button" class="btn btn-primary" ng-click="metier.fnCrudMetier(0)"><span class="glyphicon glyphicon-plus"></span></button>
+        <button type="button" class="btn btn-primary" ng-click="metier.fnCrudMetier(1)"><span class="glyphicon glyphicon-pencil"></span></button>
+        <button type="button" class="btn btn-danger" ng-click="metier.fnCrudMetier(3)"><span class="glyphicon glyphicon-trash"></span></button>
+        <button type="button" class="btn btn-info"  style="margin-bottom: 5px;" ng-click="metier.fnCrudMetier(2)"><span class="glyphicon glyphicon-plus"></span> Sous-Category</button>
+    </div>
+</div>
+
+<div  ui-grid="gridOptions"  ui-grid-resize-columns ui-grid-selection class="myGrid"></div>
+
+<div id="imgModal" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 75%;height: 500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> Image {{metier.description}}</h4>
+            </div>
+            <div class="modal-body" style="height: 400px">
+                <div class="col-md-12"><img src="{{metier.currentImg}}"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger pull-left" ng-click="metier.fnQuitter()">Annuler</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalMetier" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 50%;height: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> {{metier.libelle}} {{metier.sous_libelle}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2 "><b>Libelle </b></div>
+                        <div class="col-md-8 input-group" style="margin-bottom: 5px;">
+                            <input type="text" class="form-control" style="width: 50%" ng-model="metier.libelle" placeholder="Libelle" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"><b>Sous Libelle </b></div>
+                        <div class="col-md-8 input-group" style="margin-bottom: 5px;">
+                            <input type="text" class="form-control" style="width: 50%" ng-model="metier.sous_libelle" placeholder="Sous Libelle" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"><b>Actif </b></div>
+                        <div class="checkbox">
+                            <label><input type="checkbox" ng-model="metier.active"></label>
+                        </div>
+                        <!--input style="margin-top: 15px" type="file" nv-file-select="" uploader="uploader"-->
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger pull-left" ng-click="metier.fnQuitter()">Annuler</button>
+                <button class="btn btn-success pull-right" ng-click="metier.fnValid(0)">Valider</button>
+                <!--button type="button" class="btn btn-success" ng-click="item.upload()"><span class="glyphicon glyphicon-upload"></span> Valider</button-->
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalModel" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 50%;height: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> {{metier.modelLibelle}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2"><b>Libelle </b></div>
+                        <div class="col-md-8 input-group" style="margin-bottom: 5px;">
+                            <input type="text" class="form-control" style="width: 50%" ng-model="metier.modelLibelle" placeholder="Libelle" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"><b>Quantite </b></div>
+                        <div class="col-md-8">
+                            <!--select class="selObj" multiple="multiple" style="width: 50%"></select-->
+                            <input type="text" class="form-control" style="width: 50%" ng-model="metier.qteComm" placeholder="Quantité de commande" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"><b>Actif </b></div>
+                        <div class="checkbox">
+                            <label><input type="checkbox" ng-model="metier.active"></label>
+                        </div>
+                        <input ng-show="metier.isModified" class="col-md-5 col-md-offset-2" style="margin-top: 15px" type="file" nv-file-select="" uploader="uploader12">
+                        <img ng-show="!metier.isModified" class="col-md-5 col-md-offset-2" src="{{metier.srcModel}}" style="width: 100px; height: 100px;">
+                        <button ng-show="!metier.isModified" class="col-md-1 btn btn-warning" ng-click="metier.fnModifImg()">Editer</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger pull-left" ng-click="metier.fnQuitter()">Annuler</button>
+                <button ng-show="metier.isModified" type="button" class="btn btn-success" ng-click="uploader12.uploadAll()"><span class="glyphicon glyphicon-upload"></span> Valider</button>
+                <button ng-show="!metier.isModified" type="button" class="btn btn-success" ng-click="metier.fnValidModel()"><span class="glyphicon glyphicon-upload"></span> Valider132</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalSousCategory" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 75%;height: 500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> {{metier.currentSCate.description}}</h4>
+            </div>
+            <div class="modal-body" style="height: 400px">
+                <div class="col-md-12"><h2>{{metier.currentSCate.description}}</h2></div>
+                <div>
+                    <table>
+                        <th>Libelle</th>
+                        <th>Actions</th>
+                        <tr ng-repeat="subCategory in metier.arrSubCategory">
+
+                            <td style="width: 500px">{{ subCategory.description }}</td>
+                            <td>
+                                <button type='button'
+                                        class='btn btn-success btn-circle'
+                                        style='margin-left: 5px;margin-top: 5px;'
+                                        ng-click='metier.fnEditSubCategory(subCategory , 1)'>
+                                    <i class='glyphicon glyphicon-picture'></i>
+                                </button>
+                                <button type='button'
+                                        class='btn btn-info btn-circle'
+                                        style='margin-left: 5px;margin-top: 5px;'
+                                        ng-click='metier.fnEditSubCategory(subCategory , 2)'>
+                                    <i class='glyphicon glyphicon-pencil'></i>
+                                </button>
+                                <button type='button'
+                                        class='btn btn-danger btn-circle'
+                                        style='margin-left: 5px;margin-top: 5px;'
+                                        ng-click='metier.fnEditSubCategory(subCategory , 5)'>
+                                    <i class='glyphicon glyphicon-list'></i>
+                                </button>
+                                <button type='button'
+                                        class='btn btn-default btn-circle'
+                                        style='margin-left: 5px;margin-top: 5px;'
+                                        ng-click='metier.fnEditSubCategory(subCategory , 3)'>
+                                    <i class='glyphicon glyphicon-trash'></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <!--div  ui-grid="gridOptionsCategory" ui-grid-auto-resize class="myGridColumns"></div-->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger pull-left" ng-click="metier.fnQuitter()">Annuler</button>
+                <button class="btn btn-success pull-right" ng-click="metier.fnAddNewCate()">Ajouter</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="imgSCModal" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 100%;height: 400px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> Image {{metier.scDescription}}</h4>
+            </div>
+            <div class="modal-body" style="height: 400px">
+                <div class="col-md-12"><img src="{{metier.currentSCImg}}"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger pull-left" data-dismiss="modal">Annuler</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalSCModel" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 50%;height: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> {{metier.modelLibelle}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2"><b>Libelle </b></div>
+                        <div class="col-md-8 col-sm-8 input-group" style="margin-bottom: 5px;">
+                            <input type="text" class="form-control" style="width: 50%" ng-model="metier.currentSCategory.description" placeholder="Libelle" aria-describedby="basic-addon1">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"><b>Message </b></div>
+                        <div class="col-md-8 col-sm-8 input-group" style="margin-bottom: 5px;">
+                            <textarea  style="width: 50%" class="form-control custom-control" ng-model="metier.currentSCategory.message" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!--div class="col-md-2"><b>Actif </b></div>
+                        <div class="checkbox">
+                            <label><input type="checkbox" ng-model="metier.currentSCategory.active" ng-checked="metier.currentSCategory.active == 1"></label>
+                        </div-->
+                        <input class="col-md-5 col-md-offset-2" style="margin-top: 15px" type="file" nv-file-select="" uploader="uploader">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger pull-left" data-dismiss="modal">Annuler</button>
+                <button type="button" class="btn btn-success" ng-click="uploader.uploadAll()"><span class="glyphicon glyphicon-upload"></span> Valider</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalSCPrix" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 100%;height:500px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> {{metier.scDescription}}</h4>
+            </div>
+            <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4 scrollit" style="height: 500px">
+                            <table >
+                                <th>Dimension</th>
+                                <th>Coefficient</th>
+                                <tr ng-repeat="dim in metier.arrDataDim.dimension">
+
+                                    <td style="width: 500px">{{ dim.dimension }}</td>
+                                    <td>
+                                        <input type="text" class="form-control" style="width: 100%" ng-model="dim.coeff" placeholder="" aria-describedby="basic-addon1">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="col-md-8 scrollit" style="height: 500px;">
+                            <table>
+                                <th>SEL</th>
+                                <th>Type de support</th>
+                                <tr ng-repeat="papier in metier.arrDataDim.papier">
+                                    <td>
+                                        <input type="checkbox" style="width: 100%" ng-click="metier.fnAddCoeff(papier)" ng-model="papier.chkval" placeholder="" aria-describedby="basic-addon1">
+                                    </td>
+                                    <td style="width: 100%">{{ papier.description }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                <div class="row" style="margin-top: 20px">
+                    <div class="col-md-11 scrollit" style="height: 300px">
+                        <table>
+                            <th></th>
+                            <th ng-repeat="QTE in metier.arrDataDim.qte">Prix - {{QTE}}</th>
+                            <th ng-repeat="QTE in metier.arrDataDim.qte">Coeff - {{QTE}}</th>
+                            <tr ng-repeat="ligne in metier.arrQteSupport">
+
+                                <td style="">{{ ligne.description }}</td>
+                                <td ng-repeat="lig in ligne.qte">
+                                    <input type="text" class="form-control" style="width: 100%" ng-model="lig.prix" placeholder="" aria-describedby="basic-addon1">
+                                </td>
+                                <td ng-repeat="lig1 in ligne.qte">
+                                    <input type="text" class="form-control" style="width: 100%" ng-model="lig1.qte" placeholder="" aria-describedby="basic-addon1">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger pull-left" data-dismiss="modal">Annuler</button>
+                <button class="btn btn-danger pull-right" ng-click="metier.fnCalcPrix()">Grille de prix</button>
+                <button class="btn btn-danger pull-right" ng-click="metier.fnValidPrix()">Valider</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalCalcPrix" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog"  style="width: 100%;height:500px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> Calcul des prix</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-11 scrollit" style="height: 175px">
+                        <table ng-repeat="ligne in metier.arrDataDim.dimension">
+                            <th>{{ligne.dimension}}</th>
+                            <th ng-repeat="lignePapier in metier.arrQteSupport">{{lignePapier.description}}</th>
+                            <tr ng-repeat="(key, ligne) in metier.arrQteSupport.qte">
+
+                                <td style="">{{ key }}</td>
+                                <td ng-repeat="lig in ligne.qte">
+                                    <input type="text" class="form-control" style="width: 100%" ng-model="lig.prix" placeholder="" aria-describedby="basic-addon1">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger pull-right" data-dismiss="modal">Quitter</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalAffichePrix" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 100%;height:500px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> {{metier.scDescription}} - Grille de prix</h4>
+            </div>
+            <div class="modal-body" style="overflow:auto">
+                <div class="row" style="margin-top: 20px" ng-repeat="dim in metier.arrDataDim.dimension">
+                    <div class="col-md-11" style="">
+                        <table>
+                            <th>Dimension: {{dim.dimension}} - ({{dim.coeff}})</th>
+                            <th ng-repeat="ligne in metier.arrQteSupport">{{ligne.description}}</th>
+
+                            <tr ng-repeat="ligne in metier.arrCoeff" class="{{ligne.code}}">
+                                <td><b>{{ligne.libelle}}</b></td>
+                                <td ng-bind="metier.fnSetCoeff(ligne.code, ligne.qte, lig, dim)" ng-repeat="lig in metier.arrQteSupport"></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default pull-left" data-dismiss="modal">Annuler</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalTarif" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 75%;height: 500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> Liste des tarifs</h4>
+            </div>
+            <div class="modal-body" style="height: 400px">
+                <div class="col-md-12"><h2>{{metier.currentSCate.description}}</h2></div>
+                <div>
+                    <table>
+                        <th>Nom</th>
+                        <th>Actions</th>
+                        <tr ng-repeat="tarif in metier.arrTarif">
+
+                            <td style="width: 500px">{{ tarif.nom }}</td>
+                            <td>
+                                <button type='button'
+                                        class='btn btn-default btn-circle'
+                                        style='margin-left: 5px;margin-top: 5px;'
+                                        ng-click='metier.fnEditTarif(tarif , 3)'>
+                                    <i class='glyphicon glyphicon-euro'></i>
+                                </button>
+                                <button type='button'
+                                        class='btn btn-info btn-circle'
+                                        style='margin-left: 5px;margin-top: 5px;'
+                                        ng-click='metier.fnEditTarif(tarif , 1)'>
+                                    <i class='glyphicon glyphicon-pencil'></i>
+                                </button>
+                                <button type='button'
+                                        class='btn btn-default btn-circle'
+                                        style='margin-left: 5px;margin-top: 5px;'
+                                        ng-click='metier.fnEditTarif(tarif , 2)'>
+                                    <i class='glyphicon glyphicon-trash'></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <!--div  ui-grid="gridOptionsCategory" ui-grid-auto-resize class="myGridColumns"></div-->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger pull-left" data-dismiss="modal">Annuler</button>
+                <button class="btn btn-success pull-right" ng-click="metier.fnAddNewTarif()">Nouvelle Tarif</button>
+            </div>
+        </div>
+    </div>
+</div>

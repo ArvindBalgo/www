@@ -1,0 +1,17 @@
+<header ng-include="'sections/admin/header.html'"></header>
+<div class="row">
+    <div class="col-md-3"><h4>Titre</h4></div>
+    <div class="col-md-7"><input type="text" class="form-control" style="width: 100%" ng-model="utilisation.title" placeholder="" aria-describedby="basic-addon1"></div>
+</div>
+<div class="row">
+    <div class="col-md-3">
+        <h4>Contenu</h4>
+    </div>
+    <div class="col-md-7">
+        <textarea class="form-control" rows="20" id="comment" ng-model="utilisation.contenu"></textarea>
+    </div>
+</div>
+<footer class="sig">
+    <button class="btn btn-large btn-success pull-right" style="margin-top:5px;margin-right: 10px"  ng-click="utilisation.fnValid()">Valider</button>
+    <button class="btn btn-large btn-info pull-right" style="margin-top:5px;margin-right: 10px" ng-click="utilisation.fnInit()">Initialiser</button>
+</footer>

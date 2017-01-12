@@ -1,0 +1,21 @@
+<header ng-include="'sections/header.html'"></header>
+<div class="row">
+    <h2 style="text-align: center">{{vente.title}}</h2>
+    <div class="col-md-offset-1 col-md-10">
+        <div ng-bind-html="ligne.description" style="white-space: pre-line;"  ng-repeat="ligne in vente.arrContents.data">
+        </div>
+
+        <p ng-bind-html="langue.message"></p>
+    </div>
+</div>
+
+<footer>
+    <div class="signature">
+        <div class="col-md-1">
+            <div class='block-image'><img style="width: 100px;height: 75px" src="assets/img/logo%20exakom.png"></div>
+        </div>
+        <div class="col-md-offset-4" style="padding-top: 50px">
+            <a href="#/apropos" style="color: white">Qui sommes nous?</a> / <a style="color: white " href="#/conditionvente">Conditions de vente</a> / <a style="color: white " href="#/utilisation">Mentions d'utilisation</a> / <a style="color: white " href="#/legale">Mentions Légales</a>
+        </div>
+    </div>
+</footer>

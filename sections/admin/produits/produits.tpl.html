@@ -1,0 +1,101 @@
+<header ng-include="'sections/admin/header.html'"></header>
+<style>
+    .myGrid {
+        width: 80%;
+        height: 450px;
+
+    }
+</style>
+<div class="row" style="padding: 3px;">
+    <div class="col-md-2 label label-info" style="font-size: large">Type de model: </div>
+    <div id="selModelMetier" class="col-md-10" >
+        <select class="sel_model_metier" style="width: 75%;"></select>
+    </div>
+</div>
+
+<div class="row" style="padding-left: 2px">
+    <div  ui-grid="gridOptions"  ui-grid-resize-columns ui-grid-selection class="myGrid"></div>
+</div>
+
+<div id="imgModal" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 75%;height: 500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> Image: {{produits.currentProduit.description}} || Ref: {{produits.currentProduit.reference}}</h4>
+            </div>
+            <div class="modal-body" style="height: 400px; width:300px">
+                <div class="col-md-12"><img style="height: 300px;width: 300px" src="{{produits.currentProduit.src}}"></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default pull-left" data-dismiss="modal">Quitter</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="modalProduit" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 75%;height: 500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> {{produits.currentProduit.description}} || Ref: {{produits.currentProduit.reference}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2"><b>Image </b></div>
+                        <div class="modal-body" style="height: 300px; width:300px">
+                            <div class="col-md-12"><img style="height: 200px;width: 200px" src="{{produits.currentProduit.src}}"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <input class="col-md-5 col-md-offset-2" style="margin-top: 15px" type="file" nv-file-select="" uploader="uploader">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default pull-left" data-dismiss="modal">Quitter</button>
+                <button type="button" class="btn btn-success" ng-click="uploader.uploadAll()"><span class="glyphicon glyphicon-upload"></span> Valider</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalTarif" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 90%;height: 500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> Tarif {{produits.currentProduit.description}}</h4>
+            </div>
+            <div class="modal-body" style="overflow: auto">
+                <div class="container">
+                    <div class="col-md-2 label label-info" style="font-size: large; margin-bottom: 5px">Tarif: </div>
+                    <div id="selTarifProd" class="col-md-10" style="margin-bottom: 5px">
+                        <select class="sel_tarif_prod" style="width: 75%;"></select>
+                    </div>
+                    <div class="col-md-2 col-sm-2 label label-info"  style="font-size: large; margin-bottom: 5px" >Manuelle</div>
+                    <div class="col-md-1 col-sm-1" style="margin-bottom: 5px">
+                        <input type="checkbox" class="form-control"  ng-model="produits.chkCustom" placeholder="" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="col-md-10">
+                        <table ng-repeat="ligne in produits.tarifNew" style="margin-bottom: 5px">
+                            <th>Dimension: {{ligne.dimension}} - ({{ligne.coeff}})</th>
+                            <th ng-repeat="support in ligne.support">{{support.description}}</th>
+                            <tr ng-repeat="prix in ligne.prix">
+                                <td><b>{{prix[0].qte}}</b></td>
+                                <td ng-repeat="lig in prix">
+                                    <input type="text" class="form-control"  ng-model="lig.prix" placeholder="" aria-describedby="basic-addon1">
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default pull-left" data-dismiss="modal">Quitter</button>
+                <button type="button" class="btn btn-success" ng-click="produits.fnValidTarif()"><span class="glyphicon glyphicon-ok"></span> Valider</button>
+            </div>
+        </div>
+    </div>
+</div>

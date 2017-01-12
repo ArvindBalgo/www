@@ -1,0 +1,31 @@
+.imgScroll{
+    cursor: pointer;
+    height:250px;
+}
+.paddingTable{
+    padding: 3px
+}
+.btn-circle1 {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+}
+#tab1.active > a{
+    background-color: purple;
+    color: white;
+}
+#tab2.active > a{
+    background-color: purple;
+    color: white;
+}
+#tab1 > a{
+
+}
+#tab2 > a{
+
+}
+

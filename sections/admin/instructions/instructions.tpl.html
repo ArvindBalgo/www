@@ -1,0 +1,21 @@
+<header ng-include="'sections/admin/header.html'"></header>
+
+<div class="container">
+    <div class="row">
+        <div class="btn-group col-md-offset-4">
+            <button type="button" ng-hide = "instructions.isEdit" class="btn btn-primary" ng-click="instructions.fnEdit()">Editer</button>
+            <button type="button" ng-hide = "!instructions.isEdit" class="btn btn-danger" ng-click="instructions.fnAnnuler()">Annuler</button>
+            <button type="button" ng-hide = "!instructions.isEdit" class="btn btn-success" ng-click="instructions.fnSave()">Sauvegarder</button>
+        </div>
+    </div>
+    <div class="row">
+        <div ng-repeat="instruction in instructions.arrInstructions" style="padding: 5px;">
+            <div class="col-md-10" ng-show="instructions.isEdit">
+                <textarea rows="4" style="width: 100%" ng-model="instruction.instruction"></textarea>
+            </div>
+            <div class="col-md-10 well well-lg" ng-show="!instructions.isEdit">
+                <p>{{instruction.instruction}}</p>
+            </div>
+        </div>
+    </div>
+</div>
