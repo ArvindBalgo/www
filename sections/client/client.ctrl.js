@@ -4,16 +4,24 @@ angular
     .controller('clientController', function($scope, $location, $timeout, messages, $http, Data) {
         var vm = this;
         $scope.isFiche = true;
-        $lang = localStorage.getItem("LANG");
+        var lang = localStorage.getItem("LANG");
         vm.isDiv = false;
+        vm.isFrance= false;
         $http({
             method: 'GET',
-            params: {mode:3, lang:$lang},
+            params: {mode:3, lang:lang},
             url: 'api/v1/langueCRUD.php'
         }).then(function successCallback(response) {
             console.log(response.data);
             $scope.langue = angular.copy(response.data);
         });
+console.log(lang , " lanuge")
+        if(lang == "" || lang == null) {
+            vm.isFrance = false;
+        }
+        else if(lang == 'FR') {
+            vm.isFrance  = true;
+        }
 
         vm.fnToggleTab = function(val) {
             if(Number(val) == 1) {

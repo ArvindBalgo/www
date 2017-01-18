@@ -1,50 +1,64 @@
-<!--div class="container"-->
-    <div class="row" style="margin-right: 0px">
-        <div class="col-md-6 col-sm-6">
-            <div class='block-image'><img src="assets/img/logo%20exakom.png"></div>
-        </div>
-        <div class="col-md-6 col-sm-6">
-            <div class='block-tel'>
-                <div class="col-md-12">{{langue.contact}}</div>
-                <div class="col-md-12">{{langue.telephone}} : 00 00 00 00 00</div>
-                <div class="col-md-12"><img  src="assets/img/numero_verte.png"></div>
-            </div>
+<div class="row" style="margin-right: 0px">
+    <div class="col-md-6 col-sm-6">
+        <div><img src="images/logo_exakomBIS.jpeg"></div>
+    </div>
+    <div class="col-md-6 col-sm-6">
+        <div class='block-tel'>
+            <div class="col-md-12">{{langue.contact}}</div>
+            <div class="col-md-12">contact@exakom.fr</div>
+            <div class="col-md-12">{{langue.telephone}} : 00 00 00 00 00</div>
+            <!--div class="col-md-12"><img  src="assets/img/numero_verte.png"></div-->
         </div>
     </div>
-<!--/div-->
-<!--div class="container"-->
-    <nav class="navbar navbar-default">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                    <span class="sr-only">{{langue.toggle_nav}}</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
-                    <li><a style="color: white" href="#/home">{{langue.accueil}} <span class="sr-only">(current)</span></a></li>
-                    <li><a href="#/client" style="color: white">{{langue.espace_client}}</a></li>
-                    <!--li><a href="#" style="color: white">{{langue.contact_menu}}</a></li-->
-                </ul>
-                <ul class="nav navbar-nav navbar-right  ">
-                    <li ng-show="{{!isLogged}}">
-                        <a href="#myModal" data-toggle="modal" style="color: white">
-                            <span class="glyphicon glyphicon-user"></span>
-                        </a>
-                    </li>
-                    <li ng-show="{{isLogged}}" style="margin-top: 20px">
-                        <span>{{langue.bonjour}} {{utilisateur}}</span> <button class="btn btn-danger" ng-click="logout()"><span class="glyphicon glyphicon-off"></span></button>
-                    </li>
-                </ul>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-    </nav>
-<!--/div-->
+</div>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">{{langue.toggle_nav}}</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a style="color: white" href="#/home">{{langue.accueil}} <span class="sr-only">(current)</span></a></li>
+                <li><a href="#/client" style="color: white">{{langue.espace_client}}</a></li>
+                <!--li><a href="#" style="color: white">{{langue.contact_menu}}</a></li-->
+            </ul>
+            <ul class="nav navbar-nav navbar-right" >
+                <button class="btn btn-lg btn-success" ng-click="fnClickLang()">{{isActualLang}}</button>
+            </ul>
+            <ul class="nav navbar-nav navbar-right" >
+                <select class="sel_langue" style="margin-top: 30px">
+                    <option value="FR">FRANÇAIS</option>
+                    <option value="EN">ENGLISH</option>
+                    <option value="ES">ESPAÑOL</option>
+                    <option value="AL">DEUTSCH</option>
+                    <option value="IT">ITALIANO</option>
+                </select>
+
+
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right" style="cursor: pointer">
+                <li ng-show="!isLogged">
+                    <a ng-click="loginModal()" data-toggle="modal" style="color: white">
+                        <span class="glyphicon glyphicon-user"> Connection</span>
+                    </a>
+                </li>
+                <li ng-show="isLogged" style="margin-top: 20px">
+                    <span ng-click="logout()">{{langue.bonjour}} {{utilisateur}}</span> <button class="btn btn-danger" ng-click="logout()"><span class="glyphicon glyphicon-off"></span></button>
+                </li>
+            </ul>
+
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
 <div class="row">
     <div class="row" ng-show="{{!isFiche}}">
         <div class="col-md-10 col-md-offset-1" style=" height: 150px;background-color: #E5E3E3;">Bande PUB132</div>
@@ -89,7 +103,7 @@
                         <label class="col-sm-3 control-label no-padding-right" for="email"> {{langue.email_phone}} </label>
                         <div class="col-sm-7">
                            <span class="block input-icon input-icon-right">
-                                <input type="text" class="form-control" placeholder="Email / Phone" name="email" ng-model="login.email" required focus/>
+                                <input type="text" class="form-control" placeholder="Email" name="email" ng-model="login.email" required focus/>
                                 <i class="ace-icon fa fa-user"></i>
                             </span>
                         </div>
@@ -239,6 +253,45 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!--MODAL LANGUAGE-->
+<div id="modalLanguage" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 75%;height: 500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{{langue.choix_langue}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-2">
+                        <input style="width: 50%;" id="fr"  type="radio" class="form-control" name="selLang" ng-model="language.fr"> FRANCAIS
+                    </div>
+                    <div class="col-md-2">
+                        <input style="width: 50%;" id="en" type="radio" class="form-control" name="selLang" ng-model="language.en"> ENGLISH
+                    </div>
+                    <div class="col-md-2">
+                        <input style="width: 50%;" id="es" type="radio" class="form-control" name="selLang" ng-model="language.es"> ESPAÑOL
+                    </div>
+                    <div class="col-md-2">
+                        <input style="width: 50%;" id="al" type="radio" class="form-control" name="selLang" ng-model="language.dt"> DEUTSCH
+                    </div>
+                    <div class="col-md-2">
+                        <input style="width: 50%;" id="it" type="radio" class="form-control" name="selLang" ng-model="language.it"> ITALIANO
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" ng-click="quitModal()">Quitter</button>
+                <button type="button" class="btn btn-success pull-right" ng-click="fnValidLang()">Valider</button>
             </div>
         </div>
 

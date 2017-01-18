@@ -6,6 +6,7 @@ angular
         vm.title = "";
         vm.contenu = "";
         vm.id=0;
+        vm.isFrance = false;
 
         vm.fnInit = function() {
             $http({
@@ -22,10 +23,10 @@ angular
             });
         };
 
-        $lang = localStorage.getItem("LANG");
+        var lang = localStorage.getItem("LANG");
         $http({
             method: 'GET',
-            params: {mode:3, lang:$lang},
+            params: {mode:3, lang:lang},
             url: 'api/v1/langueCRUD.php'
         }).then(function successCallback(response) {
             console.log(response.data);
@@ -33,5 +34,8 @@ angular
             vm.fnInit();
         });
 
+        if(lang == 'FR') {
+            vm.isFrance = true;
+        }
         //vm.fnInit();
     });

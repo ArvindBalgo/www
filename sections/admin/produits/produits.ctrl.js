@@ -105,6 +105,11 @@ angular
                     url: 'api/v1/tarif.php'
                 }).then(function successCallback(response) {
                     var arrList = angular.copy(response.data);
+
+                    if(arrList == null || arrList.length == 0) {
+                        bootbox.alert("Pas de Tarifs!!!");
+                        return;
+                    }
                     arrList.unshift({id:0, text:''});
                     if(vm.currentProduit.id_souscategory_coeffprix == -1) {
                         arrList.unshift({id:-1, text:'Tarif manuel'});

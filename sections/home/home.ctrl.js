@@ -21,6 +21,7 @@ angular
         vm.arrProds = [];
         vm.arrGabarits = [];
         $scope.isFiche = false;
+        vm.isFrance= false;
         $scope.langue = [];
 
 
@@ -33,7 +34,7 @@ Data.get('session.php').then(function (results) {
             $scope.sessionInfo = results;
             console.log(results, 'results from admin');
 
-  //          if(localStorage.getItem('LANG') == "" || localStorage.getItem('LANG') == null) {
+            if(localStorage.getItem('LANG') == "" || localStorage.getItem('LANG') == null) {
                 document.getElementById("myNav").style.width = "100%";
 
                 $timeout(function(){
@@ -57,12 +58,28 @@ Data.get('session.php').then(function (results) {
                 $('body').css({
                     'overflow': 'hidden'
                 });
- //           }
-
-            //$location();
-
-    console.log($( document ).width(), " window size");
-    $( document ).width("1382");
+                vm.isFrance= false;
+            }
+            else {
+                vm.isFrance= true;
+                $http({
+                    method: 'GET',
+                    params: {mode:3, lang:localStorage.getItem('LANG')},
+                    url: 'api/v1/langueCRUD.php'
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    $scope.langue = angular.copy(response.data);
+                    document.getElementById("myNav").style.width = "0%";
+                    document.getElementById("panier_btn").style.display = "block";
+                    $('body').css({
+                        'overflow': 'auto'
+                    });
+                    toastr.success("Bienvenue chez Exakom, nous sommes à votre disposition si vous avez besoin d'aide");
+                }, function errorCallback(error) {
+                    console.log(error);
+                });
+            }
+    //$( document ).width("1382");
 
 
         });
@@ -280,4 +297,5 @@ Data.get('session.php').then(function (results) {
         vm.fnInstructions();
         vm.fnRecupMetier();
         vm.fnModelMetierAll();
+
     });

@@ -23,8 +23,8 @@
 
     <!-- endbuild -->
 </head>
-<body data-ng-app="myApp" ng-controller="mainController">
-<section id="main">
+<body data-ng-app="myApp" ng-controller="mainController" style="margin: 5px; overflow-y: hidden">
+<section id="main" style="overflow-y: hidden">
     <div>
         <ng-view></ng-view>
     </div>
@@ -44,7 +44,7 @@
 <!--script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script-->
 
 <!-- CSSMap SCRIPT -->
-<script type="text/javascript" src="https://cssmapsplugin.com/5/jquery.cssmap.min.js"></script>
+<!--script type="text/javascript" src="https://cssmapsplugin.com/5/jquery.cssmap.min.js"></script-->
 
 <script src="js/page.js"></script>
 <script src="js/bootbox.min.js"></script>
@@ -69,10 +69,7 @@
 <script src="js/angular-sanitize.min.js"></script>
 <!-- / -->
 <!-- endbuild -->
-<!-- build:js app.min.js -->
-<!-- MODULES -->
-
-<!-- / -->
+<!-- endbuild -->
 <!-- CONTROLLERS -->
 <script src="sections/mainController.js"></script>
 <script src="sections/home/home.ctrl.js"></script>

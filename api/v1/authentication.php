@@ -136,5 +136,4 @@ $app->get('/logout', function() {
     $response["message"] = "Logged out successfully";
     echoResponse(200, $response);
 });
-
 ?>
