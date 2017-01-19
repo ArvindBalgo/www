@@ -109,7 +109,11 @@ Data.get('session.php').then(function (results) {
             }).then(function successCallback(response) {
                     console.log(response);
                     vm.sampleMetier = angular.copy(response.data);
+                    $('#myModel').on('show.bs.modal', function () {
+                        $('.modal-body').css('height',$( window ).innerHeight()*0.75);
+                    });
                     $('#myModel').modal();
+                    //$('#myModel').modal();
                     document.body.style.overflow = "hidden";
                 }, function errorCallback(error) {
                     console.log(error);

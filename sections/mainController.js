@@ -28,7 +28,7 @@ angular
                     }
                 });
         };*/
-       bc0b2dd
+
 
         $scope.loginModal = function() {
          $("#myModal").modal();
@@ -138,22 +138,27 @@ angular
         $scope.fnValidLang = function() {
             if($('#fr').prop('checked')) {
                 localStorage.setItem('LANG', 'FR');
+                $scope.isActualLang = "FRANCAIS";
             }
             if($('#en').prop('checked')) {
 
                 localStorage.setItem('LANG', 'EN');
+                $scope.isActualLang = "ENGLISH";
             }
             if($('#es').prop('checked')) {
 
                 localStorage.setItem('LANG', 'ES');
+                $scope.isActualLang = "ESPAÑOL";
             }
             if($('#al').prop('checked')) {
 
                 localStorage.setItem('LANG', 'AL');
+                $scope.isActualLang = "DEUTSCH";
             }
             if($('#it').prop('checked')) {
 
                 localStorage.setItem('LANG', 'IT');
+                $scope.isActualLang = "ITALIANO";
             }
 
             $http({
@@ -161,9 +166,17 @@ angular
                 params: {mode:3, lang:localStorage.getItem('LANG')},
                 url: 'api/v1/langueCRUD.php'
             }).then(function successCallback(response) {
+                console.clear();
                 console.log(response.data);
-                $scope.langue = angular.copy(response.data);
-                $scope.$apply();
+
+                setTimeout(function(){
+                    $scope.$digest(
+                        function() {
+                            $scope.langue = angular.copy(response.data);
+                        }
+                    );
+                }, 1000)
+                $('#modalLanguage').modal('hide');
             }, function errorCallback(error) {
                 console.log(error);
             });

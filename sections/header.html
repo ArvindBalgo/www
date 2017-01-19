@@ -2,13 +2,16 @@
     <div class="col-md-6 col-sm-6">
         <div><img src="images/logo_exakomBIS.jpeg"></div>
     </div>
-    <div class="col-md-6 col-sm-6">
+    <div class="col-md-4 col-sm-4">
         <div class='block-tel'>
             <div class="col-md-12">{{langue.contact}}</div>
             <div class="col-md-12">contact@exakom.fr</div>
             <div class="col-md-12">{{langue.telephone}} : 00 00 00 00 00</div>
             <!--div class="col-md-12"><img  src="assets/img/numero_verte.png"></div-->
         </div>
+    </div>
+    <div class="col-md-2 col-lg-2 col-sm-2">
+        <div style="cursor: pointer" ng-click="fnClickLang()"><span class="glyphicon glyphicon-retweet">   {{isActualLang}}</span></div>
     </div>
 </div>
 
@@ -29,20 +32,6 @@
                 <li><a style="color: white" href="#/home">{{langue.accueil}} <span class="sr-only">(current)</span></a></li>
                 <li><a href="#/client" style="color: white">{{langue.espace_client}}</a></li>
                 <!--li><a href="#" style="color: white">{{langue.contact_menu}}</a></li-->
-            </ul>
-            <ul class="nav navbar-nav navbar-right" >
-                <button class="btn btn-lg btn-success" ng-click="fnClickLang()">{{isActualLang}}</button>
-            </ul>
-            <ul class="nav navbar-nav navbar-right" >
-                <select class="sel_langue" style="margin-top: 30px">
-                    <option value="FR">FRANÇAIS</option>
-                    <option value="EN">ENGLISH</option>
-                    <option value="ES">ESPAÑOL</option>
-                    <option value="AL">DEUTSCH</option>
-                    <option value="IT">ITALIANO</option>
-                </select>
-
-
             </ul>
 
             <ul class="nav navbar-nav navbar-right" style="cursor: pointer">
@@ -271,20 +260,21 @@
             </div>
             <div class="modal-body">
                 <div class="row">
+                    <div class="col-md-1"></div>
                     <div class="col-md-2">
-                        <input style="width: 50%;" id="fr"  type="radio" class="form-control" name="selLang" ng-model="language.fr"> FRANCAIS
+                        <input id="fr"  type="radio" name="selLang" ng-model="language.fr"><span><img src="../assets/flags/france-flag.gif" style="width: 50px;height: 50px"> FRANCAIS</span>
                     </div>
                     <div class="col-md-2">
-                        <input style="width: 50%;" id="en" type="radio" class="form-control" name="selLang" ng-model="language.en"> ENGLISH
+                        <input id="en" type="radio" name="selLang" ng-model="language.en"> <span><img src="../assets/flags/england.jpg" style="width: 50px;height: 50px"> ENGLISH</span>
                     </div>
                     <div class="col-md-2">
-                        <input style="width: 50%;" id="es" type="radio" class="form-control" name="selLang" ng-model="language.es"> ESPAÑOL
+                        <input  id="es" type="radio" name="selLang" ng-model="language.es"> <span><img src="../assets/flags/spanish_flag.jpg" style="width: 50px;height: 50px"> ESPAÑOL</span>
                     </div>
                     <div class="col-md-2">
-                        <input style="width: 50%;" id="al" type="radio" class="form-control" name="selLang" ng-model="language.dt"> DEUTSCH
+                        <input id="al" type="radio" name="selLang" ng-model="language.dt"> <span><img src="../assets/flags/germany-flag.gif" style="width: 50px;height: 50px"> DEUTSCH</span>
                     </div>
                     <div class="col-md-2">
-                        <input style="width: 50%;" id="it" type="radio" class="form-control" name="selLang" ng-model="language.it"> ITALIANO
+                        <input id="it" type="radio" name="selLang" ng-model="language.it"> <span><img src="../assets/flags/italy.png" style="width: 50px;height: 50px"> ITALIANO</span>
                     </div>
                 </div>
 

@@ -1896,8 +1896,11 @@ angular
                         }
                     });
 
-
-                    $("#galleryModal").modal();
+                $('#galleryModal').on('show.bs.modal', function () {
+                    $('.modal-body').css('height',$( window ).height()*0.75);
+                });
+                $('#galleryModal').modal();
+                    //$("#galleryModal").modal();
                     console.log(vm.listMetier);
                     $(".sel_metier").select2({
                         theme:"classic",
