@@ -2,17 +2,18 @@
     <div class="col-md-6 col-sm-6">
         <div><img src="images/logo_exakomBIS.jpeg"></div>
     </div>
-    <div class="col-md-4 col-sm-4">
+    <div class="col-md-6 col-sm-6">
         <div class='block-tel'>
+            <div style="cursor: pointer;margin-right:41px;" ng-click="fnClickLang()"><span class="glyphicon glyphicon-retweet"> </span><label class="label label-primary">{{isActualLang}}</label></div>
             <div class="col-md-12">{{langue.contact}}</div>
             <div class="col-md-12">contact@exakom.fr</div>
             <div class="col-md-12">{{langue.telephone}} : 00 00 00 00 00</div>
             <!--div class="col-md-12"><img  src="assets/img/numero_verte.png"></div-->
         </div>
     </div>
-    <div class="col-md-2 col-lg-2 col-sm-2">
-        <div style="cursor: pointer" ng-click="fnClickLang()"><span class="glyphicon glyphicon-retweet">   {{isActualLang}}</span></div>
-    </div>
+    <!--div class="col-md-2 col-lg-2 col-sm-2 pull-right">
+        <div class="pull-right" style="cursor: pointer" ng-click="fnClickLang()"><span class="glyphicon glyphicon-retweet"> </span><label class="label label-primary">{{isActualLang}}</label></div>
+    </div-->
 </div>
 
 <nav class="navbar navbar-default">
