@@ -5,8 +5,17 @@
     <a-- class="a2a_button_google_plus"></a-->
     <!--a class="">Passer la commande</a-->
     <!--a-- class="">Ajouter au Panier</a-->
-    <a class="btn btn-warning" ng-click="fiche.fnClickPanier()" style="margin-bottom: 5px;"><div class="glyphicon glyphicon-shopping-cart"></div><div>{{langue.panier}}</div><div>({{fiche.countProds}})</div></a>
-    <a class="btn btn-success" ng-click="fiche.fnAddBasket()"><div class="glyphicon glyphicon-plus-sign"></div><div>{{langue.ajout_panier}}</div></a>
+    <p style="">TEST</p>
+    <div style="margin-bottom: 5px;">
+        <img src="../assets/images/mon_panier.png" ng-click="fiche.fnClickPanier()" style="width:120px; height:65px;cursor:pointer;">
+
+    </div>
+    <div>
+        <img src="../assets/images/ajouter_au_panier.png" ng-click="fiche.fnAddBasket()" style="width:120px; height:65px;cursor:pointer;">
+    </div>
+
+    <!--a class="btn btn-warning" ng-click="fiche.fnClickPanier()" style="margin-bottom: 5px;"><div class="glyphicon glyphicon-shopping-cart"></div><div>{{langue.panier}}</div><div>({{fiche.countProds}})</div></a>
+    <a class="btn btn-success" ng-click="fiche.fnAddBasket()"><div class="glyphicon glyphicon-plus-sign"></div><div>{{langue.ajout_panier}}</div></a-->
 </div>
 <!--script-- async src="https://static.addtoany.com/menu/page.js"></script-->
 <script src="js/page.js" type="application/javascript"></script>

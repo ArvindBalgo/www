@@ -380,3 +380,8 @@ else if($mode == 14) {
     print json_encode($results);
     return;
 }
+else if($mode == 15) {
+    $pays = new pays();
+    $pays = $pays->rechercher();
+    print json_encode($pays);
+}

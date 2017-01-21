@@ -26,6 +26,7 @@ class cata {
     private $_created_by = null;
     private $_modified_by = null;
     private $_id_souscategory_coeffprix = 0;
+    private $_pays = 0;
 
    private static $SELECT="SELECT * FROM cata";
     //**** Constructeur ****
@@ -93,6 +94,10 @@ class cata {
 
     public function setIdSousCategoryCoeffPRix($id) {
         $this->_id_souscategory_coeffprix= $id;
+    }
+
+    public function setPays($pays) {
+        $this->_pays = $pays;
     }
 
     //**** Getters *****
@@ -171,6 +176,10 @@ class cata {
         return $this->_id_souscategory_coeffprix;
     }
 
+    public function getPays() {
+        return $this->_pays;
+    }
+
     public function delete($id) {
         $requete = "DELETE FROM cata WHERE id=" . $id ;
         $r = $this->conn->query($requete) or die($this->conn->error.__LINE__);
@@ -205,6 +214,7 @@ class cata {
             $requete .= ',created_by="' . $this->_created_by . '"';
             $requete .= ',modified_by="' . $this->_modified_by . '"';
             $requete .= ',id_souscategory_coeffprix="' . $this->_id_souscategory_coeffprix . '"';
+            $requete .= ',pays="' . $this->_pays . '"';
             $requete .= ' WHERE id=' . $this->_id_cata;
 
         } else {
@@ -225,7 +235,8 @@ class cata {
             $requete .= "date_modified,";
             $requete .= "created_by,";
             $requete .= "modified_by,";
-            $requete .= "id_souscategory_coeffprix";
+            $requete .= "id_souscategory_coeffprix,";
+            $requete .= "pays";
             $requete .= ") VALUES (";
             $requete .= '"' . $this->_libelle . '",';
             $requete .= '"' . $this->_description . '",';
@@ -243,7 +254,8 @@ class cata {
             $requete .= '"' . $this->_date_modified . '",';
             $requete .= '"' . $this->_created_by . '",';
             $requete .= '"' . $this->_modified_by . '",';
-            $requete .= '"' . $this->_id_souscategory_coeffprix . '")';
+            $requete .= '"' . $this->_id_souscategory_coeffprix . '",';
+            $requete .= '"' . $this->_pays . '")';
         }
 
         $r = $this->conn->query($requete) or die($this->conn->error.__LINE__);
@@ -273,6 +285,7 @@ class cata {
         $cata->_created_by          = $rs["created_by"];
         $cata->_modified_by         = $rs["modified_by"];
         $cata->_id_souscategory_coeffprix = $rs["id_souscategory_coeffprix"];
+        $cata->_pays                = $rs["pays"];
         return $cata;
     }
 

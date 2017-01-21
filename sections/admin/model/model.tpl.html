@@ -91,6 +91,15 @@
                         </select-->
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-2" style="margin-bottom: 5px; margin-top: 5px;">
+                        <b>Pays</b>
+                    </div>
+                    <div class="col-md-5">
+                        <select class="sel_pays" style="width: 75%;" ng-model="model.strPays">
+                        </select>
+                    </div>
+                </div>
                 <div class="row" style="padding: 10px">
                     <div class="col-md-2">
 
@@ -159,7 +168,7 @@
                 </ul>
                 <div class="row" ng-show="model.isShow == 1">
                     <div class="col-md-12">
-                        <div class="col-md-3" style="margin-bottom: 5px; margin-top: 5px;" ng-repeat="mo in model.galleryModels">
+                        <div class="col-md-3" style="margin-bottom: 5px; margin-top: 5px;" ng-repeat="mo in model.arrModelsOnly">
                             <!--div class="tileImg" ng-click="model.fnImgClick(mo)"-->
                             <div class="tileImg" style="height: 300px">
                                 <img style="width: 200px; height: 200px" src="{{mo.src}}">
@@ -169,6 +178,7 @@
                                     <button ng-click="model.fnDel(mo)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
                                     <button ng-click="model.fnEdit(mo)" class="btn btn-info" ><span class="glyphicon glyphicon-pencil"></span></button>
                                     <button ng-click="model.fnTransfer(mo)" class="btn btn-warning" ><span class="glyphicon glyphicon-sort"></span></button>
+                                    <a class="label label-primary">{{mo.paysabrev}}</a>
                                 </div>
                             </div>
                         </div>
@@ -176,16 +186,16 @@
                 </div>
                 <div class="row" ng-show="model.isShow == 2">
                     <div class="col-md-12">
-                        <div class="col-md-3" style="margin-bottom: 5px; margin-top: 5px;" ng-repeat="mo in model.galleryModels">
-                            <!--div class="tileImg" ng-click="model.fnImgClick(mo)"-->
+                        <div class="col-md-3" style="margin-bottom: 5px; margin-top: 5px;" ng-repeat="gb in model.arrGabaritsOnly">
                             <div class="tileImg">
-                                <img style="width: 200px; height: 200px" src="{{mo.src}}">
-                                <div style="font-weight: bold;text-decoration: underline">{{mo.reference}}</div>
-                                <div>{{mo.libelle}}</div>
+                                <img style="width: 200px; height: 200px" src="{{gb.src}}">
+                                <div style="font-weight: bold;text-decoration: underline">{{gb.reference}}</div>
+                                <div>{{gb.libelle}}</div>
                                 <div>
-                                    <button ng-click="model.fnDel(mo)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
-                                    <button ng-click="model.fnEdit(mo)" class="btn btn-info" ><span class="glyphicon glyphicon-pencil"></span></button>
-                                    <button ng-click="model.fnTransfer(mo)" class="btn btn-warning" ><span class="glyphicon glyphicon-sort"></span></button>
+                                    <button ng-click="model.fnDel(gb)" class="btn btn-danger"><span class="glyphicon glyphicon-trash"></span></button>
+                                    <button ng-click="model.fnEdit(gb)" class="btn btn-info" ><span class="glyphicon glyphicon-pencil"></span></button>
+                                    <button ng-click="model.fnTransfer(gb)" class="btn btn-warning" ><span class="glyphicon glyphicon-sort"></span></button>
+                                    <a class="label label-primary">{{gb.paysabrev}}</a>
                                 </div>
                             </div>
                         </div>

@@ -9,6 +9,7 @@ angular
         vm.reference = '';
         vm.transferTxt = "";
         vm.strDimension = "";
+        vm.strPays = "";
         vm.currentProduit = {};
         vm.isModifier = false;
         vm.objEnCours = {};
@@ -20,6 +21,9 @@ angular
         vm.activeId = 1;
         vm.isShow = 1;
         vm.listMetier = [];
+        vm.paysList   = [];
+        vm.arrModelsOnly = [];
+        vm.arrGabaritsOnly =  [];
 
         $scope.edit  = function (grid, row, opt){
             var arrObj = [];
@@ -55,6 +59,7 @@ angular
             allowClear: true,
             data:[]
         });
+
 
         Data.get('session.php').then(function (results) {
             if (results.uid) {
@@ -276,6 +281,9 @@ console.log(response.data, "baakallk");
                     $scope.product = yourDesigner.getProduct();
                     console.log($scope.product);
                     console.log(vm.objEnCours, " loaded obj at modal open");
+                    $('#myModel').on('show.bs.modal', function () {
+                        $('.modal-body').css('height',$( window ).height()*0.75);
+                    });
                     $('#myModel').modal();
                     if(vm.isModifier) {
                         vm.libelle = vm.objEnCours.libelle;
@@ -315,14 +323,15 @@ console.log(response.data, "baakallk");
                         else {
                             vm.chkGabarit = false;
                         }
-
+                        //vm.strPays = "FR";
+                        $(".sel_pays").select2().val('FR').trigger("change");
                        /* vm.chkEscargo = vm.objEnCours.escargot;
                         vm.chkContours = vm.objEnCours.contours;
                         vm.chkLiserai = vm.objEnCours.liserai;
                         vm.chkCoucher = vm.objEnCours.coucher;
                         vm.chkGabarit  = vm.objEnCours.gabarit;*/
                     }
-                    else{
+                    else {
                         vm.libelle      = "";
                         vm.reference    = "";
                         vm.description  = "";
@@ -333,18 +342,38 @@ console.log(response.data, "baakallk");
                         vm.chkCoucher   = false;
                         vm.chkGabarit   = false;
                     }
-                }
+                };
+
                 vm.fnGallery = function() {
                     $http({
                         method: 'GET',
                         params: {mode:4, id:$(".sel_model_metier").select2().val()},
                         url: 'api/v1/sampleControl.php'
                     }).then(function successCallback(response) {
-                            console.log(response);
+                            console.log(response, "gallery data");
+                         vm.arrModelsOnly = [];
+                         vm.arrGabaritsOnly =  [];
+                        var arrPaysLocal = [];
                             vm.galleryModels = response.data;
+                        angular.forEach(vm.paysList, function(country) {
+                            arrPaysLocal[country.id] = country.abrev;
+                        });
+                        angular.forEach(vm.galleryModels, function(value){
+                            value.paysabrev = arrPaysLocal[value.pays];
+                            if(value.gabarit == 0) {
+                                vm.arrModelsOnly.push(value);
+                            }
+                            else {
+                                vm.arrGabaritsOnly.push(value);
+                            }
+                        });
                             $("div.modal-backdrop").remove();
                             vm.isModifier=false;
-                            $('#gallery').modal();
+
+                        $('#gallery').on('show.bs.modal', function () {
+                            $('.modal-body').css('height',$( window ).height()*0.75);
+                        });
+                        $('#gallery').modal();
                         }, function errorCallback(error) {
                             console.log(error);
                         });
@@ -1692,22 +1721,18 @@ console.log(response.data, "baakallk");
                 };
 
                 vm.fnValider = function(){
+                    if(vm.strPays == '' || vm.libelle == '' || vm.description=='' || $(".sel_model").select2().val() == '' || $(".sel_model").select2().val() == null){
+                        bootbox.alert("Toutes les informations sont obligatoire");
+                        return;
+                    }
 
                     yourDesigner.getProductDataURL(function(dataURL) {
-
-                        //if(vm.libelle == '' || vm.description=='' || $(".sel_model").select2().val() == '' || $(".sel_model").select2().val() == null || vm.strDimension == 'undefined' || vm.strDimension == ""){
-                        if(vm.libelle == '' || vm.description=='' || $(".sel_model").select2().val() == '' || $(".sel_model").select2().val() == null){
-                            bootbox.alert("Toutes les informations sont obligatoire");
-                            return;
-                        }
-
-
                         $.post( "api/save_image.php", { base64_image    : dataURL,
                                                         ref             : vm.reference,
                                                         libelle         : vm.libelle,
                                                         description     : vm.description,
                                                         dimensions      : vm.strDimension,
-                                                        //dimensions      : "",
+                                                        pays            : vm.strPays,
                                                         escargot        : vm.chkEscargo,
                                                         contours        : vm.chkContours,
                                                         liserai         : vm.chkLiserai,
@@ -1717,24 +1742,21 @@ console.log(response.data, "baakallk");
                                                         data            : yourDesigner.getProduct()});});
                     $('#myModel').modal('hide');
 
-                }
+                };
 
                 vm.fnValiderModif = function(){
+                    if(vm.pays == '' || vm.libelle == '' || vm.description=='' || $(".sel_model").select2().val() == '' || $(".sel_model").select2().val() == null){
+                        bootbox.alert("Toutes les informations sont obligatoire");
+                        return;
+                    }
                     yourDesigner.getProductDataURL(function(dataURL) {
-                        //if(vm.libelle == '' || vm.description=='' || $(".sel_model").select2().val() == '' || $(".sel_model").select2().val() == null || vm.strDimension == 'undefined' || vm.strDimension == ""){
-                        if(vm.libelle == '' || vm.description=='' || $(".sel_model").select2().val() == '' || $(".sel_model").select2().val() == null){
-                            bootbox.alert("Toutes les informations sont obligatoire");
-                            return;
-                        }
-
-                        console.log(vm.description , "   ::::::TEST");
                         $.post( "api/save_image_modif.php", { base64_image: dataURL,
-                            id:vm.objEnCours.id,
-                            ref:vm.reference,
-                            libelle:vm.libelle,
-                            description:vm.description,
+                            id              : vm.objEnCours.id,
+                            ref             : vm.reference,
+                            libelle         : vm.libelle,
+                            description     : vm.description,
                             dimensions      : vm.strDimension,
-                            //dimensions      : "",
+                            pays            : vm.strPays,
                             escargot        : vm.chkEscargo,
                             contours        : vm.chkContours,
                             liserai         : vm.chkLiserai,
@@ -1801,9 +1823,6 @@ console.log(response.data, "baakallk");
             });
 
 
-
-
-
         vm.fnModifier = function() {
             console.log("modifier");
         }
@@ -1857,8 +1876,11 @@ console.log(response.data, "baakallk");
         vm.fnTransfer = function(data){
             vm.transferTxt = data.reference;
             vm.currentProduit = angular.copy(data);
+            //
+            $('#transfer').on('show.bs.modal', function () {
+                $('.modal-body').css('height',$( window ).height()*0.75);
+            });
             $("#transfer").modal();
-
             $(".sel_transfer").select2({
                 theme:"classic",
                 data: vm.listMetier.modelsmetier
@@ -1912,6 +1934,10 @@ console.log(response.data, "baakallk");
         }
 
         vm.fnClickDimensions = function() {
+            //
+            $('#dimensions').on('show.bs.modal', function () {
+                $('.modal-body').css('height',$( window ).height()*0.75);
+            });
             $("#dimensions").modal();
             var arrDimension = [];
             var arrObjDim = [];
@@ -1924,12 +1950,45 @@ console.log(response.data, "baakallk");
             $scope.gridOptDimensions.data = arrObjDim;
         }
 
+        vm.fnGetPays = function() {
+            $http({
+                method: 'GET',
+                params: {mode:15},
+                url: 'api/v1/sampleControl.php'
+            }).then(function successCallback(response) {
+                vm.paysList = response.data;
+                var arrPays = [];
+                angular.forEach(vm.paysList, function(value) {
+                    arrPays.push({id:value.id, text:value.abrev});
+                });
+
+                $(".sel_pays").select2({
+                    tags: true,
+                    allowClear: true,
+                    data:arrPays
+                });
+
+
+            }, function errorCallback(error) {
+                console.log(error);
+            });
+        };
+        vm.fnGetPaysLang = function(data) {
+            angular.forEach(vm.paysList, function(value){
+                if(value.id == data.pays) {
+                    return "'"+value.abrev+"'";
+                }
+            })
+
+        };
+
         $(document).ready(function() {
             $(".selObj").select2(
                 {allowClear: true,
                     closeOnSelect:false}
             );
             var $eventSelect = $(".selObj");
+            vm.fnGetPays();
             vm.fnMetierList();
         });
     });

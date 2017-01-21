@@ -2,9 +2,24 @@ angular
     .module('myApp')
     .controller('mainController', function($scope, $rootScope, $routeParams, $location, $http, Data, $timeout) {
         //Setup view model object
-        console.log('main CONTROLLER');
         $scope.isLogged = false;
+        var modeLang = localStorage.getItem("LANG");
         $scope.isActualLang = "FRANCAIS";
+        if(modeLang == "EN") {
+            $scope.isActualLang = "ENGLISH";
+        }
+        else if(modeLang == "FR"){
+            $scope.isActualLang = "FRANCAIS";
+        }
+        else if(modeLang == "ES") {
+            $scope.isActualLang = "ESPAÑOL";
+        }
+        else if(modeLang == "IT") {
+            $scope.isActualLang = "ITALIANO";
+        }
+        else if(modeLang == "AL") {
+            $scope.isActualLang = "DEUTSCH";
+        }
 
         Data.get('session.php').then(function (results) {
             if(results.uid){
@@ -67,7 +82,7 @@ angular
                         })
                     }
                 });
-        }
+        };
 
         $scope.signUp = function (customer) {
             console.log("customer" , customer);
@@ -115,18 +130,23 @@ angular
             var langSel = localStorage.getItem('LANG');
 
                 if(langSel == "EN") {
+                    $scope.isActualLang = "ENGLISH";
                     $("#en").prop("checked", true)
                 }
                 else if(langSel == "FR") {
+                    $scope.isActualLang = "FRANCAIS";
                     $("#fr").prop("checked", true)
                 }
                 else if(langSel == "ES") {
+                    $scope.isActualLang = "ESPAÑOL";
                     $("#es").prop("checked", true)
                 }
                 else if(langSel == "AL") {
+                    $scope.isActualLang = "DEUTSCH";
                     $("#al").prop("checked", true)
                 }
                 else if(langSel == "IT") {
+                    $scope.isActualLang = "ITALIANO";
                     $("#it").prop("checked", true)
                 }
         };

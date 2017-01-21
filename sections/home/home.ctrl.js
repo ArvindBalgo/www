@@ -83,15 +83,6 @@ Data.get('session.php').then(function (results) {
 
 
         });
-        vm.instructions = [
-            {id:1, description: "Réalisez votre maquette gratuitement et ensuite passer votre commande."},
-            {id:1, description: "Choisissez votre profession et votre produit puis allez dans la fiche technique de votre produit."},
-            {id:1, description: "Choisissez parmi nos modèles que vous pourrez modifier à votre convenance ou bien schématisez votre maquette. Choisissez vos caractères, vos photos et couleurs dans nos banques d’images. Une fois schématisez, votre maquette sera traitée par nos graphistes et sera mis à votre disposition gratuitement, vous pourrez la faire modifier à tout moment."},
-            {id:1, description: "Vous avez vos photos, vos logos ou votre maquette télécharger le."},
-            {id:1, description: "Vous avez votre maquette sur papier prenez une photo et téléchargez la."},
-            {id:1, description: "Vous avez des idées mais pas le temps ou vous ne trouvez votre choix Vous avez besoin d’aide et vous voulez être rappelé par un conseil."},
-            {id:1, description: "Vous avez plusieurs produits créezun modèle de base on pourra s’en servir pour la conception de tous vos produit"},
-                        ];
 
         vm.instructions = [];
 
@@ -223,7 +214,7 @@ Data.get('session.php').then(function (results) {
                 }, function errorCallback(error) {
                     console.log(error);
                 });
-        }
+        };
 
         vm.fnModelClick  = function($id, $id_modelMetier, $id_cata, $id_metier) {
             //$('#myModel').modal('hide');
@@ -264,13 +255,13 @@ Data.get('session.php').then(function (results) {
                 }, function errorCallback(error) {
                     console.log(error);
                 });
-        }
+        };
 
         vm.fnRemoveModal = function(){
             $('#produits').modal('hide');
             $('#myModel').modal('hide');
             document.body.style.overflow = "scroll";
-        }
+        };
 
         vm.fnClickLang = function($lang) {
             console.log($lang);
@@ -292,7 +283,7 @@ Data.get('session.php').then(function (results) {
                 console.log(error);
             });
             
-        }
+        };
 
         vm.fnClickTabs = function(tabVal){
             vm.activeTabId = tabVal;

@@ -74,6 +74,7 @@ $cata->setIdBack(0);
 $cata->setReference($_POST["ref"]);
 
 $cata->setModifiedBy($session['uid']);
+$cata->setPays($_POST["pays"]);
 $cata->save();
 
 $lastID = $cata->getId_Cata();

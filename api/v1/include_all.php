@@ -34,3 +34,4 @@ include_once 'souscategory_prix.php';
 include_once 'souscategory_coeffprix.php';
 include_once 'tarif_manuel.php';
 include_once 'langue.php';
+include_once 'pays.php';

@@ -44,7 +44,7 @@
 <!--script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script-->
 
 <!-- CSSMap SCRIPT -->
-<!--script type="text/javascript" src="https://cssmapsplugin.com/5/jquery.cssmap.min.js"></script-->
+<script type="text/javascript" src="https://cssmapsplugin.com/5/jquery.cssmap.min.js"></script>
 
 <script src="js/page.js"></script>
 <script src="js/bootbox.min.js"></script>

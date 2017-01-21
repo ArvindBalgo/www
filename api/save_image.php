@@ -58,6 +58,7 @@ else{
 }
 $cata->setCreatedBy($session['uid']);
 $cata->setModifiedBy($session['uid']);
+$cata->setPays($_POST["pays"]);
 $cata->save();
 
 $lastID = $cata->getLastId();
