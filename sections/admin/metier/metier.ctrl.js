@@ -36,6 +36,7 @@ angular
         vm.arrCoeff = [];
         vm.arrTarif = [];
         vm.currentTarifID = {};
+        vm.paysList = [];
 
         var uploader = $scope.uploader12 = new FileUploader({
             url: 'api/categoryupload.php'
@@ -393,26 +394,39 @@ angular
                 params: {mode:0},
                 url: 'api/v1/info.php'
             }).then(function successCallback(response) {
-                    console.log(response.data);
-                   // vm.gridOptions.data = response.data;
-                   // response.data.splice(0, 1);
-                    vm.myData = response.data;
-                    var arrMetier = [];
+               // vm.gridOptions.data = response.data;
+               // response.data.splice(0, 1);
+                vm.myData = response.data;
+                var arrMetier = [];
+                var txtLang = "";
+                var arrPays  = [];
+                var selPays = "";
+                selPays = $('input[name=selPays]:checked').val();
+                if( angular.isUndefined(selPays)) {
+                    selPays = "FR";
+                }
+                angular.forEach(vm.paysList, function(pays_name) {
+                    arrPays[pays_name.id] = pays_name.abrev;
+                    if(pays_name.abrev == selPays) {
+                        txtLang = pays_name.id;
+                    }
+                });
 
-                    angular.forEach(response.data, function(value){
+                angular.forEach(response.data, function(value){
+                    if(value.pays == txtLang) {
                         arrMetier.push(value.libelle);
-                    });
+                    }
+                });
                 $('#modalMetier').modal('hide');
                 $("#selMetier").empty();
                 $( "#selMetier" ).append( "<select class='sel_metier' style='width: 100%;'></select>" );
-                     $compile($(".sel_metier").select2({
-                         theme:"classic",
-                         data: arrMetier
-                     }));
-                     $(".sel_metier").on("select2:select", function (e) {
-                         vm.fnSelectActivated();
-                     });
-
+                 $compile($(".sel_metier").select2({
+                     theme:"classic",
+                     data: arrMetier
+                 }));
+                 $(".sel_metier").on("select2:select", function (e) {
+                     vm.fnSelectActivated();
+                 });
                      vm.fnSubCategory();
                 }, function errorCallback(error) {
                     console.log(error);
@@ -460,6 +474,7 @@ angular
                 vm.sous_libelle = "";
                 vm.active = false;
                 vm.nouveauMetier = true;
+                $("#FR1").prop("checked", true);
                 $('#modalMetier').modal();
             }
             else if(opt == 1) {
@@ -525,6 +540,7 @@ angular
             var arrData = angular.copy(vm.originalData);
             console.log(vm.selectedObj);
             var arrFiltered = [];
+            console.log(arrData, " :: DATA");
             angular.forEach(arrData, function(value) {
                 if(value.category == vm.selectedObj.id){
                     arrFiltered.push(value);
@@ -548,6 +564,7 @@ angular
             var flagMode = -1;
             var flagactive = 0;
             var id  = 0;
+            var idPays = 0;
             console.log(vm.actif);
             if(vm.active){
                 flagactive = 1;
@@ -560,13 +577,19 @@ angular
                 flagMode = 4;//Sauvegarde nouveau metier
             }
             else{
-                flagMode = 5;//Sauvegarde nouveau metier
+                flagMode = 5;//Edition metier
                 id = vm.selectedObj.id;
             }
+            var selPays = $('input[name=selPays]:checked').val();
+            angular.forEach(vm.paysList, function(value) {
+                if(selPays == value.abrev) {
+                    idPays = value.id;
+                }
+            });
 
             $http({
                 method: 'GET',
-                params: {mode:flagMode, id:id, libelle:vm.libelle, sub_libelle:vm.sous_libelle, actif:flagactive},
+                params: {mode:flagMode, id:id, libelle:vm.libelle, sub_libelle:vm.sous_libelle, actif:flagactive, pays: idPays},
                 url: 'api/v1/info.php'
             }).then(function successCallback(response) {
                 console.log(response.data);
@@ -845,8 +868,56 @@ angular
             }
         }
 
+        vm.fnGetListPays = function() {
+            $http({
+                method: 'GET',
+                params: {mode:15},
+                url: 'api/v1/sampleControl.php'
+            }).then(function successCallback(response) {
+                vm.paysList = response.data;
 
-        vm.fnModelMetier();
+
+                $(document).ready(function () {
+                    $("#FR").prop("checked", true);
+                });
+                vm.fnModelMetier();
+            }, function errorCallback(error) {
+                console.log(error);
+            });
+        };
+
+        vm.fnRadioPays = function(data) {
+            var txtLang = "";
+            var arrPays  = [];
+            var arrMetier  = [];
+            var arrData = angular.copy(vm.myData);
+            angular.forEach(vm.paysList, function(pays_name) {
+                if(pays_name.abrev == data) {
+                    txtLang = pays_name.id;
+                }
+            });
+
+            angular.forEach(arrData, function(value){
+                if(value.pays == txtLang) {
+                    arrMetier.push(value.libelle);
+                }
+            });
+            $('#modalMetier').modal('hide');
+            $("#selMetier").empty();
+            $( "#selMetier" ).append( "<select class='sel_metier' style='width: 100%;'></select>" );
+            $compile($(".sel_metier").select2({
+                theme:"classic",
+                data: arrMetier
+            }));
+            $(".sel_metier").on("select2:select", function (e) {
+                vm.fnSelectActivated();
+            });
+            vm.fnSubCategory();
+
+        };
+
+        vm.fnGetListPays();
+
 
     });
 

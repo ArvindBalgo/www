@@ -78,10 +78,6 @@ class modelmetier{
 
     //***** fonction de modification/cr�ation *****
     public function save() {
-        $this->_date_modified = date('Y/m/d H:i:s', time());
-        if ($this->_date_created == null) {
-            $this->_date_created = date('Y/m/d H:i:s', time());
-        }
         if ($this->_id > 0) {
             $requete = "update modelmetier set description='" . ($this->_description) . "'";
             $requete .= ",category='" . $this->_category . "'";

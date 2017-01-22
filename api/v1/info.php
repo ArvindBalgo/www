@@ -1,3 +1,4 @@
+
 <?php
 include_once 'include_all.php';
 
@@ -56,7 +57,7 @@ else if($mode == 4) {
     $listmetier->setLibelle(trim($_GET["libelle"]));
     $listmetier->setSubLibelle(trim($_GET["sub_libelle"]));
     $listmetier->setActive($_GET["actif"]);
-
+    $listmetier->setPays($_GET["pays"]);
     $listmetier->save();
 }
 
@@ -68,7 +69,7 @@ else if($mode == 5){
     $listmetier->setLibelle(trim($_GET["libelle"]));
     $listmetier->setSubLibelle(trim($_GET["sub_libelle"]));
     $listmetier->setActive($_GET["actif"]);
-
+    $listmetier->setPays($_GET[pays]);
     $listmetier->save();
 }
 
@@ -112,12 +113,54 @@ else if($mode == 10){
     $instruction->save();
 }
 else if($mode == 11) {
-    $instruction = new instructions();
-    $instruction = $instruction->rechercher();
-    print json_encode($instruction);
+    $pays = $_GET["param"];
+    if($pays == "FR") {
+        $instruction = new instructions();
+        $instruction = $instruction->rechercher();
+        print json_encode($instruction);
+    }
+    else if($pays == "EN") {
+        $instruction = new instructions_en();
+        $instruction = $instruction->rechercher();
+        print json_encode($instruction);
+    }
+    else if($pays == "AL"){
+        $instruction = new instructions_al();
+        $instruction = $instruction->rechercher();
+        print json_encode($instruction);
+    }
+    else if($pays == "IT"){
+        $instruction = new instructions_it();
+        $instruction = $instruction->rechercher();
+        print json_encode($instruction);
+    }
+    else if($pays == "ES"){
+        $instruction = new instructions_es();
+        $instruction = $instruction->rechercher();
+        print json_encode($instruction);
+    }
+
 }
 else if($mode == 12) {
-    $instruction = new instructions();
+    $pays = $_GET["param"];
+    if($pays == "FR") {
+        $instruction = new instructions();
+    }
+    else if($pays == "EN") {
+        $instruction = new instructions_en();
+    }
+    else if($pays == "AL"){
+        $instruction = new instructions_al();
+
+    }
+    else if($pays == "IT"){
+        $instruction = new instructions_it();
+
+    }
+    else if($pays == "ES"){
+        $instruction = new instructions_es();
+
+    }
     $instruction = $instruction->findByPrimaryKey($_GET["id"]);
     $instruction->setInstruction($_GET["instruction"]);
     $instruction->save();

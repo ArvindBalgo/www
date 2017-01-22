@@ -2,7 +2,14 @@
 
 <div class="container">
     <div class="row">
-        <div class="btn-group col-md-offset-4">
+        <div class="col-md-4">
+            <input id="FR" type="radio" name="selLang" ng-click="instructions.fnRadioPays('FR')" value="FR" checked="checked"> FR
+            <input id="EN" type="radio" name="selLang" ng-click="instructions.fnRadioPays('EN')" value="EN"> EN
+            <input id="ES" type="radio" name="selLang" ng-click="instructions.fnRadioPays('ES')" value="ES"> ES
+            <input id="AL" type="radio" name="selLang" ng-click="instructions.fnRadioPays('AL')" value="AL"> AL
+            <input id="IT" type="radio" name="selLang" ng-click="instructions.fnRadioPays('IT')" value="IT"> IT
+        </div>
+        <div class="btn-group col-md-4">
             <button type="button" ng-hide = "instructions.isEdit" class="btn btn-primary" ng-click="instructions.fnEdit()">Editer</button>
             <button type="button" ng-hide = "!instructions.isEdit" class="btn btn-danger" ng-click="instructions.fnAnnuler()">Annuler</button>
             <button type="button" ng-hide = "!instructions.isEdit" class="btn btn-success" ng-click="instructions.fnSave()">Sauvegarder</button>

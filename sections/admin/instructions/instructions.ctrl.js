@@ -17,13 +17,13 @@ angular
         });
 
 
-
-
-
         vm.fnGetInstructions = function(){
+            var selPays = "";
+            selPays = $('input[name=selLang]:checked').val();
+            console.log(selPays, " slection pays");
             $http({
                 method: 'GET',
-                params: {mode:11},
+                params: {mode:11, param: selPays},
                 url: 'api/v1/info.php'
             }).then(function successCallback(response) {
                     vm.arrInstructions  = response.data;
@@ -42,11 +42,14 @@ angular
 
         vm.fnSave = function() {
 
+            var selPays = "";
+            selPays = $('input[name=selLang]:checked').val();
+
             angular.forEach(vm.arrInstructions, function(value) {
                 console.log(value);
                 $http({
                     method: 'GET',
-                    params: {mode:12 , id:value.id, instruction:value.instruction},
+                    params: {mode:12 , id:value.id, instruction:value.instruction, param:selPays},
                     url: 'api/v1/info.php'
                 }).then(function successCallback(response) {
 
@@ -56,6 +59,10 @@ angular
             });
             vm.isEdit = false;
 
+        };
+
+        vm.fnRadioPays = function(value) {
+        vm.fnGetInstructions();
         };
 
         $( document ).ready(function() {

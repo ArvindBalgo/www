@@ -22,9 +22,11 @@ angular
         vm.objApropos = [];
 
         vm.fnInit = function() {
+            var selPays = "";
+            selPays = $('input[name=selLang]:checked').val();
             $http({
                 method: 'GET',
-                params: {mode:3, type:1},
+                params: {mode:3, type:1, param:selPays},
                 url: 'api/v1/metierCRUD.php'
             }).then(function successCallback(response) {
                 console.clear();
@@ -42,9 +44,11 @@ angular
 
         vm.fnNew = function() {
             //vm.dataText.push({id:0 , description:''});
+            var selPays = "";
+            selPays = $('input[name=selLang]:checked').val();
             $http({
                 method: 'GET',
-                params: {mode:5, type:1},
+                params: {mode:5, type:1, param:selPays},
                 url: 'api/v1/metierCRUD.php'
             }).then(function successCallback(response) {
                 console.clear();
@@ -68,6 +72,8 @@ angular
                 bootbox.alert("<div style='text-align: center'> <h4>Veuilez renseigner tous les champs svp.</h4></div>")
                 return;
             }*/
+            var selPays = "";
+            selPays = $('input[name=selLang]:checked').val();
             bootbox.dialog({
                 message: "Confirmez-vous la sauvegarde?",
                 title: "Sauvegarde",
@@ -85,7 +91,7 @@ angular
                         callback: function() {
                             $http({
                                 method: 'GET',
-                                params: {mode:6, contenu:JSON.stringify(vm.objApropos)},
+                                params: {mode:6, contenu:JSON.stringify(vm.objApropos), param:selPays},
                                 url: 'api/v1/metierCRUD.php'
                             }).then(function successCallback(response) {
                                 console.log(response.data);
@@ -100,10 +106,11 @@ angular
         };
 
         vm.fnValidLigne = function(objLigne){
-          console.log(objLigne , " objligne  <== ");
+            var selPays = "";
+            selPays = $('input[name=selLang]:checked').val();
             $http({
                 method: 'GET',
-                params: {mode:7, contenu:JSON.stringify(objLigne)},
+                params: {mode:7, contenu:JSON.stringify(objLigne), param:selPays},
                 url: 'api/v1/metierCRUD.php'
             }).then(function successCallback(response) {
                 console.log(response.data);
@@ -114,9 +121,12 @@ angular
         };
 
         vm.fnDelLigne  = function (objLigne) {
+            var selPays = "";
+            selPays = $('input[name=selLang]:checked').val();
+
             $http({
                 method: 'GET',
-                params: {mode:8, id:objLigne.id},
+                params: {mode:8, id:objLigne.id, param:selPays},
                 url: 'api/v1/metierCRUD.php'
             }).then(function successCallback(response) {
                 console.log(response.data);
@@ -128,9 +138,12 @@ angular
         };
 
         vm.fnValidHeader = function(){
+            var selPays = "";
+            selPays = $('input[name=selLang]:checked').val();
+
             $http({
                 method: 'GET',
-                params: {mode:9,  contenu:JSON.stringify(vm.objApropos)},
+                params: {mode:9,  contenu:JSON.stringify(vm.objApropos), param:selPays},
                 url: 'api/v1/metierCRUD.php'
             }).then(function successCallback(response) {
                 console.log(response.data);
@@ -139,6 +152,10 @@ angular
             }, function errorCallback(error) {
                 console.log(error);
             });
+        };
+
+        vm.fnRadioPays = function(pays) {
+            vm.fnInit();
         };
 
         vm.fnInit();

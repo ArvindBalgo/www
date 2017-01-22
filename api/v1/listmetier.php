@@ -6,6 +6,7 @@ class listmetier{
     private $_libelle       = null;
     private $_sub_libelle   = null;
     private $_active        = null;
+    private $_pays          = null;
     private $_date_created  = null;
     private $_date_modified = null;
 
@@ -46,6 +47,9 @@ class listmetier{
         $this->_date_modified = $dateModified;
     }
 
+    public function setPays($pays) {
+        $this->_pays = $pays;
+    }
 
     //**** D�claration des getters ****
     public function getId() {
@@ -72,6 +76,10 @@ class listmetier{
         return $this->_date_modified;
     }
 
+    public function getPays() {
+        return $this->_pays;
+    }
+
     //**** Fonction de suppression ****
     public function delete($id) {
         $requete = "DELETE FROM listmetier WHERE id=" . $id;
@@ -88,6 +96,7 @@ class listmetier{
             $requete = "UPDATE listmetier SET libelle='" . ($this->_libelle) . "'";
             $requete .= ",sub_libelle='" . $this->_sub_libelle . "'";
             $requete .= ",active=" . $this->_active;
+            $requete .= ",pays=" . $this->_pays;
             $requete .= ",date_created='" . $this->_date_created . "'";
             $requete .= ",date_modified='" . $this->_date_modified . "'";
             $requete .= " WHERE id=" . $this->_id;
@@ -97,12 +106,14 @@ class listmetier{
             $requete .= "libelle,";
             $requete .= "sub_libelle,";
             $requete .= "active,";
+            $requete .= "pays,";
             $requete .= "date_created,";
             $requete .= "date_modified";
             $requete .= ") values (";
             $requete .= "'" . $this->_libelle . "',";
             $requete .= "'" . $this->_sub_libelle . "',";
             $requete .= $this->_active . ",";
+            $requete .= $this->_pays . ",";
             $requete .= "'" . $this->_date_created . "',";
             $requete .= "'" . $this->_date_modified . "')";
 
@@ -120,6 +131,7 @@ class listmetier{
         $metier->_libelle = $rs["libelle"];
         $metier->_sub_libelle = $rs["sub_libelle"];
         $metier->_active = $rs["active"];
+        $metier->_pays = $rs["pays"];
         $metier->_date_modified = $rs["date_modified"];
         $metier->_date_created = $rs["date_created"];
         return $metier;

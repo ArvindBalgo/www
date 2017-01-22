@@ -13,6 +13,13 @@
 </style>
 <div style="padding: 10px" class="row">
     <div id="selMetier" class="col-md-5"><select class="sel_metier" style="width: 100%;"></select></div>
+    <div class="col-md-3">
+        <input id="FR" type="radio" name="selLang" ng-click="metier.fnRadioPays('FR')" ng-model="metier.language.fr"> FR
+        <input id="EN" type="radio" name="selLang" ng-click="metier.fnRadioPays('EN')" ng-model="metier.language.en"> EN
+        <input id="ES" type="radio" name="selLang" ng-click="metier.fnRadioPays('ES')" ng-model="metier.language.es"> ES
+        <input id="AL" type="radio" name="selLang" ng-click="metier.fnRadioPays('AL')" ng-model="metier.language.dt"> AL
+        <input id="IT" type="radio" name="selLang" ng-click="metier.fnRadioPays('IT')" ng-model="metier.language.it"> IT
+    </div>
     <div class="col-md-4 btn-group">
         <button type="button" class="btn btn-primary" ng-click="metier.fnCrudMetier(0)"><span class="glyphicon glyphicon-plus"></span></button>
         <button type="button" class="btn btn-primary" ng-click="metier.fnCrudMetier(1)"><span class="glyphicon glyphicon-pencil"></span></button>
@@ -67,6 +74,16 @@
                             <label><input type="checkbox" ng-model="metier.active"></label>
                         </div>
                         <!--input style="margin-top: 15px" type="file" nv-file-select="" uploader="uploader"-->
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2"><b>Pays</b></div>
+                        <div>
+                            <input id="FR1" type="radio" name="selPays" value="FR" > FR
+                            <input id="EN1" type="radio" name="selPays" value="EN" > EN
+                            <input id="ES1" type="radio" name="selPays" value="ES" > ES
+                            <input id="AL1" type="radio" name="selPays" value="AL" > AL
+                            <input id="IT1" type="radio" name="selPays" value="IT" > IT
+                        </div>
                     </div>
                 </div>
             </div>

@@ -36,12 +36,32 @@ else if($mode == 3) {
      * 2=>mentions d'utilisation
      * 3=>mentions legales
      */
+    $pays = $_GET["param"];
     $type = intval($_GET["type"]);
 
-    $apropos = new apropos();
+    if($pays == "FR") {
+        $apropos = new apropos();
+        $doc = new docs();
+    }
+    else if($pays == "EN"){
+        $apropos = new apropos_en();
+        $doc = new docs_en();
+    }
+    else if($pays == "AL"){
+        $apropos = new apropos_al();
+        $doc = new docs_al();
+    }
+    else if($pays == "ES"){
+        $apropos = new apropos_es();
+        $doc = new docs_es();
+    }
+    else if($pays == "IT"){
+        $apropos = new apropos_it();
+        $doc = new docs_it();
+    }
     $apropos = $apropos->rechercher();
 
-    $doc = new docs();
+
     $doc = $doc->findByPrimaryKey($_GET['type']);
     $arrData = array('id'=>$doc->getId(), 'clef'=>$doc->getCle() , 'title'=>$doc->getTitle() , 'description'=>$doc->getDescription(), 'data'=>$apropos);
     print json_encode($arrData);
@@ -66,14 +86,41 @@ else if($mode == 4) {
     print 'done';
 }
 else if($mode == 5) {
-    $apropos = new apropos();
+    $pays = $_GET["param"];
+    if($pays == "FR") {
+        $apropos = new apropos();
+        $apropos1 = new apropos();
+        $doc = new docs();
+    }
+    else if($pays == "EN"){
+        $apropos = new apropos_en();
+        $apropos1 = new apropos_en();
+        $doc = new docs_en();
+    }
+    else if($pays == "AL"){
+        $apropos = new apropos_al();
+        $apropos1 = new apropos_al();
+        $doc = new docs_al();
+    }
+    else if($pays == "ES"){
+        $apropos = new apropos_es();
+        $apropos1 = new apropos_es();
+        $doc = new docs_es();
+    }
+    else if($pays == "IT"){
+        $apropos = new apropos_it();
+        $apropos1 = new apropos_it();
+        $doc = new docs_it();
+    }
+
+    //$apropos = new apropos();
     $apropos->setDescription('');
     $apropos->save();
 
-    $apropos = new apropos();
-    $apropos = $apropos->rechercher();
+    //$apropos = new apropos1();
+    $apropos = $apropos1->rechercher();
 
-    $doc = new docs();
+
     $doc = $doc->findByPrimaryKey($_GET['type']);
     $arrData = array('id'=>$doc->getId(), 'clef'=>$doc->getCle() , 'title'=>$doc->getTitle() , 'description'=>$doc->getDescription(), 'data'=>$apropos);
     print json_encode($arrData);
@@ -81,13 +128,43 @@ else if($mode == 5) {
 else if($mode == 6) {
     $contenu = json_decode($_GET['contenu']);
 
-    $docu = new docs();
+    $pays = $_GET["param"];
+    if($pays == "FR") {
+        $docu = new docs();
+    }
+    else if($pays == "EN"){
+        $docu = new docs_en();
+    }
+    else if($pays == "AL"){
+        $docu = new docs_al();
+    }
+    else if($pays == "ES"){
+        $docu = new docs_es();
+    }
+    else if($pays == "IT"){
+        $docu = new docs_it();
+    }
+
     $docu = $docu->findByPrimaryKey($contenu->id);
     $docu->setTitle($contenu->title);
     $docu->setDescription(addslashes($docu->getDescription()));
     $docu->save();
     foreach ($contenu->data as $ligne){
-        $apropos = new apropos();
+        if($pays == "FR") {
+            $apropos = new apropos();
+        }
+        else if($pays == "EN"){
+            $apropos = new apropos_en();
+        }
+        else if($pays == "AL"){
+            $apropos = new apropos_al();
+        }
+        else if($pays == "ES"){
+            $apropos = new apropos_es();
+        }
+        else if($pays == "IT"){
+            $apropos = new apropos_it();
+        }
         $apropos = $apropos->findByPrimaryKey($ligne->id);
         $apropos->setDescription(addslashes($ligne->description));
         $apropos->save();
@@ -99,8 +176,24 @@ else if($mode == 6) {
 
 else if($mode == 7) {
     $contenu = json_decode($_GET['contenu']);
+    $pays = $_GET["param"];
 
-    $apropos = new apropos();
+    if($pays == "FR") {
+        $apropos = new apropos();
+    }
+    else if($pays == "EN"){
+        $apropos = new apropos_en();
+    }
+    else if($pays == "AL"){
+        $apropos = new apropos_al();
+    }
+    else if($pays == "ES"){
+        $apropos = new apropos_es();
+    }
+    else if($pays == "IT"){
+        $apropos = new apropos_it();
+    }
+
     $apropos = $apropos->findByPrimaryKey($contenu->id);
     $apropos->setDescription(addslashes($contenu->description));
     $apropos->save();
@@ -110,15 +203,47 @@ else if($mode == 7) {
 }
 
 else if($mode == 8) {
-    $apropos = new apropos();
+    $pays = $_GET["param"];
+
+    if($pays == "FR") {
+        $apropos = new apropos();
+    }
+    else if($pays == "EN"){
+        $apropos = new apropos_en();
+    }
+    else if($pays == "AL"){
+        $apropos = new apropos_al();
+    }
+    else if($pays == "ES"){
+        $apropos = new apropos_es();
+    }
+    else if($pays == "IT"){
+        $apropos = new apropos_it();
+    }
+
     $apropos = $apropos->delete($_GET["id"]);
     return 'done';
 
 }
 else if($mode == 9) {
     $contenu = json_decode($_GET['contenu']);
+    $pays = $_GET["param"];
+    if($pays == "FR") {
+        $docu = new docs();
+    }
+    else if($pays == "EN"){
+        $docu = new docs_en();
+    }
+    else if($pays == "AL"){
+        $docu = new docs_al();
+    }
+    else if($pays == "ES"){
+        $docu = new docs_es();
+    }
+    else if($pays == "IT"){
+        $docu = new docs_it();
+    }
 
-    $docu = new docs();
     $docu = $docu->findByPrimaryKey($contenu->id);
     $docu->setTitle($contenu->title);
     $docu->setDescription(addslashes($docu->getDescription()));
