@@ -20,10 +20,10 @@ angular
         vm.dataText=[];
         vm.id=0;
         vm.objApropos = [];
-
+        var selPays = "";
+        selPays = $('input[name=selLang]:checked').val();
         vm.fnInit = function() {
-            var selPays = "";
-            selPays = $('input[name=selLang]:checked').val();
+
             $http({
                 method: 'GET',
                 params: {mode:3, type:1, param:selPays},

@@ -1,7 +1,6 @@
 angular
     .module('adminApp')
     .controller('utilisationController', function($scope, $rootScope, $routeParams, $location, $http, Data, $timeout) {
-        console.log("utilisationController controller");
 
         Data.get('session.php').then(function (results) {
             if (results.uid) {
@@ -20,23 +19,21 @@ angular
         vm.id=0;
 
         vm.fnInit = function() {
+            var selPays = "";
+            selPays = $('input[name=selLang]:checked').val();
             $http({
                 method: 'GET',
-                params: {mode:3, type:3},
+                params: {mode:3, type:3, param:selPays},
                 url: 'api/v1/metierCRUD.php'
             }).then(function successCallback(response) {
-                console.log(response.data);
                 vm.id=response.data.id;
                 vm.title = response.data.title;
                 vm.contenu = response.data.description;
             }, function errorCallback(error) {
-                console.log(error);
             });
         };
 
         vm.fnValid = function() {
-            console.log(vm.title, "title");
-            console.log(vm.contenu , " contenu");
             if(vm.title.trim() == "" || vm.contenu.trim() == "") {
                 bootbox.alert("<div style='text-align: center'> <h4>Veuilez renseigner tous les champs svp.</h4></div>")
                 return;
@@ -49,27 +46,30 @@ angular
                         label: "Non",
                         className: "btn-secondary",
                         callback: function() {
-                            console.log("Annulation");
                         }
                     },
                     valider: {
                         label: "Oui",
                         className: "btn-success",
                         callback: function() {
+                            var selPays = "";
+                            selPays = $('input[name=selLang]:checked').val();
                             $http({
                                 method: 'GET',
-                                params: {mode:4, id:vm.id,type:'utilisation', title:vm.title, contenu:vm.contenu},
+                                params: {mode:4, id:vm.id,type:'utilisation', title:vm.title, contenu:vm.contenu, param:selPays},
                                 url: 'api/v1/metierCRUD.php'
                             }).then(function successCallback(response) {
-                                console.log(response.data);
                                 vm.fnInit();
                             }, function errorCallback(error) {
-                                console.log(error);
                             });
                         }
                     }
                 }
             });
+        };
+
+        vm.fnRadioPays = function(pays) {
+            vm.fnInit();
         };
 
         vm.fnInit();

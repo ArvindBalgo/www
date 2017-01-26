@@ -20,9 +20,11 @@ angular
         vm.id=0;
 
         vm.fnInit = function() {
+            var selPays = "";
+            selPays = $('input[name=selLang]:checked').val();
             $http({
                 method: 'GET',
-                params: {mode:3, type:4},
+                params: {mode:3, type:4, param:selPays},
                 url: 'api/v1/metierCRUD.php'
             }).then(function successCallback(response) {
                 console.log(response.data);
@@ -35,8 +37,6 @@ angular
         };
 
         vm.fnValid = function() {
-            console.log(vm.title, "title");
-            console.log(vm.contenu , " contenu");
             if(vm.title.trim() == "" || vm.contenu.trim() == "") {
                 bootbox.alert("<div style='text-align: center'> <h4>Veuilez renseigner tous les champs svp.</h4></div>")
                 return;
@@ -56,9 +56,11 @@ angular
                         label: "Oui",
                         className: "btn-success",
                         callback: function() {
+                            var selPays = "";
+                            selPays = $('input[name=selLang]:checked').val();
                             $http({
                                 method: 'GET',
-                                params: {mode:4, id:vm.id,type:'legale', title:vm.title, contenu:vm.contenu},
+                                params: {mode:4, id:vm.id,type:'legale', title:vm.title, contenu:vm.contenu, param:selPays},
                                 url: 'api/v1/metierCRUD.php'
                             }).then(function successCallback(response) {
                                 console.log(response.data);
@@ -70,6 +72,10 @@ angular
                     }
                 }
             });
+        };
+
+        vm.fnRadioPays = function(pays) {
+            vm.fnInit();
         };
 
         vm.fnInit();

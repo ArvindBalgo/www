@@ -9,9 +9,13 @@ angular
         vm.isFrance = false;
 
         vm.fnInit = function() {
+            var param = localStorage.getItem('LANG');
+            if(param == "") {
+                param = "FR";
+            }
             $http({
                 method: 'GET',
-                params: {mode:3, type:3},
+                params: {mode:3, type:3, param:param},
                 url: 'api/v1/metierCRUD.php'
             }).then(function successCallback(response) {
                 console.log(response.data);

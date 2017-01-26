@@ -5,7 +5,6 @@
     <a-- class="a2a_button_google_plus"></a-->
     <!--a class="">Passer la commande</a-->
     <!--a-- class="">Ajouter au Panier</a-->
-    <p style="">TEST</p>
     <div style="margin-bottom: 5px;">
         <img src="../assets/images/mon_panier.png" ng-click="fiche.fnClickPanier()" style="width:120px; height:65px;cursor:pointer;">
 
@@ -25,16 +24,16 @@
         <div class="col-md-12">
             <div id="main-container">
                 <div class="row">
-                    <div class="col-md-9" style="margin-left: 50px"><h3 id="clothing">{{langue.create_maquette}}</h3></div>
-                    <div class="col-md-2 pull-right"><button class="btn btn-warning" ng-click="fiche.fnClickPanier()">{{langue.panier_unite}} <span class="glyphicon glyphicon-shopping-cart"></span> ({{fiche.countProds}})</button></div>
+                    <div class="col-md-9" style="margin-left: 50px"><h3 id="clothing">{{'create_maquette' | translate}}</h3></div>
+                    <div class="col-md-2 pull-right"><button class="btn btn-warning" ng-click="fiche.fnClickPanier()">{{'panier_unite' | translate}} <span class="glyphicon glyphicon-shopping-cart"></span> ({{fiche.countProds}})</button></div>
                 </div>
 
                 <div class="row" style="margin: 2px">
-                    <div class="col-md-8 well well-sm" style="margin-left: 50px">{{langue.bonatirer_msg}}</div>
+                    <div class="col-md-8 well well-sm" style="margin-left: 50px">{{'bonatirer_msg' | translate}}</div>
                     <div class="col-md-12 " style="margin: 5px">
                         <div class="col-md-12" style="padding-bottom: 5px">
                             <div class="col-md-3" style="font-weight: bold">
-                                {{langue.titre}}
+                                {{'titre' | translate}}
                             </div>
                             <div class="col-md-7">
                                 <input type="text" class="form-control" ng-model="fiche.produit.titre" placeholder="Titre" aria-describedby="basic-addon1">
@@ -42,58 +41,58 @@
                         </div>
                         <div class="col-md-12" style="padding-bottom: 5px" ng-show="fiche.productList[0].escargot == 1">
                             <div class="col-md-3" style="font-weight: bold">
-                                {{langue.opt_attache}}
+                                {{'opt_attache' | translate}}
                             </div>
                             <div class="col-md-7">
                                 <form>
                                     <label class="radio-inline">
-                                        <input id="aucunEscargot" type="radio" name="optescargot" value="0">{{langue.aucun}}
+                                        <input id="aucunEscargot" type="radio" name="optescargot" value="0">{{'aucun' |translate}}
                                     </label>
                                     <label class="radio-inline">
-                                        <input id="avecTrou" type="radio" name="optescargot" value="1">{{langue.attache_escargot}}
+                                        <input id="avecTrou" type="radio" name="optescargot" value="1">{{'attache_escargot' | translate}}
                                     </label>
                                     <label class="radio-inline">
-                                        <input id="sansTrou" type="radio" name="optescargot" value="2">{{langue.avec_trou}}
+                                        <input id="sansTrou" type="radio" name="optescargot" value="2">{{'avec_trou' | translate}}
                                     </label>
                                 </form>
                             </div>
                         </div>
                         <div class="col-md-12" style="padding-bottom: 5px" ng-show="fiche.productList[0].contours == 1 || fiche.productList[0].liserai == 1">
                             <div class="col-md-3" style="font-weight: bold">
-                                {{langue.carac_add}}
+                                {{'carac_add' | translate}}
                             </div>
                             <div class="col-md-7">
                                 <form>
                                     <label class="radio-inline">
-                                        <input id="aucun" type="radio" name="optradio" value="0">{{langue.aucun}}
+                                        <input id="aucun" type="radio" name="optradio" value="0">{{'aucun' | translate}}
                                     </label>
                                     <label ng-show="fiche.productList[0].contours == 1" class="radio-inline">
-                                        <input id="trait" type="radio" name="optradio" value="1">{{langue.cadre}}
+                                        <input id="trait" type="radio" name="optradio" value="1">{{'cadre' | translate}}
                                     </label>
                                     <label class="radio-inline" ng-show="fiche.productList[0].liserai == 1">
-                                        <input id="liserai" type="radio" name="optradio" value="2">{{langue.lisere}}
+                                        <input id="liserai" type="radio" name="optradio" value="2">{{'lisere' | translate}}
                                     </label>
                                 </form>
                             </div>
                         </div>
                         <div class="col-md-12" style="padding-bottom: 5px">
                             <div class="col-md-3" style="font-weight: bold">
-                                {{langue.commande}}
+                                {{'commande' | translate}}
                             </div>
                             <div class="col-md-7">
                                 <form>
                                     <label  class="radio-inline">
-                                        <input id="cmdBonTirer" type="radio" name="optcommande" value="1">{{langue.bonatirer_avec}}
+                                        <input id="cmdBonTirer" type="radio" name="optcommande" value="1">{{'bonatirer_avec' | translate}}
                                     </label>
                                     <label class="radio-inline">
-                                        <input id="cmdBonNonTirer" type="radio" name="optcommande" value="2">{{langue.bonatirer_sans}}
+                                        <input id="cmdBonNonTirer" type="radio" name="optcommande" value="2">{{'bonatirer_sans' | translate}}
                                     </label>
                                 </form>
                             </div>
                         </div>
                         <div class="col-md-12" style="padding-bottom: 5px">
                             <div class="col-md-3" style="font-weight: bold">
-                                {{langue.finition_ppr}}
+                                {{'finition_ppr' | translate}}
                             </div>
                             <div class="col-md-7" style="padding-bottom: 5px">
                                 <select class="sel_papier" style="width: 100%;"></select>
@@ -101,7 +100,7 @@
                         </div>
                         <div class="col-md-12" style="padding-bottom: 5px">
                             <div class="col-md-3" style="font-weight: bold">
-                                {{langue.dimensions}}
+                                {{'dimensions' | translate}}
                             </div>
                             <div class="col-md-7" style="padding-bottom: 5px">
                                 <select class="sel_dimensions" style="width: 100%;"></select>
@@ -109,7 +108,7 @@
                         </div>
                         <div class="col-md-12" style="padding-bottom: 5px">
                             <div class="col-md-3" style="font-weight: bold">
-                                {{langue.qte}}
+                                {{'qte' | translate}}
                             </div>
                             <div class="col-md-7">
                                 <select class="sel_qte" style="width: 100%;"></select>
@@ -117,7 +116,7 @@
                         </div>
                         <div class="col-md-12">
                             <div class="col-md-3" style="font-weight: bold">
-                                {{langue.vos_instructions}}
+                                {{'vos_instructions' | translate}}
                             </div>
                             <div class="col-md-7">
                                 <textarea class="form-control" rows="5" id="comment" ng-model="fiche.produit.commentaire"></textarea>
@@ -141,21 +140,21 @@
                         </div-->
                     </div>
                     <div class="col-md-12" style="margin: 5px">
-                        <button ng-click="fiche.fnMetierList();" class="col-md-3 btn btn-lg " style="background-color: #D893E3; color: white; text-wrap: normal"><span><img src="images/icons/gallery.ico" style="height: 50px;width:50px"></span> {{langue.galerie_models}}</button>
+                        <button ng-click="fiche.fnMetierList();" class="col-md-3 btn btn-lg " style="background-color: #D893E3; color: white; text-wrap: normal"><span><img src="images/icons/gallery.ico" style="height: 50px;width:50px"></span> {{'galerie_models' | translate}}</button>
                         <!--button type="button" class="btn btn-success pull-right" ng-click="fiche.fnSaveProduit(0)">Ajouter Au panier</button-->
                         <!--button type="button" class="btn btn-success pull-right" ng-click="fiche.fnSaveProduit(1)">PASSEZ MA COMMANDE AVEC BON À TIRER</button-->
                         <div class=" col-md-7" style="text-align: center; color: darkgrey">
                             <div>
-                                <b>{{langue.conception_msg}}</b>
+                                <b>{{'conception_msg' | translate}}</b>
                             </div>
                             <div>
-                                <b>{{langue.conception_msg1}}</b>
+                                <b>{{'conception_msg1' | translate}}</b>
                             </div>
                             <div>
-                                <b>{{langue.conception_msg2}}</b>
+                                <b>{{'conception_msg2' | translate}}</b>
                             </div>
                         </div>
-                        <button class="col-md-2 btn btn-primary btn-lg pull-right" style="height: 72px;background-color: #D893E3; color: white;" ng-click="fiche.fnAddBasket()">{{langue.ajout_panier}}</button>
+                        <button class="col-md-2 btn btn-primary btn-lg pull-right" style="height: 72px;background-color: #D893E3; color: white;" ng-click="fiche.fnAddBasket()">{{'ajout_panier' | translate}}</button>
                         <!--button ng-click="" class="btn btn-primary btn-lg" style="height: 72px;"> Confiez nous la conception de votre maquette</button-->
                     </div>
                     <div class="col-md-12">
@@ -185,18 +184,18 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><span><img src="images/icons/gallery.ico" style="height: 50px;width:50px">{{langue.galerie_models}}</span></h4>
+                <h4 class="modal-title"><span><img src="images/icons/gallery.ico" style="height: 50px;width:50px">{{'galerie_models' | translate}}</span></h4>
             </div>
             <div class="modal-body" style="height: 550px;overflow: scroll">
                 <div class="row" style="padding: 3px;">
-                    <div class="col-md-2">{{langue.type_model}} </div>
+                    <div class="col-md-2">{{'type_model' | translate}} </div>
                     <div id="selModelMetier" class="col-md-10" >
                         <select class="sel_model_metier" style="width: 75%;"></select>
                     </div>
                 </div>
                 <ul class="nav nav-tabs">
-                    <li id="tab1" ng-class="{ active: fiche.activeId == 1 }" style="cursor: pointer" ng-click="fiche.fnClickTabs(1)"><a>{{langue.maquette_avec}}</a></li>
-                    <li id="tab2" ng-class="{ active: fiche.activeId == 2 }" style="cursor: pointer" ng-click="fiche.fnClickTabs(2)"><a>{{langue.maquette_sans}}</a></li>
+                    <li id="tab1" ng-class="{ active: fiche.activeId == 1 }" style="cursor: pointer" ng-click="fiche.fnClickTabs(1)"><a>{{'maquette_avec' | translate}}</a></li>
+                    <li id="tab2" ng-class="{ active: fiche.activeId == 2 }" style="cursor: pointer" ng-click="fiche.fnClickTabs(2)"><a>{{'maquette_sans' | translate}}</a></li>
                 </ul>
                 <div ng-show="fiche.isShow == 1">
                     <!--div class="row" style="padding: 3px;">
@@ -234,21 +233,21 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><span>{{langue.valid_schema}}</span></h4>
+                <h4 class="modal-title"><span>{{'valid_schema' | translate}}</span></h4>
             </div>
             <div class="modal-body" style="overflow: hidden">
                <div class="row">
                    <div class="well well-lg">
                        <p>
-                           {{langue.msg_commande}}
+                           {{'msg_commande' | translate}}
                        </p>
                    </div>
                </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger pull-left" ng-click="" data-dismiss="modal">{{langue.cancel}}</button>
-                <button type="button" class="btn btn-success pull-right" ng-click="fiche.fnSaveProduit(0)">{{langue.commande_sans_bat}}</button>
-                <button type="button" class="btn btn-success pull-right" ng-click="fiche.fnSaveProduit(1)">{{langue.commande_avec_bat}}</button>
+                <button type="button" class="btn btn-danger pull-left" ng-click="" data-dismiss="modal">{{'cancel' | translate}}</button>
+                <button type="button" class="btn btn-success pull-right" ng-click="fiche.fnSaveProduit(0)">{{'commande_sans_bat' | translate}}</button>
+                <button type="button" class="btn btn-success pull-right" ng-click="fiche.fnSaveProduit(1)">{{'commande_avec_bat' | translate}}</button>
             </div>
         </div>
     </div>
@@ -260,7 +259,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">{{langue.registration}}</h4>
+                <h4 class="modal-title">{{'registration' | translate}}</h4>
             </div>
             <div class="modal-body">
                 <div class="page-content">
@@ -271,37 +270,37 @@
                                     <div >
                                         <form name="signupForm" class="form-horizontal" role="form">
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="email">{{langue.mail}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="email">{{'mail' | translate}}</label>
                                                 <div class="col-sm-7">
                                     <span class="block input-icon input-icon-right">
                                         <input type="text" class="form-control" placeholder="Email" name="email" ng-model="signup.email" focus/>
-                                        <span ng-show="signupForm.email.$error.email" class="help-inline">{{langue.mail_msg}}</span>
+                                        <span ng-show="signupForm.email.$error.email" class="help-inline">{{'mail_msg' | translate}}</span>
                                     </span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="password">{{langue.password}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="password">{{'password' | translate}}</label>
                                                 <div class="col-sm-7">
                                     <span class="block input-icon input-icon-right">
                                 <input type="password" class="form-control" name = "password" placeholder="Mot de Passe" ng-model="signup.password" required/>
-                                <small class="errorMessage" data-ng-show="signupForm.password.$dirty && signupForm.password.$invalid"> {{langue.enter_password}}</small>
+                                <small class="errorMessage" data-ng-show="signupForm.password.$dirty && signupForm.password.$invalid"> {{'enter_password' | translate}}</small>
                             </span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="password2">{{langue.confirm_password}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="password2">{{'confirm_password' | translate}}</label>
                                                 <div class="col-sm-7">
                                     <span class="block input-icon input-icon-right">
                                 <input type="password" class="form-control" name="password2" placeholder="Mot de Passe" ng-model="signup.password2" password-match="signup.password" required/>
-                                <small class="errorMessage" data-ng-show="signupForm.password2.$dirty && signupForm.password2.$error.required"> {{langue.enter_password}}</small>
+                                <small class="errorMessage" data-ng-show="signupForm.password2.$dirty && signupForm.password2.$error.required"> {{'enter_password' | translate}}</small>
 
-                               <small class="errorMessage" data-ng-show="signupForm.password2.$dirty && signupForm.password2.$error.passwordNoMatch && !signupForm.password2.$error.required"> {{langue.password_msg}}</small>
+                               <small class="errorMessage" data-ng-show="signupForm.password2.$dirty && signupForm.password2.$error.passwordNoMatch && !signupForm.password2.$error.required"> {{'password_msg' | translate}}</small>
 
                             </span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="name">{{langue.name}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="name">{{'name' | translate}}</label>
                                                 <div class="col-sm-7">
                                                     <span class="block input-icon input-icon-right">
                                                         <input type="text" class="form-control" placeholder="Nom" ng-model="signup.name" />
@@ -309,7 +308,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="phone">{{langue.no_tel}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="phone">{{'no_tel' | translate}}</label>
                                                 <div class="col-sm-7">
                                                     <span class="block input-icon input-icon-right">
                                                         <input type="text" class="form-control" placeholder="Phone" name="phone" ng-model="signup.phone"/>
@@ -317,7 +316,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="address">{{langue.adresse}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="address">{{'adresse' | translate}}</label>
                                                 <div class="col-sm-7">
                                                     <span class="block input-icon input-icon-right">
                                                         <input type="text" class="form-control" placeholder="Adresse" ng-model="signup.address" />
@@ -325,7 +324,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="ville">{{langue.ville}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="ville">{{'ville' | translate}}</label>
                                                 <div class="col-sm-7">
                                                     <span class="block input-icon input-icon-right">
                                                         <input type="text" class="form-control" placeholder="Ville" ng-model="signup.ville" />
@@ -333,7 +332,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="codepostal">{{langue.code_postal}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="codepostal">{{'code_postal' | translate}}</label>
                                                 <div class="col-sm-7">
                                                      <span class="block input-icon input-icon-right">
                                                         <input type="text" class="form-control" placeholder="Code Postal" ng-model="signup.codepostal" />
@@ -341,7 +340,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="nosiret">{{langue.no_siret}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="nosiret">{{'no_siret' | translate}}</label>
                                                 <div class="col-sm-7">
                                                     <span class="block input-icon input-icon-right">
                                                         <input type="text" class="form-control" placeholder="No Siret" ng-model="signup.nosiret" />
@@ -352,7 +351,7 @@
                                                 <span class="lbl col-sm-5"> </span>
                                                 <div class="col-sm-7">
                                                     <button type="submit" class="width-35 pull-right btn btn-sm btn-primary" ng-click="fiche.fnRegister(signup)" data-ng-disabled="signupForm.$invalid">
-                                                        {{langue.registration}}
+                                                        {{'registration' | translate}}
                                                     </button>
                                                 </div>
                                             </div>
@@ -377,34 +376,34 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><span class="glyphicon glyphicon-shopping-cart"></span><span> {{langue.panier_produit}}</span></h4>
+                <h4 class="modal-title"><span class="glyphicon glyphicon-shopping-cart"></span><span> {{'panier_produit' | translate}}</span></h4>
             </div>
             <div class="modal-body" style="overflow: hidden">
                 <div class="row">
                     <table border="1">
-                        <th class="paddingTable">{{langue.titre}}</th>
-                        <th class="paddingTable">{{langue.opt_attache}}</th>
-                        <th class="paddingTable">{{langue.additionel}}</th>
-                        <th class="paddingTable">{{langue.commande}}</th>
-                        <th class="paddingTable">{{langue.finition_ppr}}</th>
-                        <th class="paddingTable">{{langue.finition_ppr}}</th>
-                        <th class="paddingTable">{{langue.qte}}</th>
-                        <th class="paddingTable">{{langue.instructions}}</th>
-                        <th class="paddingTable">{{langue.prix}}</th>
-                        <th class="paddingTable">{{langue.actions}}</th>
+                        <th class="paddingTable">{{'titre' | translate}}</th>
+                        <th class="paddingTable">{{'opt_attache' | translate}}</th>
+                        <th class="paddingTable">{{'additionel' | translate}}</th>
+                        <th class="paddingTable">{{'commande' | translate}}</th>
+                        <th class="paddingTable">{{'finition_ppr' | translate}}</th>
+                        <th class="paddingTable">{{'finition_ppr' | translate}}</th>
+                        <th class="paddingTable">{{'qte' | translate}}</th>
+                        <th class="paddingTable">{{'instructions' | translate}}</th>
+                        <th class="paddingTable">{{'prix' | translate}}</th>
+                        <th class="paddingTable">{{'actions' | translate}}</th>
                         <tr ng-repeat="(key, ligne) in fiche.arrProduits">
                             <td class="paddingTable">{{ligne.title}} - {{key}}</td>
                             <!--Escargot-->
-                            <td class="paddingTable" ng-show="ligne.escargot == 0">{{langue.aucun}}</td>
-                            <td class="paddingTable" ng-show="ligne.escargot == 1">{{langue.attache_escargot}}</td>
-                            <td class="paddingTable" ng-show="ligne.escargot == 2">{{langue.avec_trou}}</td>
+                            <td class="paddingTable" ng-show="ligne.escargot == 0">{{'aucun' | translate}}</td>
+                            <td class="paddingTable" ng-show="ligne.escargot == 1">{{'attache_escargot' | translate}}</td>
+                            <td class="paddingTable" ng-show="ligne.escargot == 2">{{'avec_trou' | translate}}</td>
                             <!--Caractéristiques Optionnel-->
-                            <td class="paddingTable" ng-show="ligne.option==0">{{langue.aucun}}</td>
-                            <td class="paddingTable" ng-show="ligne.option==1">{{langue.avec_cadre}}</td>
-                            <td class="paddingTable" ng-show="ligne.option==2">{{langue.avec_lisere}}</td>
+                            <td class="paddingTable" ng-show="ligne.option==0">{{'aucun' | translate}}</td>
+                            <td class="paddingTable" ng-show="ligne.option==1">{{'avec_cadre' | translate}}</td>
+                            <td class="paddingTable" ng-show="ligne.option==2">{{'avec_lisere' | translate}}</td>
                             <!--Bon de commande-->
-                            <td class="paddingTable" ng-show="ligne.bonrepli==1">{{langue.avec_bat}}</td>
-                            <td class="paddingTable" ng-show="ligne.bonrepli==2">{{langue.sans_bat}}</td>
+                            <td class="paddingTable" ng-show="ligne.bonrepli==1">{{'avec_bat' | translate}}</td>
+                            <td class="paddingTable" ng-show="ligne.bonrepli==2">{{'sans_bat' | translate}}</td>
                             <td class="paddingTable"> - </td>
                             <td class="paddingTable">{{ligne.dimension}}</td>
                             <td class="paddingTable">{{ligne.qte}}</td>
@@ -437,8 +436,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" ng-click="" data-dismiss="modal">{{langue.quit}}</button>
-                <button type="button" class="btn btn-success pull-right">{{langue.valider}}</button>
+                <button type="button" class="btn btn-default pull-left" ng-click="" data-dismiss="modal">{{'quit' | translate}}</button>
+                <button type="button" class="btn btn-success pull-right">{{'valider' | translate}}</button>
             </div>
         </div>
     </div>

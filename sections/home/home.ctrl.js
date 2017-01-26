@@ -1,12 +1,20 @@
 angular
     .module('myApp')
-    .controller('HomeController', function($scope, $location, $http, Data, messages, $timeout) {
+    .controller('HomeController', function($scope, $location, $http, Data, messages, $timeout, $translate) {
         //Setup view model object
         console.log('HOME CONTROLLER');
        // spinnerService.show('spin');
         toastr.options.positionClass = 'toast-top-full-width';
 
         var vm = this;
+        console.log($scope.isActualLang);
+
+        //angular translate
+        $scope.setLang = function(langKey) {
+            // You can change the language during runtime
+            $translate.use(langKey);
+        };
+        // end angular translate
         //document.getElementById("loader").style.display = "none";
         vm.btnMetier = [];
         vm.sampleMetier = [];
@@ -62,6 +70,7 @@ Data.get('session.php').then(function (results) {
             }
             else {
                 vm.isFrance= true;
+                $translate.use(localStorage.getItem('LANG'));
                 $http({
                     method: 'GET',
                     params: {mode:3, lang:localStorage.getItem('LANG')},
@@ -111,7 +120,7 @@ Data.get('session.php').then(function (results) {
                 });
 
             //$location.path('fichetech');
-        }
+        };
 
         vm.fnImgClick2 = function(data){
             vm.description = vm.currentCategory.description + " - " + data.description;
@@ -140,12 +149,12 @@ Data.get('session.php').then(function (results) {
                 }, function errorCallback(error) {
                     console.log(error);
                 });
-        }
+        };
 
         vm.fnRetourCategory = function(){
             $('#produits').modal('hide');
             vm.fnImgClick(vm.currentCategory);
-        }
+        };
 
         //WEBSERVICE
         vm.fnRecupMetier = function(){
@@ -246,9 +255,13 @@ Data.get('session.php').then(function (results) {
         };
 
         vm.fnInstructions = function(){
+            var param = localStorage.getItem('LANG');
+            if(param == "") {
+                param = "FR";
+            }
             $http({
                 method: 'GET',
-                params: {mode:11},
+                params: {mode:11, param: param},
                 url: 'api/v1/info.php'
             }).then(function successCallback(response) {
                     vm.instructions = response.data;
@@ -266,6 +279,7 @@ Data.get('session.php').then(function (results) {
         vm.fnClickLang = function($lang) {
             console.log($lang);
             localStorage.setItem("LANG", $lang);
+            $translate.use($lang);
             $http({
                 method: 'GET',
                 params: {mode:3, lang:$lang},
@@ -289,6 +303,12 @@ Data.get('session.php').then(function (results) {
             vm.activeTabId = tabVal;
             vm.isShow = tabVal;
         };
+
+        $scope.$watch('isActualLang', function(ov, nv) {
+            $scope.setLang(localStorage.getItem("LANG"));
+        });
+
+
         vm.fnInstructions();
         vm.fnRecupMetier();
         vm.fnModelMetierAll();

@@ -1,6 +1,6 @@
 angular
     .module('myApp')
-    .controller('mainController', function($scope, $rootScope, $routeParams, $location, $http, Data, $timeout) {
+    .controller('mainController', function($scope, $rootScope, $routeParams, $location, $http, Data, $timeout, $translate) {
         //Setup view model object
         $scope.isLogged = false;
         var modeLang = localStorage.getItem("LANG");
@@ -180,14 +180,12 @@ angular
                 localStorage.setItem('LANG', 'IT');
                 $scope.isActualLang = "ITALIANO";
             }
-
+            $translate.use(localStorage.getItem('LANG'));
             $http({
                 method: 'GET',
                 params: {mode:3, lang:localStorage.getItem('LANG')},
                 url: 'api/v1/langueCRUD.php'
             }).then(function successCallback(response) {
-                console.clear();
-                console.log(response.data);
 
                 setTimeout(function(){
                     $scope.$digest(
@@ -201,4 +199,9 @@ angular
                 console.log(error);
             });
         }
+
+        $(window).unload(function(){
+            localStorage.removeItem("LANG");
+        });
+
     });

@@ -1,16 +1,22 @@
 <div class="row" style="margin-right: 0px">
-    <div class="col-md-6 col-sm-6">
-        <div><img src="images/logo_exakomBIS.jpeg"></div>
+    <div class="col-md-12 col-sm-12">
+        <img style="width:25%" src="images/logo_exakomBIS.jpeg">
+        <div class='block-tel pull-right'>
+            <div style="cursor: pointer;margin-right:41px;" ng-click="fnClickLang()"><span class="glyphicon glyphicon-retweet"> </span><label class="label label-primary" style="cursor: pointer">{{isActualLang}}</label></div>
+            <div class="col-md-12">{{'contact' | translate}}</div>
+            <div class="col-md-12">contact@exakom.fr</div>
+            <div class="col-md-12">{{'telephone' | translate}} : 00 00 00 00 00</div>
+            <!--div class="col-md-12"><img  src="assets/img/numero_verte.png"></div-->
+        </div>
     </div>
-    <div class="col-md-6 col-sm-6">
+    <!--div class="col-md-6 col-sm-6">
         <div class='block-tel'>
             <div style="cursor: pointer;margin-right:41px;" ng-click="fnClickLang()"><span class="glyphicon glyphicon-retweet"> </span><label class="label label-primary" style="cursor: pointer">{{isActualLang}}</label></div>
             <div class="col-md-12">{{langue.contact}}</div>
             <div class="col-md-12">contact@exakom.fr</div>
             <div class="col-md-12">{{langue.telephone}} : 00 00 00 00 00</div>
-            <!--div class="col-md-12"><img  src="assets/img/numero_verte.png"></div-->
         </div>
-    </div>
+    </div-->
     <!--div class="col-md-2 col-lg-2 col-sm-2 pull-right">
         <div class="pull-right" style="cursor: pointer" ng-click="fnClickLang()"><span class="glyphicon glyphicon-retweet"> </span><label class="label label-primary">{{isActualLang}}</label></div>
     </div-->
@@ -21,7 +27,7 @@
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">{{langue.toggle_nav}}</span>
+                <span class="sr-only">{{'toggle_nav' | translate}}</span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
@@ -30,8 +36,8 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li><a style="color: white" href="#/home">{{langue.accueil}} <span class="sr-only">(current)</span></a></li>
-                <li><a href="#/client" style="color: white">{{langue.espace_client}}</a></li>
+                <li><a style="color: white" href="#/home">{{'accueil' | translate}} <span class="sr-only">(current)</span></a></li>
+                <li><a href="#/client" style="color: white">{{'espace_client' | translate}}</a></li>
                 <!--li><a href="#" style="color: white">{{langue.contact_menu}}</a></li-->
             </ul>
 
@@ -42,7 +48,7 @@
                     </a>
                 </li>
                 <li ng-show="isLogged" style="margin-top: 20px">
-                    <span ng-click="logout()">{{langue.bonjour}} {{utilisateur}}</span> <button class="btn btn-danger" ng-click="logout()"><span class="glyphicon glyphicon-off"></span></button>
+                    <span ng-click="logout()">{{'bonjour' | translate}} {{utilisateur}}</span> <button class="btn btn-danger" ng-click="logout()"><span class="glyphicon glyphicon-off"></span></button>
                 </li>
             </ul>
 
@@ -50,15 +56,15 @@
     </div><!-- /.container-fluid -->
 </nav>
 <div class="row">
-    <div class="row" ng-show="{{!isFiche}}">
+    <div class="row" ng-show="!isFiche">
         <div class="col-md-10 col-md-offset-1" style=" height: 150px;background-color: #E5E3E3;">Bande PUB132</div>
     </div>
-    <div class="row no-gutter panel" ng-show="{{!isFiche}}">
+    <div class="row no-gutter panel" ng-show="!isFiche">
 
         <div class="col-md-4 col-sm-4">
             <div class="btn1">
                 <span class="icon"><span class="glyphicon glyphicon-time"></span></span>
-                <span class="txt">{{langue.jour_semaine}} <br>{{langue.heure_semaine}}</span>
+                <span class="txt">{{'jour_semaine' | translate}} <br>{{'heure_semaine' | translate}}</span>
             </div>
         </div>
 
@@ -66,13 +72,13 @@
 
             <div class="btn2">
                 <span class="icon"><span class="glyphicon glyphicon-phone"></span></span>
-                <span class="txt">{{langue.besoin_aide}} <br>{{langue.etre_rapeler}}</span>
+                <span class="txt">{{'besoin_aide' | translate}} <br>{{'etre_rapeler' | translate}}</span>
             </div>
         </div>
         <div class="col-md-4 col-sm-4">
             <div class="btn3">
                 <span class="icon"><span class="glyphicon glyphicon-gift"></span></span>
-                <span class="txt">{{langue.recevoir}} <br>{{langue.promo_cadeau}}</span>
+                <span class="txt">{{'recevoir' | translate}} <br>{{'promo_cadeau' | translate}}</span>
             </div>
         </div>
     </div>
@@ -82,7 +88,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">{{langue.connexion}}</h4>
+                <h4 class="modal-title">{{'connexion' | translate}}</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -90,7 +96,7 @@
                 </div>
                 <form name="loginForm" class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right" for="email"> {{langue.email_phone}} </label>
+                        <label class="col-sm-3 control-label no-padding-right" for="email"> {{'email_phone' | translate}} </label>
                         <div class="col-sm-7">
                            <span class="block input-icon input-icon-right">
                                 <input type="text" class="form-control" placeholder="Email" name="email" ng-model="login.email" required focus/>
@@ -99,7 +105,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right" for="password"> {{langue.password}} </label>
+                        <label class="col-sm-3 control-label no-padding-right" for="password"> {{'password' | translate}} </label>
                         <div class="col-sm-7">
                            <span class="block input-icon input-icon-right">
                                 <input type="password" class="form-control" placeholder="Password" ng-model="login.password" required/>
@@ -117,13 +123,13 @@
                         </div>
                     </div>
                     <div class="space-4"></div>
-                    <span class="lbl col-sm-3"> </span><div class="col-sm-7">Pas de compte? <a href="" ng-click="fnSignUp()">{{langue.register}}</a></div>
+                    <span class="lbl col-sm-3"> </span><div class="col-sm-7">Pas de compte? <a href="" ng-click="fnSignUp()">{{'register' | translate}}</a></div>
                 </form>
             </div>
             <div class="modal-footer">
                 <button type="submit" class="width-35 pull-right btn btn-md btn-primary" data-dismiss="modal" ng-click="doLogin(login)" data-ng-disabled="loginForm.$invalid">
                     <i class="ace-icon fa fa-key"></i>
-                    {{langue.connect}}
+                    {{'connect' | translate}}
                 </button>
                 <!--button type="button" class="btn btn-danger pull-left" ng-click="logout()">LOGOUT</button-->
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Annuler</button>
@@ -138,7 +144,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">{{langue.registration}}</h4>
+                <h4 class="modal-title">{{'registration' | translate}}</h4>
             </div>
             <div class="modal-body">
                 <div class="page-content">
@@ -149,29 +155,29 @@
                                     <div >
                                         <form name="signupForm" class="form-horizontal" role="form">
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="email">{{langue.mail}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="email">{{'mail' | translate}}</label>
                                                 <div class="col-sm-7">
                                     <span class="block input-icon input-icon-right">
                                         <input type="text" class="form-control" placeholder="Email" name="email" ng-model="signup.email" focus/>
-                                        <span ng-show="signupForm.email.$error.email" class="help-inline">{{langue.mail_msg}}</span>
+                                        <span ng-show="signupForm.email.$error.email" class="help-inline">{{'mail_msg' | translate}}</span>
                                     </span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="password">{{langue.password}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="password">{{'password' | translate}}</label>
                                                 <div class="col-sm-7">
                                     <span class="block input-icon input-icon-right">
                                 <input type="password" class="form-control" name = "password" placeholder="Mot de Passe" ng-model="signup.password" required/>
-                                <small class="errorMessage" data-ng-show="signupForm.password.$dirty && signupForm.password.$invalid"> {{langue.enter_password}}</small>
+                                <small class="errorMessage" data-ng-show="signupForm.password.$dirty && signupForm.password.$invalid"> {{'enter_password' | translate}}</small>
                             </span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="password2">{{langue.confirm_password}]</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="password2">{{'confirm_password' | translate}]</label>
                                                 <div class="col-sm-7">
                                     <span class="block input-icon input-icon-right">
                                 <input type="password" class="form-control" name="password2" placeholder="Mot de Passe" ng-model="signup.password2" password-match="signup.password" required/>
-                                <small class="errorMessage" data-ng-show="signupForm.password2.$dirty && signupForm.password2.$error.required"> {{langue.enter_password}}</small>
+                                <small class="errorMessage" data-ng-show="signupForm.password2.$dirty && signupForm.password2.$error.required"> {{'enter_password' | translate}}</small>
 
                                <small class="errorMessage" data-ng-show="signupForm.password2.$dirty && signupForm.password2.$error.passwordNoMatch && !signupForm.password2.$error.required"> {{password_msg}}</small>
 
@@ -179,7 +185,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="name">{{langue.name}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="name">{{'name' | translate}}</label>
                                                 <div class="col-sm-7">
                                                     <span class="block input-icon input-icon-right">
                                                         <input type="text" class="form-control" placeholder="Nom" ng-model="signup.name" />
@@ -187,7 +193,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="phone">{{langue.no_tel}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="phone">{{'no_tel' | translate}}</label>
                                                 <div class="col-sm-7">
                                                     <span class="block input-icon input-icon-right">
                                                         <input type="text" class="form-control" placeholder="Phone" name="phone" ng-model="signup.phone"/>
@@ -195,7 +201,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="address">{{langue.adresse}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="address">{{'adresse' | translate}}</label>
                                                 <div class="col-sm-7">
                                                     <span class="block input-icon input-icon-right">
                                                         <input type="text" class="form-control" placeholder="Adresse" ng-model="signup.address" />
@@ -203,7 +209,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="ville">{{langue.ville}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="ville">{{'ville' | translate}}</label>
                                                 <div class="col-sm-7">
                                                     <span class="block input-icon input-icon-right">
                                                         <input type="text" class="form-control" placeholder="Ville" ng-model="signup.ville" />
@@ -211,7 +217,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="codepostal">{{langue.code_postal}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="codepostal">{{'code_postal' | translate}}</label>
                                                 <div class="col-sm-7">
                                                      <span class="block input-icon input-icon-right">
                                                         <input type="text" class="form-control" placeholder="Code Postal" ng-model="signup.codepostal" />
@@ -219,7 +225,7 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="nosiret">{{langue.no_siret}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="nosiret">{{'no_siret' | translate}}</label>
                                                 <div class="col-sm-7">
                                                     <span class="block input-icon input-icon-right">
                                                         <input type="text" class="form-control" placeholder="No Siret" ng-model="signup.nosiret" />
@@ -230,7 +236,7 @@
                                                 <span class="lbl col-sm-5"> </span>
                                                 <div class="col-sm-7">
                                                     <button type="submit" class="width-35 pull-right btn btn-sm btn-primary" ng-click="signUp(signup)" data-ng-disabled="signupForm.$invalid">
-                                                        {{langue.registration}}
+                                                        {{'registration' | translate}}
                                                     </button>
                                                 </div>
                                             </div>
@@ -257,7 +263,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">{{langue.choix_langue}}</h4>
+                <h4 class="modal-title">{{'choix_langue' | translate}}</h4>
             </div>
             <div class="modal-body">
                 <div class="row">

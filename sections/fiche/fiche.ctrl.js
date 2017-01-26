@@ -1,7 +1,7 @@
 
 angular
     .module('myApp')
-    .controller('ficheController', function($scope, $location, $timeout, messages, $http, Data) {
+    .controller('ficheController', function($scope, $location, $timeout, messages, $http, Data, $translate) {
         console.log('fiche controller');
         $(".modal-backdrop").remove();
         $("body").removeClass("modal-open");
@@ -1997,9 +1997,10 @@ angular
                         vm.fnValidMaquette();
                     }
                 });
-        }
+        };
 
         $lang = localStorage.getItem("LANG");
+        $translate.use(localStorage.getItem('LANG'));
         $http({
             method: 'GET',
             params: {mode:3, lang:$lang},
@@ -2008,6 +2009,13 @@ angular
             console.log(response.data);
             $scope.langue = angular.copy(response.data);
             });
+        vm.setLang = function(langKey) {
+            // You can change the language during runtime
+            $translate.use(langKey);
+        };
 
-
+        $scope.$watch('isActualLang', function(ov, nv) {
+            console.log(ov, nv, " module fichier");
+            vm.setLang(localStorage.getItem("LANG"));
+        });
     });
