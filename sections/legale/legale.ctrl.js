@@ -41,4 +41,7 @@ angular
         if(lang == 'FR') {
             vm.isFrance =  true;
         }
+        $scope.$watch('isActualLang', function(ov, nv) {
+            vm.fnInit();
+        });
     });

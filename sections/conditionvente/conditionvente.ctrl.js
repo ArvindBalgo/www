@@ -44,6 +44,8 @@ angular
             vm.isFrance = true;
         }
 
-        
+        $scope.$watch('isActualLang', function(ov, nv) {
+            vm.fnInit();
+        });
         //vm.fnInit();
     });
