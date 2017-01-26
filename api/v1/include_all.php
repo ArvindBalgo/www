@@ -47,3 +47,7 @@ include_once 'docs_al.php';
 include_once 'docs_en.php';
 include_once 'docs_it.php';
 include_once 'docs_es.php';
+include_once 'conditionvente_al.php';
+include_once 'conditionvente_en.php';
+include_once 'conditionvente_es.php';
+include_once 'conditionvente_it.php';

@@ -66,7 +66,11 @@
 <script src="app/data.js"></script>
 <script src="app/directives.js"></script>
 <script src="app/authCtrl.js"></script>
+<script src="js/angular-cookies.min.js"></script>
 <script src="js/angular-sanitize.min.js"></script>
+<script src="js/angular-translate.min.js"></script>
+<script src="js/angular-translate-storage-cookie.min.js"></script>
+<script src="js/angular-translate-loader-url.min.js"></script>
 <!-- / -->
 <!-- endbuild -->
 <!-- endbuild -->

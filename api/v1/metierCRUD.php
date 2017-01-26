@@ -37,6 +37,9 @@ else if($mode == 3) {
      * 3=>mentions legales
      */
     $pays = $_GET["param"];
+    if($pays == "") {
+        $pays = "FR";
+    }
     $type = intval($_GET["type"]);
 
     if($pays == "FR") {
@@ -67,16 +70,36 @@ else if($mode == 3) {
     print json_encode($arrData);
 }
 else if($mode == 4) {
-    $doc = new docs();
+    //$doc = new docs();
     /*
      * 0=>apropos
      * 1=>condition de vente
      * 2=>mentions d'utilisation
      * 3=>mentions legales
      */
+    $pays = $_GET["param"];
+    if($pays == "") {
+        $pays = "FR";
+    }
+    if($pays == "FR") {
+        $docu = new docs();
+    }
+    else if($pays == "EN"){
+        $docu = new docs_en();
+    }
+    else if($pays == "AL"){
+        $docu = new docs_al();
+    }
+    else if($pays == "ES"){
+        $docu = new docs_es();
+    }
+    else if($pays == "IT"){
+        $docu = new docs_it();
+    }
+
 
     $type = intval($_GET['type']);
-    $docu = new docs();
+    //$docu = new docs();
     $docu = $docu->findByPrimaryKey($_GET['id']);
     $docu->setCle($_GET["type"]);
     $docu->setTitle($_GET["title"]);
@@ -86,7 +109,7 @@ else if($mode == 4) {
     print 'done';
 }
 else if($mode == 5) {
-    $pays = $_GET["param"];
+    $pays = $_GET["param"];     if($pays == "") {         $pays = "FR";     }
     if($pays == "FR") {
         $apropos = new apropos();
         $apropos1 = new apropos();
@@ -128,7 +151,7 @@ else if($mode == 5) {
 else if($mode == 6) {
     $contenu = json_decode($_GET['contenu']);
 
-    $pays = $_GET["param"];
+    $pays = $_GET["param"];     if($pays == "") {         $pays = "FR";     }
     if($pays == "FR") {
         $docu = new docs();
     }
@@ -176,7 +199,7 @@ else if($mode == 6) {
 
 else if($mode == 7) {
     $contenu = json_decode($_GET['contenu']);
-    $pays = $_GET["param"];
+    $pays = $_GET["param"];     if($pays == "") {         $pays = "FR";     }
 
     if($pays == "FR") {
         $apropos = new apropos();
@@ -203,7 +226,7 @@ else if($mode == 7) {
 }
 
 else if($mode == 8) {
-    $pays = $_GET["param"];
+    $pays = $_GET["param"];     if($pays == "") {         $pays = "FR";     }
 
     if($pays == "FR") {
         $apropos = new apropos();
@@ -227,7 +250,7 @@ else if($mode == 8) {
 }
 else if($mode == 9) {
     $contenu = json_decode($_GET['contenu']);
-    $pays = $_GET["param"];
+    $pays = $_GET["param"];     if($pays == "") {         $pays = "FR";     }
     if($pays == "FR") {
         $docu = new docs();
     }
@@ -257,12 +280,34 @@ else if($mode == 10) {
      * 3=>mentions d'utilisation
      * 4=>mentions legales
      */
+    $pays = $_GET["param"];     if($pays == "") {         $pays = "FR";     }
     $type = intval($_GET["type"]);
 
-    $conditionvente = new conditionvente();
+    if($pays == "FR") {
+        $conditionvente = new conditionvente();
+        $doc = new docs();
+    }
+    else if($pays == "EN"){
+        $conditionvente = new conditionvente_en();
+        $doc = new docs_en();
+    }
+    else if($pays == "AL"){
+        $conditionvente = new conditionvente_al();
+        $doc = new docs_al();
+    }
+    else if($pays == "ES"){
+        $conditionvente = new conditionvente_es();
+        $doc = new docs_es();
+    }
+    else if($pays == "IT"){
+        $conditionvente = new conditionvente_it();
+        $doc = new docs_it();
+    }
+
+    //$conditionvente = new conditionvente();
     $conditionvente = $conditionvente->rechercher();
 
-    $doc = new docs();
+   // $doc = new docs();
     $doc = $doc->findByPrimaryKey($_GET['type']);
     $arrData = array('id'=>$doc->getId(), 'clef'=>$doc->getCle() , 'title'=>($doc->getTitle()) , 'description'=>($doc->getDescription()), 'data'=>$conditionvente);
 
@@ -270,23 +315,65 @@ else if($mode == 10) {
 }
 else if($mode == 11) {
 
-    $conditionvente = new conditionvente();
+    $pays = $_GET["param"];     if($pays == "") {         $pays = "FR";     }
+    if($pays == "FR") {
+        $conditionvente = new conditionvente();
+        $conditionvente1 = new conditionvente();
+        $doc = new docs();
+    }
+    else if($pays == "EN"){
+        $conditionvente = new conditionvente_en();
+        $conditionvente1 = new conditionvente_en();
+        $doc = new docs_en();
+    }
+    else if($pays == "AL"){
+        $conditionvente = new conditionvente_al();
+        $conditionvente1 = new conditionvente_al();
+        $doc = new docs_al();
+    }
+    else if($pays == "ES"){
+        $conditionvente = new conditionvente_es();
+        $conditionvente1 = new conditionvente_es();
+        $doc = new docs_es();
+    }
+    else if($pays == "IT"){
+        $conditionvente = new conditionvente_it();
+        $conditionvente1 = new conditionvente_it();
+        $doc = new docs_it();
+    }
+
+    //$conditionvente = new conditionvente();
     $conditionvente->setDescription('');
     $conditionvente->save();
 
-    $conditionvente = new conditionvente();
-    $conditionvente = $conditionvente->rechercher();
+    //$conditionvente = new conditionvente();
+    $conditionvente1 = $conditionvente1->rechercher();
 
-    $doc = new docs();
+    //$doc = new docs();
     $doc = $doc->findByPrimaryKey($_GET['type']);
-    $arrData = array('id'=>$doc->getId(), 'clef'=>$doc->getCle() , 'title'=>$doc->getTitle() , 'description'=>$doc->getDescription(), 'data'=>$conditionvente);
+    $arrData = array('id'=>$doc->getId(), 'clef'=>$doc->getCle() , 'title'=>$doc->getTitle() , 'description'=>$doc->getDescription(), 'data'=>$conditionvente1);
     print json_encode($arrData);
 }
 
 else if($mode == 12) {
     $contenu = json_decode($_GET['contenu']);
+    $pays = $_GET["param"];     if($pays == "") {         $pays = "FR";     }
+    if($pays == "FR") {
+        $conditionvente = new conditionvente();
+    }
+    else if($pays == "EN"){
+        $conditionvente = new conditionvente_en();
+    }
+    else if($pays == "AL"){
+        $conditionvente = new conditionvente_al();
+    }
+    else if($pays == "ES"){
+        $conditionvente = new conditionvente_es();
+    }
+    else if($pays == "IT"){
+        $conditionvente = new conditionvente_it();
+    }
 
-    $conditionvente = new conditionvente();
     $conditionvente = $conditionvente->findByPrimaryKey($contenu->id);
     $conditionvente->setDescription(addslashes($contenu->description));
     $conditionvente->save();
@@ -295,15 +382,58 @@ else if($mode == 12) {
 
 }
 else if($mode == 13) {
-    $conditionvente = new conditionvente();
+    $pays = $_GET["param"];     if($pays == "") {         $pays = "FR";     }
+    if($pays == "FR") {
+        $conditionvente = new conditionvente();
+    }
+    else if($pays == "EN"){
+        $conditionvente = new conditionvente_en();
+    }
+    else if($pays == "AL"){
+        $conditionvente = new conditionvente_al();
+    }
+    else if($pays == "ES"){
+        $conditionvente = new conditionvente_es();
+    }
+    else if($pays == "IT"){
+        $conditionvente = new conditionvente_it();
+    }
+
+
+   // $conditionvente = new conditionvente();
     $conditionvente = $conditionvente->delete($_GET["id"]);
 
     return 'done';
 }
 else if($mode == 14) {
     $contenu = json_decode($_GET['contenu']);
+    $pays = $_GET["param"];
+    if($pays == "") {
+        $pays = "FR";
+    }
 
-    $docu = new docs();
+    if($pays == "FR") {
+        $conditionvente = new conditionvente();
+        $docu = new docs();
+    }
+    else if($pays == "EN"){
+        $conditionvente = new conditionvente_en();
+        $docu = new docs_en();
+    }
+    else if($pays == "AL"){
+        $conditionvente = new conditionvente_al();
+        $docu = new docs_al();
+    }
+    else if($pays == "ES"){
+        $conditionvente = new conditionvente_es();
+        $docu = new docs_es();
+    }
+    else if($pays == "IT"){
+        $conditionvente = new conditionvente_it();
+        $docu = new docs_it();
+    }
+
+    //$docu = new docs();
     $docu = $docu->findByPrimaryKey($contenu->id);
     $docu->setTitle($contenu->title);
     $docu->setDescription(addslashes($docu->getDescription()));
