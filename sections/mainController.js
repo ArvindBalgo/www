@@ -125,6 +125,27 @@ angular
             });
         };
 
+        $scope.fnClickTest = function() {
+            var langSel = localStorage.getItem('LANG');
+
+            if(langSel == "EN") {
+                $scope.isActualLang = "ENGLISH";
+            }
+            else if(langSel == "FR") {
+                $scope.isActualLang = "FRANCAIS";
+                }
+            else if(langSel == "ES") {
+                $scope.isActualLang = "ESPAÑOL";
+            }
+            else if(langSel == "AL") {
+                $scope.isActualLang = "DEUTSCH";
+            }
+            else if(langSel == "IT") {
+                $scope.isActualLang = "ITALIANO";
+            }
+
+        }
+
         $scope.fnClickLang = function() {
           $('#modalLanguage').modal();
             var langSel = localStorage.getItem('LANG');
@@ -181,26 +202,11 @@ angular
                 $scope.isActualLang = "ITALIANO";
             }
             $translate.use(localStorage.getItem('LANG'));
-            $http({
-                method: 'GET',
-                params: {mode:3, lang:localStorage.getItem('LANG')},
-                url: 'api/v1/langueCRUD.php'
-            }).then(function successCallback(response) {
+            $('#modalLanguage').modal('hide');
 
-                setTimeout(function(){
-                    $scope.$digest(
-                        function() {
-                            $scope.langue = angular.copy(response.data);
-                        }
-                    );
-                }, 1000)
-                $('#modalLanguage').modal('hide');
-            }, function errorCallback(error) {
-                console.log(error);
-            });
-        }
+        };
 
-        $(window).unload(function(){
+        $(window).unload(function () {
             localStorage.removeItem("LANG");
         });
 

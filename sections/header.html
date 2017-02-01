@@ -1,14 +1,10 @@
 <div class="row" style="margin-right: 0px">
-    <div class="col-md-12 col-sm-12">
-        <img style="width:25%" src="images/logo_exakomBIS.jpeg">
+    <!--div class="col-md-12 col-sm-12">
+        <img style="width:10%" src="images/logo_exakomBIS.jpeg">
         <div class='block-tel pull-right'>
             <div style="cursor: pointer;margin-right:41px;" ng-click="fnClickLang()"><span class="glyphicon glyphicon-retweet"> </span><label class="label label-primary" style="cursor: pointer">{{isActualLang}}</label></div>
-            <div class="col-md-12">{{'contact' | translate}}</div>
-            <div class="col-md-12">contact@exakom.fr</div>
-            <div class="col-md-12">{{'telephone' | translate}} : 00 00 00 00 00</div>
-            <!--div class="col-md-12"><img  src="assets/img/numero_verte.png"></div-->
         </div>
-    </div>
+    </div-->
     <!--div class="col-md-6 col-sm-6">
         <div class='block-tel'>
             <div style="cursor: pointer;margin-right:41px;" ng-click="fnClickLang()"><span class="glyphicon glyphicon-retweet"> </span><label class="label label-primary" style="cursor: pointer">{{isActualLang}}</label></div>
@@ -32,6 +28,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+            <a class="navbar-brand" href="#/home"><img style="width:100px; height:50px" src="images/logo_exakomBIS.jpeg"></a>
         </div>
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -49,6 +46,12 @@
                 </li>
                 <li ng-show="isLogged" style="margin-top: 20px">
                     <span ng-click="logout()">{{'bonjour' | translate}} {{utilisateur}}</span> <button class="btn btn-danger" ng-click="logout()"><span class="glyphicon glyphicon-off"></span></button>
+                </li>
+                <li style="margin-top: 20px">
+                    <span  ng-click="fnClickLang()">
+                        <span class="glyphicon glyphicon-retweet"> </span>
+                        <label class="label label-primary" style="cursor: pointer">{{isActualLang}}</label>
+                    </span>
                 </li>
             </ul>
 

@@ -293,10 +293,11 @@ Data.get('session.php').then(function (results) {
                     'overflow': 'auto'
                 });
                 toastr.success("Bienvenue chez Exakom, nous sommes à votre disposition si vous avez besoin d'aide");
+                $scope.fnClickTest();
+                vm.fnInstructions();
             }, function errorCallback(error) {
                 console.log(error);
             });
-            
         };
 
         vm.fnClickTabs = function(tabVal){
@@ -308,8 +309,37 @@ Data.get('session.php').then(function (results) {
             $scope.setLang(localStorage.getItem("LANG"));
         });
 
+        $scope.fnValidLang = function() {
+            if($('#fr').prop('checked')) {
+                localStorage.setItem('LANG', 'FR');
+                $scope.isActualLang = "FRANCAIS";
+            }
+            if($('#en').prop('checked')) {
 
-        vm.fnInstructions();
+                localStorage.setItem('LANG', 'EN');
+                $scope.isActualLang = "ENGLISH";
+            }
+            if($('#es').prop('checked')) {
+
+                localStorage.setItem('LANG', 'ES');
+                $scope.isActualLang = "ESPAÑOL";
+            }
+            if($('#al').prop('checked')) {
+
+                localStorage.setItem('LANG', 'AL');
+                $scope.isActualLang = "DEUTSCH";
+            }
+            if($('#it').prop('checked')) {
+
+                localStorage.setItem('LANG', 'IT');
+                $scope.isActualLang = "ITALIANO";
+            }
+            $translate.use(localStorage.getItem('LANG'));
+            $('#modalLanguage').modal('hide');
+            vm.fnInstructions();
+
+        };
+      //  vm.fnInstructions();
         vm.fnRecupMetier();
         vm.fnModelMetierAll();
 
