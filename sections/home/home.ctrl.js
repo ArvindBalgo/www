@@ -16,6 +16,7 @@ angular
         };
         // end angular translate
         //document.getElementById("loader").style.display = "none";
+        vm.btnMetierOrig = [];
         vm.btnMetier = [];
         vm.sampleMetier = [];
         vm.listProduits = [];
@@ -163,7 +164,8 @@ Data.get('session.php').then(function (results) {
                 params: {mode:0},
                 url: 'api/v1/info.php'
             }).then(function successCallback(response) {
-                    console.log(response.data);
+                    console.log(response.data, "btns");
+                vm.btnMetierOrig = angular.copy(response.data);
                     vm.btnMetier = response.data;
                     vm.activeId = response.data[0].id;
 
@@ -295,6 +297,7 @@ Data.get('session.php').then(function (results) {
                 toastr.success("Bienvenue chez Exakom, nous sommes à votre disposition si vous avez besoin d'aide");
                 $scope.fnClickTest();
                 vm.fnInstructions();
+                vm.fnSetBtnMetiers();
             }, function errorCallback(error) {
                 console.log(error);
             });
@@ -304,6 +307,33 @@ Data.get('session.php').then(function (results) {
             vm.activeTabId = tabVal;
             vm.isShow = tabVal;
         };
+
+        vm.fnSetBtnMetiers = function() {
+            console.log(localStorage.getItem('LANG'), "lagneu");
+            var lang_sel = localStorage.getItem('LANG');
+            vm.btnMetier = angular.copy(vm.btnMetierOrig);
+            if(lang_sel == 'EN') {
+                angular.forEach(vm.btnMetier, function(value) {
+                   value.libelle = value.libelle_en;
+                });
+            }
+            else if(lang_sel == 'AL') {
+                angular.forEach(vm.btnMetier, function(value) {
+                    value.libelle = value.libelle_al;
+                });
+            }
+            else if(lang_sel == 'ES') {
+                angular.forEach(vm.btnMetier, function(value) {
+                    value.libelle = value.libelle_es;
+                });
+            }
+            else if(lang_sel == 'IT') {
+                angular.forEach(vm.btnMetier, function(value) {
+                    value.libelle = value.libelle_it;
+                });
+            }
+            console.log(vm.btnMetier);
+        }
 
         $scope.$watch('isActualLang', function(ov, nv) {
             $scope.setLang(localStorage.getItem("LANG"));
@@ -337,6 +367,7 @@ Data.get('session.php').then(function (results) {
             $translate.use(localStorage.getItem('LANG'));
             $('#modalLanguage').modal('hide');
             vm.fnInstructions();
+            vm.fnSetBtnMetiers();
 
         };
       //  vm.fnInstructions();
