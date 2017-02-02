@@ -55,7 +55,15 @@ print json_encode($row);
 else if($mode == 4) {
     $listmetier = new listmetier();
     $listmetier->setLibelle(trim($_GET["libelle"]));
+    $listmetier->setLibelleEn(trim($_GET["libelle_en"]));
+    $listmetier->setLibelleES(trim($_GET["libelle_es"]));
+    $listmetier->setLibelleAL(trim($_GET["libelle_al"]));
+    $listmetier->setLibelleIT(trim($_GET["libelle_it"]));
     $listmetier->setSubLibelle(trim($_GET["sub_libelle"]));
+    $listmetier->setSubLibelleEn(trim($_GET["sub_libelle_en"]));
+    $listmetier->setSubLibelleEs(trim($_GET["sub_libelle_es"]));
+    $listmetier->setSubLibelleAl(trim($_GET["sub_libelle_al"]));
+    $listmetier->setSubLibelle_It(trim($_GET["sub_libelle_it"]));
     $listmetier->setActive($_GET["actif"]);
     $listmetier->setPays($_GET["pays"]);
     $listmetier->save();
@@ -67,7 +75,16 @@ else if($mode == 5){
 
     $listmetier->setId($listmetier->getId());
     $listmetier->setLibelle(trim($_GET["libelle"]));
+    $listmetier->setLibelleEn(trim($_GET["libelle_en"]));
+    $listmetier->setLibelleES(trim($_GET["libelle_es"]));
+    $listmetier->setLibelleAL(trim($_GET["libelle_al"]));
+    $listmetier->setLibelleIT(trim($_GET["libelle_it"]));
     $listmetier->setSubLibelle(trim($_GET["sub_libelle"]));
+    $listmetier->setSubLibelleEn(trim($_GET["sub_libelle_en"]));
+    $listmetier->setSubLibelleEs(trim($_GET["sub_libelle_es"]));
+    $listmetier->setSubLibelleAl(trim($_GET["sub_libelle_al"]));
+    $listmetier->setSubLibelle_It(trim($_GET["sub_libelle_it"]));
+    //$listmetier->setSubLibelle(trim($_GET["sub_libelle"]));
     $listmetier->setActive($_GET["actif"]);
     $listmetier->setPays($_GET[pays]);
     $listmetier->save();

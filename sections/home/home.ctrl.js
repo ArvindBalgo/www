@@ -83,7 +83,7 @@ Data.get('session.php').then(function (results) {
                     $('body').css({
                         'overflow': 'auto'
                     });
-                    toastr.success("Bienvenue chez Exakom, nous sommes à votre disposition si vous avez besoin d'aide");
+                    toastr.success($scope.langue.welcome_msg);
                 }, function errorCallback(error) {
                     console.log(error);
                 });

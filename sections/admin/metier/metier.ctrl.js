@@ -471,7 +471,15 @@ angular
             console.log(opt, vm.selectedObj);
             if(opt == 0) {
                 vm.libelle = "";
+                vm.libelle_en = "";
+                vm.libelle_es = "";
+                vm.libelle_al = "";
+                vm.libelle_it = "";
                 vm.sous_libelle = "";
+                vm.sous_libelle_en = "";
+                vm.sous_libelle_es = "";
+                vm.sous_libelle_al = "";
+                vm.sous_libelle_it = "";
                 vm.active = false;
                 vm.nouveauMetier = true;
                 $("#FR1").prop("checked", true);
@@ -479,7 +487,15 @@ angular
             }
             else if(opt == 1) {
                 vm.libelle = vm.selectedObj.libelle;
+                vm.libelle_en = vm.selectedObj.libelle_en;
+                vm.libelle_es = vm.selectedObj.libelle_es;
+                vm.libelle_al = vm.selectedObj.libelle_al;
+                vm.libelle_it = vm.selectedObj.libelle_it;
                 vm.sous_libelle = vm.selectedObj.sub_libelle;
+                vm.sous_libelle_en = vm.selectedObj.sub_libelle_en;
+                vm.sous_libelle_es = vm.selectedObj.sub_libelle_es;
+                vm.sous_libelle_al = vm.selectedObj.sub_libelle_al;
+                vm.sous_libelle_it = vm.selectedObj.sub_libelle_it;
                 vm.nouveauMetier = false;
                 if(vm.selectedObj.active == 1){
                     vm.active = true;
@@ -569,7 +585,7 @@ angular
             if(vm.active){
                 flagactive = 1;
             }
-            if(vm.libelle.length == 0){
+            if(vm.libelle.length == 0 || vm.libelle_en.length == 0 || vm.libelle_es.length == 0 || vm.libelle_al.length == 0 ||vm.libelle_it.length == 0){
                 bootbox.alert("<h4>Le champs libelle ne peut pas etre vide!!!</h4>");
                 return;
             }
@@ -589,7 +605,20 @@ angular
 
             $http({
                 method: 'GET',
-                params: {mode:flagMode, id:id, libelle:vm.libelle, sub_libelle:vm.sous_libelle, actif:flagactive, pays: idPays},
+                params: {   mode:flagMode,
+                            id:id,
+                            libelle:vm.libelle,
+                            libelle_en:vm.libelle_en,
+                            libelle_es:vm.libelle_es,
+                            libelle_al:vm.libelle_al,
+                            libelle_it:vm.libelle_it,
+                            sub_libelle:vm.sous_libelle,
+                            sub_libelle_en:vm.sous_libelle_en,
+                            sub_libelle_es:vm.sous_libelle_es,
+                            sub_libelle_al:vm.sous_libelle_al,
+                            sub_libelle_it:vm.sous_libelle_it,
+                            actif:flagactive,
+                            pays: idPays},
                 url: 'api/v1/info.php'
             }).then(function successCallback(response) {
                 console.log(response.data);
