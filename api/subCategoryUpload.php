@@ -13,7 +13,15 @@ if ( !empty( $_FILES ) ) {
     $subCategory->setActive($_POST["active"]);
     $subCategory->setSrc('assets/img/'.$_FILES['file']['name']);
     $subCategory->setDescription($_POST["description"]);
+    $subCategory->setDescriptionEN($_POST["description_en"]);
+    $subCategory->setDescriptionES($_POST["description_es"]);
+    $subCategory->setDescriptionAL($_POST["description_al"]);
+    $subCategory->setDescriptionIT($_POST["description_it"]);
     $subCategory->setMessage($_POST["message"]);
+    $subCategory->setMessageEn($_POST["message_en"]);
+    $subCategory->setMessageEs($_POST["message_es"]);
+    $subCategory->setMessageAl($_POST["message_al"]);
+    $subCategory->setMessageIt($_POST["message_it"]);
     $subCategory->save();
     echo json_encode("DONE");
 

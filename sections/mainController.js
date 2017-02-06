@@ -149,7 +149,6 @@ angular
         $scope.fnClickLang = function() {
           $('#modalLanguage').modal();
             var langSel = localStorage.getItem('LANG');
-
                 if(langSel == "EN") {
                     $scope.isActualLang = "ENGLISH";
                     $("#en").prop("checked", true)

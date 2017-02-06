@@ -18,8 +18,13 @@ angular
         vm.currentImg = "";
         vm.qteComm = "";
         vm.selectedObj = {};
+
         vm.libMetier = "";
         vm.modelLibelle = "";
+        vm.modelLibelle_en = "";
+        vm.modelLibelle_es = "";
+        vm.modelLibelle_al = "";
+        vm.modelLibelle_it = "";
         vm.active = true;
         vm.originalData = [];
         vm.nouveauMetier = false;
@@ -59,6 +64,10 @@ angular
         });
         uploader.formData.push({
             name: vm.modelLibelle,
+            name_en: vm.modelLibelle_en,
+            name_es: vm.modelLibelle_es,
+            name_al: vm.modelLibelle_al,
+            name_it: vm.modelLibelle_it,
             active:vm.active
         });
         uploader.onBeforeUploadItem = function(item) {
@@ -74,7 +83,7 @@ angular
                 img_modified = 1;
             }
 
-            item.formData = [{id:vm.selectedObj.id,name:vm.modelLibelle, qte:vm.qteComm, active:vm.active, id_model:id_model, img_modified:img_modified}];
+            item.formData = [{id:vm.selectedObj.id,name:vm.modelLibelle,name_en:vm.modelLibelle_en,name_es:vm.modelLibelle_es,name_al:vm.modelLibelle_al,name_it:vm.modelLibelle_it, qte:vm.qteComm, active:vm.active, id_model:id_model, img_modified:img_modified}];
         };
         uploader.onSuccessItem = function(fileItem, response, status, headers) {
             console.info('onSuccessItem', fileItem, response, status, headers);
@@ -123,7 +132,19 @@ angular
                 img_modified = 1;
             }
 
-            item.formData = [{id:vm.currentSCategory.id,description:vm.currentSCategory.description, active:vm.currentSCategory.active, message:vm.currentSCategory.message}];
+            item.formData = [{  id:vm.currentSCategory.id,
+                                description:vm.currentSCategory.description,
+                                description_en:vm.currentSCategory.description_en,
+                                description_es:vm.currentSCategory.description_es,
+                                description_al:vm.currentSCategory.description_al,
+                                description_it:vm.currentSCategory.description_it,
+                                active:vm.currentSCategory.active,
+                                message:vm.currentSCategory.message,
+                                message_en:vm.currentSCategory.message_en,
+                                message_es:vm.currentSCategory.message_es,
+                                message_al:vm.currentSCategory.message_al,
+                                message_it:vm.currentSCategory.message_it
+            }];
         };
         uploadersc.onSuccessItem = function(fileItem, response, status, headers) {
             console.info('onSuccessItem', fileItem, response, status, headers);
@@ -181,6 +202,10 @@ angular
                 vm.isModified = false;
                 vm.isImgModified = false;
                 vm.modelLibelle = row.description;
+                vm.modelLibelle_en = row.description_en;
+                vm.modelLibelle_es = row.description_es;
+                vm.modelLibelle_al = row.description_al;
+                vm.modelLibelle_it = row.description_it;
                 vm.selRowCategory = row;
                 //vm.modalLibelle = row.description;
                 if(row.active == 1){
@@ -265,6 +290,8 @@ angular
             }
             else if(opt == 2) {
                 vm.currentSCategory = obj;
+                console.clear();
+                console.log(vm.currentSCategory , " test");
                 $("#modalSCModel").modal();
             }
             else if(opt ==3) {
@@ -364,6 +391,18 @@ angular
         vm.columns = [  { name:'Libelle',field: 'description',enableHiding:false ,cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
                 return 'cssLibelle';
                         }},
+            { name:'Libelle Anglais',field: 'description_en',enableHiding:false ,cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+                return 'cssLibelle';
+            }},
+            { name:'Libelle Espagnol',field: 'description_es',enableHiding:false ,cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+                return 'cssLibelle';
+            }},
+            { name:'Libelle Allemand',field: 'description_al',enableHiding:false ,cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+                return 'cssLibelle';
+            }},
+            { name:'Libelle Italian',field: 'description_it',enableHiding:false ,cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+                return 'cssLibelle';
+            }},
                         { name:'Quantité', field: 'qte',enableFiltering:false,enableHiding:false},
                         { name:'Action', field: 'active',enableFiltering:false,cellTemplate: vm.formatCell() ,enableHiding:false}
 
@@ -642,7 +681,7 @@ angular
 
             $http({
                 method: 'GET',
-                params: {mode:6, id:vm.selRowCategory.id,name:vm.modelLibelle, qte:vm.qteComm, active:flagactive},
+                params: {mode:6, id:vm.selRowCategory.id,name:vm.modelLibelle,name_en:vm.modelLibelle_en,name_es:vm.modelLibelle_es,name_al:vm.modelLibelle_al,name_it:vm.modelLibelle_it, qte:vm.qteComm, active:flagactive},
                 url: 'api/v1/info.php'
             }).then(function successCallback(response) {
                     console.log(response.data);

@@ -32,6 +32,7 @@ angular
         $scope.isFiche = false;
         vm.isFrance= false;
         $scope.langue = [];
+        vm.linkmonpanier = "../assets/carts/mon_panier.png";
 
 
 Data.get('session.php').then(function (results) {
@@ -70,8 +71,12 @@ Data.get('session.php').then(function (results) {
                 vm.isFrance= false;
             }
             else {
-                vm.isFrance= true;
+
                 $translate.use(localStorage.getItem('LANG'));
+                if(localStorage.getItem('LANG') == FR) {
+                    vm.isFrance= true;
+                    console.log("this has been triggered");
+                }
                 $http({
                     method: 'GET',
                     params: {mode:3, lang:localStorage.getItem('LANG')},
@@ -98,7 +103,7 @@ Data.get('session.php').then(function (results) {
 
         vm.description = "";
         vm.fnImgClick = function(data){
-            console.log("CLICKED IMG: ",data.description, data.id);
+            $('body').addClass("spinner");
             vm.description = data.description;
             vm.src = data.src;
             vm.currentCategory = angular.copy(data);
@@ -108,7 +113,6 @@ Data.get('session.php').then(function (results) {
                 params: {mode:11, id:data.id},
                 url: 'api/v1/sampleControl.php'
             }).then(function successCallback(response) {
-                    console.log(response);
                     vm.sampleMetier = angular.copy(response.data);
                     $('#myModel').on('show.bs.modal', function () {
                         $('.modal-body').css('height',$( window ).innerHeight()*0.75);
@@ -116,14 +120,16 @@ Data.get('session.php').then(function (results) {
                     $('#myModel').modal();
                     //$('#myModel').modal();
                     document.body.style.overflow = "hidden";
+                    $('body').removeClass("spinner");
                 }, function errorCallback(error) {
-                    console.log(error);
+                    $('body').removeClass("spinner");
                 });
 
             //$location.path('fichetech');
         };
 
         vm.fnImgClick2 = function(data){
+            $('body').addClass("spinner");
             vm.description = vm.currentCategory.description + " - " + data.description;
             vm.src = data.src;
             vm.message = data.message;
@@ -132,7 +138,7 @@ Data.get('session.php').then(function (results) {
                 params: {mode:12, id:data.id},
                 url: 'api/v1/sampleControl.php'
             }).then(function successCallback(response) {
-                    console.log(response.data , "  produits lists info ");
+                    $('body').removeClass("spinner");
                     vm.arrProds         = [];
                     vm.arrGabarits      = [];
                     angular.forEach(response.data, function(value){
@@ -148,7 +154,7 @@ Data.get('session.php').then(function (results) {
                     $('#produits').modal();
                     document.body.style.overflow = "hidden";
                 }, function errorCallback(error) {
-                    console.log(error);
+                    $('body').removeClass("spinner");
                 });
         };
 
@@ -159,18 +165,20 @@ Data.get('session.php').then(function (results) {
 
         //WEBSERVICE
         vm.fnRecupMetier = function(){
+            $('body').addClass("spinner");
             $http({
                 method: 'GET',
                 params: {mode:0},
                 url: 'api/v1/info.php'
             }).then(function successCallback(response) {
-                    console.log(response.data, "btns");
+                $('body').removeClass("spinner");
                 vm.btnMetierOrig = angular.copy(response.data);
                     vm.btnMetier = response.data;
                     vm.activeId = response.data[0].id;
 
                 }, function errorCallback(error) {
-                    console.log(error);
+                    //console.log(error);
+                $('body').removeClass("spinner");
                 });
         };
 
@@ -207,12 +215,13 @@ Data.get('session.php').then(function (results) {
         };
 
         vm.fnModelMetierAll = function(){
+            $('body').addClass("spinner");
             $http({
                 method: 'GET',
                 params: {mode:2},
                 url: 'api/v1/info.php'
             }).then(function successCallback(response) {
-                    console.log("MODEL METIER");
+                $('body').removeClass("spinner");
                     vm.origModels = angular.copy(response.data);
                    // vm.metier = response.data;
                 var arrModels = [];
@@ -223,7 +232,8 @@ Data.get('session.php').then(function (results) {
                 });
                 vm.metier = angular.copy(arrModels);
                 }, function errorCallback(error) {
-                    console.log(error);
+                    //console.log(error);
+                $('body').removeClass("spinner");
                 });
         };
 
@@ -309,30 +319,39 @@ Data.get('session.php').then(function (results) {
         };
 
         vm.fnSetBtnMetiers = function() {
-            console.log(localStorage.getItem('LANG'), "lagneu");
             var lang_sel = localStorage.getItem('LANG');
             vm.btnMetier = angular.copy(vm.btnMetierOrig);
+            if(lang_sel == "FR") {
+                vm.isFrance = true;
+                vm.linkmonpanier = "../assets/carts/mon_panier.png";
+            }
+            else {
+                vm.isFrance = false;
+            }
             if(lang_sel == 'EN') {
                 angular.forEach(vm.btnMetier, function(value) {
                    value.libelle = value.libelle_en;
                 });
+                vm.linkmonpanier = "../assets/carts/cart_english.png";
             }
             else if(lang_sel == 'AL') {
                 angular.forEach(vm.btnMetier, function(value) {
                     value.libelle = value.libelle_al;
                 });
+                vm.linkmonpanier = "../assets/carts/warenkorb_deutch.png";
             }
             else if(lang_sel == 'ES') {
                 angular.forEach(vm.btnMetier, function(value) {
                     value.libelle = value.libelle_es;
                 });
+                vm.linkmonpanier = "../assets/carts/cesta_espagnol.png";
             }
             else if(lang_sel == 'IT') {
                 angular.forEach(vm.btnMetier, function(value) {
                     value.libelle = value.libelle_it;
                 });
+                vm.linkmonpanier = "../assets/carts/carrello_italiano.png";
             }
-            console.log(vm.btnMetier);
         }
 
         $scope.$watch('isActualLang', function(ov, nv) {

@@ -17,7 +17,7 @@ angular
         vm.produit = [{titre:"", commentaire:''}];
         vm.unitprix = 0;
         vm.prixvente = 0;
-
+        $('body').addClass("spinner");
         $scope.alertMsg = "";
         $scope.isFiche = true;
 
@@ -1856,8 +1856,9 @@ angular
                             $scope.$apply();
                         }
                     }, 0);
+                    $('body').removeClass("spinner");
                 }, function errorCallback(error) {
-                    console.log(error);
+                    $('body').removeClass("spinner");
                 });
         }
 
@@ -1999,11 +2000,36 @@ angular
                 });
         };
 
-        $lang = localStorage.getItem("LANG");
+        var lang = localStorage.getItem("LANG");
+        /*
+        set imgs Mon panier and ajouter au panier
+         */
+        vm.linkMonPanier = "../assets/carts/mon_panier.png";
+        vm.linkAjoutPanier = "../assets/carts/ajouter_panier.png";
+        if(lang == "FR") {
+            vm.linkMonPanier = "../assets/carts/mon_panier.png";
+            vm.linkAjoutPanier = "../assets/carts/ajouter_panier.png";
+        }
+        else if(lang == "ES") {
+            vm.linkMonPanier = "../assets/carts/cesta_espagnol.png";
+            vm.linkAjoutPanier = "../assets/carts/cart_espagnol.png";
+        }
+        else if(lang == "EN") {
+            vm.linkMonPanier = "../assets/carts/cart_english.png";
+            vm.linkAjoutPanier = "../assets/carts/add_cart_english.png";
+        }
+        else if(lang == "AL") {
+            vm.linkMonPanier = "../assets/carts/warenkorb_deutch.png";
+            vm.linkAjoutPanier = "../assets/carts/cart_deutch.png";
+        }
+        else if(lang == "IT") {
+            vm.linkMonPanier = "../assets/carts/carrello_italiano.png";
+            vm.linkAjoutPanier = "../assets/carts/cart_italien.png";
+        }
         $translate.use(localStorage.getItem('LANG'));
         $http({
             method: 'GET',
-            params: {mode:3, lang:$lang},
+            params: {mode:3, lang:lang},
             url: 'api/v1/langueCRUD.php'
         }).then(function successCallback(response) {
             console.log(response.data);
@@ -2017,5 +2043,30 @@ angular
         $scope.$watch('isActualLang', function(ov, nv) {
             console.log(ov, nv, " module fichier");
             vm.setLang(localStorage.getItem("LANG"));
+            var lang = localStorage.getItem("LANG");
+            
+             vm.linkMonPanier = "../assets/carts/mon_panier.png";
+             vm.linkAjoutPanier = "../assets/carts/ajouter_panier.png";
+             if(lang == "FR") {
+             vm.linkMonPanier = "../assets/carts/mon_panier.png";
+             vm.linkAjoutPanier = "../assets/carts/ajouter_panier.png";
+             }
+             else if(lang == "ES") {
+             vm.linkMonPanier = "../assets/carts/cesta_espagnol.png";
+             vm.linkAjoutPanier = "../assets/carts/cart_espagnol.png";
+             }
+             else if(lang == "EN") {
+             vm.linkMonPanier = "../assets/carts/cart_english.png";
+             vm.linkAjoutPanier = "../assets/carts/add_cart_english.png";
+             }
+             else if(lang == "AL") {
+             vm.linkMonPanier = "../assets/carts/warenkorb_deutch.png";
+             vm.linkAjoutPanier = "../assets/carts/cart_deutch.png";
+             }
+             else if(lang == "IT") {
+             vm.linkMonPanier = "../assets/carts/carrello_italiano.png";
+             vm.linkAjoutPanier = "../assets/carts/cart_italien.png";
+             }
+             
         });
     });

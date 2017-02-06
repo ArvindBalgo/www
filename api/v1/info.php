@@ -1,6 +1,7 @@
 
 <?php
 include_once 'include_all.php';
+include_once '../chromePHP.php';
 
 $mode = $_GET['mode'];
 if($mode == 0) {
@@ -94,6 +95,11 @@ else if($mode == 6){
     $model = new modelmetier();
     $model = $model->findByPrimaryKey(trim($_GET["id"]));
     $model->setDescription(trim($_GET["name"]));
+    $model->setDescriptionEn(trim($_GET["name_en"]));
+    $model->setDescriptionEs(trim($_GET["name_es"]));
+    $model->setDescriptionAl(trim($_GET["name_al"]));
+    $model->setDescriptionIt(trim($_GET["name_it"]));
+
     $model->setQte($_GET["qte"]);
     $model->setActive($_GET["active"]);
 

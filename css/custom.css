@@ -1,9 +1,9 @@
-body{
+/*body{
 	padding-top: 51px;
 }
 
 /* ng-cloak */
-[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng.ng-cloak {
+/*[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng.ng-cloak {
     display: none;
 }
 ul{
@@ -55,10 +55,10 @@ background-color: #F5F5F5;
 	
 /*background: #438EB9;
 color: #fff;border: 0;*/
-
+/*
 }
 /* Removed width:auto from navbar-collapse classs; */
-.navbar-collapse {
+/*.navbar-collapse {
 border-top: 0;
 box-shadow: none;
 }
@@ -66,8 +66,31 @@ box-shadow: none;
 /*color: #FFF;
 font-size: 24px;
 text-shadow: none;
-padding-bottom: 10px;*/
+padding-bottom: 10px;*//*
 }
 .form-group-addon{
 	padding-left: -20px;
+}
+*/
+@keyframes spinner {
+    to {transform: rotate(360deg);}
+}
+
+.spinner:before {
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    margin-top: -10px;
+    margin-left: -10px;
+    border-radius: 75%;
+    border: 10px solid #f6f;
+    border-top-color: #0e0;
+    border-right-color: #0dd;
+    border-bottom-color: #f90;
+    animation: spinner .6s linear infinite;
+    z-index: 1000;
 }

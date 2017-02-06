@@ -2,8 +2,12 @@
 class modelmetier{
 
     //**** D�claration des variables ****
-    private $_id            = null;
-    private $_description   = null;
+    private $_id            = 0;
+    private $_description   = "";
+    private $_description_en   = "";
+    private $_description_es   = "";
+    private $_description_al   = "";
+    private $_description_it   = "";
     private $_category      = null;
     private $_src           = null;
     private $_qte           = null;
@@ -30,6 +34,22 @@ class modelmetier{
         $this->_description = $libelle;
     }
 
+    public function setDescriptionEn($libelle) {
+        $this->_description_en = $libelle;
+    }
+
+    public function setDescriptionEs($libelle) {
+        $this->_description_es = $libelle;
+    }
+
+    public function setDescriptionAl($libelle) {
+        $this->_description_al = $libelle;
+    }
+
+    public function setDescriptionIt($libelle) {
+        $this->_description_it = $libelle;
+    }
+
     public function setCategory($category) {
         $this->_category = $category;
     }
@@ -52,6 +72,22 @@ class modelmetier{
 
     public function getDescription() {
         return $this->_description;
+    }
+
+    public function getDescriptionEn() {
+        return $this->_description_en;
+    }
+
+    public function getDescriptionEs() {
+        return $this->_description_es;
+    }
+
+    public function getDescriptionAl() {
+        return $this->_description_al;
+    }
+
+    public function getDescriptionIt() {
+        return $this->_description_it;
     }
 
     public function getCategory() {
@@ -81,6 +117,10 @@ class modelmetier{
         if ($this->_id > 0) {
             $requete = "update modelmetier set description='" . ($this->_description) . "'";
             $requete .= ",category='" . $this->_category . "'";
+            $requete .= ",description_en='" . $this->_description_en . "'";
+            $requete .= ",description_es='" . $this->_description_es . "'";
+            $requete .= ",description_al='" . $this->_description_al . "'";
+            $requete .= ",description_it='" . $this->_description_it . "'";
             $requete .= ",src='" . $this->_src."'";
             $requete .= ",qte='" . $this->_qte."'";
             $requete .= ",active=" . $this->_active;
@@ -89,17 +129,26 @@ class modelmetier{
         } else {
             $requete = "INSERT INTO modelmetier (";
             $requete .= "description,";
+            $requete .= "description_en,";
+            $requete .= "description_es,";
+            $requete .= "description_al,";
+            $requete .= "description_it,";
             $requete .= "category,";
             $requete .= "src,";
             $requete .= "qte,";
             $requete .= "active";
             $requete .= ") VALUES (";
             $requete .= "'" . $this->_description . "',";
+            $requete .= "'" . $this->_description_en . "',";
+            $requete .= "'" . $this->_description_es . "',";
+            $requete .= "'" . $this->_description_al . "',";
+            $requete .= "'" . $this->_description_it . "',";
             $requete .= "'" . $this->_category . "',";
             $requete .= "'" . $this->_src . "',";
             $requete .= "'" . $this->_qte . "',";
             $requete .= "'" . $this->_active . "')";
         }
+        chromePHP::log($requete);
         $r = $this->conn->query($requete) or die($this->conn->error.__LINE__);
         return $r;
     }
@@ -110,6 +159,10 @@ class modelmetier{
         $metier = new modelmetier();
         $metier->_id = $rs["id"];
         $metier->_description = $rs["description"];
+        $metier->_description_en = $rs["description_en"];
+        $metier->_description_es = $rs["description_es"];
+        $metier->_description_al = $rs["description_al"];
+        $metier->_description_it = $rs["description_it"];
         $metier->_category = $rs["category"];
         $metier->_qte = $rs["qte"];
         $metier->_src = $rs["src"];

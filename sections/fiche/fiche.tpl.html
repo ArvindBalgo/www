@@ -6,11 +6,11 @@
     <!--a class="">Passer la commande</a-->
     <!--a-- class="">Ajouter au Panier</a-->
     <div style="margin-bottom: 5px;">
-        <img src="../assets/images/mon_panier.png" ng-click="fiche.fnClickPanier()" style="width:120px; height:65px;cursor:pointer;">
+        <img src="{{fiche.linkMonPanier}}" ng-click="fiche.fnClickPanier()" style="width:120px; height:65px;cursor:pointer;">
 
     </div>
     <div>
-        <img src="../assets/images/ajouter_au_panier.png" ng-click="fiche.fnAddBasket()" style="width:120px; height:65px;cursor:pointer;">
+        <img src="{{fiche.linkAjoutPanier}}" ng-click="fiche.fnAddBasket()" style="width:120px; height:65px;cursor:pointer;">
     </div>
 
     <!--a class="btn btn-warning" ng-click="fiche.fnClickPanier()" style="margin-bottom: 5px;"><div class="glyphicon glyphicon-shopping-cart"></div><div>{{langue.panier}}</div><div>({{fiche.countProds}})</div></a>
@@ -25,7 +25,6 @@
             <div id="main-container">
                 <div class="row">
                     <div class="col-md-9" style="margin-left: 50px"><h3 id="clothing">{{'create_maquette' | translate}}</h3></div>
-                    <div class="col-md-2 pull-right"><button class="btn btn-warning" ng-click="fiche.fnClickPanier()">{{'panier_unite' | translate}} <span class="glyphicon glyphicon-shopping-cart"></span> ({{fiche.countProds}})</button></div>
                 </div>
 
                 <div class="row" style="margin: 2px">
@@ -154,8 +153,6 @@
                                 <b>{{'conception_msg2' | translate}}</b>
                             </div>
                         </div>
-                        <button class="col-md-2 btn btn-primary btn-lg pull-right" style="height: 72px;background-color: #D893E3; color: white;" ng-click="fiche.fnAddBasket()">{{'ajout_panier' | translate}}</button>
-                        <!--button ng-click="" class="btn btn-primary btn-lg" style="height: 72px;"> Confiez nous la conception de votre maquette</button-->
                     </div>
                     <div class="col-md-12">
                         <div id="model" class="fpd-container fpd-shadow-2 fpd-topbar fpd-tabs fpd-tabs-side fpd-top-actions-centered fpd-bottom-actions-centered fpd-views-inside-left">
@@ -166,16 +163,10 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
 
                 <br />
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div id="imgScroll">
-            <img ng-repeat="lien in fiche.imgList" src="{{lien.src}}" title="{{lien.title}}" class="imgScroll"/>
         </div>
     </div>
 </div>

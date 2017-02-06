@@ -20,6 +20,7 @@
     <link rel="stylesheet" type="text/css" href="css/toastr.min.css" />
     <!-- CSSMap STYLESHEET - EUROPE -->
     <link rel="stylesheet" type="text/css" href="cssmap-europe/cssmap-europe.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="css/custom.css" media="screen" />
 
     <!-- endbuild -->
 </head>
