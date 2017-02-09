@@ -11,6 +11,7 @@ class cata {
     private $_id_cata = null;
     private $_libelle = null;
     private $_description = null;
+    private $_key_description = "";
     private $_src = null;
     private $_id_front = null;
     private $_id_back = null;
@@ -47,6 +48,9 @@ class cata {
     }
     public function setDescription($description) {
         $this->_description= $description;
+    }
+    public function setKeyDescription($key) {
+        $this->_key_description= $key;
     }
     public function setSrc($src) {
         $this->_src= $src;
@@ -115,6 +119,9 @@ class cata {
         return $this->_description;
     }
 
+    public function getKeyDescription() {
+        return $this->_key_description;
+    }
 
     public function getSrc() {
         return $this->_src;
@@ -199,6 +206,7 @@ class cata {
         if ($this->_id_cata > 0) {
             $requete = 'UPDATE cata SET libelle="' . ($this->_libelle) . '"';
             $requete .= ',description="' . $this->_description . '"';
+            $requete .= ',key_description="' . $this->_key_description . '"';
             $requete .= ',src="' . $this->_src . '"';
             $requete .= ',id_front="' . $this->_id_front . '"';
             $requete .= ',id_back="' . $this->_id_back . '"';
@@ -221,6 +229,7 @@ class cata {
             $requete = "INSERT INTO cata (";
             $requete .= "libelle,";
             $requete .= "description,";
+            $requete .= "key_description,";
             $requete .= "src,";
             $requete .= "id_front,";
             $requete .= "id_back,";
@@ -240,6 +249,7 @@ class cata {
             $requete .= ") VALUES (";
             $requete .= '"' . $this->_libelle . '",';
             $requete .= '"' . $this->_description . '",';
+            $requete .= '"' . $this->_key_description . '",';
             $requete .= '"' . $this->_src . '",';
             $requete .= '"' . $this->_id_front . '",';
             $requete .= '"' . $this->_id_back . '",';
@@ -270,6 +280,7 @@ class cata {
         $cata->_id_cata             = $rs["id"];
         $cata->_libelle             = $rs["libelle"];
         $cata->_description         = $rs["description"];
+        $cata->_key_description     = $rs["key_description"];
         $cata->_src                 = $rs["src"];
         $cata->_id_front            = $rs["id_front"];
         $cata->_id_back             = $rs["id_back"];

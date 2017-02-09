@@ -32,6 +32,7 @@ angular
         $scope.isFiche = false;
         vm.isFrance= false;
         $scope.langue = [];
+        vm.scat = {};
         vm.linkmonpanier = "../assets/carts/mon_panier.png";
 
 
@@ -150,6 +151,7 @@ Data.get('session.php').then(function (results) {
                         }
                     });
                     vm.listProduits = angular.copy(response.data);
+                vm.scat = data;
                     $('#myModel').modal('hide');
                     $('#produits').modal();
                     document.body.style.overflow = "hidden";
@@ -329,27 +331,27 @@ Data.get('session.php').then(function (results) {
                 vm.isFrance = false;
             }
             if(lang_sel == 'EN') {
-                angular.forEach(vm.btnMetier, function(value) {
+                /*angular.forEach(vm.btnMetier, function(value) {
                    value.libelle = value.libelle_en;
-                });
+                });*/
                 vm.linkmonpanier = "../assets/carts/cart_english.png";
             }
             else if(lang_sel == 'AL') {
-                angular.forEach(vm.btnMetier, function(value) {
+                /*angular.forEach(vm.btnMetier, function(value) {
                     value.libelle = value.libelle_al;
-                });
+                });*/
                 vm.linkmonpanier = "../assets/carts/warenkorb_deutch.png";
             }
             else if(lang_sel == 'ES') {
-                angular.forEach(vm.btnMetier, function(value) {
+                /*angular.forEach(vm.btnMetier, function(value) {
                     value.libelle = value.libelle_es;
-                });
+                });*/
                 vm.linkmonpanier = "../assets/carts/cesta_espagnol.png";
             }
             else if(lang_sel == 'IT') {
-                angular.forEach(vm.btnMetier, function(value) {
+                /*angular.forEach(vm.btnMetier, function(value) {
                     value.libelle = value.libelle_it;
-                });
+                });*/
                 vm.linkmonpanier = "../assets/carts/carrello_italiano.png";
             }
         }

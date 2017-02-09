@@ -4,15 +4,9 @@ class modelmetier_category{
     //**** D�claration des variables ****
     private $_id            = null;
     private $_description   = "";
-    private $_description_en   = "";
-    private $_description_es   = "";
-    private $_description_al   = "";
-    private $_description_it   = "";
+    private $_key_description   = "";
     private $_message       = "";
-    private $_message_en       = "";
-    private $_message_es       = "";
-    private $_message_al       = "";
-    private $_message_it       = "";
+    private $_key_message       = "";
     private $_id_modelmetier= null;
     private $_src           = null;
     private $_qte           = null;
@@ -40,37 +34,18 @@ class modelmetier_category{
     }
 
 
-    public function setDescriptionEN($libelle) {
-        $this->_description_en = $libelle;
+    public function setKeyDescription($key) {
+        $this->_key_description = $key;
     }
 
-    public function setDescriptionES($libelle) {
-        $this->_description_es = $libelle;
-    }
-
-    public function setDescriptionAL($libelle) {
-        $this->_description_al = $libelle;
-    }
-
-    public function setDescriptionIT($libelle) {
-        $this->_description_it = $libelle;
-    }
     public function setMessage($msg) {
         $this->_message = $msg;
     }
 
-    public function setMessageEn($msg) {
-        $this->_message_en = $msg;
+    public function setKeyMessage($key) {
+        $this->_key_message = $key;
     }
-    public function setMessageEs($msg) {
-        $this->_message_es = $msg;
-    }
-    public function setMessageAl($msg) {
-        $this->_message_al = $msg;
-    }
-    public function setMessageIt($msg) {
-        $this->_message_it = $msg;
-    }
+
     public function setIdModelMetier($id) {
         $this->_id_modelmetier = $id;
     }
@@ -95,36 +70,16 @@ class modelmetier_category{
         return $this->_description;
     }
 
-    public function getDescriptionEN() {
-        return $this->_description_en;
+    public function getKeyDescription() {
+        return $this->_key_description;
     }
-    public function getDescriptionES() {
-        return $this->_description_es;
-    }
-    public function getDescriptionAL() {
-        return $this->_description_al;
-    }
-    public function getDescriptionIT() {
-        return $this->_description_it;
-    }
+
     public function getMessage() {
         return $this->_message;
     }
 
-    public function getMessageEn() {
-        return $this->_message_en;
-    }
-
-    public function getMessageEs() {
-        return $this->_message_es;
-    }
-
-    public function getMessageAl() {
-        return $this->_message_al;
-    }
-
-    public function getMessageIt() {
-        return $this->_message_it;
+    public function getKeyMessage() {
+        return $this->_key_message;
     }
 
     public function getIdModelMetier() {
@@ -152,16 +107,10 @@ class modelmetier_category{
     public function save() {
         if ($this->_id > 0) {
             $requete = "update modelmetier_category set description='" . ($this->_description) . "'";
-            $requete .= ",description_en='" . $this->_description_en . "'";
-            $requete .= ",description_es='" . $this->_description_es . "'";
-            $requete .= ",description_al='" . $this->_description_al . "'";
-            $requete .= ",description_it='" . $this->_description_it . "'";
+            $requete .= ",key_description='" . $this->_key_description . "'";
             $requete .= ",id_modelmetier='" . $this->_id_modelmetier . "'";
             $requete .= ",message='" . $this->_message . "'";
-            $requete .= ",message_en='" . $this->_message_en . "'";
-            $requete .= ",message_es='" . $this->_message_es . "'";
-            $requete .= ",message_al='" . $this->_message_al . "'";
-            $requete .= ",message_it='" . $this->_message_it . "'";
+            $requete .= ",key_message='" . $this->_key_message . "'";
             $requete .= ",src='" . $this->_src."'";
             $requete .= ",qte='" . $this->_qte."'";
             $requete .= ",active=" . $this->_active;
@@ -170,30 +119,18 @@ class modelmetier_category{
         } else {
             $requete = "INSERT INTO modelmetier_category (";
             $requete .= "description,";
-            $requete .= "description_en,";
-            $requete .= "description_es,";
-            $requete .= "description_al,";
-            $requete .= "description_it,";
+            $requete .= "key_description,";
             $requete .= "message,";
-            $requete .= "message_en,";
-            $requete .= "message_es,";
-            $requete .= "message_al,";
-            $requete .= "message_it,";
+            $requete .= "key_message,";
             $requete .= "id_modelmetier,";
             $requete .= "src,";
             $requete .= "qte,";
             $requete .= "active";
             $requete .= ") VALUES (";
             $requete .= "'" . $this->_description . "',";
-            $requete .= "'" . $this->_description_en . "',";
-            $requete .= "'" . $this->_description_es . "',";
-            $requete .= "'" . $this->_description_al . "',";
-            $requete .= "'" . $this->_description_it . "',";
+            $requete .= "'" . $this->_key_description . "',";
             $requete .= "'" . $this->_message . "',";
-            $requete .= "'" . $this->_message_en . "',";
-            $requete .= "'" . $this->_message_es . "',";
-            $requete .= "'" . $this->_message_al . "',";
-            $requete .= "'" . $this->_message_it . "',";
+            $requete .= "'" . $this->_key_message . "',";
             $requete .= "'" . $this->_id_modelmetier . "',";
             $requete .= "'" . $this->_src . "',";
             $requete .= "'" . $this->_qte . "',";
@@ -209,15 +146,9 @@ class modelmetier_category{
         $metier = new modelmetier_category();
         $metier->_id = $rs["id"];
         $metier->_description = $rs["description"];
-        $metier->_description_en = $rs["description_en"];
-        $metier->_description_es = $rs["description_es"];
-        $metier->_description_al = $rs["description_al"];
-        $metier->_description_it = $rs["description_it"];
+        $metier->_key_description = $rs["key_description"];
         $metier->_message       = $rs["message"];
-        $metier->_message_en    = $rs["message_en"];
-        $metier->_message_es    = $rs["message_es"];
-        $metier->_message_al    = $rs["message_al"];
-        $metier->_message_it    = $rs["message_it"];
+        $metier->_key_message       = $rs["key_message"];
         $metier->_id_modelmetier = $rs["id_modelmetier"];
         $metier->_qte = $rs["qte"];
         $metier->_src = $rs["src"];

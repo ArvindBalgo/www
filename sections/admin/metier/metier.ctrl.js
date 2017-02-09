@@ -21,6 +21,7 @@ angular
 
         vm.libMetier = "";
         vm.modelLibelle = "";
+        vm.modelKeyLibelle = "";
         vm.modelLibelle_en = "";
         vm.modelLibelle_es = "";
         vm.modelLibelle_al = "";
@@ -64,10 +65,7 @@ angular
         });
         uploader.formData.push({
             name: vm.modelLibelle,
-            name_en: vm.modelLibelle_en,
-            name_es: vm.modelLibelle_es,
-            name_al: vm.modelLibelle_al,
-            name_it: vm.modelLibelle_it,
+            key : vm.modelKeyLibelle,
             active:vm.active
         });
         uploader.onBeforeUploadItem = function(item) {
@@ -83,7 +81,7 @@ angular
                 img_modified = 1;
             }
 
-            item.formData = [{id:vm.selectedObj.id,name:vm.modelLibelle,name_en:vm.modelLibelle_en,name_es:vm.modelLibelle_es,name_al:vm.modelLibelle_al,name_it:vm.modelLibelle_it, qte:vm.qteComm, active:vm.active, id_model:id_model, img_modified:img_modified}];
+            item.formData = [{id:vm.selectedObj.id,name:vm.modelLibelle,key:vm.modelKeyLibelle, qte:vm.qteComm, active:vm.active, id_model:id_model, img_modified:img_modified}];
         };
         uploader.onSuccessItem = function(fileItem, response, status, headers) {
             console.info('onSuccessItem', fileItem, response, status, headers);
@@ -113,6 +111,7 @@ angular
         });
         uploadersc.formData.push({
             name: vm.modelLibelle,
+            key:vm.modelKeyLibelle,
             active:vm.active
         });
         uploadersc.onBeforeUploadItem = function(item) {
@@ -134,16 +133,10 @@ angular
 
             item.formData = [{  id:vm.currentSCategory.id,
                                 description:vm.currentSCategory.description,
-                                description_en:vm.currentSCategory.description_en,
-                                description_es:vm.currentSCategory.description_es,
-                                description_al:vm.currentSCategory.description_al,
-                                description_it:vm.currentSCategory.description_it,
+                                key_description:vm.currentSCategory.key_description,
                                 active:vm.currentSCategory.active,
                                 message:vm.currentSCategory.message,
-                                message_en:vm.currentSCategory.message_en,
-                                message_es:vm.currentSCategory.message_es,
-                                message_al:vm.currentSCategory.message_al,
-                                message_it:vm.currentSCategory.message_it
+                                key_message:vm.currentSCategory.key_message
             }];
         };
         uploadersc.onSuccessItem = function(fileItem, response, status, headers) {
@@ -202,10 +195,7 @@ angular
                 vm.isModified = false;
                 vm.isImgModified = false;
                 vm.modelLibelle = row.description;
-                vm.modelLibelle_en = row.description_en;
-                vm.modelLibelle_es = row.description_es;
-                vm.modelLibelle_al = row.description_al;
-                vm.modelLibelle_it = row.description_it;
+                vm.modelKeyLibelle = row.key_libelle;
                 vm.selRowCategory = row;
                 //vm.modalLibelle = row.description;
                 if(row.active == 1){
@@ -391,16 +381,7 @@ angular
         vm.columns = [  { name:'Libelle',field: 'description',enableHiding:false ,cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
                 return 'cssLibelle';
                         }},
-            { name:'Libelle Anglais',field: 'description_en',enableHiding:false ,cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-                return 'cssLibelle';
-            }},
-            { name:'Libelle Espagnol',field: 'description_es',enableHiding:false ,cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-                return 'cssLibelle';
-            }},
-            { name:'Libelle Allemand',field: 'description_al',enableHiding:false ,cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
-                return 'cssLibelle';
-            }},
-            { name:'Libelle Italian',field: 'description_it',enableHiding:false ,cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+            { name:'Clé',field: 'key_libelle',enableHiding:false ,cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
                 return 'cssLibelle';
             }},
                         { name:'Quantité', field: 'qte',enableFiltering:false,enableHiding:false},
@@ -510,15 +491,9 @@ angular
             console.log(opt, vm.selectedObj);
             if(opt == 0) {
                 vm.libelle = "";
-                vm.libelle_en = "";
-                vm.libelle_es = "";
-                vm.libelle_al = "";
-                vm.libelle_it = "";
+                vm.key_libelle = "";
+                vm.key_sub_libelle = "";
                 vm.sous_libelle = "";
-                vm.sous_libelle_en = "";
-                vm.sous_libelle_es = "";
-                vm.sous_libelle_al = "";
-                vm.sous_libelle_it = "";
                 vm.active = false;
                 vm.nouveauMetier = true;
                 $("#FR1").prop("checked", true);
@@ -526,15 +501,9 @@ angular
             }
             else if(opt == 1) {
                 vm.libelle = vm.selectedObj.libelle;
-                vm.libelle_en = vm.selectedObj.libelle_en;
-                vm.libelle_es = vm.selectedObj.libelle_es;
-                vm.libelle_al = vm.selectedObj.libelle_al;
-                vm.libelle_it = vm.selectedObj.libelle_it;
                 vm.sous_libelle = vm.selectedObj.sub_libelle;
-                vm.sous_libelle_en = vm.selectedObj.sub_libelle_en;
-                vm.sous_libelle_es = vm.selectedObj.sub_libelle_es;
-                vm.sous_libelle_al = vm.selectedObj.sub_libelle_al;
-                vm.sous_libelle_it = vm.selectedObj.sub_libelle_it;
+                vm.key_libelle = vm.selectedObj.key_libelle;
+                vm.key_sub_libelle = vm.selectedObj.key_sub_libelle;
                 vm.nouveauMetier = false;
                 if(vm.selectedObj.active == 1){
                     vm.active = true;
@@ -624,7 +593,7 @@ angular
             if(vm.active){
                 flagactive = 1;
             }
-            if(vm.libelle.length == 0 || vm.libelle_en.length == 0 || vm.libelle_es.length == 0 || vm.libelle_al.length == 0 ||vm.libelle_it.length == 0){
+            if(vm.libelle.length == 0){
                 bootbox.alert("<h4>Le champs libelle ne peut pas etre vide!!!</h4>");
                 return;
             }
@@ -647,17 +616,11 @@ angular
                 params: {   mode:flagMode,
                             id:id,
                             libelle:vm.libelle,
-                            libelle_en:vm.libelle_en,
-                            libelle_es:vm.libelle_es,
-                            libelle_al:vm.libelle_al,
-                            libelle_it:vm.libelle_it,
                             sub_libelle:vm.sous_libelle,
-                            sub_libelle_en:vm.sous_libelle_en,
-                            sub_libelle_es:vm.sous_libelle_es,
-                            sub_libelle_al:vm.sous_libelle_al,
-                            sub_libelle_it:vm.sous_libelle_it,
                             actif:flagactive,
-                            pays: idPays},
+                            pays: idPays,
+                            key_libelle: vm.key_libelle,
+                            key_sub_libelle: vm.key_sub_libelle},
                 url: 'api/v1/info.php'
             }).then(function successCallback(response) {
                 console.log(response.data);
@@ -681,7 +644,7 @@ angular
 
             $http({
                 method: 'GET',
-                params: {mode:6, id:vm.selRowCategory.id,name:vm.modelLibelle,name_en:vm.modelLibelle_en,name_es:vm.modelLibelle_es,name_al:vm.modelLibelle_al,name_it:vm.modelLibelle_it, qte:vm.qteComm, active:flagactive},
+                params: {mode:6, id:vm.selRowCategory.id,name:vm.modelLibelle,key:vm.modelKeyLibelle, qte:vm.qteComm, active:flagactive},
                 url: 'api/v1/info.php'
             }).then(function successCallback(response) {
                     console.log(response.data);
@@ -984,6 +947,25 @@ angular
 
         };
 
+        vm.fnValidateText = function() {
+            $http({
+                method: 'GET',
+                params: {mode:18,
+                        id:vm.currentSCategory.id,
+                        description:vm.currentSCategory.description,
+                        key_description:vm.currentSCategory.key_description,
+                        active:vm.currentSCategory.active,
+                        message:vm.currentSCategory.message,
+                        key_message:vm.currentSCategory.key_message},
+                url: 'api/v1/info.php'
+            }).then(function successCallback(response) {
+
+                vm.fnModelMetier();
+            }, function errorCallback(error)
+            {
+                console.log(error);
+            });
+        };
         vm.fnGetListPays();
 
 

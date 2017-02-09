@@ -18,3 +18,11 @@ else if($mode == 1) {
     $cataMetier->deleteIdCata($id);
     print "done";
 }
+else if($mode == 2) {
+    $id = $_GET["id_cata"];
+    $cata = new cata();
+    $cata = $cata->findByPrimaryKey($id);
+    $cata->setKeyDescription($_GET["key"]);
+    $cata->save();
+    print "done";
+}

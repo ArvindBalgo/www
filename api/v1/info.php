@@ -56,17 +56,11 @@ print json_encode($row);
 else if($mode == 4) {
     $listmetier = new listmetier();
     $listmetier->setLibelle(trim($_GET["libelle"]));
-    $listmetier->setLibelleEn(trim($_GET["libelle_en"]));
-    $listmetier->setLibelleES(trim($_GET["libelle_es"]));
-    $listmetier->setLibelleAL(trim($_GET["libelle_al"]));
-    $listmetier->setLibelleIT(trim($_GET["libelle_it"]));
     $listmetier->setSubLibelle(trim($_GET["sub_libelle"]));
-    $listmetier->setSubLibelleEn(trim($_GET["sub_libelle_en"]));
-    $listmetier->setSubLibelleEs(trim($_GET["sub_libelle_es"]));
-    $listmetier->setSubLibelleAl(trim($_GET["sub_libelle_al"]));
-    $listmetier->setSubLibelle_It(trim($_GET["sub_libelle_it"]));
     $listmetier->setActive($_GET["actif"]);
     $listmetier->setPays($_GET["pays"]);
+    $listmetier->setKeyLibelle($_GET["key_libelle"]);
+    $listmetier->setKeySubLibelle($_GET["key_sub_libelle"]);
     $listmetier->save();
 }
 
@@ -76,18 +70,11 @@ else if($mode == 5){
 
     $listmetier->setId($listmetier->getId());
     $listmetier->setLibelle(trim($_GET["libelle"]));
-    $listmetier->setLibelleEn(trim($_GET["libelle_en"]));
-    $listmetier->setLibelleES(trim($_GET["libelle_es"]));
-    $listmetier->setLibelleAL(trim($_GET["libelle_al"]));
-    $listmetier->setLibelleIT(trim($_GET["libelle_it"]));
     $listmetier->setSubLibelle(trim($_GET["sub_libelle"]));
-    $listmetier->setSubLibelleEn(trim($_GET["sub_libelle_en"]));
-    $listmetier->setSubLibelleEs(trim($_GET["sub_libelle_es"]));
-    $listmetier->setSubLibelleAl(trim($_GET["sub_libelle_al"]));
-    $listmetier->setSubLibelle_It(trim($_GET["sub_libelle_it"]));
-    //$listmetier->setSubLibelle(trim($_GET["sub_libelle"]));
     $listmetier->setActive($_GET["actif"]);
     $listmetier->setPays($_GET[pays]);
+    $listmetier->setKeyLibelle($_GET["key_libelle"]);
+    $listmetier->setKeySubLibelle($_GET["key_sub_libelle"]);
     $listmetier->save();
 }
 
@@ -95,11 +82,7 @@ else if($mode == 6){
     $model = new modelmetier();
     $model = $model->findByPrimaryKey(trim($_GET["id"]));
     $model->setDescription(trim($_GET["name"]));
-    $model->setDescriptionEn(trim($_GET["name_en"]));
-    $model->setDescriptionEs(trim($_GET["name_es"]));
-    $model->setDescriptionAl(trim($_GET["name_al"]));
-    $model->setDescriptionIt(trim($_GET["name_it"]));
-
+    $model->setKeyLibelle(trim($_GET["key"]));
     $model->setQte($_GET["qte"]);
     $model->setActive($_GET["active"]);
 
@@ -114,6 +97,7 @@ else if($mode == 7) {
 else if($mode == 8) {
     $model = new modelmetier_category();
     $model->setDescription($_GET["description"]);
+    $model->setKeyDescription($_GET["key_description"]);
     $model->setIdModelMetier($_GET["id_modelmetier"]);
     $model->setSrc($_GET["src"]);
     $model->setQte($_GET["qte"]);
@@ -234,4 +218,15 @@ else if($mode == 17) {
     $cataPapier1 = $cataPapier1->rechercher();
 
     print json_encode($cataPapier1);
+}
+else if($mode == 18) {
+    $subCategory = new modelmetier_category();
+    $subCategory = $subCategory->findByPrimaryKey($_GET["id"]);
+    $subCategory->setActive($_GET["active"]);
+    $subCategory->setDescription($_GET["description"]);
+    $subCategory->setKeyDescription($_GET["key_description"]);
+    $subCategory->setMessage($_GET["message"]);
+    $subCategory->setKeyMessage($_GET["key_message"]);
+    $subCategory->save();
+    return 'done';
 }
