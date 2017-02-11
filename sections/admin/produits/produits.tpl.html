@@ -2,7 +2,7 @@
 <style>
     .myGrid {
         width: 80%;
-        height: 450px;
+        height: 90%;
 
     }
 </style>
@@ -95,6 +95,31 @@
             <div class="modal-footer">
                 <button class="btn btn-default pull-left" data-dismiss="modal">Quitter</button>
                 <button type="button" class="btn btn-success" ng-click="produits.fnValidTarif()"><span class="glyphicon glyphicon-ok"></span> Valider</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modalEditProd" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 90%;height: 500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> Edition {{produits.currentProduit.description}}</h4>
+            </div>
+            <div class="modal-body" style="overflow: hidden">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2"><b>Clé traduction </b></div>
+                        <div class="col-md-8 col-sm-8 input-group" style="margin-bottom: 5px;">
+                            <input type="text" class="form-control" style="width: 50%" ng-model="produits.currentProduit.key_description" placeholder="Clé" aria-describedby="basic-addon1">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default pull-left" data-dismiss="modal">Quitter</button>
+                <button type="button" class="btn btn-success" ng-click="produits.fnValidKey()"><span class="glyphicon glyphicon-ok"></span> Valider</button>
             </div>
         </div>
     </div>

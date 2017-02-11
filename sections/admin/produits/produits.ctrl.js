@@ -60,14 +60,16 @@ angular
             var edit  = "<button type='button' class='btn btn-info btn-circle' style='margin-left: 5px;margin-top: 5px;' ng-click='grid.appScope.edit(grid, row.entity, 2)'><i class='glyphicon glyphicon-upload'></i></button>";
             var image = "<button type='button' class='btn btn-success btn-circle' style='margin-left: 5px;margin-top: 5px;' ng-click='grid.appScope.edit(grid, row.entity, 3)'><i class='glyphicon glyphicon-picture'></i></button>";
             var tarif = "<button type='button' class='btn btn-primary btn-circle' style='margin-left: 5px;margin-top: 5px;' ng-click='grid.appScope.edit(grid, row.entity, 4)'><i class='glyphicon glyphicon-euro'></i></button>";
-            return image+edit+tarif+trash;
+            var edit1 = "<button type='button' class='btn btn-warning btn-circle' style='margin-left: 5px;margin-top: 5px;' ng-click='grid.appScope.edit(grid, row.entity, 5)'><i class='glyphicon glyphicon-pencil'></i></button>";
+            return image+edit+tarif+edit1+trash;
         }
 
         vm.columns = [  { name:'Libelle',field: 'description',enableHiding:false},
-            { name:'Reference',field: 'reference',enableHiding:false},
-            { name:'Actif', field: '',enableFiltering:false,cellTemplate: vm.formatCell() ,enableHiding:false}
+                        { name:'Clé traduction',field: 'key_description',enableHiding:false},
+                        { name:'Reference',field: 'reference',enableHiding:false},
+                        { name:'Actif', field: '',enableFiltering:false,cellTemplate: vm.formatCell() ,enableHiding:false}
 
-        ];
+                    ];
 
         $scope.edit  = function (grid, row, opt){
             vm.currentProduit = angular.copy(row);
@@ -139,6 +141,9 @@ angular
                     console.log(error);
                 });
 
+            }
+            else if(opt == 5) {
+                $('#modalEditProd').modal();
             }
         };
 
@@ -286,6 +291,19 @@ angular
                 }
             });
             return prix;
+        };
+
+        vm.fnValidKey = function() {
+            $http({
+                method: 'GET',
+                params: {mode:2, id_cata: vm.currentProduit.id_cata, key:vm.currentProduit.key_description},
+                url: 'api/v1/produitCRUD.php'
+            }).then(function successCallback(response) {
+               $("#modalEditProd").modal('hide');
+                vm.fnRechCategory();
+            }, function errorCallback(error) {
+                console.log(error);
+            });
         };
 
         $(document).ready(function(){

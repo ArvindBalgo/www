@@ -57,63 +57,27 @@
             <div class="modal-body">
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-2 "><b>Libelle Francais</b></div>
+                        <div class="col-md-2 "><b>Libelle</b></div>
                         <div class="col-md-8 input-group" style="margin-bottom: 5px;">
                             <input type="text" class="form-control" style="width: 50%" ng-model="metier.libelle" placeholder="Libelle francais" aria-describedby="basic-addon1">
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2 "><b>Libelle Anglais </b></div>
-                        <div class="col-md-8 input-group" style="margin-bottom: 5px;">
-                            <input type="text" class="form-control" style="width: 50%" ng-model="metier.libelle_en" placeholder="Libelle anglais" aria-describedby="basic-addon1">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2 "><b>Libelle Allemand</b></div>
-                        <div class="col-md-8 input-group" style="margin-bottom: 5px;">
-                            <input type="text" class="form-control" style="width: 50%" ng-model="metier.libelle_al" placeholder="Libelle allemand" aria-describedby="basic-addon1">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2 "><b>Libelle Espagnole</b></div>
-                        <div class="col-md-8 input-group" style="margin-bottom: 5px;">
-                            <input type="text" class="form-control" style="width: 50%" ng-model="metier.libelle_es" placeholder="Libelle espagnole" aria-describedby="basic-addon1">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2 "><b>Libelle Italian</b></div>
-                        <div class="col-md-8 input-group" style="margin-bottom: 5px;">
-                            <input type="text" class="form-control" style="width: 50%" ng-model="metier.libelle_it" placeholder="Libelle italian" aria-describedby="basic-addon1">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2"><b>Sous Libelle Francais</b></div>
+                        <div class="col-md-2"><b>Sous Libelle</b></div>
                         <div class="col-md-8 input-group" style="margin-bottom: 5px;">
                             <input type="text" class="form-control" style="width: 50%" ng-model="metier.sous_libelle" placeholder="Sous Libelle" aria-describedby="basic-addon1">
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2"><b>Sous Libelle Anglais</b></div>
+                        <div class="col-md-2"><b>Clé traduction</b></div>
                         <div class="col-md-8 input-group" style="margin-bottom: 5px;">
-                            <input type="text" class="form-control" style="width: 50%" ng-model="metier.sous_libelle_en" placeholder="Sous Libelle" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" style="width: 50%" ng-model="metier.key_libelle" placeholder="clé" aria-describedby="basic-addon1">
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2"><b>Sous Libelle Espagnole</b></div>
+                        <div class="col-md-2"><b>Clé traduction Sous Libelle</b></div>
                         <div class="col-md-8 input-group" style="margin-bottom: 5px;">
-                            <input type="text" class="form-control" style="width: 50%" ng-model="metier.sous_libelle_es" placeholder="Sous Libelle" aria-describedby="basic-addon1">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2"><b>Sous Libelle Allemand</b></div>
-                        <div class="col-md-8 input-group" style="margin-bottom: 5px;">
-                            <input type="text" class="form-control" style="width: 50%" ng-model="metier.sous_libelle_al" placeholder="Sous Libelle" aria-describedby="basic-addon1">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2"><b>Sous Libelle Italian</b></div>
-                        <div class="col-md-8 input-group" style="margin-bottom: 5px;">
-                            <input type="text" class="form-control" style="width: 50%" ng-model="metier.sous_libelle_it" placeholder="Sous Libelle" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" style="width: 50%" ng-model="metier.key_sub_libelle" placeholder="clé" aria-describedby="basic-addon1">
                         </div>
                     </div>
                     <div class="row">
@@ -121,12 +85,11 @@
                         <div class="checkbox">
                             <label><input type="checkbox" ng-model="metier.active"></label>
                         </div>
-                        <!--input style="margin-top: 15px" type="file" nv-file-select="" uploader="uploader"-->
                     </div>
                     <div class="row">
                         <div class="col-md-2"><b>Pays</b></div>
                         <div>
-                            <input id="FR1" type="radio" name="selPays" value="FR" > FR
+                            <input id="FR1" type="radio" name="selPays" value="FR" selected> FR
                             <input id="EN1" type="radio" name="selPays" value="EN" > EN
                             <input id="ES1" type="radio" name="selPays" value="ES" > ES
                             <input id="AL1" type="radio" name="selPays" value="AL" > AL
@@ -160,27 +123,9 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2"><b>Libelle Anglais </b></div>
+                        <div class="col-md-2"><b>Clé traduction </b></div>
                         <div class="col-md-8 input-group" style="margin-bottom: 5px;">
-                            <input type="text" class="form-control" style="width: 50%" ng-model="metier.modelLibelle_en" placeholder="Libelle" aria-describedby="basic-addon1">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2"><b>Libelle Espagnole</b></div>
-                        <div class="col-md-8 input-group" style="margin-bottom: 5px;">
-                            <input type="text" class="form-control" style="width: 50%" ng-model="metier.modelLibelle_es" placeholder="Libelle" aria-describedby="basic-addon1">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2"><b>Libelle Allemand</b></div>
-                        <div class="col-md-8 input-group" style="margin-bottom: 5px;">
-                            <input type="text" class="form-control" style="width: 50%" ng-model="metier.modelLibelle_al" placeholder="Libelle" aria-describedby="basic-addon1">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2"><b>Libelle Italian</b></div>
-                        <div class="col-md-8 input-group" style="margin-bottom: 5px;">
-                            <input type="text" class="form-control" style="width: 50%" ng-model="metier.modelLibelle_it" placeholder="Libelle" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" style="width: 50%" ng-model="metier.modelKeyLibelle" placeholder="Libelle" aria-describedby="basic-addon1">
                         </div>
                     </div>
                     <div class="row">
@@ -299,34 +244,12 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2"><b>Libelle Anglais</b></div>
+                        <div class="col-md-2"><b>Key Libelle </b></div>
                         <div class="col-md-8 col-sm-8 input-group" style="margin-bottom: 5px;">
-                            <input type="text" class="form-control" style="width: 50%" ng-model="metier.currentSCategory.description_en" placeholder="Libelle Anglais" aria-describedby="basic-addon1">
+                            <input type="text" class="form-control" style="width: 50%" ng-model="metier.currentSCategory.key_description" placeholder="Libelle" aria-describedby="basic-addon1">
 
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-2"><b>Libelle Espagnole</b></div>
-                        <div class="col-md-8 col-sm-8 input-group" style="margin-bottom: 5px;">
-                            <input type="text" class="form-control" style="width: 50%" ng-model="metier.currentSCategory.description_es" placeholder="Libelle Espagnole" aria-describedby="basic-addon1">
-
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2"><b>Libelle Allemand</b></div>
-                        <div class="col-md-8 col-sm-8 input-group" style="margin-bottom: 5px;">
-                            <input type="text" class="form-control" style="width: 50%" ng-model="metier.currentSCategory.description_al" placeholder="Libelle Allemand" aria-describedby="basic-addon1">
-
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2"><b>Libelle Italian</b></div>
-                        <div class="col-md-8 col-sm-8 input-group" style="margin-bottom: 5px;">
-                            <input type="text" class="form-control" style="width: 50%" ng-model="metier.currentSCategory.description_it" placeholder="Libelle Italian" aria-describedby="basic-addon1">
-
-                        </div>
-                    </div>
-
 
                     <div class="row">
                         <div class="col-md-2"><b>Message </b></div>
@@ -335,40 +258,19 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-2"><b>Message Anglais</b></div>
+                        <div class="col-md-2"><b>Key Message </b></div>
                         <div class="col-md-8 col-sm-8 input-group" style="margin-bottom: 5px;">
-                            <textarea  style="width: 50%" class="form-control custom-control" ng-model="metier.currentSCategory.message_en" rows="3"></textarea>
+                            <textarea  style="width: 50%" class="form-control custom-control" ng-model="metier.currentSCategory.key_message" rows="3"></textarea>
                         </div>
-                    </div><div class="row">
-                    <div class="col-md-2"><b>Message Espagnole</b></div>
-                    <div class="col-md-8 col-sm-8 input-group" style="margin-bottom: 5px;">
-                        <textarea  style="width: 50%" class="form-control custom-control" ng-model="metier.currentSCategory.message_es" rows="3"></textarea>
                     </div>
-                </div><div class="row">
-                    <div class="col-md-2"><b>Message Allemand</b></div>
-                    <div class="col-md-8 col-sm-8 input-group" style="margin-bottom: 5px;">
-                        <textarea  style="width: 50%" class="form-control custom-control" ng-model="metier.currentSCategory.message_al" rows="3"></textarea>
-                    </div>
-                </div><div class="row">
-                    <div class="col-md-2"><b>Message Italian</b></div>
-                    <div class="col-md-8 col-sm-8 input-group" style="margin-bottom: 5px;">
-                        <textarea  style="width: 50%" class="form-control custom-control" ng-model="metier.currentSCategory.message_it" rows="3"></textarea>
-                    </div>
-                </div>
-
-
-
                     <div class="row">
-                        <!--div class="col-md-2"><b>Actif </b></div>
-                        <div class="checkbox">
-                            <label><input type="checkbox" ng-model="metier.currentSCategory.active" ng-checked="metier.currentSCategory.active == 1"></label>
-                        </div-->
                         <input class="col-md-5 col-md-offset-2" style="margin-top: 15px" type="file" nv-file-select="" uploader="uploader">
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button class="btn btn-danger pull-left" data-dismiss="modal">Annuler</button>
+                <button class="btn btn-primary pull-right"  ng-click="metier.fnValidateText()">Valider Text</button>
                 <button type="button" class="btn btn-success" ng-click="uploader.uploadAll()"><span class="glyphicon glyphicon-upload"></span> Valider</button>
             </div>
         </div>
