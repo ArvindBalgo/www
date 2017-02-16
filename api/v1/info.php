@@ -186,6 +186,10 @@ else if($mode == 13){
 else if($mode == 14) {
     $cataPapier = new cata_papier();
     $cataPapier->setDescription($_GET["description"]);
+    $cataPapier->setDescriptionEN($_GET["description_en"]);
+    $cataPapier->setDescriptionES($_GET["description_es"]);
+    $cataPapier->setDescriptionAL($_GET["description_al"]);
+    $cataPapier->setDescriptionIT($_GET["description_it"]);
     $cataPapier->save();
 
     $cataPapier1 = new cata_papier();
@@ -203,6 +207,10 @@ else if ($mode == 16) {
     $cataPapier = new cata_papier();
     $cataPapier = $cataPapier->findByPrimaryKey($_GET["id"]);
     $cataPapier->setDescription($_GET["description"]);
+    $cataPapier->setDescriptionEN($_GET["description_en"]);
+    $cataPapier->setDescriptionES($_GET["description_es"]);
+    $cataPapier->setDescriptionAL($_GET["description_al"]);
+    $cataPapier->setDescriptionIT($_GET["description_it"]);
     $cataPapier->save();
 
     $cataPapier1 = new cata_papier();

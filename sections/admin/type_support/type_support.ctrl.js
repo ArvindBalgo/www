@@ -25,6 +25,18 @@ angular
         vm.columns = [  { name:'Libelle',field: 'description',enableHiding:false ,cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
             return 'cssLibelle';
         }},
+            { name:'Libelle EN',field: 'description_en',enableHiding:false ,cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+                return 'cssLibelle';
+            }},
+            { name:'Libelle ES',field: 'description_es',enableHiding:false ,cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+                return 'cssLibelle';
+            }},
+            { name:'Libelle AL',field: 'description_al',enableHiding:false ,cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+                return 'cssLibelle';
+            }},
+            { name:'Libelle IT',field: 'description_it',enableHiding:false ,cellClass: function(grid, row, col, rowRenderIndex, colRenderIndex) {
+                return 'cssLibelle';
+            }},
             { name:'Action', field: 'active',enableFiltering:false,width:'200', cellTemplate: vm.formatCell() ,enableHiding:false}
 
         ];
@@ -60,18 +72,25 @@ angular
         };
 
         vm.fnAjouter = function() {
-            if(vm.modelLibelle.trim() == ""){
+            if(vm.editObj.description.trim() == ""){
                 bootbox.alert("<div style='text-align: center; font-weight: bold; font-size: larger'>Libelle vide!!!!</div>");
                 return;
             }
             $http({
                 method: 'GET',
-                params: {mode:14, description:vm.modelLibelle.trim()},
+                params: {mode:14,
+                    description:vm.editObj.description.trim(),
+                    description_en:vm.editObj.description_en.trim(),
+                    description_es:vm.editObj.description_es.trim(),
+                    description_al:vm.editObj.description_al.trim(),
+                    description_it:vm.editObj.description_it.trim()
+                },
                 url: 'api/v1/info.php'
             }).then(function successCallback(response) {
                 console.log(response.data);
                 $scope.gridOptions.data = response.data;
                 vm.modelLibelle = "";
+                vm.editObj = {};
                 vm.fnQuitter();
             }, function errorCallback(error) {
                 console.log(error);
@@ -86,7 +105,13 @@ angular
             }
             $http({
                 method: 'GET',
-                params: {mode:16, description:vm.editModelLibelle.trim(), id:vm.editObj.id},
+                params: {mode:16,
+                    description:vm.editObj.description.trim(),
+                    description_en:vm.editObj.description_en.trim(),
+                    description_es:vm.editObj.description_es.trim(),
+                    description_al:vm.editObj.description_al.trim(),
+                    description_it:vm.editObj.description_it.trim(),
+                    id:vm.editObj.id},
                 url: 'api/v1/info.php'
             }).then(function successCallback(response) {
                 console.log(response.data);
