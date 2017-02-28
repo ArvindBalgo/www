@@ -1,0 +1,19 @@
+<header ng-include="'sections/admin/header.html'"></header>
+<div class="row">
+    <div class="col-md-offset-4">
+        <input id="FR" type="radio" name="selLang" ng-click="pub.fnRadioPays('FR')" value="FR" checked="checked"> <b>FR</b>
+        <input id="EN" type="radio" name="selLang" ng-click="pub.fnRadioPays('EN')" value="EN"> <b>EN</b>
+        <input id="ES" type="radio" name="selLang" ng-click="pub.fnRadioPays('ES')" value="ES"> <b>ES</b>
+        <input id="AL" type="radio" name="selLang" ng-click="pub.fnRadioPays('AL')" value="AL"> <b>AL</b>
+        <input id="IT" type="radio" name="selLang" ng-click="pub.fnRadioPays('IT')" value="IT"> <b>IT</b>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-8 col-md-offset-1">
+        <img src="{{pub.objPub.link}}">
+    </div>
+</div>
+<div class="row">
+    <input class="col-md-5 col-md-offset-2" style="margin-top: 15px" type="file" nv-file-select="" uploader="uploader">
+    <button type="button" class="btn btn-success" ng-click="uploader.uploadAll()"><span class="glyphicon glyphicon-upload"></span> Valider</button>
+</div>

@@ -26,3 +26,19 @@ else if($mode == 2) {
     $cata->save();
     print "done";
 }
+else if($mode == 3) {
+    $pays = $_GET["pays"];
+    $pub = new pub();
+    $pub = $pub->findByPays($pays);
+
+    if($pub == null) {
+        print 'null';
+    }
+    $arrPub = array(
+        "id"    =>  $pub->getId(),
+        "actif" =>  $pub->getActif(),
+        "link"  =>  $pub->getLink(),
+        "pays"  =>  $pub->getPays()
+    );
+    print json_encode($arrPub);
+}

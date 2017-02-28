@@ -25,6 +25,14 @@
     <!-- endbuild -->
 </head>
 <body data-ng-app="myApp" ng-controller="mainController" style="margin: 5px; overflow-y: hidden">
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.8";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 <section id="main" style="overflow-y: hidden">
     <div>
         <ng-view></ng-view>
@@ -33,6 +41,17 @@
 
 <!-- build:assets assets.min.js -->
 <!-- ASSETS -->
+<!-- Smartsupp Live Chat script -->
+<script type="text/javascript">
+var _smartsupp = _smartsupp || {};
+_smartsupp.key = '5efb8f4a3b1415be51e84d915ed04369fbead232';
+window.smartsupp||(function(d) {
+	var s,c,o=smartsupp=function(){ o._.push(arguments)};o._=[];
+	s=d.getElementsByTagName('script')[0];c=d.createElement('script');
+	c.type='text/javascript';c.charset='utf-8';c.async=true;
+	c.src='//www.smartsuppchat.com/loader.js?';s.parentNode.insertBefore(c,s);
+})(document);
+</script>
 <script src="assets/js/jquery.js"></script>
 <script src="js/jquery-ui.min.js"></script>
 <script src="js/jquery.ui.core.min.js"></script>

@@ -245,7 +245,7 @@ Data.get('session.php').then(function (results) {
             localStorage.setItem("id_model", $id_cata);
             localStorage.setItem("idModelMetier", $id_modelMetier);
             localStorage.setItem("idMetier",$id_metier);
-            $location.path('fichetech');
+            $location.path('fichetech/'+$id_cata);
         };
 
         vm.fnClickBtn = function($obj) {
@@ -310,10 +310,24 @@ Data.get('session.php').then(function (results) {
                 $scope.fnClickTest();
                 vm.fnInstructions();
                 vm.fnSetBtnMetiers();
+                vm.fnLoadPub();
             }, function errorCallback(error) {
                 console.log(error);
             });
         };
+
+        vm.fnLoadPub = function() {
+            var langSel = localStorage.getItem('LANG');
+            $http({
+                method: 'GET',
+                params: {mode:3, pays:langSel},
+                url: 'api/v1/produitCRUD.php'
+            }).then(function successCallback(response) {
+                $scope.pub_src = response.data.link;
+            }, function errorCallback(error) {
+
+            });
+        }
 
         vm.fnClickTabs = function(tabVal){
             vm.activeTabId = tabVal;
@@ -389,7 +403,7 @@ Data.get('session.php').then(function (results) {
             $('#modalLanguage').modal('hide');
             vm.fnInstructions();
             vm.fnSetBtnMetiers();
-
+            vm.fnLoadPub();
         };
       //  vm.fnInstructions();
         vm.fnRecupMetier();

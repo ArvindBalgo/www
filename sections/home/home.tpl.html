@@ -17,18 +17,18 @@
 <script src="js/page.js" type="application/javascript"></script>
 
 <!--div-- id="fixed-div"><button class="btn btn-danger" >TEST</button></div-->
-<div class="row">
+<div class="row" style="margin-left: 0px;margin-right: 0px;">
         <div class="col-md-12">
             <div class="col-md-2 metierPadding" ng-repeat="boulot in home.btnMetier"><button  id="{{boulot.id}}" type="button" class="btn btn-default  btn3d" ng-class="{ active: boulot.id == home.activeId }" ng-click="home.fnClickBtn(boulot)"><b>{{boulot.key_libelle | translate}}<br><span style="font-size: 10px">{{boulot.key_sub_libelle | translate}}</span></b></button></div>
         </div>
     </div>
-<div class="row">
+<div class="row" style="margin-left: 0px;margin-right: 0px;">
         <div class="col-md-9">
             <div class="col-md-3" style="margin-bottom: 5px; margin-top: 5px;" ng-repeat="metier in home.metier">
                 <div class="tileImg" ng-click="home.fnImgClick(metier)">
                     <img style="width: 200px; height: 200px" src="{{metier.src}}">
-                    <!--span><p>{{metier.key_libelle | translate}}</p></span-->
-                    <span><p>{{metier.description}}</p></span>
+                    <span><p>{{metier.key_libelle | translate}}</p></span>
+                    <!--span><p>{{metier.description}}</p></span-->
                 </div>
             </div>
         </div>
@@ -40,6 +40,11 @@
             </div>
             <div style="margin-top: 15px; padding-top: 10px">
                 <!--iframe width="100%" height="100%" src="https://www.youtube.com/embed/m6fDf8iqiL4" frameborder="0" allowfullscreen></iframe-->
+             <div class="row col-md-2">
+                      <div class="fb-like" data-href="http://exakom.fr/#/home" data-width="50" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+            </div>
+                <div class="fb-comments" data-href="http://exakom.fr/#/home" data-width="50" data-numposts="5"></div>
+                <div class="fb-page" data-href="https://www.facebook.com/Exakom-363970297318409/" data-tabs="timeline" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/Exakom-363970297318409/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/Exakom-363970297318409/">Exakom</a></blockquote></div>
             </div>
         </div>
         <div class="col-md-1"></div>
@@ -144,8 +149,8 @@
                 <div class="col-md-3" style="margin-bottom: 5px; margin-top: 5px;" ng-repeat="sample in home.sampleMetier">
                     <div class="tileImg" style="height: 250px" ng-click="home.fnImgClick2(sample)" >
                         <img style="width: 200px; height: 200px" src="{{sample.src}}">
-                        <!--span><p style="height: 50px">{{sample.key_description | translate}} </p></span-->
-                        <span><p style="height: 50px">{{sample.description}} </p></span>
+                        <span><p style="height: 50px">{{sample.key_description | translate}} </p></span>
+                        <!--span><p style="height: 50px">{{sample.description}} </p></span-->
                     </div>
                 </div>
             </div>
@@ -176,13 +181,15 @@
                 <div ng-show="home.activeTabId == 1" class="col-md-3" style="margin-bottom: 5px; margin-top: 5px;" ng-repeat="sample in home.arrProds">
                     <div class="tileImg" style="height: 250px" ng-click="home.fnModelClick(sample.id, sample.id_modelmetier, sample.id_cata, sample.id_metier)" >
                         <img style="width: 200px; height: 200px" src="{{sample.src}}">
-                        <span><p>{{sample.description}} </p></span>
+                        <!--span><p>{{sample.description}} </p></span-->
+                        <span><p style="height: 50px">{{sample.key_description | translate}} </p></span>
                     </div>
                 </div>
                 <div ng-show="home.activeTabId == 2" class="col-md-3" style="margin-bottom: 5px; margin-top: 5px;" ng-repeat="sample in home.arrGabarits">
                     <div class="tileImg" style="height:250px" ng-click="home.fnModelClick(sample.id, sample.id_modelmetier, sample.id_cata, sample.id_metier)" >
                         <img style="width: 200px; height: 200px" src="{{sample.src}}">
-                        <span><p>{{sample.description}} </p></span>
+                        <!--span><p>{{sample.description}} </p></span-->
+                        <span><p style="height: 50px">{{sample.key_description | translate}} </p></span>
                     </div>
                 </div>
             </div>

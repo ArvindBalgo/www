@@ -59,7 +59,7 @@ app.config(['$routeProvider',
             templateUrl:'sections/admin/model/model.tpl.html',
             controller: 'modelController as model'
         })
-            .when('/imgProduits', {
+        .when('/imgProduits', {
             title:      'Produits',
             templateUrl:'sections/admin/produits/produits.tpl.html',
             controller: 'produitsController as produits'
@@ -113,6 +113,11 @@ app.config(['$routeProvider',
             title:      'Language',
             templateUrl:'sections/admin/langue/langue.tpl.html',
             controller: 'langueController as langue'
+        })
+        .when('/pub', {
+            title:      'Publicité',
+            templateUrl:'sections/admin/pub/pub.tpl.html',
+            controller: 'pubController as pub'
         })
         .when('/', {
             title: 'Login',

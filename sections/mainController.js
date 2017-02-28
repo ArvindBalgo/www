@@ -71,8 +71,8 @@ angular
                             console.log($scope.isLogged, " logging dunction");
                         }
 
-                      //  toastr.options.positionClass = 'toast-top-right';
-                      //  toastr.success('Bienvenue ' + results.name);
+                        toastr.options.positionClass = 'toast-top-right';
+                        toastr.success('Bienvenue ' + results.name);
 
                     }
                     else{

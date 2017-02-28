@@ -17,51 +17,60 @@
         <div class="pull-right" style="cursor: pointer" ng-click="fnClickLang()"><span class="glyphicon glyphicon-retweet"> </span><label class="label label-primary">{{isActualLang}}</label></div>
     </div-->
 <!--/div-->
+<div class="row">
+    <div class="col-md-2">
+        <!--img style="width: 100%;height: 100%" src="assets/images/exakom_minified2.png"></a-->
+         <img style="width: 100%;height: 100%" src="images/log.png"></a>
+    </div>
+    <div class="col-md-10">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">{{'toggle_nav' | translate}}</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <!--a class="navbar-brand" href="#/home"><img style="width:100px; height:50px" src="images/logo_exakomBIS.jpeg"></a-->
+                    <!--a class="navbar-brand" href="#/home"><img src="assets/images/exakom_minified.png"></a-->
+                </div>
 
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-                <span class="sr-only">{{'toggle_nav' | translate}}</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <!--a class="navbar-brand" href="#/home"><img style="width:100px; height:50px" src="images/logo_exakomBIS.jpeg"></a-->
-            <a class="navbar-brand" href="#/home"><img src="assets/images/exakom_minified.png"></a>
-        </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li><a style="color: white" href="#/home">{{'accueil' | translate}} <span class="sr-only">(current)</span></a></li>
-                <li><a href="#/client" style="color: white">{{'espace_client' | translate}}</a></li>
-                <!--li><a href="#" style="color: white">{{langue.contact_menu}}</a></li-->
-            </ul>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                        <ul class="nav navbar-nav">
+                            <li><a style="color: white" href="#/home">{{'accueil' | translate}} <span class="sr-only">(current)</span></a></li>
+                            <li><a href="#/client" style="color: white">{{'espace_client' | translate}}</a></li>
+                            <!--li><a href="#" style="color: white">{{langue.contact_menu}}</a></li-->
+                        </ul>
 
-            <ul class="nav navbar-nav navbar-right" style="cursor: pointer">
-                <li ng-show="!isLogged">
-                    <a ng-click="loginModal()" data-toggle="modal" style="color: white">
-                        <span class="glyphicon glyphicon-user"> Connection</span>
-                    </a>
-                </li>
-                <li ng-show="isLogged" style="margin-top: 20px">
-                    <span ng-click="logout()">{{'bonjour' | translate}} {{utilisateur}}</span> <button class="btn btn-danger" ng-click="logout()"><span class="glyphicon glyphicon-off"></span></button>
-                </li>
-                <li style="margin-top: 20px">
+                        <ul class="nav navbar-nav navbar-right" style="cursor: pointer">
+                            <li ng-show="!isLogged">
+                                <a ng-click="loginModal()" data-toggle="modal" style="color: white">
+                                    <span class="glyphicon glyphicon-user"> Connection</span>
+                                </a>
+                            </li>
+                            <li ng-show="isLogged" style="margin-top: 25px">
+                                <span ng-click="logout()">{{'bonjour' | translate}} {{utilisateur}}</span> <button class="btn btn-danger" ng-click="logout()"><span class="glyphicon glyphicon-off"></span></button>
+                            </li>
+                            <li style="margin-top: 20px">
                     <span  ng-click="fnClickLang()">
                         <span class="glyphicon glyphicon-retweet"> </span>
                         <label class="label label-primary" style="cursor: pointer">{{isActualLang}}</label>
                     </span>
-                </li>
-            </ul>
+                            </li>
+                        </ul>
 
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+        </nav>
+    </div>
+</div>
+
 <div class="row">
     <div class="row" ng-show="!isFiche">
-        <div class="col-md-10 col-md-offset-1" style=" height: 150px;background-color: #E5E3E3;">Bande PUB132</div>
+           <div class="col-md-10 col-md-offset-1"><img style=" height: 150px;width:100%; background-color: #E5E3E3;" src="{{pub_src}}"></div>
     </div>
     <div class="row no-gutter panel" ng-show="!isFiche">
         <div class="col-md-4 col-sm-4">
