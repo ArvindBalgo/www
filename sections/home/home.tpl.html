@@ -2,7 +2,7 @@
 
 <div id="panier_btn" class="a2a_kit a2a_kit_size_52 a2a_floating_style a2a_vertical_style" style="right:0px; top:200px;background-color: transparent;">
     <!--button class="btn btn-warning"><div class="glyphicon glyphicon-shopping-cart"></div><div>{{langue.panier}}</div></button-->
-    <img ng-src="{{home.linkmonpanier}}" style="width:120px; height:65px;cursor:pointer;">
+    <img ng-src="{{home.linkmonpanier}}" style="width:120px; height:65px;cursor:pointer;" ng-click="home.fnClickPanier()">
 </div>
 <!--p>
     <a ng-click="setLang('EN')">English</a>
@@ -196,6 +196,80 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" ng-click="home.fnRemoveModal()">{{'quit' | translate}}</button>
                 <button type="button" class="btn btn-danger pull-right" ng-click="home.fnRetourCategory()">{{'return' | translate}}</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!--PANIER CHECKOUT-->
+<div id="modalPanier" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 90%;height:80%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><span class="glyphicon glyphicon-shopping-cart"></span><span> {{'panier_produit' | translate}}</span></h4>
+            </div>
+            <div class="modal-body" style="overflow: hidden">
+                <div class="row">
+                    <table border="1">
+                        <th class="paddingTable">{{'titre' | translate}}</th>
+                        <th class="paddingTable">{{'opt_attache' | translate}}</th>
+                        <th class="paddingTable">{{'additionel' | translate}}</th>
+                        <th class="paddingTable">{{'commande' | translate}}</th>
+                        <th class="paddingTable">{{'finition_ppr' | translate}}</th>
+                        <th class="paddingTable">{{'finition_ppr' | translate}}</th>
+                        <th class="paddingTable">{{'qte' | translate}}</th>
+                        <th class="paddingTable">{{'instructions' | translate}}</th>
+                        <th class="paddingTable">{{'prix' | translate}}</th>
+                        <th class="paddingTable">{{'actions' | translate}}</th>
+                        <tr ng-repeat="(key, ligne) in home.arrProduits">
+                            <td class="paddingTable">{{ligne.title}} - {{key}}</td>
+                            <!--Escargot-->
+                            <td class="paddingTable" ng-show="ligne.escargot == 0">{{'aucun' | translate}}</td>
+                            <td class="paddingTable" ng-show="ligne.escargot == 1">{{'attache_escargot' | translate}}</td>
+                            <td class="paddingTable" ng-show="ligne.escargot == 2">{{'avec_trou' | translate}}</td>
+                            <!--Caractéristiques Optionnel-->
+                            <td class="paddingTable" ng-show="ligne.option==0">{{'aucun' | translate}}</td>
+                            <td class="paddingTable" ng-show="ligne.option==1">{{'avec_cadre' | translate}}</td>
+                            <td class="paddingTable" ng-show="ligne.option==2">{{'avec_lisere' | translate}}</td>
+                            <!--Bon de commande-->
+                            <td class="paddingTable" ng-show="ligne.bonrepli==1">{{'avec_bat' | translate}}</td>
+                            <td class="paddingTable" ng-show="ligne.bonrepli==2">{{'sans_bat' | translate}}</td>
+                            <td class="paddingTable"> - </td>
+                            <td class="paddingTable">{{ligne.dimension}}</td>
+                            <td class="paddingTable">{{ligne.qte}}</td>
+                            <!--td class="paddingTable">{{ligne.commentaire}}</td-->
+                            <td class="paddingTable" style="text-align: center"><button type="button" class="btn btn-primary btn-circle1" ng-click="home.fnAlertCommentaire(ligne.commentaire)"><b>i</b></button></td>
+                            <td class="paddingTable">{{ligne.prix}}</td>
+                            <td>
+                                <button type='button'
+                                        class='btn btn-success btn-circle'
+                                        style='margin-left: 5px;margin-top: 5px;'
+                                        ng-click='home.fnImgClient(ligne)'>
+                                    <i class='glyphicon glyphicon-picture'></i>
+                                </button>
+                                <button type='button'
+                                        class='btn btn-info btn-circle'
+                                        style='margin-left: 5px;margin-top: 5px;'
+                                        ng-click='home.fnEditClient(ligne)'>
+                                    <i class='glyphicon glyphicon-pencil'></i>
+                                </button>
+                                <button type='button'
+                                        class='btn btn-default btn-circle'
+                                        style='margin-left: 5px;margin-top: 5px;'
+                                        ng-click=''>
+                                    <i class='glyphicon glyphicon-trash'></i>
+                                </button>
+                            </td>
+
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" ng-click="" data-dismiss="modal">{{'quit' | translate}}</button>
+                <button type="button" class="btn btn-success pull-right">{{'valider' | translate}}</button>
             </div>
         </div>
     </div>

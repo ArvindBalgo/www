@@ -117,6 +117,7 @@ angular
                                 $scope.isLogged = false;
                                 $scope.utilisateur = "";
                                 $location.path('home');
+                                console.log("TEST 123");
                                 bootbox.alert("Vous êtes déconnecté.");
                             });
                         }

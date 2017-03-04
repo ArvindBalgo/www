@@ -59,15 +59,15 @@
 	},
 	"modules": {
 		"products": "Choisir Model",
-		"images": "Téléchargez vos images, maquettes et logos",
+		"images": "Scarica la immagini, layout e loghi",
 		"upload_zone": "Ajout images ici",
 		"facebook_select_album": "Selection d'un album",
 		"instagram_recent_photos_button": "Photos recent",
 		"instagram_like_photos_button": "Photos aimés",
-		"text": "Insérez votre texte",
+		"text": "Inserire il vostro testo",
 		"text_input_placeholder": "Ajouter un texte ici",
 		"text_add_btn": "Ajout Text",
-		"designs": "Choisissez parmi nos images",
+		"designs": "Scegli tra le nostre immagini",
         "designs_search_in": "Search in",
 		"manage_layers": "Modifer Couches"
 	},

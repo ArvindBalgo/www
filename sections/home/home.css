@@ -276,7 +276,6 @@ span.icon {
     padding: 1.5rem;
     color:#E7BAEF;
     vertical-align: middle;
-    border:1px solid #E7BAEF;
     border-radius: 50%;
 }
 
@@ -716,4 +715,32 @@ body {
     position: absolute;
     top: 0;
     left: 0;
+}
+body{margin:40px;}
+
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    padding: 0px 4px;
+    font-size: 12px;
+    line-height: 2.428571;
+    border-radius: 15px;
+}
+.btn-circle.btn-lg {
+    width: 50px;
+    height: 50px;
+    padding: 10px 16px;
+    font-size: 18px;
+    line-height: 1.33;
+    border-radius: 25px;
+}
+.btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    font-size: 24px;
+    line-height: 1.33;
+    border-radius: 35px;
 }

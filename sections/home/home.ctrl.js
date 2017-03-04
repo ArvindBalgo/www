@@ -368,6 +368,13 @@ Data.get('session.php').then(function (results) {
                 });*/
                 vm.linkmonpanier = "../assets/carts/carrello_italiano.png";
             }
+        };
+
+        vm.fnClickPanier = function() {
+            vm.arrProduits = JSON.parse(localStorage.getItem("produits"));
+            console.clear();
+            console.log("DATA PRODUITS" , vm.arrProduits);
+            $("#modalPanier").modal();
         }
 
         $scope.$watch('isActualLang', function(ov, nv) {

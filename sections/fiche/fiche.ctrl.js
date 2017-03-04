@@ -203,6 +203,23 @@ angular
                 });
                 vm.unitprix = ((coeff_dimension*coeff_qte*coeff_support) / qte_commander).toFixed(3);
                 vm.prixvente = (coeff_dimension*coeff_qte*coeff_support).toFixed(2);
+                var lang = localStorage.getItem("LANG");
+                var urlLang = "";
+                if(lang == 'FR') {
+                    urlLang = "lang/fr.json";
+                }
+                else if(lang == 'ES') {
+                    urlLang = "lang/es.json";
+                }
+                else if(lang == 'AL') {
+                    urlLang = "lang/al.json";
+                }
+                else if(lang == 'IT') {
+                    urlLang = "lang/it.json";
+                }
+                else if(lang == 'EN') {
+                    urlLang = "lang/en.json";
+                }
                 //******************************************************
                     //selection produit
                     $('#aucun').prop('checked', true);
@@ -217,6 +234,7 @@ angular
                                 stageWidth: 2000,
                                 stageHeight:1000,
                                 editorMode: true,
+                                langJSON : urlLang,
                                 improvedResizeQuality:true,
                                 loadFirstProductInStage:true,
                                 fonts: ['Arial', 'Fearless', 'Helvetica', 'Times New Roman', 'Verdana', 'Geneva', 'Gorditas','Amerika Sans'],
@@ -1799,11 +1817,10 @@ angular
                                 vm.arrProduits.push((obj));
                                 localStorage.setItem("produits", JSON.stringify(vm.arrProduits));
                             });
-                            console.log("********************************************************");
-                            console.log(JSON.parse(localStorage.getItem("produits")));
-                            console.log("********************************************************");
                             vm.countProds = vm.arrProduits.length;
-                        }
+                            toastr.options.positionClass = 'toast-top-right';
+                            toastr.success('Produit rajouté');
+                        };
 
                         vm.fnClickPanier = function() {
                             vm.arrProduits = JSON.parse(localStorage.getItem("produits"));
