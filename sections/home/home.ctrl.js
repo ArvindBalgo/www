@@ -409,13 +409,25 @@ Data.get('session.php').then(function (results) {
 
         vm.fnClickPanier = function() {
             vm.arrProduits = [];
-            var count = Number(sessionStorage.getItem("produitCount"));
+            /*var count = Number(sessionStorage.getItem("produitCount"));
             var arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
             if(arrProds != null) {
                 angular.forEach(arrProds, function(value){
                     vm.arrProduits.push(JSON.parse(sessionStorage.getItem(value)));
                 });
-            }
+            }*/
+            $http({
+                method: 'POST',
+                data: $.param({mode:1}),
+                url: 'api/v1/recupTempProd.php',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                vm.arrProduits = response.data;
+            }, function errorCallback(error) {
+                console.log(error);
+            });
+
             $("#modalPanier").modal();
         };
         vm.fnAlertCommentaire = function(text) {

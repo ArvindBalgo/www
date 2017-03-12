@@ -52,3 +52,4 @@ include_once 'conditionvente_en.php';
 include_once 'conditionvente_es.php';
 include_once 'conditionvente_it.php';
 include_once 'pub.php';
+include_once 'temp_prod.php';

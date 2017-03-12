@@ -18,6 +18,7 @@ angular
         vm.produit = [{titre:"", commentaire:''}];
         vm.unitprix = 0;
         vm.prixvente = 0;
+        vm.modifEnCoursProd = {};
         $('body').addClass("spinner");
         $scope.alertMsg = "";
         $scope.isFiche = true;
@@ -932,8 +933,7 @@ angular
                                     }})
                                 }
                             })
-                            //arrProducts.push({title:value.title, thumbnail:value.thumbnail_src, elements:arrFront});
-                            //arrProducts.push({title:value.title, thumbnail:value.thumbnail_src, elements:arrBack});
+
                             arrProducts.push({title:'Recto', thumbnail:'images/gallery/simple1.jpg', elements:arrFront});
                             arrProducts.push({title:'Recto Verso', thumbnail:'images/gallery/simple2.jpg', elements:arrBack});
                             yourDesigner.addProduct(arrProducts);
@@ -1106,7 +1106,7 @@ angular
                                     $('#aucun').prop('checked', true);
                                     $('#aucunEscargot').prop('checked', true);
                                     $('#cmdBonTirer').prop('checked', true);
-                                    vm.fnCalcPrixVente(1);
+                                    //vm.fnCalcPrixVente(1);
                                     angular.forEach(response.data, function(value) {
                                         var arrProducts = [];
                                         var arrFront = [];
@@ -1815,7 +1815,7 @@ angular
                         }
 
                         vm.fnAddBasket = function() {
-                            console.clear();
+                           // console.clear();
                             console.log(vm.productList);
                             if(typeof vm.produit.titre == 'undefined' || (vm.produit.titre).trim() == "") {
                                 bootbox.alert("<div style='text-align: center'><b>Veuillez renseigner le titre s'il-vous-plait.</b></div>");
@@ -1829,19 +1829,46 @@ angular
                             var obj={};
                             yourDesigner.getProductDataURL(function(dataURL) {
 
-                                obj.base64_image = dataURL;
-                                obj.title = vm.produit.titre;
-                                obj.commentaire = vm.produit.commentaire;
-                                obj.option = $('input[name="optradio"]:checked').val();
-                                obj.escargot = $('input[name="optescargot"]:checked').val();
-                                obj.dimension = $('.sel_dimensions').select2('data')[0].text;
-                                obj.qte = $('.sel_qte').select2('data')[0].text;
-                                obj.bonrepli = $('input[name="optcommande"]:checked').val();
-                                obj.data = yourDesigner.getProduct();
-                                obj.prix = vm.prixvente;
-                                obj.idn_key = "produit" + countProduit;
+                                obj.base64_image    = dataURL;
+                                obj.title           = vm.produit.titre;
+                                obj.commentaire     = vm.produit.commentaire;
+                                obj.option          = $('input[name="optradio"]:checked').val();
+                                obj.escargot        = $('input[name="optescargot"]:checked').val();
+                                obj.dimension       = $('.sel_dimensions').select2('data')[0].text;
+                                obj.qte             = $('.sel_qte').select2('data')[0].text;
+                                obj.bonrepli        = $('input[name="optcommande"]:checked').val();
+                                obj.data            = yourDesigner.getProduct();
+                                obj.prix            = vm.prixvente;
+                                obj.idn_key         = "produit" + countProduit;
+console.log(obj.data, " avant");
+                                if(typeof vm.produit.commentaire == 'undefined'){
+                                    vm.produit.commentaire = " ";
+                                }
+                                $.ajax({
+                                    url: 'api/v1/temp_produit.php',
+                                    type: 'post',
+                                    dataType: 'json',
+                                    success: function (data) {
+                                        console.log("data");
+                                    },
+                                    data: {
+                                        base64_image    : dataURL,
+                                        title           : vm.produit.titre,
+                                        comm            : vm.produit.commentaire,
+                                        option          : $('input[name="optradio"]:checked').val(),
+                                        escargot        : $('input[name="optescargot"]:checked').val(),
+                                        dimension       : $('.sel_dimensions').select2('data')[0].text,
+                                        qte             : $('.sel_qte').select2('data')[0].text,
+                                        bonrepli        : $('input[name="optcommande"]:checked').val(),
+                                        data            : yourDesigner.getProduct(),
+                                        prix            : vm.prixvente,
+                                        idn_key         : "produit" + countProduit}
+                            }).done(function(data){
+                                console.log(data);
+                                });
 
-                                sessionStorage.setItem("produit" + countProduit, JSON.stringify(obj));
+
+                                //sessionStorage.setItem("produit" + countProduit, JSON.stringify(obj));
                                 sessionStorage.setItem("produitCount", countProduit);
                                 arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
                                 if(arrProds == null ) {
@@ -1850,25 +1877,44 @@ angular
                                 arrProds.push("produit" + countProduit);
                                 sessionStorage.setItem("arrProds", JSON.stringify(arrProds));
                                 vm.arrProduits = [];
-                                var count = Number(sessionStorage.getItem("produitCount"));
+/*                                var count = Number(sessionStorage.getItem("produitCount"));
                                 angular.forEach(arrProds, function(value) {
                                     vm.arrProduits.push(JSON.parse(sessionStorage.getItem(value)));
-                                });
+                                });*/
                             });
-                            vm.countProds = vm.arrProduits.length;
+                           // console.log(vm.arrProduits, " array of produits");
+                           // vm.countProds = vm.arrProduits.length;
                             toastr.options.positionClass = 'toast-top-right';
                             toastr.success('Produit rajouté');
+
+
+
                         };
 
                         vm.fnClickPanier = function() {
                             vm.arrProduits = [];
                             var count = Number(sessionStorage.getItem("produitCount"));
                             var arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
-                            if(arrProds != null) {
+                            /*if(arrProds != null) {
                                 angular.forEach(arrProds, function(value){
                                     vm.arrProduits.push(JSON.parse(sessionStorage.getItem(value)));
                                 });
-                            }
+                            }*/
+
+                            //POST data http
+
+                            $http({
+                                method: 'POST',
+                                data: $.param({mode:1}),
+                                url: 'api/v1/recupTempProd.php',
+                                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                            }).then(function successCallback(response) {
+                               console.log(response.data);
+                                vm.arrProduits = response.data;
+                            }, function errorCallback(error) {
+                                console.log(error);
+                            });
+
                             $("#modalPanier").modal();
                         };
 
@@ -1890,12 +1936,244 @@ angular
                         vm.fnImgClient = function(produit) {
                             console.log(produit);
                             bootbox.alert("<img style='width: 100%;height: 100%' src='"+produit.base64_image+"'>");
-                        }
+                        };
 
                         vm.fnEditClient = function(produit) {
                             $("#modalPanier").modal('hide');
-                            yourDesigner.loadProduct(produit.data);
-                        }
+                            console.log(JSON.parse(produit.data), " produit aprer");
+                            produit.data = JSON.parse(produit.data);
+                            angular.forEach(produit.data, function(value){
+                                angular.forEach(value.elements, function(value1) {
+                                    var flag = false;
+
+                                    value1.parameters.angle = Number(value1.parameters.angle);
+                                    value1.parameters.height = Number(value1.parameters.height);
+                                    value1.parameters.left = Number(value1.parameters.left);
+                                    value1.parameters.opacity = Number(value1.parameters.opacity);
+                                    value1.parameters.padding = Number(value1.parameters.padding);
+                                    value1.parameters.top = Number(value1.parameters.top);
+                                    value1.parameters.scaleX = Number(value1.parameters.scaleX);
+                                    value1.parameters.scaleY = Number(value1.parameters.scaleY);
+                                    value1.parameters.width = Number(value1.parameters.width);
+
+                                    if(value1.parameters.fill == "false") {
+                                        value1.parameters.fill = false;
+                                    }
+
+                                    if(value1.parameters.fill != "false"){
+                                        flag = value1.parameters.fill;
+                                    }
+                                    if(value1.parameters.flipX == "false"){
+                                        value1.parameters.flipX = false;
+                                    }
+                                    else{
+                                        value1.parameters.flipX = true;
+                                    }
+
+                                    if(value1.parameters.flipY == "false"){
+                                        value1.parameters.flipY = false;
+                                    }
+                                    else{
+                                        value1.parameters.flipY = true;
+                                    }
+                                    if(value1.parameters.autoCenter == "false"){
+                                        value1.parameters.autoCenter = false;
+                                    }
+                                    else{
+                                        value1.parameters.autoCenter = true;
+                                    }
+
+                                    if(value1.parameters.autoSelect == "false"){
+                                        value1.parameters.autoSelect = false;
+                                    }
+                                    else{
+                                        value1.parameters.autoSelect = true;
+                                    }
+
+                                    if(value1.parameters.colorLinkGroup == "false"){
+                                        value1.parameters.colorLinkGroup = false;
+                                    }
+                                    else{
+                                        value1.parameters.colorLinkGroup = true;
+                                    }
+
+                                    if(value1.parameters.copyable == "false"){
+                                        value1.parameters.copyable = false;
+                                    }
+                                    else{
+                                        value1.parameters.copyable = true;
+                                    }
+
+                                    if(value1.parameters.cornerSize == "false"){
+                                        value1.parameters.cornerSize = false;
+                                    }
+                                    else if(value1.parameters.cornerSize == "true"){
+                                        value1.parameters.cornerSize = true;
+                                    }
+                                    else{
+                                        value1.parameters.cornerSize = parseInt(value1.parameters.cornerSize);
+                                    }
+
+
+                                    if(value1.parameters.draggable == "false"){
+                                        value1.parameters.draggable = false;
+                                    }
+                                    else{
+                                        value1.parameters.draggable = true;
+                                    }
+
+                                    if(value1.parameters.evented == "false"){
+                                        value1.parameters.evented = false;
+                                    }
+                                    else{
+                                        value1.parameters.evented = true;
+                                    }
+
+                                    if(value1.parameters.filter == "false"){
+                                        value1.parameters.filter = false;
+                                    }
+                                    else{
+                                        value1.parameters.filter = true;
+                                    }
+
+                                    if(value1.parameters.isCustom == "false"){
+                                        value1.parameters.isCustom = false;
+                                    }
+                                    else{
+                                        value1.parameters.isCustom = true;
+                                    }
+
+                                    if(value1.parameters.isEditable == "false"){
+                                        value1.parameters.isEditable = false;
+                                    }
+                                    else{
+                                        value1.parameters.isEditable = true;
+                                    }
+
+                                    if(value1.parameters.lockUniScaling == "false"){
+                                        value1.parameters.lockUniScaling = false;
+                                    }
+                                    else{
+                                        value1.parameters.lockUniScaling = true;
+                                    }
+
+                                    if(value1.parameters.removable == "false"){
+                                        value1.parameters.removable = false;
+                                    }
+                                    else{
+                                        value1.parameters.removable = true;
+                                    }
+
+                                    if(value1.parameters.replaceInAllViews == "false"){
+                                        value1.parameters.replaceInAllViews = false;
+                                    }
+                                    else{
+                                        value1.parameters.replaceInAllViews = true;
+                                    }
+
+                                    if(value1.parameters.resizable == "false"){
+                                        value1.parameters.resizable = false;
+                                    }
+                                    else{
+                                        value1.parameters.resizable = true;
+                                    }
+
+                                    if(value1.parameters.rotatable == "false"){
+                                        value1.parameters.rotatable = false;
+                                    }
+                                    else{
+                                        value1.parameters.rotatable = true;
+                                    }
+
+                                    if(value1.parameters.topped == "false"){
+                                        value1.parameters.topped = false;
+                                    }
+                                    else{
+                                        value1.parameters.topped = true;
+                                    }
+
+                                    if(value1.parameters.uniScalingUnlockable == "false"){
+                                        value1.parameters.uniScalingUnlockable = false;
+                                    }
+                                    else{
+                                        value1.parameters.uniScalingUnlockable = true;
+                                    }
+
+                                    if(value1.parameters.uploadZone == "false"){
+                                        value1.parameters.uploadZone = false;
+                                    }
+                                    else{
+                                        value1.parameters.uploadZone = true;
+                                    }
+
+                                    if(value1.parameters.zChangeable == "false"){
+                                        value1.parameters.zChangeable = false;
+                                    }
+
+                                    else{
+                                        value1.parameters.zChangeable = true;
+                                    }
+
+                                    if(value1.parameters.curvable == "false"){
+                                        value1.parameters.curvable = false;
+                                    }
+                                    else{
+                                        value1.parameters.curvable = true;
+                                    }
+
+                                    if(value1.parameters.curved == "false"){
+                                        value1.parameters.curved = false;
+                                    }
+                                    else{
+                                        value1.parameters.curved = true;
+                                    }
+                                    if(value1.parameters.curveReverse == "false"){
+                                        value1.parameters.curveReverse = false;
+                                    }
+                                    else if(value1.parameters.curveReverse == "true"){
+                                        value1.parameters.curveReverse = true;
+                                    }
+
+                                    if(value1.parameters.curveRadius == "false"){
+                                        value1.parameters.curveRadius = false;
+                                    }
+                                    else if(value1.parameters.curveRadius == "true"){
+                                        value1.parameters.curveRadius = true;
+                                    }
+
+                                    if(value1.parameters.editable == "false"){
+                                        value1.parameters.editable = false;
+                                    }
+                                    else{
+                                        value1.parameters.editable = true;
+                                    }
+
+                                    if(value1.parameters.colors == "false"){
+                                        value1.parameters.colors = false;
+                                    }
+                                    else if(value1.parameters.colors == "true"){
+                                        value1.parameters.colors = true;
+                                    }
+
+                                    if(value1.parameters.numberPlaceholder == "false"){
+                                        value1.parameters.numberPlaceholder = false;
+                                    }
+                                    else if(value1.parameters.numberPlaceholder == "true"){
+                                        value1.parameters.numberPlaceholder = true;
+                                    }
+
+                                    if(value1.parameters.textBox == "false"){
+                                        value1.parameters.textBox = false;
+                                    }
+                                    else if(value1.parameters.textBox == "true"){
+                                        value1.parameters.textBox = true;
+                                    }
+                                })
+                            });
+                            console.log(produit.data, " <><><><>");
+                            vm.modifEnCoursProd = produit;
+                            yourDesigner.loadProduct((produit.data));
+                        };
 
                         vm.fnDelClient = function(produit){
                             bootbox.dialog({
@@ -1927,7 +2205,7 @@ angular
                                     }
                                 }
                             });
-                        }
+                        };
 
                         vm.fnCalcPrixVente = function(flag) {
                             var idSupport = $('.sel_papier').select2('data')[0].id;
@@ -2075,7 +2353,7 @@ angular
                 url: 'api/v1/sampleControl.php'
             }).then(function successCallback(response) {
                     //console.log(response.data);
-                    console.clear();
+                    //console.clear();
                     console.log(response.data);
                     var id_metier = localStorage.idMetier;
                     console.log(id_metier , " metier ");
