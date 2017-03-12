@@ -263,8 +263,16 @@ else if($mode == 9) {
     $cata_metier = new cata_metier();
     $cata_metier = $cata_metier->findByIdCata($_GET["id_model"]);
 
-    $coeffprix1 = new coeff_prix();
-    $coeffprix1 = $coeffprix1->getListIdPapierSupport($cata_metier->getIdModelMetier() , $id_souscategory_coeffprix);
+    if($id_souscategory_coeffprix >=0) {
+        $coeffprix1 = new coeff_prix();
+        $coeffprix1 = $coeffprix1->getListIdPapierSupport($cata_metier->getIdModelMetier() , $id_souscategory_coeffprix);
+
+    }
+    else {
+        $tarif_manuel = new tarif_manuel();
+        $tarif_manuel = $tarif_manuel->getSupportById($cata->getId_Cata());
+        $coeffprix1 = $tarif_manuel;
+    }
 
     if($coeffprix1['ligne'] != null){
         $cata_papier = new cata_papier();

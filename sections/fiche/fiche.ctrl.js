@@ -1,11 +1,12 @@
 
 angular
     .module('myApp')
-    .controller('ficheController', function($scope, $location, $timeout, messages, $http, Data, $translate) {
+    .controller('ficheController', function($scope, $location, $timeout, messages, $http, Data, $translate, $routeParams) {
         console.log('fiche controller');
         $(".modal-backdrop").remove();
         $("body").removeClass("modal-open");
         var vm = this;
+        vm.currentProd = $routeParams.idcata;
         vm.models = [];
         vm.gabarits = [];
         vm.modelsTous=[];
@@ -27,13 +28,21 @@ angular
         })
 
         //console.log("FACT VALUE:: ", messages.list);
-        vm.arrProduits = JSON.parse(localStorage.getItem("produits"));
-        if (vm.arrProduits == null) {
-            vm.arrProduits = [];
-            localStorage.setItem("produits", JSON.stringify(vm.arrProduits));
+        vm.arrProduits = [];
+        var count = Number(sessionStorage.getItem("produitCount"));
+        if(count){
+            for(i=0;i<=count; i++) {
+                vm.arrProduits.push(JSON.parse(sessionStorage.getItem("produit"+count)));
+            }
         }
 
-        vm.countProds = (JSON.parse(localStorage.getItem("produits"))).length;
+        if (vm.arrProduits == null) {
+            vm.arrProduits = [];
+            sessionStorage.setItem("produits", JSON.stringify(vm.arrProduits));
+        }
+
+        //vm.countProds = (JSON.parse(localStorage.getItem("produits"))).length;
+        vm.countProds = 0;
 
         $(".sel_trait").select2({
             tags: true,
@@ -132,10 +141,10 @@ angular
             ]},
         ];
 
-        vm.fnInit = function() {
+        vm.fnInit = function(idprod) {
             $http({
                 method: 'GET',
-                params: {mode:9,metier: localStorage.idModelMetier, id_model:localStorage.id_model},
+                params: {mode:9,metier: localStorage.idModelMetier, id_model:idprod},
                 url: 'api/v1/sampleControl.php'
             }).then(function successCallback(response) {
                     vm.productList=response.data;
@@ -183,7 +192,7 @@ angular
                         vm.fnCalcPrixVente();
                     });
                 //******************************************************
-                if(arrPapier.length > 0){
+                if(arrPapier.length > 0) {
                     var idSupport = $('.sel_papier').select2('data')[0].id;
                 }
                 var qte_commander = Number($('.sel_qte').select2('data')[0].text);
@@ -195,14 +204,25 @@ angular
                        coeff_dimension=Number(value.coeff);
                    }
                 });
-                angular.forEach(vm.productList[0].info_prix, function(value) {
-                    if(value.id_support == idSupport && Number(value.qte) == qte_commander) {
-                        coeff_support = Number(value.coeff_prix);
-                        coeff_qte  = Number(value.coeff_qte);
-                    }
-                });
-                vm.unitprix = ((coeff_dimension*coeff_qte*coeff_support) / qte_commander).toFixed(3);
-                vm.prixvente = (coeff_dimension*coeff_qte*coeff_support).toFixed(2);
+                if(vm.productList[0].type_tarif > -1) {
+                    angular.forEach(vm.productList[0].info_prix, function(value) {
+                        if(value.id_support == idSupport && Number(value.qte) == qte_commander) {
+                            coeff_support = Number(value.coeff_prix);
+                            coeff_qte  = Number(value.coeff_qte);
+                        }
+                    });
+                    vm.unitprix = ((coeff_dimension*coeff_qte*coeff_support) / qte_commander).toFixed(3);
+                    vm.prixvente = (coeff_dimension*coeff_qte*coeff_support).toFixed(2);
+
+                }
+                else {
+                    angular.forEach(vm.productList[0].tarifManuel, function(value) {
+                        if(value.lib_dim == $('.sel_dimensions').select2('data')[0].text.trim() && Number(value.qte) == qte_commander && value.id_support == idSupport){
+                            vm.unitprix = ((value.prix_vente)/Number(value.qte)).toFixed(3);
+                            vm.prixvente = Number(value.prix_vente).toFixed(2);
+                        }
+                    })
+                }
                 var lang = localStorage.getItem("LANG");
                 var urlLang = "";
                 if(lang == 'FR') {
@@ -1086,7 +1106,8 @@ angular
                                     $('#aucun').prop('checked', true);
                                     $('#aucunEscargot').prop('checked', true);
                                     $('#cmdBonTirer').prop('checked', true);
-                                    angular.forEach(response.data, function(value){
+                                    vm.fnCalcPrixVente(1);
+                                    angular.forEach(response.data, function(value) {
                                         var arrProducts = [];
                                         var arrFront = [];
                                         var arrBack = [];
@@ -1724,9 +1745,12 @@ angular
                                         }
 
                                         yourDesigner.loadProduct(arrProducts);
+
+                                        console.log(arrProducts, " ARR PRODUCTS")
                                         $('#galleryModal').modal('hide');
                                     });
 
+                                vm.fnInit(id);
                                 }, function errorCallback(error) {
                                     console.log(error);
                                 });
@@ -1792,12 +1816,19 @@ angular
 
                         vm.fnAddBasket = function() {
                             console.clear();
+                            console.log(vm.productList);
                             if(typeof vm.produit.titre == 'undefined' || (vm.produit.titre).trim() == "") {
                                 bootbox.alert("<div style='text-align: center'><b>Veuillez renseigner le titre s'il-vous-plait.</b></div>");
                                 return;
                             }
+                            var countProduit = 0;
+                            var arrProds = [];
+                            if(sessionStorage.produitCount) {
+                                countProduit = Number(sessionStorage.produitCount) + 1;
+                            }
                             var obj={};
                             yourDesigner.getProductDataURL(function(dataURL) {
+
                                 obj.base64_image = dataURL;
                                 obj.title = vm.produit.titre;
                                 obj.commentaire = vm.produit.commentaire;
@@ -1808,14 +1839,21 @@ angular
                                 obj.bonrepli = $('input[name="optcommande"]:checked').val();
                                 obj.data = yourDesigner.getProduct();
                                 obj.prix = vm.prixvente;
+                                obj.idn_key = "produit" + countProduit;
 
-                                vm.arrProduits = JSON.parse(localStorage.getItem("produits"));
-                                if (vm.arrProduits == null) {
-                                    vm.arrProduits = [];
-                                    localStorage.setItem("produits", JSON.stringify(vm.arrProduits));
+                                sessionStorage.setItem("produit" + countProduit, JSON.stringify(obj));
+                                sessionStorage.setItem("produitCount", countProduit);
+                                arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
+                                if(arrProds == null ) {
+                                    arrProds = [];
                                 }
-                                vm.arrProduits.push((obj));
-                                localStorage.setItem("produits", JSON.stringify(vm.arrProduits));
+                                arrProds.push("produit" + countProduit);
+                                sessionStorage.setItem("arrProds", JSON.stringify(arrProds));
+                                vm.arrProduits = [];
+                                var count = Number(sessionStorage.getItem("produitCount"));
+                                angular.forEach(arrProds, function(value) {
+                                    vm.arrProduits.push(JSON.parse(sessionStorage.getItem(value)));
+                                });
                             });
                             vm.countProds = vm.arrProduits.length;
                             toastr.options.positionClass = 'toast-top-right';
@@ -1823,17 +1861,31 @@ angular
                         };
 
                         vm.fnClickPanier = function() {
-                            vm.arrProduits = JSON.parse(localStorage.getItem("produits"));
-                            console.clear();
-                            console.log("DATA PRODUITS" , vm.arrProduits);
+                            vm.arrProduits = [];
+                            var count = Number(sessionStorage.getItem("produitCount"));
+                            var arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
+                            if(arrProds != null) {
+                                angular.forEach(arrProds, function(value){
+                                    vm.arrProduits.push(JSON.parse(sessionStorage.getItem(value)));
+                                });
+                            }
                             $("#modalPanier").modal();
-                        }
+                        };
 
                         vm.fnAlertCommentaire = function(text) {
-                            if(text != ""){
+                            if(text != "" && typeof text !== 'undefined'){
                                 bootbox.alert("<div style='text-align: center'>"+text+"</div>");
                             }
-                        }
+                        };
+
+                        vm.fnShowButtonComm = function(text) {
+                            if(text != "" && typeof text !== 'undefined'){
+                                return true;
+                            }
+                            else {
+                                return false;
+                            }
+                        };
 
                         vm.fnImgClient = function(produit) {
                             console.log(produit);
@@ -1846,10 +1898,38 @@ angular
                         }
 
                         vm.fnDelClient = function(produit){
-
+                            bootbox.dialog({
+                                message: "Confirmez vous la suppression?",
+                                title: "Suppression",
+                                buttons: {
+                                    annuler: {
+                                        label: "Non",
+                                        className: "btn-secondary",
+                                        callback: function() {
+                                            console.log("Annulation");
+                                        }
+                                    },
+                                    valider: {
+                                        label: "Oui",
+                                        className: "btn-danger",
+                                        callback: function() {
+                                            sessionStorage.removeItem(produit.idn_key);
+                                            var arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
+                                            arrProds.splice(arrProds.indexOf(produit.idn_key), 1);
+                                            sessionStorage.setItem("arrProds",JSON.stringify(arrProds));
+                                            angular.forEach(vm.arrProduits, function(value, key) {
+                                                if(value.idn_key == produit.idn_key) {
+                                                    vm.arrProduits.splice(key, 1);
+                                                }
+                                            });
+                                            $scope.$apply();
+                                        }
+                                    }
+                                }
+                            });
                         }
 
-                        vm.fnCalcPrixVente = function() {
+                        vm.fnCalcPrixVente = function(flag) {
                             var idSupport = $('.sel_papier').select2('data')[0].id;
                             var qte_commander = Number($('.sel_qte').select2('data')[0].text);
                             var coeff_dimension = 0;
@@ -1861,16 +1941,30 @@ angular
                                     coeff_dimension=Number(value.coeff);
                                 }
                             });
-                            angular.forEach(vm.productList[0].info_prix, function(value) {
-                                if(value.id_support == idSupport && Number(value.qte) == qte_commander) {
-                                    coeff_support = Number(value.coeff_prix);
-                                    coeff_qte  = Number(value.coeff_qte);
-                                }
-                            });
+                            if(vm.productList[0].type_tarif > -1) {
+                                angular.forEach(vm.productList[0].info_prix, function(value) {
+                                    if(value.id_support == idSupport && Number(value.qte) == qte_commander) {
+                                        coeff_support = Number(value.coeff_prix);
+                                        coeff_qte  = Number(value.coeff_qte);
+                                    }
+                                });
 
-                            vm.unitprix = ((coeff_dimension*coeff_qte*coeff_support) / qte_commander).toFixed(3);
-                            vm.prixvente = (coeff_dimension*coeff_qte*coeff_support).toFixed(2);
-                            $scope.$apply();
+                                vm.unitprix = ((coeff_dimension*coeff_qte*coeff_support) / qte_commander).toFixed(3);
+                                vm.prixvente = (coeff_dimension*coeff_qte*coeff_support).toFixed(2);
+                            }
+                            else {
+                                angular.forEach(vm.productList[0].tarifManuel, function(value) {
+                                    if(value.lib_dim == $('.sel_dimensions').select2('data')[0].text.trim() && Number(value.qte) == qte_commander && value.id_support == idSupport){
+                                        vm.unitprix = ((value.prix_vente)/Number(value.qte)).toFixed(3);
+                                        vm.prixvente = Number(value.prix_vente).toFixed(2);
+                                    }
+                                })
+                            }
+                            console.log(vm.unitprix, " :: ", vm.prixvente);
+                            if(flag != 1) {
+                                $scope.$apply();
+                            }
+
                         }
                     }, 0);
                     $('body').removeClass("spinner");
@@ -1885,7 +1979,7 @@ angular
             url: 'api/v1/imageInfo.php'
         }).then(function successCallback(response) {
                 vm.productsDesign = response.data;
-                vm.fnInit();
+                vm.fnInit(vm.currentProd);
             }, function errorCallback(error) {
                 console.log(error);
             });

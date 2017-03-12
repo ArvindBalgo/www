@@ -151,7 +151,7 @@ Data.get('session.php').then(function (results) {
                         }
                     });
                     vm.listProduits = angular.copy(response.data);
-                vm.scat = data;
+                    vm.scat = data;
                     $('#myModel').modal('hide');
                     $('#produits').modal();
                     document.body.style.overflow = "hidden";
@@ -159,6 +159,43 @@ Data.get('session.php').then(function (results) {
                     $('body').removeClass("spinner");
                 });
         };
+
+        vm.fnImgClient = function(produit) {
+            bootbox.alert("<img style='width: 100%;height: 100%' src='"+produit.base64_image+"'>");
+        }
+
+        vm.fnDelClient = function(produit){
+            bootbox.dialog({
+                message: "Confirmez vous la suppression?",
+                title: "Suppression",
+                buttons: {
+                    annuler: {
+                        label: "Non",
+                        className: "btn-secondary",
+                        callback: function() {
+                            console.log("Annulation");
+                        }
+                    },
+                    valider: {
+                        label: "Oui",
+                        className: "btn-danger",
+                        callback: function() {
+                            sessionStorage.removeItem(produit.idn_key);
+                            var arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
+                            arrProds.splice(arrProds.indexOf(produit.idn_key), 1);
+                            sessionStorage.setItem("arrProds",JSON.stringify(arrProds));
+                            angular.forEach(vm.arrProduits, function(value, key) {
+                                if(value.idn_key == produit.idn_key) {
+                                    vm.arrProduits.splice(key, 1);
+                                }
+                            });
+                            $scope.$apply();
+                        }
+                    }
+                }
+            });
+        }
+
 
         vm.fnRetourCategory = function(){
             $('#produits').modal('hide');
@@ -371,11 +408,30 @@ Data.get('session.php').then(function (results) {
         };
 
         vm.fnClickPanier = function() {
-            vm.arrProduits = JSON.parse(localStorage.getItem("produits"));
-            console.clear();
-            console.log("DATA PRODUITS" , vm.arrProduits);
+            vm.arrProduits = [];
+            var count = Number(sessionStorage.getItem("produitCount"));
+            var arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
+            if(arrProds != null) {
+                angular.forEach(arrProds, function(value){
+                    vm.arrProduits.push(JSON.parse(sessionStorage.getItem(value)));
+                });
+            }
             $("#modalPanier").modal();
-        }
+        };
+        vm.fnAlertCommentaire = function(text) {
+            if(text != "" && typeof text !== 'undefined'){
+                bootbox.alert("<div style='text-align: center'>"+text+"</div>");
+            }
+        };
+
+        vm.fnShowButtonComm = function(text) {
+            if(text != "" && typeof text !== 'undefined'){
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
 
         $scope.$watch('isActualLang', function(ov, nv) {
             $scope.setLang(localStorage.getItem("LANG"));

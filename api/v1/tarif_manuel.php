@@ -193,4 +193,13 @@ class tarif_manuel {
         }
         return $rows;
     }
+    public function getSupportById($idCata) {
+        $requete = "SELECT GROUP_CONCAT(DISTINCT(id_support)) as ligne FROM tarif_manuel  where id_cata=".$idCata;
+        $rs = $this->conn->query($requete) or die($this->conn->error.__LINE__);
+        $row  = mysqli_fetch_array($rs);
+        if(!$row) {
+            return '';
+        }
+        return $row;
+    }
 } 

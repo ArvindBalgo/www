@@ -377,13 +377,12 @@
                         <th class="paddingTable">{{'additionel' | translate}}</th>
                         <th class="paddingTable">{{'commande' | translate}}</th>
                         <th class="paddingTable">{{'finition_ppr' | translate}}</th>
-                        <th class="paddingTable">{{'finition_ppr' | translate}}</th>
                         <th class="paddingTable">{{'qte' | translate}}</th>
-                        <th class="paddingTable">{{'instructions' | translate}}</th>
                         <th class="paddingTable">{{'prix' | translate}}</th>
+                        <th class="paddingTable">{{'instructions' | translate}}</th>
                         <th class="paddingTable">{{'actions' | translate}}</th>
                         <tr ng-repeat="(key, ligne) in fiche.arrProduits">
-                            <td class="paddingTable">{{ligne.title}} - {{key}}</td>
+                            <td class="paddingTable">{{ligne.title}}</td>
                             <!--Escargot-->
                             <td class="paddingTable" ng-show="ligne.escargot == 0">{{'aucun' | translate}}</td>
                             <td class="paddingTable" ng-show="ligne.escargot == 1">{{'attache_escargot' | translate}}</td>
@@ -395,12 +394,11 @@
                             <!--Bon de commande-->
                             <td class="paddingTable" ng-show="ligne.bonrepli==1">{{'avec_bat' | translate}}</td>
                             <td class="paddingTable" ng-show="ligne.bonrepli==2">{{'sans_bat' | translate}}</td>
-                            <td class="paddingTable"> - </td>
                             <td class="paddingTable">{{ligne.dimension}}</td>
                             <td class="paddingTable">{{ligne.qte}}</td>
                             <!--td class="paddingTable">{{ligne.commentaire}}</td-->
-                            <td class="paddingTable" style="text-align: center"><button type="button" class="btn btn-primary btn-circle1" ng-click="fiche.fnAlertCommentaire(ligne.commentaire)"><b>i</b></button></td>
                             <td class="paddingTable">{{ligne.prix}}</td>
+                            <td class="paddingTable" style="text-align: center"><button ng-show="fiche.fnShowButtonComm(ligne.commentaire)" type="button" class="btn btn-primary btn-circle1" ng-click="fiche.fnAlertCommentaire(ligne.commentaire)"><b>i</b></button></td>
                             <td>
                                 <button type='button'
                                         class='btn btn-success btn-circle'
@@ -417,7 +415,7 @@
                                 <button type='button'
                                         class='btn btn-default btn-circle'
                                         style='margin-left: 5px;margin-top: 5px;'
-                                        ng-click=''>
+                                        ng-click='fiche.fnDelClient(ligne)'>
                                     <i class='glyphicon glyphicon-trash'></i>
                                 </button>
                             </td>
