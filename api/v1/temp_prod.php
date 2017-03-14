@@ -11,7 +11,10 @@ class temp_prod {
     private $_escargot = "";
     private $_idn_key = "";
     private $_opt = "";
-    private $_prix = "";
+    private $_prix = 0;
+    private $_unitprix = 0.00;
+    private $_idsupport = 0;
+    private $_support = "";
     private $_qte = "";
     private $_title = "";
     private $_data = "";
@@ -65,7 +68,19 @@ class temp_prod {
     public function setPrix($prix) {
         $this->_prix= $prix;
     }
-    
+
+    public function setUnitPrix($prix) {
+        $this->_unitprix= $prix;
+    }
+
+    public function setIdSupport($id) {
+        $this->_idsupport= $id;
+    }
+
+    public function setSupport($support) {
+        $this->_support= $support;
+    }
+
     public function setQte($qte) {
         $this->_qte= $qte;
     }
@@ -84,51 +99,63 @@ class temp_prod {
         return $this->_id;
     }
 
-    public function getSessionId($id) {
+    public function getSessionId() {
         return $this->_session_id;
     }
 
-    public function getbase64Image($data) {
+    public function getbase64Image() {
         return $this->_base64_image;
     }
 
-    public function getBonRepli($br) {
+    public function getBonRepli() {
         return $this->_bonrepli;
     }
 
-    public function getCommentaire($comm) {
+    public function getCommentaire() {
         return $this->_commentaire;
     }
 
-    public function getDimension($dim) {
+    public function getDimension() {
         return $this->_dimension;
     }
 
-    public function getEscargot($escargot) {
+    public function getEscargot() {
         return $this->_escargot;
     }
 
-    public function getIdnKey($id) {
+    public function getIdnKey() {
         return $this->_idn_key;
     }
 
-    public function getOpt($opt) {
+    public function getOpt() {
         return $this->_opt;
     }
 
-    public function getPrix($prix) {
+    public function getPrix() {
         return $this->_prix;
     }
 
-    public function getQte($qte) {
+    public function getUnitPrix() {
+        return $this->_unitprix;
+    }
+
+    public function getIdSupport() {
+        return $this->_idsupport;
+    }
+
+    public function getSupport() {
+        return $this->_support;
+    }
+
+    public function getQte() {
         return $this->_qte;
     }
 
-    public function getTitle($title) {
+    public function getTitle() {
         return $this->_title;
     }
 
-    public function getData($data) {
+    public function getData() {
         return $this->_data;
     }
 
@@ -150,6 +177,9 @@ class temp_prod {
             $requete .= ", idn_key='". $this->_idn_key."'";
             $requete .= ", opt=". $this->_opt."";
             $requete .= ", prix=". $this->_prix."";
+            $requete .= ", unitprix=". $this->_unitprix."";
+            $requete .= ", idsupport=". $this->_idsupport."";
+            $requete .= ", support='". $this->_support."'";
             $requete .= ", qte=". $this->_qte."";
             $requete .= ", title='". $this->_title."'";
             $requete .= ", data='". json_encode($this->_data)."'";
@@ -166,6 +196,9 @@ class temp_prod {
             $requete .= ",idn_key";
             $requete .= ",opt";
             $requete .= ",prix";
+            $requete .= ",unitprix";
+            $requete .= ",idsupport";
+            $requete .= ",support";
             $requete .= ",qte";
             $requete .= ",title";
             $requete .= ",data";
@@ -179,6 +212,9 @@ class temp_prod {
             $requete .= "'" . $this->_idn_key . "',";
             $requete .= "'" . $this->_opt . "',";
             $requete .= "'" . $this->_prix. "',";
+            $requete .= "'" . $this->_unitprix. "',";
+            $requete .= "'" . $this->_idsupport. "',";
+            $requete .= "'" . $this->_support. "',";
             $requete .= "'" . $this->_qte. "',";
             $requete .= "'" . $this->_title. "',";
             $requete .= "'" . json_encode($this->_data). "')";
@@ -202,6 +238,9 @@ class temp_prod {
         $temp_prod->_idn_key        = $rs["idn_key"];
         $temp_prod->opt             = $rs["opt"];
         $temp_prod->_prix           = $rs["prix"];
+        $temp_prod->_unitprix       = $rs["unitprix"];
+        $temp_prod->_idsupport      = $rs["idsupport"];
+        $temp_prod->_support      = $rs["idsupport"];
         $temp_prod->_qte            = $rs["qte"];
         $temp_prod->_title          = $rs["title"];
         $temp_prod->_data          = json_decode($rs["data"]);
@@ -228,13 +267,26 @@ class temp_prod {
     }
 
     public function findBySessionKey($id_session, $idn_key) { // Recherche d'une adresse par id
-        $requete = self::$SELECT . " WHERE session_id=" . $id_session . " and idn_key='".$idn_key."'";
+        $requete = self::$SELECT . " WHERE session_id='" . $id_session . "' and idn_key='".$idn_key."'";
+
         $rs = $this->conn->query($requete);
 
         if(!$rs) {
             return 'false';
         }
         return $this->mapSqlToObject(mysqli_fetch_array($rs));
+    }
+
+
+    public function findBySessionKey1($id_session, $idn_key) { // Recherche d'une adresse par id
+        $requete = self::$SELECT . " WHERE session_id='" . $id_session . "' and idn_key='".$idn_key."'";
+
+        $rs = $this->conn->query($requete);
+
+        if(!$rs) {
+            return 'false';
+        }
+        return mysqli_fetch_array($rs);
     }
 
     public function findBySession($id) {
@@ -248,5 +300,4 @@ class temp_prod {
         }
         return $rows;
     }
-
 } 

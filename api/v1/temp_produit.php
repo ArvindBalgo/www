@@ -22,6 +22,9 @@ $temp_prod->setDimension($_POST["dimension"]);
 $temp_prod->setQte($_POST["qte"]);
 $temp_prod->setBonRepli($_POST["bonrepli"]);
 $temp_prod->setPrix($_POST["prix"]);
+$temp_prod->setUnitPrix($_POST["unitprix"]);
+$temp_prod->setIdSupport($_POST["idsupport"]);
+$temp_prod->setSupport($_POST["support"]);
 $temp_prod->setIdnKey($_POST["idn_key"]);
 $temp_prod->setData($_POST["data"]);
 

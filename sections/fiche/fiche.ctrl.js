@@ -1815,8 +1815,6 @@ angular
                         }
 
                         vm.fnAddBasket = function() {
-                           // console.clear();
-                            console.log(vm.productList);
                             if(typeof vm.produit.titre == 'undefined' || (vm.produit.titre).trim() == "") {
                                 bootbox.alert("<div style='text-align: center'><b>Veuillez renseigner le titre s'il-vous-plait.</b></div>");
                                 return;
@@ -1829,18 +1827,21 @@ angular
                             var obj={};
                             yourDesigner.getProductDataURL(function(dataURL) {
 
-                                obj.base64_image    = dataURL;
+                                //obj.base64_image    = dataURL;
                                 obj.title           = vm.produit.titre;
                                 obj.commentaire     = vm.produit.commentaire;
-                                obj.option          = $('input[name="optradio"]:checked').val();
+                                obj.opt          = $('input[name="optradio"]:checked').val();
                                 obj.escargot        = $('input[name="optescargot"]:checked').val();
                                 obj.dimension       = $('.sel_dimensions').select2('data')[0].text;
                                 obj.qte             = $('.sel_qte').select2('data')[0].text;
                                 obj.bonrepli        = $('input[name="optcommande"]:checked').val();
-                                obj.data            = yourDesigner.getProduct();
+                                //obj.data            = yourDesigner.getProduct();
                                 obj.prix            = vm.prixvente;
+                                obj.idsupport       = $('.sel_papier').select2('data')[0].id;
+                                obj.support         = $('.sel_papier').select2('data')[0].text;
+                                obj.unitprix        = vm.unitprix;
                                 obj.idn_key         = "produit" + countProduit;
-console.log(obj.data, " avant");
+
                                 if(typeof vm.produit.commentaire == 'undefined'){
                                     vm.produit.commentaire = " ";
                                 }
@@ -1862,13 +1863,13 @@ console.log(obj.data, " avant");
                                         bonrepli        : $('input[name="optcommande"]:checked').val(),
                                         data            : yourDesigner.getProduct(),
                                         prix            : vm.prixvente,
+                                        idsupport       : $('.sel_papier').select2('data')[0].id,
+                                        support         : $('.sel_papier').select2('data')[0].text,
+                                        unitprix        : vm.unitprix,
                                         idn_key         : "produit" + countProduit}
                             }).done(function(data){
-                                console.log(data);
                                 });
 
-
-                                //sessionStorage.setItem("produit" + countProduit, JSON.stringify(obj));
                                 sessionStorage.setItem("produitCount", countProduit);
                                 arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
                                 if(arrProds == null ) {
@@ -1876,34 +1877,27 @@ console.log(obj.data, " avant");
                                 }
                                 arrProds.push("produit" + countProduit);
                                 sessionStorage.setItem("arrProds", JSON.stringify(arrProds));
+                                sessionStorage.setItem("produit" + countProduit, JSON.stringify(obj));
                                 vm.arrProduits = [];
-/*                                var count = Number(sessionStorage.getItem("produitCount"));
-                                angular.forEach(arrProds, function(value) {
-                                    vm.arrProduits.push(JSON.parse(sessionStorage.getItem(value)));
-                                });*/
                             });
-                           // console.log(vm.arrProduits, " array of produits");
-                           // vm.countProds = vm.arrProduits.length;
                             toastr.options.positionClass = 'toast-top-right';
                             toastr.success('Produit rajouté');
-
-
-
                         };
 
                         vm.fnClickPanier = function() {
                             vm.arrProduits = [];
                             var count = Number(sessionStorage.getItem("produitCount"));
                             var arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
-                            /*if(arrProds != null) {
+                            if(arrProds != null) {
                                 angular.forEach(arrProds, function(value){
                                     vm.arrProduits.push(JSON.parse(sessionStorage.getItem(value)));
                                 });
-                            }*/
+                            }
 
+                            console.log(vm.arrProduits, " arrr produits local");
                             //POST data http
 
-                            $http({
+                            /*$http({
                                 method: 'POST',
                                 data: $.param({mode:1}),
                                 url: 'api/v1/recupTempProd.php',
@@ -1914,7 +1908,7 @@ console.log(obj.data, " avant");
                             }, function errorCallback(error) {
                                 console.log(error);
                             });
-
+*/
                             $("#modalPanier").modal();
                         };
 
@@ -1934,245 +1928,277 @@ console.log(obj.data, " avant");
                         };
 
                         vm.fnImgClient = function(produit) {
-                            console.log(produit);
-                            bootbox.alert("<img style='width: 100%;height: 100%' src='"+produit.base64_image+"'>");
+                            $('body').addClass("spinner");
+                            $http({
+                                 method: 'POST',
+                                 data: $.param({mode:2, key_prod:produit.idn_key}),
+                                 url: 'api/v1/recupTempProd.php',
+                                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                                 }).
+                            then(function successCallback(response) {
+                                    bootbox.alert("<img style='width: 400px;height: 400px' src='"+response.data+"'>");
+
+                                    $('body').removeClass("spinner");
+                                    vm.arrProduits = response.data;
+                             },
+                                function errorCallback(error) {
+                                    console.log(error);
+                                });
+
+                            //bootbox.alert("<img style='width: 100%;height: 100%' src='"+produit.base64_image+"'>");
                         };
 
                         vm.fnEditClient = function(produit) {
                             $("#modalPanier").modal('hide');
-                            console.log(JSON.parse(produit.data), " produit aprer");
-                            produit.data = JSON.parse(produit.data);
-                            angular.forEach(produit.data, function(value){
-                                angular.forEach(value.elements, function(value1) {
-                                    var flag = false;
+                            $('body').addClass("spinner");
 
-                                    value1.parameters.angle = Number(value1.parameters.angle);
-                                    value1.parameters.height = Number(value1.parameters.height);
-                                    value1.parameters.left = Number(value1.parameters.left);
-                                    value1.parameters.opacity = Number(value1.parameters.opacity);
-                                    value1.parameters.padding = Number(value1.parameters.padding);
-                                    value1.parameters.top = Number(value1.parameters.top);
-                                    value1.parameters.scaleX = Number(value1.parameters.scaleX);
-                                    value1.parameters.scaleY = Number(value1.parameters.scaleY);
-                                    value1.parameters.width = Number(value1.parameters.width);
+                            $http({
+                                method: 'POST',
+                                data: $.param({mode:3, key_prod:produit.idn_key}),
+                                url: 'api/v1/recupTempProd.php',
+                                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                            }).
+                            then(function successCallback(response) {
 
-                                    if(value1.parameters.fill == "false") {
-                                        value1.parameters.fill = false;
-                                    }
+                                    $('body').removeClass("spinner");
+                                    var ligne = response.data;
+                                    ligne.data = JSON.parse(ligne.data);
+                                    angular.forEach(ligne.data, function(value){
+                                        angular.forEach(value.elements, function(value1) {
+                                            var flag = false;
 
-                                    if(value1.parameters.fill != "false"){
-                                        flag = value1.parameters.fill;
-                                    }
-                                    if(value1.parameters.flipX == "false"){
-                                        value1.parameters.flipX = false;
-                                    }
-                                    else{
-                                        value1.parameters.flipX = true;
-                                    }
+                                            value1.parameters.angle = Number(value1.parameters.angle);
+                                            value1.parameters.height = Number(value1.parameters.height);
+                                            value1.parameters.left = Number(value1.parameters.left);
+                                            value1.parameters.opacity = Number(value1.parameters.opacity);
+                                            value1.parameters.padding = Number(value1.parameters.padding);
+                                            value1.parameters.top = Number(value1.parameters.top);
+                                            value1.parameters.scaleX = Number(value1.parameters.scaleX);
+                                            value1.parameters.scaleY = Number(value1.parameters.scaleY);
+                                            value1.parameters.width = Number(value1.parameters.width);
 
-                                    if(value1.parameters.flipY == "false"){
-                                        value1.parameters.flipY = false;
-                                    }
-                                    else{
-                                        value1.parameters.flipY = true;
-                                    }
-                                    if(value1.parameters.autoCenter == "false"){
-                                        value1.parameters.autoCenter = false;
-                                    }
-                                    else{
-                                        value1.parameters.autoCenter = true;
-                                    }
+                                            if(value1.parameters.fill == "false") {
+                                                value1.parameters.fill = false;
+                                            }
 
-                                    if(value1.parameters.autoSelect == "false"){
-                                        value1.parameters.autoSelect = false;
-                                    }
-                                    else{
-                                        value1.parameters.autoSelect = true;
-                                    }
+                                            if(value1.parameters.fill != "false"){
+                                                flag = value1.parameters.fill;
+                                            }
+                                            if(value1.parameters.flipX == "false"){
+                                                value1.parameters.flipX = false;
+                                            }
+                                            else{
+                                                value1.parameters.flipX = true;
+                                            }
 
-                                    if(value1.parameters.colorLinkGroup == "false"){
-                                        value1.parameters.colorLinkGroup = false;
-                                    }
-                                    else{
-                                        value1.parameters.colorLinkGroup = true;
-                                    }
+                                            if(value1.parameters.flipY == "false"){
+                                                value1.parameters.flipY = false;
+                                            }
+                                            else{
+                                                value1.parameters.flipY = true;
+                                            }
+                                            if(value1.parameters.autoCenter == "false"){
+                                                value1.parameters.autoCenter = false;
+                                            }
+                                            else{
+                                                value1.parameters.autoCenter = true;
+                                            }
 
-                                    if(value1.parameters.copyable == "false"){
-                                        value1.parameters.copyable = false;
-                                    }
-                                    else{
-                                        value1.parameters.copyable = true;
-                                    }
+                                            if(value1.parameters.autoSelect == "false"){
+                                                value1.parameters.autoSelect = false;
+                                            }
+                                            else{
+                                                value1.parameters.autoSelect = true;
+                                            }
 
-                                    if(value1.parameters.cornerSize == "false"){
-                                        value1.parameters.cornerSize = false;
-                                    }
-                                    else if(value1.parameters.cornerSize == "true"){
-                                        value1.parameters.cornerSize = true;
-                                    }
-                                    else{
-                                        value1.parameters.cornerSize = parseInt(value1.parameters.cornerSize);
-                                    }
+                                            if(value1.parameters.colorLinkGroup == "false"){
+                                                value1.parameters.colorLinkGroup = false;
+                                            }
+                                            else{
+                                                value1.parameters.colorLinkGroup = true;
+                                            }
+
+                                            if(value1.parameters.copyable == "false"){
+                                                value1.parameters.copyable = false;
+                                            }
+                                            else{
+                                                value1.parameters.copyable = true;
+                                            }
+
+                                            if(value1.parameters.cornerSize == "false"){
+                                                value1.parameters.cornerSize = false;
+                                            }
+                                            else if(value1.parameters.cornerSize == "true"){
+                                                value1.parameters.cornerSize = true;
+                                            }
+                                            else{
+                                                value1.parameters.cornerSize = parseInt(value1.parameters.cornerSize);
+                                            }
 
 
-                                    if(value1.parameters.draggable == "false"){
-                                        value1.parameters.draggable = false;
-                                    }
-                                    else{
-                                        value1.parameters.draggable = true;
-                                    }
+                                            if(value1.parameters.draggable == "false"){
+                                                value1.parameters.draggable = false;
+                                            }
+                                            else{
+                                                value1.parameters.draggable = true;
+                                            }
 
-                                    if(value1.parameters.evented == "false"){
-                                        value1.parameters.evented = false;
-                                    }
-                                    else{
-                                        value1.parameters.evented = true;
-                                    }
+                                            if(value1.parameters.evented == "false"){
+                                                value1.parameters.evented = false;
+                                            }
+                                            else{
+                                                value1.parameters.evented = true;
+                                            }
 
-                                    if(value1.parameters.filter == "false"){
-                                        value1.parameters.filter = false;
-                                    }
-                                    else{
-                                        value1.parameters.filter = true;
-                                    }
+                                            if(value1.parameters.filter == "false"){
+                                                value1.parameters.filter = false;
+                                            }
+                                            else{
+                                                value1.parameters.filter = true;
+                                            }
 
-                                    if(value1.parameters.isCustom == "false"){
-                                        value1.parameters.isCustom = false;
-                                    }
-                                    else{
-                                        value1.parameters.isCustom = true;
-                                    }
+                                            if(value1.parameters.isCustom == "false"){
+                                                value1.parameters.isCustom = false;
+                                            }
+                                            else{
+                                                value1.parameters.isCustom = true;
+                                            }
 
-                                    if(value1.parameters.isEditable == "false"){
-                                        value1.parameters.isEditable = false;
-                                    }
-                                    else{
-                                        value1.parameters.isEditable = true;
-                                    }
+                                            if(value1.parameters.isEditable == "false"){
+                                                value1.parameters.isEditable = false;
+                                            }
+                                            else{
+                                                value1.parameters.isEditable = true;
+                                            }
 
-                                    if(value1.parameters.lockUniScaling == "false"){
-                                        value1.parameters.lockUniScaling = false;
-                                    }
-                                    else{
-                                        value1.parameters.lockUniScaling = true;
-                                    }
+                                            if(value1.parameters.lockUniScaling == "false"){
+                                                value1.parameters.lockUniScaling = false;
+                                            }
+                                            else{
+                                                value1.parameters.lockUniScaling = true;
+                                            }
 
-                                    if(value1.parameters.removable == "false"){
-                                        value1.parameters.removable = false;
-                                    }
-                                    else{
-                                        value1.parameters.removable = true;
-                                    }
+                                            if(value1.parameters.removable == "false"){
+                                                value1.parameters.removable = false;
+                                            }
+                                            else{
+                                                value1.parameters.removable = true;
+                                            }
 
-                                    if(value1.parameters.replaceInAllViews == "false"){
-                                        value1.parameters.replaceInAllViews = false;
-                                    }
-                                    else{
-                                        value1.parameters.replaceInAllViews = true;
-                                    }
+                                            if(value1.parameters.replaceInAllViews == "false"){
+                                                value1.parameters.replaceInAllViews = false;
+                                            }
+                                            else{
+                                                value1.parameters.replaceInAllViews = true;
+                                            }
 
-                                    if(value1.parameters.resizable == "false"){
-                                        value1.parameters.resizable = false;
-                                    }
-                                    else{
-                                        value1.parameters.resizable = true;
-                                    }
+                                            if(value1.parameters.resizable == "false"){
+                                                value1.parameters.resizable = false;
+                                            }
+                                            else{
+                                                value1.parameters.resizable = true;
+                                            }
 
-                                    if(value1.parameters.rotatable == "false"){
-                                        value1.parameters.rotatable = false;
-                                    }
-                                    else{
-                                        value1.parameters.rotatable = true;
-                                    }
+                                            if(value1.parameters.rotatable == "false"){
+                                                value1.parameters.rotatable = false;
+                                            }
+                                            else{
+                                                value1.parameters.rotatable = true;
+                                            }
 
-                                    if(value1.parameters.topped == "false"){
-                                        value1.parameters.topped = false;
-                                    }
-                                    else{
-                                        value1.parameters.topped = true;
-                                    }
+                                            if(value1.parameters.topped == "false"){
+                                                value1.parameters.topped = false;
+                                            }
+                                            else{
+                                                value1.parameters.topped = true;
+                                            }
 
-                                    if(value1.parameters.uniScalingUnlockable == "false"){
-                                        value1.parameters.uniScalingUnlockable = false;
-                                    }
-                                    else{
-                                        value1.parameters.uniScalingUnlockable = true;
-                                    }
+                                            if(value1.parameters.uniScalingUnlockable == "false"){
+                                                value1.parameters.uniScalingUnlockable = false;
+                                            }
+                                            else{
+                                                value1.parameters.uniScalingUnlockable = true;
+                                            }
 
-                                    if(value1.parameters.uploadZone == "false"){
-                                        value1.parameters.uploadZone = false;
-                                    }
-                                    else{
-                                        value1.parameters.uploadZone = true;
-                                    }
+                                            if(value1.parameters.uploadZone == "false"){
+                                                value1.parameters.uploadZone = false;
+                                            }
+                                            else{
+                                                value1.parameters.uploadZone = true;
+                                            }
 
-                                    if(value1.parameters.zChangeable == "false"){
-                                        value1.parameters.zChangeable = false;
-                                    }
+                                            if(value1.parameters.zChangeable == "false"){
+                                                value1.parameters.zChangeable = false;
+                                            }
 
-                                    else{
-                                        value1.parameters.zChangeable = true;
-                                    }
+                                            else{
+                                                value1.parameters.zChangeable = true;
+                                            }
 
-                                    if(value1.parameters.curvable == "false"){
-                                        value1.parameters.curvable = false;
-                                    }
-                                    else{
-                                        value1.parameters.curvable = true;
-                                    }
+                                            if(value1.parameters.curvable == "false"){
+                                                value1.parameters.curvable = false;
+                                            }
+                                            else{
+                                                value1.parameters.curvable = true;
+                                            }
 
-                                    if(value1.parameters.curved == "false"){
-                                        value1.parameters.curved = false;
-                                    }
-                                    else{
-                                        value1.parameters.curved = true;
-                                    }
-                                    if(value1.parameters.curveReverse == "false"){
-                                        value1.parameters.curveReverse = false;
-                                    }
-                                    else if(value1.parameters.curveReverse == "true"){
-                                        value1.parameters.curveReverse = true;
-                                    }
+                                            if(value1.parameters.curved == "false"){
+                                                value1.parameters.curved = false;
+                                            }
+                                            else{
+                                                value1.parameters.curved = true;
+                                            }
+                                            if(value1.parameters.curveReverse == "false"){
+                                                value1.parameters.curveReverse = false;
+                                            }
+                                            else if(value1.parameters.curveReverse == "true"){
+                                                value1.parameters.curveReverse = true;
+                                            }
 
-                                    if(value1.parameters.curveRadius == "false"){
-                                        value1.parameters.curveRadius = false;
-                                    }
-                                    else if(value1.parameters.curveRadius == "true"){
-                                        value1.parameters.curveRadius = true;
-                                    }
+                                            if(value1.parameters.curveRadius == "false"){
+                                                value1.parameters.curveRadius = false;
+                                            }
+                                            else if(value1.parameters.curveRadius == "true"){
+                                                value1.parameters.curveRadius = true;
+                                            }
 
-                                    if(value1.parameters.editable == "false"){
-                                        value1.parameters.editable = false;
-                                    }
-                                    else{
-                                        value1.parameters.editable = true;
-                                    }
+                                            if(value1.parameters.editable == "false"){
+                                                value1.parameters.editable = false;
+                                            }
+                                            else{
+                                                value1.parameters.editable = true;
+                                            }
 
-                                    if(value1.parameters.colors == "false"){
-                                        value1.parameters.colors = false;
-                                    }
-                                    else if(value1.parameters.colors == "true"){
-                                        value1.parameters.colors = true;
-                                    }
+                                            if(value1.parameters.colors == "false"){
+                                                value1.parameters.colors = false;
+                                            }
+                                            else if(value1.parameters.colors == "true"){
+                                                value1.parameters.colors = true;
+                                            }
 
-                                    if(value1.parameters.numberPlaceholder == "false"){
-                                        value1.parameters.numberPlaceholder = false;
-                                    }
-                                    else if(value1.parameters.numberPlaceholder == "true"){
-                                        value1.parameters.numberPlaceholder = true;
-                                    }
+                                            if(value1.parameters.numberPlaceholder == "false"){
+                                                value1.parameters.numberPlaceholder = false;
+                                            }
+                                            else if(value1.parameters.numberPlaceholder == "true"){
+                                                value1.parameters.numberPlaceholder = true;
+                                            }
 
-                                    if(value1.parameters.textBox == "false"){
-                                        value1.parameters.textBox = false;
-                                    }
-                                    else if(value1.parameters.textBox == "true"){
-                                        value1.parameters.textBox = true;
-                                    }
-                                })
-                            });
-                            console.log(produit.data, " <><><><>");
-                            vm.modifEnCoursProd = produit;
-                            yourDesigner.loadProduct((produit.data));
+                                            if(value1.parameters.textBox == "false"){
+                                                value1.parameters.textBox = false;
+                                            }
+                                            else if(value1.parameters.textBox == "true"){
+                                                value1.parameters.textBox = true;
+                                            }
+                                        })
+                                    });
+                                    vm.modifEnCoursProd = ligne;
+                                    yourDesigner.loadProduct((ligne.data));
+                                },
+                                function errorCallback(error) {
+                                    console.log(error);
+                                });
+
+
                         };
 
                         vm.fnDelClient = function(produit){

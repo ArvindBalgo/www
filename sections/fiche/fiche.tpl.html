@@ -362,8 +362,8 @@
 </div>
 
 <!--PANIER CHECKOUT-->
-<div id="modalPanier" class="modal fade" data-backdrop="static">
-    <div class="modal-dialog" style="width: 90%;height:80%">
+<div id="modalPanier" class="modal fade" data-backdrop="static" style="overflow: hidden">
+    <div class="modal-dialog" style="width: 90%;overflow-y: auto">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -376,9 +376,10 @@
                         <th class="paddingTable">{{'opt_attache' | translate}}</th>
                         <th class="paddingTable">{{'additionel' | translate}}</th>
                         <th class="paddingTable">{{'commande' | translate}}</th>
+                        <th class="paddingTable">{{'dimension_libelle' | translate}}</th>
                         <th class="paddingTable">{{'finition_ppr' | translate}}</th>
                         <th class="paddingTable">{{'qte' | translate}}</th>
-                        <th class="paddingTable">{{'prix' | translate}}</th>
+                        <th class="paddingTable">{{'unit_price' | translate}} Euro</th>
                         <th class="paddingTable">{{'instructions' | translate}}</th>
                         <th class="paddingTable">{{'actions' | translate}}</th>
                         <tr ng-repeat="(key, ligne) in fiche.arrProduits">
@@ -395,9 +396,10 @@
                             <td class="paddingTable" ng-show="ligne.bonrepli==1">{{'avec_bat' | translate}}</td>
                             <td class="paddingTable" ng-show="ligne.bonrepli==2">{{'sans_bat' | translate}}</td>
                             <td class="paddingTable">{{ligne.dimension}}</td>
+                            <td class="paddingTable">{{ligne.support}}</td>
                             <td class="paddingTable">{{ligne.qte}}</td>
                             <!--td class="paddingTable">{{ligne.commentaire}}</td-->
-                            <td class="paddingTable">{{ligne.prix}}</td>
+                            <td class="paddingTable">{{ligne.unitprix}} </td>
                             <td class="paddingTable" style="text-align: center"><button ng-show="fiche.fnShowButtonComm(ligne.commentaire)" type="button" class="btn btn-primary btn-circle1" ng-click="fiche.fnAlertCommentaire(ligne.commentaire)"><b>i</b></button></td>
                             <td>
                                 <button type='button'
