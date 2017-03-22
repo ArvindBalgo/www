@@ -1963,6 +1963,7 @@ angular
                                     $('body').removeClass("spinner");
                                     var ligne = response.data;
                                     ligne.data = JSON.parse(ligne.data);
+                                    vm.productList[0] = ligne;
                                     angular.forEach(ligne.data, function(value){
                                         angular.forEach(value.elements, function(value1) {
                                             var flag = false;
