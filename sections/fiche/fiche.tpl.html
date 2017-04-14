@@ -140,6 +140,7 @@
                     </div>
                     <div class="col-md-12" style="margin: 5px">
                         <button ng-click="fiche.fnMetierList();" class="col-md-3 btn btn-lg " style="background-color: #D893E3; color: white; text-wrap: normal"><span><img src="images/icons/gallery.ico" style="height: 50px;width:50px"></span> {{'galerie_models' | translate}}</button>
+                        <button ng-click="fiche.loadModalImgs()" class="btn btn-large btn-warning">Gallery Images</button>
                         <!--button type="button" class="btn btn-success pull-right" ng-click="fiche.fnSaveProduit(0)">Ajouter Au panier</button-->
                         <!--button type="button" class="btn btn-success pull-right" ng-click="fiche.fnSaveProduit(1)">PASSEZ MA COMMANDE AVEC BON À TIRER</button-->
                         <div class=" col-md-7" style="text-align: center; color: darkgrey">
@@ -156,11 +157,11 @@
                     </div>
                     <div class="col-md-12">
                         <div id="model" class="fpd-container fpd-shadow-2 fpd-topbar fpd-tabs fpd-tabs-side fpd-top-actions-centered fpd-bottom-actions-centered fpd-views-inside-left">
-                            <div class="fpd-design">
+                            <!--div class="fpd-design">
                                 <div ng-repeat="design in fiche.productsDesign" class="fpd-category" title="{{design.libelle}}">
                                     <img ng-repeat="image in design.data" src="{{image.src}}"  title="{{image.libelle}}" data-parameters='{"zChangeable": true, "left": 215, "top": 200, "colors": "#000000", "removable": true, "draggable": true, "rotatable": true, "resizable": true, "price": 0, "boundingBox": "Base", "autoCenter": true}' />
                                 </div>
-                            </div>
+                            </div-->
                         </div>
                     </div>
                 </div>
@@ -371,9 +372,9 @@
             </div>
             <div class="modal-body" style="overflow: hidden">
                 <div class="row">
-                     <div style="color: darkcyan; font-weight: bold; padding-bottom: 15px">
+                     <h3 style="color: purple; font-weight: bold; padding-bottom: 15px; font-size:medium;">
                          {{'promo_libelle' | translate}}
-                     </div>
+                     </h3>
                 </div>
                 <div class="row">
                     <table border="1">
@@ -433,9 +434,47 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" ng-click="" data-dismiss="modal">{{'quit' | translate}}</button>
-                <button type="button" class="btn btn-success pull-right">{{'valider' | translate}}</button>
+                <button type="button" class="btn btn-success pull-right" ng-click="fiche.fnCheckOut()">{{'valider' | translate}}</button>
             </div>
         </div>
     </div>
 </div>
 
+
+<div id="imagesModal" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 75%;height: 500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><span>Images</span></h4>
+            </div>
+            <div class="modal-body" style="height: 550px;overflow: scroll">
+                <div class="row" style="padding: 3px;">
+                    <div class="col-md-4" style="padding: 15px;"  ng-repeat="ligne in fiche.productsDesign">
+                        <button class="btn btn-lg btn-info" ng-click="fiche.fnImagesLoad(ligne)" >{{ligne.libelle}}</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="imagesListModal" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 75%;height: 500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><span>Images</span></h4>
+            </div>
+            <div class="modal-body" style="height: 550px;overflow: scroll">
+                <div class="row" style="padding: 3px;">
+                    <div class="col-md-4" style="padding: 15px;"  ng-repeat="ligne in fiche.imagesList">
+                        <img src="{{ligne.src}}" style="width: 200px; height: 200px;" ng-click="fiche.fnUploadImg(ligne)">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

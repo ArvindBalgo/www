@@ -183,3 +183,9 @@ else if($mode == 14) {
     $docu->setDescription(addslashes($docu->getDescription()));
     $docu->save();
 }
+else if($mode == 15) {
+    // delete by session
+    $temp_prod = new temp_prod();
+    $temp_prod->delBySessionKey(session_id());
+    echo "done";
+}

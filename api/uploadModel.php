@@ -1,5 +1,5 @@
 <?php
-include_once 'v1/gabarits.php';
+include_once 'classes/gabarits.php';
 if ( !empty( $_FILES ) ) {
 
     $tempPath = $_FILES[ 'file' ][ 'tmp_name' ];

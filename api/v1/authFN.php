@@ -1,7 +1,7 @@
 <?php
-require_once 'dbHandler.php';
-require_once 'passwordHash.php';
-require_once 'listmetier.php';
+require_once '../classes/dbHandler.php';
+require_once '../classes/passwordHash.php';
+require_once '../classes/listmetier.php';
 require_once '../chromePHP.php';
 require '../libs/Slim/Slim.php';
 

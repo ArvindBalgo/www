@@ -137,5 +137,6 @@ app.config(['$translateProvider', function($translateProvider){
 
     // Tell the module to store the language in the cookies
     $translateProvider.useCookieStorage();
+    $translateProvider.useSanitizeValueStrategy('escape','sanitizeParameters');
 
 }])

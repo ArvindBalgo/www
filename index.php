@@ -5,7 +5,7 @@
     <title>Exakom</title>
     <link rel="icon" type="image/png" href="assets/images/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
     <!-- build:css assets/css/styles.css -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="sections/home/home.css"/>

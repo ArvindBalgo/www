@@ -1,6 +1,6 @@
 <?php
-include_once 'v1/modelmetier.php';
-include_once 'v1/modelmetier_category.php';
+include_once 'classes/modelmetier.php';
+include_once 'classes/modelmetier_category.php';
 
 if ( !empty( $_FILES ) ) {
 

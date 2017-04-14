@@ -1,5 +1,5 @@
 <?php
-include_once 'v1/modelmetier.php';
+include_once 'classes/modelmetier.php';
 
 if($_POST["id_model"] > 0 && $_POST["img_modified"] == 0){
     $modelmetier = new modelmetier();

@@ -1,5 +1,5 @@
 <?php
-include_once 'v1/pub.php';
+include_once 'classes/pub.php';
 include_once 'chromePHP.php';
 
 if ( !empty( $_FILES ) ) {
@@ -9,7 +9,6 @@ if ( !empty( $_FILES ) ) {
     move_uploaded_file($tempPath, $uploadPath);
 
     $pub = new pub();
-    chromePHP::log($_POST["pays"]);
     $pub = $pub->findByPays($_POST["pays"]);
     $pub->setPays($_POST["pays"]);
     $pub->setActif(1);

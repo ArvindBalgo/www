@@ -1,6 +1,6 @@
 <?php
 include_once 'chromePHP.php';
-include_once 'v1/cata_image.php';
+include_once 'classes/cata_image.php';
     if ( !empty( $_FILES ) ) {
         $pathCategory = preg_replace('/\s+/', '', trim($_POST["category_name"]));
 $pathCategory = "groupe";

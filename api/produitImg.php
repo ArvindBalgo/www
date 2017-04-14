@@ -1,5 +1,5 @@
 <?php
-include_once 'v1/cata.php';
+include_once 'classes/cata.php';
 
 if ( !empty( $_FILES ) ) {
 

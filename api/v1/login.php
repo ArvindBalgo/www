@@ -1,8 +1,7 @@
 <?php
 
 require 'authFN.php';
-chromePHP::log("login admin php");
-require_once 'passwordHash.php';
+require_once '../classes/passwordHash.php';
 $r = json_decode($app->request->getBody());
 verifyRequiredParams(array('email', 'password'),$r->customer);
 $response = array();

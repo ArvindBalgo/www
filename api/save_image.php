@@ -1,6 +1,6 @@
 <?php
-require_once 'v1/dbHandler.php';
-include_once 'v1/include_all.php';
+require_once 'classes/dbHandler.php';
+include_once 'classes/include_all.php';
 /*
 *
 * An example php that gets the 64 bit encoded PNG URL and creates an image of it
