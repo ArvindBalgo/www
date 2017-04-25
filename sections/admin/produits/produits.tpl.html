@@ -124,3 +124,50 @@
         </div>
     </div>
 </div>
+
+<div id="modalLivraison" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 75%;height: 1000px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> Tarif des livraison</h4>
+            </div>
+            <div class="modal-body" style="height: 700px">
+                <div class="col-md-12"><h2>{{produits.arrFraisLivr.libelle}}</h2></div>
+                <div>
+                    <input type="radio" name="ismanuel" ng-model="produits.isManuel" value="0" ng-click="produits.fnSetManuelMode()"> Initial
+                    <input type="radio" name="ismanuel" ng-model="produits.isManuel" value="1" ng-click="produits.fnSetManuelMode()"> Manuel<br>
+                </div>
+                <div ng-show="produits.isManuel == 1">
+                    <table>
+                        <th>Qte</th>
+                        <th>Weight</th>
+                        <th>Prix</th>
+                        <tr ng-repeat="tarif in produits.arrFraisLivr.livraison">
+                            <td>{{ tarif.qte }}</td>
+                            <td><input type="text" ng-model="tarif.weight"></td>
+                            <td><input type="text" ng-model="tarif.price"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div ng-show="produits.isManuel == 0">
+                    <table>
+                        <th>Qte</th>
+                        <th>Weight</th>
+                        <th>Prix</th>
+                        <tr ng-repeat="tarif in produits.arrFraisLivr.parentLivraison">
+                            <td>{{ tarif.qte }}</td>
+                            <td><input type="text" ng-model="tarif.weight" disabled></td>
+                            <td><input type="text" ng-model="tarif.price" disabled></td>
+                        </tr>
+                    </table>
+                </div>
+                <!--div  ui-grid="gridOptionsCategory" ui-grid-auto-resize class="myGridColumns"></div-->
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-default pull-left" data-dismiss="modal">Quitter</button>
+                <button class="btn btn-success pull-right" ng-click="produits.fnSaveLivr()">Sauvegarder</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -274,7 +274,7 @@ angular
             console.log(vm.arrFraisLivr);
             $http({
                 method: 'GET',
-                params: {mode:20, data:JSON.stringify(vm.arrFraisLivr.livraison)},
+                params: {mode:20, data:JSON.stringify(vm.arrFraisLivr.livraison), id: vm.arrFraisLivr.id},
                 url: 'api/v1/info.php'
             }).then(function successCallback(response) {
                 console.log(response.data);

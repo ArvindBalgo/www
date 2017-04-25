@@ -129,10 +129,11 @@ else if($mode == 5) {
     
     $cataMetier = new cata_metier();
     $cataMetier = $cataMetier->findByIdCata($_GET["id"]);
+    chromePHP::log($_GET["id"] . " -------");
     $modelMetier = new modelmetier();
     $modelMetier = $modelMetier->findByPrimaryKey($cataMetier->getIdMetier());
     $fraisLivr = new frais_livraison();
-    $fraisLivr = $fraisLivr->findByIdModelMetier($modelMetier->getId());
+    $fraisLivr = $fraisLivr->findByIdModelMetier($modelMetier->getId(), $_GET["id"]);
     $arrData = [];
 
     //foreach($cata as $ligne) {
@@ -288,7 +289,8 @@ else if($mode == 9) {
     $modelMetier = new modelmetier();
     $modelMetier = $modelMetier->findByPrimaryKey($cataMetier->getIdMetier());
     $fraisLivr = new frais_livraison();
-    $fraisLivr = $fraisLivr->findByIdModelMetier($modelMetier->getId());
+    chromePHP::log($cataMetier->getId_Cata() . " ]]]]]");
+    $fraisLivr = $fraisLivr->findByIdModelMetier($modelMetier->getId(), $cataMetier->getId_Cata());
     $arrData = [];
 
     //foreach($cata as $ligne) {

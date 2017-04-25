@@ -18,6 +18,7 @@ angular
         vm.tarifInfo = [];
         vm.tarifNew = [];
         vm.chkCustom = false;
+        vm.isManuel = 0;
 
         //uploader img
         var uploader = $scope.uploader = new FileUploader({
@@ -61,7 +62,8 @@ angular
             var image = "<button type='button' class='btn btn-success btn-circle' style='margin-left: 5px;margin-top: 5px;' ng-click='grid.appScope.edit(grid, row.entity, 3)'><i class='glyphicon glyphicon-picture'></i></button>";
             var tarif = "<button type='button' class='btn btn-primary btn-circle' style='margin-left: 5px;margin-top: 5px;' ng-click='grid.appScope.edit(grid, row.entity, 4)'><i class='glyphicon glyphicon-euro'></i></button>";
             var edit1 = "<button type='button' class='btn btn-warning btn-circle' style='margin-left: 5px;margin-top: 5px;' ng-click='grid.appScope.edit(grid, row.entity, 5)'><i class='glyphicon glyphicon-pencil'></i></button>";
-            return image+edit+tarif+edit1+trash;
+            var livraison = "<button type='button' class='btn btn-default btn-circle' style='margin-left: 5px;margin-top: 5px;' ng-click='grid.appScope.edit(grid, row.entity, 6)'><i class='glyphicon glyphicon-road'></i></button>";
+            return image+livraison+edit+tarif+edit1+trash;
         }
 
         vm.columns = [  { name:'Libelle',field: 'description',enableHiding:false},
@@ -145,7 +147,41 @@ angular
             else if(opt == 5) {
                 $('#modalEditProd').modal();
             }
+            else if(opt == 6) {
+                console.log(vm.currentProduit, " test");
+                $http({
+                    method: 'GET',
+                    params: {mode:21, id_produit:row.id_cata, id_modelmetier:row.id_metier},
+                    url: 'api/v1/info.php'
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    vm.arrFraisLivr = response.data;
+                    vm.isManuel = vm.arrFraisLivr.isManuel;
+                    $("#modalLivraison").modal();
+
+                }, function errorCallback(error) {
+                    console.log(error);
+                });
+            }
         };
+
+        vm.fnSaveLivr = function() {
+            $http({
+                method: 'GET',
+                params: {mode:22, data:JSON.stringify(vm.arrFraisLivr.livraison), isManuel:vm.isManuel},
+                url: 'api/v1/info.php'
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                bootbox.alert("Les frais sont sauvegarder");
+            }, function errorCallback(error) {
+                console.log(error);
+            });
+        };
+
+        vm.fnSetManuelMode = function() {
+            console.log(vm.isManuel, " manuel value");
+        }
+
 
         vm.fnRechCategory = function() {
             $http({

@@ -244,7 +244,7 @@ else if($mode == 19) {
     $arrQte = explode(",",$modelmetier->getQte());
     foreach ($arrQte as $ligne) {
         $frais_livr = new frais_livraison();
-        $frais_livr = $frais_livr->findByIdModelMetierQte($_GET["id"], intval($ligne));
+        $frais_livr = $frais_livr->findByIdParentModelMetierQte($_GET["id"], intval($ligne), 0);
 
         if(!$frais_livr) {
             $frais_livr = new frais_livraison();
@@ -252,23 +252,75 @@ else if($mode == 19) {
             $frais_livr->setWeight(0);
             $frais_livr->setPrice(0);
             $frais_livr->setQte(intval($ligne));
+            $frais_livr->setIdProduit(0);
+            $frais_livr->setManuel(0);
             $frais_livr->save();
+        }
+        $frais_livr1 = new frais_livraison();
+        $frais_livr1 = $frais_livr1->findByIdParentModelMetierQte($_GET["id"], intval($ligne), 0);
+        $arrListProds = new cata_metier();
+        $arrListProds = $arrListProds->findByMetier($_GET["id"]);
+        foreach ($arrListProds as $ligne1) {
+            $frais_livr3 = new frais_livraison();
+            $frais_livr3 = $frais_livr3->findByIdParentModelMetierQte($_GET["id"], intval($ligne), $ligne1["id_cata"]);
+            if(!$frais_livr3){
+                $frais_livr3 = new frais_livraison();
+                $frais_livr3->setIdModelMetier($_GET["id"]);
+                $frais_livr3->setWeight($frais_livr1->getWeight());
+                $frais_livr3->setPrice($frais_livr1->getPrice());
+                $frais_livr3->setQte($frais_livr1->getQte());
+                $frais_livr3->setIdProduit($ligne1["id_cata"]);
+                $frais_livr3->setManuel(0);
+                $frais_livr3->save();
+            }
         }
     }
 
     //recup de toutes les lignes pour cette modelmetier
     $frais_livraison = new frais_livraison();
-    $frais_livraison = $frais_livraison->findByIdModelMetier($_GET["id"]);
+    $frais_livraison = $frais_livraison->findByIdModelMetier($_GET["id"], 0);
     echo json_encode(array("livraison"=>$frais_livraison, "libelle"=>$modelmetier->getDescription(), "id"=>$_GET["id"]));
 }
 else if($mode == 20) {
     $arrLivr = json_decode($_GET["data"]);
     foreach ($arrLivr as $ligne) {
         $livraison = new frais_livraison();
+        $livraison->updateByBulk($_GET["id"], $ligne->qte, $ligne->weight, $ligne->price);
+    }
+    echo "success";
+}
+else if($mode == 21){
+    $id_modelmetier = $_GET["id_modelmetier"];
+    $id_produit = $_GET["id_produit"];
+    $modelmetier = new modelmetier();
+    $modelmetier = $modelmetier->findByPrimaryKey($_GET["id_modelmetier"]);
+
+    $livraison = new frais_livraison();
+    $livraison = $livraison->findByIdModelMetier($id_modelmetier, $id_produit);
+
+    $livraison1 = new frais_livraison();
+    $livraison1 = $livraison1->findByIdModelMetier($id_modelmetier, 0);
+
+    $isManuel = 0;
+    foreach ($livraison as $item) {
+        $isManuel = intval($item["manuel"]);
+    }
+    echo json_encode(array("parentLivraison"=>$livraison1,"livraison"=>$livraison, "isManuel"=>$isManuel, "libelle"=>$modelmetier->getDescription(), "id"=>$_GET["id_modelmetier"]));
+}
+
+else if($mode == 22) {
+    $arrLivr = json_decode($_GET["data"]);
+    $isManuel = intval($_GET["isManuel"]);
+
+    foreach ($arrLivr as $ligne) {
+        $livraison = new frais_livraison();
         $livraison = $livraison->findByPrimaryKey($ligne->id);
-        $livraison->setWeight(intval($ligne->weight));
-        $livraison->setPrice(intval($ligne->price));
-        $livraison->save();
+        if($livraison) {
+            $livraison->setManuel($isManuel);
+            $livraison->setWeight($ligne->weight);
+            $livraison->setPrice($ligne->price);
+            $livraison->save();
+        }
     }
     echo "success";
 }
