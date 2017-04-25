@@ -19,15 +19,20 @@ angular
         vm.unitprix = 0;
         vm.prixvente = 0;
         vm.imagesList= [];
+        vm.arrCurrentDims = [];// to be used ro regenerate the array
+        vm.arrCurrentQtes = [];// to be used ro regenerate the array
         vm.modifEnCoursProd = {};
+        vm.prodEnCours = [];
         $('body').addClass("spinner");
         $scope.alertMsg = "";
         $scope.isFiche = true;
+        vm.login = {email:"", password:""};
+        vm.montants = {frais_livr:0, prix_total_ht:0, tax:0, prix_ttc:0, montant_net:0};
 
         vm.currentMetier = "";
         $(function () {
             $('[data-toggle="popover"]').popover()
-        })
+        });
 
         //console.log("FACT VALUE:: ", messages.list);
         vm.arrProduits = [];
@@ -113,6 +118,8 @@ angular
                         arrDataQte.push({id:key , text:value});
                     });
 
+                vm.arrCurrentDims = arrDataDims;
+                vm.arrCurrentQtes = arrDataQte;
                 // clear all option
                     $('.sel_papier').html('').select2({data: [{id: '', text: ''}]});
 
@@ -1006,7 +1013,7 @@ angular
                                 });
                             console.log(product);
                             console.log("*******************");
-                        }
+                        };
 
                         vm.fnImage = function() {
                             yourDesigner.getProductDataURL(function(dataURL) {
@@ -1015,13 +1022,19 @@ angular
                                     console.log("TESTING ISSUE ");
                                 })
                             });
-                        }
+                        };
 
                         vm.fnModelClick = function(id, id_model_metier) {
+                            //console.clear();
                             console.log("***********************************");
                             console.log(id, id_model_metier);
                             console.log("************************************");
-
+                            vm.prodEnCours = [];
+                            vm.produit.titre = "";
+                            vm.produit.commentaire = "";
+                            $('input[name="optescargot"]').val([0]);
+                            $('input[name="optradio"]').val([0]);
+                            $('input[name="optcommande"]').val([0]);
                             $http({
                                 method: 'GET',
                                 params: {mode:5, id:id},
@@ -1040,6 +1053,9 @@ angular
                                     angular.forEach(arrQte, function(value, key){
                                         arrDataQte.push({id:key , text:value});
                                     });
+
+                                    vm.arrCurrentDims = arrDataDims;
+                                    vm.arrCurrentQtes = arrDataQte;
 
                                     // clear all option
                                     $('.sel_dimensions').html('').select2({data: [{id: '', text: ''}]});
@@ -1069,6 +1085,7 @@ angular
                                             if(value1.parameters.fill != "false"){
                                                 flag = value1.parameters.fill;
                                             }
+
                                             if(value1.parameters.flipX == "false"){
                                                 value1.parameters.flipX = false;
                                             }
@@ -1696,11 +1713,10 @@ angular
 
                                         yourDesigner.loadProduct(arrProducts);
 
-                                        console.log(arrProducts, " ARR PRODUCTS")
                                         $('#galleryModal').modal('hide');
                                     });
 
-                                vm.fnInit(id);
+                                    vm.fnInit(id);
                                 }, function errorCallback(error) {
                                     console.log(error);
                                 });
@@ -1712,15 +1728,40 @@ angular
                                 if(results.uid){
                                     $scope.isLogged = true;
                                     $scope.utilisateur = results.name;
-                                    console.log($('input[name="optradio"]:checked').val(), "BLA");
-                                    console.log(vm.produit ,"TEST");
-                                    console.log($('.sel_dimensions').select2('data') , " dimensions values");
-                                    console.log($('.sel_qte').select2('data') , " quantitee");
-                                    console.log();
+
+                                    $('#modalPanier').modal('hide');
                                     $('#modalMaquette').modal();
+                                    vm.montants.frais_livr=0;
+                                    vm.montants.prix_total_ht=0;
+                                    vm.montants.tax=0;
+                                    vm.montants.prix_ttc=0;
+                                    vm.montants.montant_net=0;
+                                    //var arrProduits = JSON.parse(sessionStorage.getItem("arrProds"));
+                                    //console.log(arrProduits)
+                                    console.log(vm.arrProduits, " array of data")
+                                    angular.forEach(vm.arrProduits, function(value){
+                                        angular.forEach(value.fraisLivr, function(ligne){
+                                            if(Number(value.qte) == Number(ligne.qte)){
+                                                vm.montants.frais_livr += Number(ligne.price);
+                                            }
+                                        });
+                                        console.log(value.prix, " -- ", Number(value.prix));
+                                        vm.montants.prix_total_ht += Number(value.unitprix)*Number(value.qte);
+                                    });
+                                    console.log(vm.montants, " montants");
+                                    vm.montants.tax = 0.2 * (vm.montants.prix_total_ht + vm.montants.frais_livr);
+                                    vm.montants.prix_ttc = vm.montants.prix_total_ht + vm.montants.tax;
+                                    vm.montants.montant_net = vm.montants.prix_ttc;
+
+                                    vm.montants.frais_livr    = vm.montants.frais_livr.toFixed(2);
+                                    vm.montants.prix_total_ht = vm.montants.prix_total_ht.toFixed(2);
+                                    vm.montants.tax = vm.montants.tax.toFixed(2);
+                                    vm.montants.prix_ttc = vm.montants.prix_ttc.toFixed(2);
+                                    vm.montants.montant_net = vm.montants.montant_net.toFixed(2);
                                 }
                                 else if(!results.uid) {
                                     $scope.alertMsg = "Veuillez vous connecter ou vous enregistrer pour pouvoir continuer svp.";
+                                    $('#modalPanier').modal('hide');
                                     $('#myModal').modal();
                                 }
                                 $scope.sessionInfo = results;
@@ -1728,31 +1769,17 @@ angular
                             })
                         }
 
-                        vm.fnSaveProduit = function(flag){
-                            var obj={};
-                            yourDesigner.getProductDataURL(function(dataURL) {
-                                $.post( "api/save_image_client.php", {
-                                    base64_image    : dataURL,
-                                    titre           : vm.produit.titre,
-                                    commentaire     : vm.produit.commentaire,
-                                    option          : $('input[name="optradio"]:checked').val(),
-                                    escargot        : $('input[name="optescargot"]:checked').val(),
-                                    dimension       : $('.sel_dimensions').select2('data')[0].text,
-                                    qte             : $('.sel_qte').select2('data')[0].text,
-                                    bonrepli        : flag,
-                                    data            : yourDesigner.getProduct()}
-                                );
-                                obj.base64_image = dataURL;
-                                obj.title = vm.produit.titre;
-                                obj.commentaire = vm.produit.commentaire;
-                                obj.option = $('input[name="optradio"]:checked').val();
-                                obj.escargot = $('input[name="optescargot"]:checked').val();
-                                obj.dimension = $('.sel_dimensions').select2('data')[0].text;
-                                obj.qte = $('.sel_qte').select2('data')[0].text;
-                                obj.bonrepli = flag;
-                                obj.data = yourDesigner.getProduct();
-                                console.log(obj , " object produit");
+                        vm.fnSaveProduit = function(){
+                            $http({
+                                method: 'GET',
+                                params: {mode:5, id:id},
+                                url: 'api/v1/sampleControl.php'
+                            }).then(function successCallback(response) {
+
+                            }, function errorCallback(error) {
+                                console.log(error);
                             });
+
 
                             bootbox.alert('Votre Schèma a été enregistré.');
                             toastr.options.positionClass = 'toast-top-right';
@@ -1769,8 +1796,196 @@ angular
                                 bootbox.alert("<div style='text-align: center'><b>Veuillez renseigner le titre s'il-vous-plait.</b></div>");
                                 return;
                             }
+                           // console.clear();
+                            console.log("vois si produit en cour de modifs", vm.prodEnCours);
+                            if(vm.prodEnCours.length != 0) {
+
+                                bootbox.dialog({
+                                    message: "Cette produit est issue d'une produit déjà dans le panier. Souhaitez-vouz modifier l'existant ou le rajouter comme nouveau",
+                                    title: "Modification/Ajout Produit",
+                                    buttons: {
+                                        annuler: {
+                                            label: "Nouveau Produit",
+                                            className: "btn-secondary",
+                                            callback: function() {
+                                                var countProduit = 0;
+                                                var arrProds = [];
+
+                                                console.log(vm.arrCurrentQtes, vm.arrCurrentDims, " -----");
+                                                if(sessionStorage.produitCount) {
+                                                    countProduit = Number(sessionStorage.produitCount) + 1;
+                                                }
+                                                var obj={};
+                                                yourDesigner.getProductDataURL(function(dataURL) {
+
+                                                    //obj.base64_image    = dataURL;
+                                                    obj.title           = vm.produit.titre;
+                                                    obj.commentaire     = vm.produit.commentaire;
+                                                    obj.opt          = $('input[name="optradio"]:checked').val();
+                                                    obj.contours      = vm.productList[0].contours;
+                                                    obj.liserai      = vm.productList[0].liserai;
+                                                    obj.escargot      = vm.productList[0].escargot;
+                                                    obj.escargot_val   = $('input[name="optescargot"]:checked').val();
+                                                    obj.id_dimension    = $('.sel_dimensions').select2('data')[0].id;
+                                                    obj.dimension       = $('.sel_dimensions').select2('data')[0].text;
+                                                    obj.id_qte          = $('.sel_qte').select2('data')[0].id;
+                                                    obj.qte             = $('.sel_qte').select2('data')[0].text;
+                                                    obj.bonrepli        = $('input[name="optcommande"]:checked').val();
+                                                    obj.prix            = vm.prixvente;
+                                                    obj.idsupport       = $('.sel_papier').select2('data')[0].id;
+                                                    obj.support         = $('.sel_papier').select2('data')[0].text;
+                                                    obj.unitprix        = vm.unitprix;
+                                                    obj.idn_key         = "produit" + countProduit;
+                                                    obj.random_str      = Math.random().toString(36).substring(7);
+                                                    obj.arrDims         = vm.arrCurrentDims;
+                                                    obj.arrQtes         = vm.arrCurrentQtes;
+
+                                                    if(typeof vm.produit.commentaire == 'undefined'){
+                                                        vm.produit.commentaire = " ";
+                                                    }
+                                                    $.ajax({
+                                                        url: 'api/v1/temp_produit.php',
+                                                        type: 'post',
+                                                        dataType: 'json',
+                                                        success: function (data) {
+                                                            console.log("data");
+                                                        },
+                                                        data: {
+                                                            modified        : false,
+                                                            base64_image    : dataURL,
+                                                            title           : vm.produit.titre,
+                                                            comm            : vm.produit.commentaire,
+                                                            opt             : $('input[name="optradio"]:checked').val(),
+                                                            contours        : vm.productList[0].contours,
+                                                            liserai         : vm.productList[0].liserai,
+                                                            escargot        : vm.productList[0].escargot,
+                                                            idmodelmetier   : vm.productList[0].idmodelmetier,
+                                                            escargot_val    : $('input[name="optescargot"]:checked').val(),
+                                                            dimension       : $('.sel_dimensions').select2('data')[0].text,
+                                                            id_dimension    : $('.sel_dimensions').select2('data')[0].id,
+                                                            qte             : $('.sel_qte').select2('data')[0].text,
+                                                            id_qte          : $('.sel_qte').select2('data')[0].id,
+                                                            bonrepli        : $('input[name="optcommande"]:checked').val(),
+                                                            data            : yourDesigner.getProduct(),
+                                                            prix            : vm.prixvente,
+                                                            idsupport       : $('.sel_papier').select2('data')[0].id,
+                                                            support         : $('.sel_papier').select2('data')[0].text,
+                                                            unitprix        : vm.unitprix,
+                                                            random_str      : obj.random_str,
+                                                            idn_key         : "produit" + countProduit}
+                                                    }).done(function(data){
+                                                    });
+
+                                                    sessionStorage.setItem("produitCount", countProduit);
+
+                                                    arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
+                                                    if(arrProds == null ) {
+                                                        arrProds = [];
+                                                    }
+                                                    arrProds.push("produit" + countProduit);
+                                                    sessionStorage.setItem("arrProds", JSON.stringify(arrProds));
+                                                    vm.prodEnCours = obj;
+                                                    sessionStorage.setItem("produit" + countProduit, JSON.stringify(obj));
+                                                    vm.arrProduits = [];
+                                                });
+                                                toastr.options.positionClass = 'toast-top-right';
+                                                toastr.success('Produit rajouté');
+                                            }
+                                        },
+                                        valider: {
+                                            label: "Modifier Existant",
+                                            className: "btn-success",
+                                            callback: function() {
+                                                var countProduit = 0;
+                                                var arrProds = [];
+
+                                                console.log(vm.arrCurrentQtes, vm.arrCurrentDims, " -----");
+                                                if(sessionStorage.produitCount) {
+                                                    countProduit = Number(sessionStorage.produitCount) + 1;
+                                                }
+                                                var obj={};
+                                                yourDesigner.getProductDataURL(function(dataURL) {
+
+                                                    //obj.base64_image    = dataURL;
+                                                    obj.title           = vm.produit.titre;
+                                                    obj.commentaire     = vm.produit.commentaire;
+                                                    obj.opt          = $('input[name="optradio"]:checked').val();
+                                                    obj.contours      = vm.productList[0].contours;
+                                                    obj.liserai      = vm.productList[0].liserai;
+                                                    obj.escargot      = vm.productList[0].escargot;
+                                                    obj.escargot_val   = $('input[name="optescargot"]:checked').val();
+
+                                                    obj.id_dimension    = $('.sel_dimensions').select2('data')[0].id;
+                                                    obj.dimension       = $('.sel_dimensions').select2('data')[0].text;
+                                                    obj.id_qte          = $('.sel_qte').select2('data')[0].id;
+                                                    obj.qte             = $('.sel_qte').select2('data')[0].text;
+                                                    obj.bonrepli        = $('input[name="optcommande"]:checked').val();
+                                                    obj.prix            = vm.prixvente;
+                                                    obj.idsupport       = $('.sel_papier').select2('data')[0].id;
+                                                    obj.support         = $('.sel_papier').select2('data')[0].text;
+                                                    obj.unitprix        = vm.unitprix;
+                                                    obj.idn_key         = vm.prodEnCours.idn_key;
+                                                    obj.random_str      = vm.prodEnCours.random_str;
+                                                    obj.arrDims         = vm.arrCurrentDims;
+                                                    obj.arrQtes         = vm.arrCurrentQtes;
+
+                                                    if(typeof vm.produit.commentaire == 'undefined'){
+                                                        vm.produit.commentaire = " ";
+                                                    }
+                                                    $.ajax({
+                                                        url: 'api/v1/temp_produit.php',
+                                                        type: 'post',
+                                                        dataType: 'json',
+                                                        success: function (data) {
+                                                            console.log("data");
+                                                        },
+                                                        data: {
+                                                            modified        : true,
+                                                            base64_image    : dataURL,
+                                                            title           : vm.produit.titre,
+                                                            comm            : vm.produit.commentaire,
+                                                            opt             : $('input[name="optradio"]:checked').val(),
+                                                            contours        : vm.productList[0].contours,
+                                                            liserai         : vm.productList[0].liserai,
+                                                            escargot        : vm.productList[0].escargot,
+                                                            escargot_val    : $('input[name="optescargot"]:checked').val(),
+                                                            idmodelmetier   : vm.productList[0].idmodelmetier,
+                                                            dimension       : $('.sel_dimensions').select2('data')[0].text,
+                                                            id_dimension    : $('.sel_dimensions').select2('data')[0].id,
+                                                            qte             : $('.sel_qte').select2('data')[0].text,
+                                                            id_qte          : $('.sel_qte').select2('data')[0].id,
+                                                            bonrepli        : $('input[name="optcommande"]:checked').val(),
+                                                            data            : yourDesigner.getProduct(),
+                                                            prix            : vm.prixvente,
+                                                            idsupport       : $('.sel_papier').select2('data')[0].id,
+                                                            support         : $('.sel_papier').select2('data')[0].text,
+                                                            unitprix        : vm.unitprix,
+                                                            random_str      : obj.random_str,
+                                                            idn_key         : vm.prodEnCours.idn_key}
+                                                    }).done(function(data){
+                                                    });
+
+                                                    sessionStorage.setItem("produitCount", countProduit);
+
+                                                    if(arrProds == null ) {
+                                                        arrProds = [];
+                                                    }
+                                                    vm.prodEnCours = obj;
+                                                    sessionStorage.setItem(vm.prodEnCours.idn_key, JSON.stringify(obj));
+                                                    vm.arrProduits = [];
+                                                });
+                                                toastr.options.positionClass = 'toast-top-right';
+                                                toastr.success('Produit rajouté');
+                                            }
+                                        }
+                                    }
+                                });
+                                return;
+                            }
                             var countProduit = 0;
                             var arrProds = [];
+
+                            console.log(vm.productList[0], " <<<<===");
                             if(sessionStorage.produitCount) {
                                 countProduit = Number(sessionStorage.produitCount) + 1;
                             }
@@ -1781,16 +1996,24 @@ angular
                                 obj.title           = vm.produit.titre;
                                 obj.commentaire     = vm.produit.commentaire;
                                 obj.opt          = $('input[name="optradio"]:checked').val();
-                                obj.escargot        = $('input[name="optescargot"]:checked').val();
+                                obj.contours      = vm.productList[0].contours;
+                                obj.liserai      = vm.productList[0].liserai;
+                                obj.escargot      = vm.productList[0].escargot;
+                                obj.escargot_val   = $('input[name="optescargot"]:checked').val();
+                                obj.id_dimension    = $('.sel_dimensions').select2('data')[0].id;
                                 obj.dimension       = $('.sel_dimensions').select2('data')[0].text;
+                                obj.fraisLivr       = vm.productList[0].frais_livraison;
+                                obj.id_qte          = $('.sel_qte').select2('data')[0].id;
                                 obj.qte             = $('.sel_qte').select2('data')[0].text;
                                 obj.bonrepli        = $('input[name="optcommande"]:checked').val();
-                                //obj.data            = yourDesigner.getProduct();
                                 obj.prix            = vm.prixvente;
                                 obj.idsupport       = $('.sel_papier').select2('data')[0].id;
                                 obj.support         = $('.sel_papier').select2('data')[0].text;
                                 obj.unitprix        = vm.unitprix;
                                 obj.idn_key         = "produit" + countProduit;
+                                obj.random_str      = Math.random().toString(36).substring(7);
+                                obj.arrDims         = vm.arrCurrentDims;
+                                obj.arrQtes         = vm.arrCurrentQtes;
 
                                 if(typeof vm.produit.commentaire == 'undefined'){
                                     vm.produit.commentaire = " ";
@@ -1803,21 +2026,29 @@ angular
                                         console.log("data");
                                     },
                                     data: {
+                                        modified        : false,
                                         base64_image    : dataURL,
                                         title           : vm.produit.titre,
                                         comm            : vm.produit.commentaire,
-                                        option          : $('input[name="optradio"]:checked').val(),
-                                        escargot        : $('input[name="optescargot"]:checked').val(),
+                                        opt             : $('input[name="optradio"]:checked').val(),
+                                        contours        : vm.productList[0].contours,
+                                        liserai         : vm.productList[0].liserai,
+                                        escargot        : vm.productList[0].escargot,
+                                        escargot_val    : $('input[name="optescargot"]:checked').val(),
                                         dimension       : $('.sel_dimensions').select2('data')[0].text,
+                                        id_dimension    : $('.sel_dimensions').select2('data')[0].id,
+                                        idmodelmetier   : vm.productList[0].idmodelmetier,
                                         qte             : $('.sel_qte').select2('data')[0].text,
+                                        id_qte          : $('.sel_qte').select2('data')[0].id,
                                         bonrepli        : $('input[name="optcommande"]:checked').val(),
                                         data            : yourDesigner.getProduct(),
                                         prix            : vm.prixvente,
                                         idsupport       : $('.sel_papier').select2('data')[0].id,
                                         support         : $('.sel_papier').select2('data')[0].text,
                                         unitprix        : vm.unitprix,
+                                        random_str      : obj.random_str,
                                         idn_key         : "produit" + countProduit}
-                            }).done(function(data){
+                                }).done(function(data){
                                 });
 
                                 sessionStorage.setItem("produitCount", countProduit);
@@ -1826,12 +2057,14 @@ angular
                                     arrProds = [];
                                 }
                                 arrProds.push("produit" + countProduit);
+                                vm.prodEnCours = obj;
                                 sessionStorage.setItem("arrProds", JSON.stringify(arrProds));
                                 sessionStorage.setItem("produit" + countProduit, JSON.stringify(obj));
                                 vm.arrProduits = [];
                             });
                             toastr.options.positionClass = 'toast-top-right';
                             toastr.success('Produit rajouté');
+
                         };
 
                         vm.fnClickPanier = function() {
@@ -1901,7 +2134,8 @@ angular
                         vm.fnEditClient = function(produit) {
                             $("#modalPanier").modal('hide');
                             $('body').addClass("spinner");
-
+                            console.log(produit, " produit par fn");
+                            vm.prodEnCours = produit;
                             $http({
                                 method: 'POST',
                                 data: $.param({mode:3, key_prod:produit.idn_key}),
@@ -1912,8 +2146,31 @@ angular
 
                                     $('body').removeClass("spinner");
                                     var ligne = response.data;
+                                console.log(ligne);
                                     ligne.data = JSON.parse(ligne.data);
                                     vm.productList[0] = ligne;
+                                    $('input[name="optescargot"]').val([vm.productList[0].escargot_val]);
+                                    $('input[name="optradio"]').val([vm.productList[0].opt]);
+                                    $('input[name="optcommande"]').val([vm.productList[0].bonrepli]);
+                                    $(".sel_papier").val(vm.productList[0].idsupport).change();
+
+                                    $('.sel_dimensions').html('').select2({data: [{id: '', text: ''}]});
+
+                                    // clear and add new option
+                                    $(".sel_dimensions").html('').select2({data: produit.arrDims});
+                                    console.log(arrDimensions , "  array of dimensions");
+
+                                    $('.sel_qte').html('').select2({data: [{id: '', text: ''}]});
+
+                                    // clear and add new option
+                                    $(".sel_qte").html('').select2({data: produit.arrQtes});
+
+                                    $(".sel_dimensions").val(vm.productList[0].id_dimension).change();
+                                    $(".sel_qte").val(vm.productList[0].id_qte).change();
+
+                                    console.log(ligne, " current prod selected");
+                                    vm.produit.titre = produit.title;
+                                    vm.produit.commentaire = ligne.commentaire;
                                     angular.forEach(ligne.data, function(value){
                                         angular.forEach(value.elements, function(value1) {
                                             var flag = false;
@@ -2367,8 +2624,47 @@ angular
         };
 
         $scope.fnSignUp = function() {
+            $('#myModal').modal('hide');
+            $('#modalPanier').modal('hide');
             $('#signupFiche').modal();
-        }
+        };
+
+        $scope.doLogin = function(customer){
+            console.log("FICHE CONTROL");
+            Data.post('loginClient.php', {
+                customer: customer
+            }).then(function (results) {
+                Data.toast(results);
+                if (results.status == "success") {
+                    console.log($location.path(), " lcoation path");
+                    if(results.uid){
+                        if($location.path().indexOf('fichetech') == -1){
+                            $location.path('home');
+                        }
+
+                        $scope.isLogged = true;
+                        $scope.utilisateur = results.name;
+
+                        $timeout(function() {
+                            $scope.isLogged = true;
+                            $scope.utilisateur = results.name;
+                        }, 0);
+
+                        console.log($scope.isLogged, " logging dunction");
+                    }
+
+                    toastr.options.positionClass = 'toast-top-right';
+                    toastr.success('Bienvenue ' + results.name);
+
+                }
+                else{
+
+                    bootbox.alert("Les parametres de connection ne correspond pas à un utilisateur.", function(){
+                        $scope.loginModal();
+                    })
+                }
+            });
+        };
 
         vm.fnRegister = function (client) {
             Data.post('signupClient.php', {
@@ -2380,14 +2676,21 @@ angular
                         console.log("REGISTRATION SUCCESFULL : ", results);
                         $('#myModal').modal('hide');
                         $('#signupFiche').modal('hide');
-                        vm.fnValidMaquette();
+                        //vm.fnValidMaquette();
                     }
                 });
         };
 
         vm.fnCheckOut = function() {
     console.log($scope.sessionInfo);
+            vm.fnValidMaquette();
 }
+
+        vm.doLogin = function(login) {
+            console.clear();
+            console.log(login);
+            console.log(vm.login);
+        };
 
         var lang = localStorage.getItem("LANG");
         /*
@@ -2433,7 +2736,7 @@ angular
             console.log(ov, nv, " module fichier");
             vm.setLang(localStorage.getItem("LANG"));
             var lang = localStorage.getItem("LANG");
-            
+
              vm.linkMonPanier = "../assets/carts/mon_panier.png";
              vm.linkAjoutPanier = "../assets/carts/ajouter_panier.png";
              if(lang == "FR") {
@@ -2456,6 +2759,6 @@ angular
              vm.linkMonPanier = "../assets/carts/carrello_italiano.png";
              vm.linkAjoutPanier = "../assets/carts/cart_italien.png";
              }
-             
+
         });
     });

@@ -225,21 +225,57 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><span>{{'valid_schema' | translate}}</span></h4>
+                <h4 class="modal-title"><span>Resume - Payment</span></h4>
             </div>
             <div class="modal-body" style="overflow: hidden">
-               <div class="row">
-                   <div class="well well-lg">
-                       <p>
-                           {{'msg_commande' | translate}}
-                       </p>
-                   </div>
-               </div>
+                <div class="row" style="text-align: center; margin:auto;">
+                    <div class="col-md-7">
+                        <table border="1">
+                            <th class="paddingTable">{{'titre' | translate}}</th>
+                            <th class="paddingTable">{{'qte' | translate}}</th>
+                            <th class="paddingTable">{{'unit_price' | translate}}</th>
+                            <th class="paddingTable">Prix HT</th>
+                            <th class="paddingTable">Prix TTC</th>
+                            <tr ng-repeat="(key, ligne) in fiche.arrProduits">
+                                <td class="paddingTable">{{ligne.title}}</td>
+                                <td class="paddingTable">{{ligne.qte}}</td>
+                                <td class="paddingTable" style="font-weight: bold"><span class="glyphicon glyphicon-euro" style="font-size: initial"></span> {{ligne.unitprix}} </td>
+                                <td class="paddingTable" style="font-weight: bold"><span class="glyphicon glyphicon-euro" style="font-size: initial"></span> {{(ligne.unitprix * ligne.qte).toFixed(2)}} </td>
+                                <td class="paddingTable" style="font-weight: bold"><span class="glyphicon glyphicon-euro" style="font-size: initial"></span> {{(ligne.unitprix * ligne.qte * 1.2).toFixed(2)}} </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="col-md-12" style="margin-bottom: 25px;">
+                        <label class="label label-default" style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">Frais Livraison : </label>
+                        <label class="label label-success" style="font-size: large; width: 165px;display: inline-block;text-align: right;"><span class="glyphicon glyphicon-euro" style="font-size: initial"></span> {{fiche.montants.frais_livr}}</label>
+                        </div>
+                        <div class="col-md-12"  style="margin-bottom: 25px;">
+                            <label class="label label-default" style="font-size: large; width: 165px ; margin-right: 10px;display: inline-block;text-align: right;">Prix totale HT : </label>
+                            <label class="label label-success" style="font-size: large; width: 165px;display: inline-block;text-align: right;"><span class="glyphicon glyphicon-euro" style="font-size: initial"></span> {{fiche.montants.prix_total_ht}}</label>
+                        </div>
+                        <div class="col-md-12"  style="margin-bottom: 25px;">
+                            <label class="label label-default" style="font-size: large; width: 165px ; margin-right: 10px;display: inline-block;text-align: right;">Tax : </label>
+                            <label class="label label-success" style="font-size: large; width: 165px;display: inline-block;text-align: right;"><span class="glyphicon glyphicon-euro" style="font-size: initial"></span> {{fiche.montants.tax}}</label>
+                        </div>
+                        <div class="col-md-12"  style="margin-bottom: 25px;">
+                            <label class="label label-default" style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">Prix totale TTC : </label>
+                            <label class="label label-success" style="font-size: large; width: 165px;display: inline-block;text-align: right;"><span class="glyphicon glyphicon-euro" style="font-size: initial"></span> {{fiche.montants.prix_ttc}}</label>
+                        </div>
+                        <div class="col-md-12"  style="margin-bottom: 25px;">
+                            <label class="label label-default" style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">Coupon Discount : </label>
+                            <input type="text" style="width: 165px;" ng-model="fiche.discountCode">
+                        </div>
+                        <div class="col-md-12"  style="margin-bottom: 25px;">
+                            <label class="label label-default" style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">Montant Net : </label>
+                            <label class="label label-success" style="font-size: large; width: 165px;display: inline-block;text-align: right;"><span class="glyphicon glyphicon-euro" style="font-size: initial"></span> {{fiche.montants.montant_net}}</label>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger pull-left" ng-click="" data-dismiss="modal">{{'cancel' | translate}}</button>
-                <button type="button" class="btn btn-success pull-right" ng-click="fiche.fnSaveProduit(0)">{{'commande_sans_bat' | translate}}</button>
-                <button type="button" class="btn btn-success pull-right" ng-click="fiche.fnSaveProduit(1)">{{'commande_avec_bat' | translate}}</button>
+                <button type="button" class="btn btn-success pull-right" ng-click="fiche.fnSaveProduit()">Valider</button>
             </div>
         </div>
     </div>
@@ -391,9 +427,9 @@
                         <tr ng-repeat="(key, ligne) in fiche.arrProduits">
                             <td class="paddingTable">{{ligne.title}}</td>
                             <!--Escargot-->
-                            <td class="paddingTable" ng-show="ligne.escargot == 0">{{'aucun' | translate}}</td>
-                            <td class="paddingTable" ng-show="ligne.escargot == 1">{{'attache_escargot' | translate}}</td>
-                            <td class="paddingTable" ng-show="ligne.escargot == 2">{{'avec_trou' | translate}}</td>
+                            <td class="paddingTable" ng-show="ligne.escargot_val == 0">{{'aucun' | translate}}</td>
+                            <td class="paddingTable" ng-show="ligne.escargot_val == 1">{{'attache_escargot' | translate}}</td>
+                            <td class="paddingTable" ng-show="ligne.escargot_val == 2">{{'avec_trou' | translate}}</td>
                             <!--Caractéristiques Optionnel-->
                             <td class="paddingTable" ng-show="ligne.opt==0">{{'aucun' | translate}}</td>
                             <td class="paddingTable" ng-show="ligne.opt==1">{{'avec_cadre' | translate}}</td>
@@ -474,6 +510,61 @@
                     </div>
                 </div>
 
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="myModal" class="modal fade" data-backdrop="static" style="z-index: 1050">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{{'connexion' | translate}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-10 col-lg-12 col-sm-12" style="margin-bottom: 10px;"><div class="label-danger"><b>{{alertMsg}}</b></div></div>
+                </div>
+                <form name="loginForm" class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="email"> {{'email_phone' | translate}} </label>
+                        <div class="col-sm-7">
+                           <span class="block input-icon input-icon-right">
+                                <input type="text" class="form-control" placeholder="Email" name="email" ng-model="login.email" required focus/>
+                                <i class="ace-icon fa fa-user"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label no-padding-right" for="password"> {{'password' | translate}} </label>
+                        <div class="col-sm-7">
+                           <span class="block input-icon input-icon-right">
+                                <input type="password" class="form-control" placeholder="Password" ng-model="login.password" required/>
+                                <i class="ace-icon fa fa-lock"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="space"></div>
+                    <div class="clearfix">
+                        <div class="row">
+                            <label class="col-sm-3 control-label no-padding-right"> </label>
+                            <div class="col-sm-7">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-4"></div>
+                    <span class="lbl col-sm-3"> </span><div class="col-sm-7">Pas de compte? <a href="" ng-click="fnSignUp()">{{'register' | translate}}</a></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="width-35 pull-right btn btn-md btn-primary" data-dismiss="modal" ng-click="doLogin(login)" data-ng-disabled="loginForm.$invalid">
+                    <i class="ace-icon fa fa-key"></i>
+                    {{'connect' | translate}}
+                </button>
+                <!--button type="button" class="btn btn-danger pull-left" ng-click="logout()">LOGOUT</button-->
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Annuler</button>
             </div>
         </div>
     </div>

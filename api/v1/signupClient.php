@@ -1,11 +1,11 @@
 <?php
 
 require 'authFN.php';
-require_once 'passwordHash.php';
+require_once '../classes/passwordHash.php';
 $response = array();
 $r = json_decode($app->request->getBody());
 verifyRequiredParams(array('email', 'name', 'password'),$r->customer);
-require_once 'passwordHash.php';
+//require_once 'passwordHash.php';
 $db = new DbHandler();
 $phone = $r->customer->phone;
 $name = $r->customer->name;

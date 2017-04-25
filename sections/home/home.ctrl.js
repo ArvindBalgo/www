@@ -74,7 +74,7 @@ Data.get('session.php').then(function (results) {
             else {
 
                 $translate.use(localStorage.getItem('LANG'));
-                if(localStorage.getItem('LANG') == FR) {
+                if(localStorage.getItem('LANG') == 'FR') {
                     vm.isFrance= true;
                     console.log("this has been triggered");
                 }

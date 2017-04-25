@@ -1,7 +1,7 @@
 <?php
 
 require 'authFN.php';
-require_once 'passwordHash.php';
+require_once '../classes/passwordHash.php';
 $response = array();
 $r = json_decode($app->request->getBody());
 verifyRequiredParams(array('email', 'password'),$r->customer);

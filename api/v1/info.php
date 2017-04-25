@@ -238,3 +238,37 @@ else if($mode == 18) {
     $subCategory->save();
     return 'done';
 }
+else if($mode == 19) {
+    $modelmetier = new modelmetier();
+    $modelmetier = $modelmetier->findByPrimaryKey($_GET["id"]);
+    $arrQte = explode(",",$modelmetier->getQte());
+    foreach ($arrQte as $ligne) {
+        $frais_livr = new frais_livraison();
+        $frais_livr = $frais_livr->findByIdModelMetierQte($_GET["id"], intval($ligne));
+
+        if(!$frais_livr) {
+            $frais_livr = new frais_livraison();
+            $frais_livr->setIdModelMetier($_GET["id"]);
+            $frais_livr->setWeight(0);
+            $frais_livr->setPrice(0);
+            $frais_livr->setQte(intval($ligne));
+            $frais_livr->save();
+        }
+    }
+
+    //recup de toutes les lignes pour cette modelmetier
+    $frais_livraison = new frais_livraison();
+    $frais_livraison = $frais_livraison->findByIdModelMetier($_GET["id"]);
+    echo json_encode(array("livraison"=>$frais_livraison, "libelle"=>$modelmetier->getDescription(), "id"=>$_GET["id"]));
+}
+else if($mode == 20) {
+    $arrLivr = json_decode($_GET["data"]);
+    foreach ($arrLivr as $ligne) {
+        $livraison = new frais_livraison();
+        $livraison = $livraison->findByPrimaryKey($ligne->id);
+        $livraison->setWeight(intval($ligne->weight));
+        $livraison->setPrice(intval($ligne->price));
+        $livraison->save();
+    }
+    echo "success";
+}

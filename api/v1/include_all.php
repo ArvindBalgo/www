@@ -53,3 +53,6 @@ include_once '../classes/conditionvente_es.php';
 include_once '../classes/conditionvente_it.php';
 include_once '../classes/pub.php';
 include_once '../classes/temp_prod.php';
+include_once '../classes/frais_livraison.php';
+include_once '../classes/orders_main.php';
+include_once '../classes/orders_details.php';

@@ -43,6 +43,7 @@ angular
         vm.arrTarif = [];
         vm.currentTarifID = {};
         vm.paysList = [];
+        vm.arrFraisLivr = [];
 
         var uploader = $scope.uploader12 = new FileUploader({
             url: 'api/categoryupload.php'
@@ -250,14 +251,46 @@ angular
                 vm.currentSCate = row;
                 $("#modalSousCategory").modal();
             }
+            else if(opt == 5) {
+                console.log(grid, row, opt);
+                console.log("delivery grid data here");
+                $http({
+                    method: 'GET',
+                    params: {mode:19, id:row.id},
+                    url: 'api/v1/info.php'
+                }).then(function successCallback(response) {
+                    console.log(response.data);
+                    vm.arrFraisLivr = response.data;
+                    $("#modalLivraison").modal();
 
+                }, function errorCallback(error) {
+                    console.log(error);
+                });
+
+            }
+
+        };
+        vm.fnSaveLivr = function() {
+            console.log(vm.arrFraisLivr);
+            $http({
+                method: 'GET',
+                params: {mode:20, data:JSON.stringify(vm.arrFraisLivr.livraison)},
+                url: 'api/v1/info.php'
+            }).then(function successCallback(response) {
+                console.log(response.data);
+                bootbox.alert("Les frais sont sauvegarder");
+
+            }, function errorCallback(error) {
+                console.log(error);
+            });
         };
         vm.formatCell = function(){
             var trash = "<button type='button' class='btn btn-default btn-circle' style='margin-left: 5px;margin-top: 5px;' ng-click='grid.appScope.edit(grid, row.entity, 1)'><i class='glyphicon glyphicon-trash'></i></button>";
             var edit = "<button type='button' class='btn btn-info btn-circle' style='margin-left: 5px;margin-top: 5px;' ng-click='grid.appScope.edit(grid, row.entity, 2)'><i class='glyphicon glyphicon-pencil'></i></button>";
             var image = "<button type='button' class='btn btn-success btn-circle' style='margin-left: 5px;margin-top: 5px;' ng-click='grid.appScope.edit(grid, row.entity, 3)'><i class='glyphicon glyphicon-picture'></i></button>";
             var souscat = "<button type='button' class='btn btn-primary btn-circle' style='margin-left: 5px;margin-top: 5px;' ng-click='grid.appScope.edit(grid, row.entity, 4)'><i class='glyphicon glyphicon-th-list'></i></button>";
-            return image+souscat+edit+trash;
+            var fraisLivr = "<button type='button' class='btn btn-default btn-circle' style='margin-left: 5px;margin-top: 5px;' ng-click='grid.appScope.edit(grid, row.entity, 5)'><i class='glyphicon glyphicon-road'></i></button>";
+            return image+fraisLivr+souscat+edit+trash;
         }
 
 

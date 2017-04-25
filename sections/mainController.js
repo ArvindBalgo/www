@@ -56,7 +56,7 @@ angular
                     Data.toast(results);
                     if (results.status == "success") {
                         if(results.uid){
-                            if($location.path() != '/fichetech'){
+                            if($location.path().indexOf('fichetech') == -1){
                                 $location.path('home');
                             }
 
