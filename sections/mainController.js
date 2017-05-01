@@ -67,8 +67,6 @@ angular
                                 $scope.isLogged = true;
                                 $scope.utilisateur = results.name;
                             }, 0);
-
-                            console.log($scope.isLogged, " logging dunction");
                         }
 
                         toastr.options.positionClass = 'toast-top-right';
@@ -85,7 +83,7 @@ angular
         };
 
         $scope.signUp = function (customer) {
-            console.log("customer" , customer);
+            customer.pays = $('#userPays').val();
             Data.post('signupClient.php', {
                 customer: customer
             }).then(function (results) {
@@ -105,7 +103,6 @@ angular
                         label: "Non",
                         className: "btn-secondary",
                         callback: function() {
-                            console.log("Annulation");
                         }
                     },
                     valider: {
@@ -117,7 +114,6 @@ angular
                                 $scope.isLogged = false;
                                 $scope.utilisateur = "";
                                 $location.path('home');
-                                console.log("TEST 123");
                                 bootbox.alert("Vous êtes déconnecté.");
                             });
                         }

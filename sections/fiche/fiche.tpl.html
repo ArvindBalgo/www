@@ -140,9 +140,7 @@
                     </div>
                     <div class="col-md-12" style="margin: 5px">
                         <button ng-click="fiche.fnMetierList();" class="col-md-3 btn btn-lg " style="background-color: #D893E3; color: white; text-wrap: normal"><span><img src="images/icons/gallery.ico" style="height: 50px;width:50px"></span> {{'galerie_models' | translate}}</button>
-                        <button ng-click="fiche.loadModalImgs()" class="btn btn-large btn-warning">Gallery Images</button>
-                        <!--button type="button" class="btn btn-success pull-right" ng-click="fiche.fnSaveProduit(0)">Ajouter Au panier</button-->
-                        <!--button type="button" class="btn btn-success pull-right" ng-click="fiche.fnSaveProduit(1)">PASSEZ MA COMMANDE AVEC BON À TIRER</button-->
+                        <button  class="col-md-3 btn btn-lg pull-right" style="background-color: lightcoral; color: white; text-wrap: normal" ng-click="fiche.loadModalImgs()"> <span><img src="images/icons/pictures_gallery.png" style="height: 50px;width:50px"></span>Gallery Images</button>
                         <div class=" col-md-7" style="text-align: center; color: darkgrey">
                             <div>
                                 <b>{{'conception_msg' | translate}}</b>
@@ -157,11 +155,6 @@
                     </div>
                     <div class="col-md-12">
                         <div id="model" class="fpd-container fpd-shadow-2 fpd-topbar fpd-tabs fpd-tabs-side fpd-top-actions-centered fpd-bottom-actions-centered fpd-views-inside-left">
-                            <!--div class="fpd-design">
-                                <div ng-repeat="design in fiche.productsDesign" class="fpd-category" title="{{design.libelle}}">
-                                    <img ng-repeat="image in design.data" src="{{image.src}}"  title="{{image.libelle}}" data-parameters='{"zChangeable": true, "left": 215, "top": 200, "colors": "#000000", "removable": true, "draggable": true, "rotatable": true, "resizable": true, "price": 0, "boundingBox": "Base", "autoCenter": true}' />
-                                </div>
-                            </div-->
                         </div>
                     </div>
                 </div>
@@ -484,13 +477,12 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title"><span>Images</span></h4>
             </div>
-            <div class="modal-body" style="height: 550px;overflow: scroll">
+            <div class="modal-body" style="height: 550px;overflow: auto">
                 <div class="row" style="padding: 3px;">
                     <div class="col-md-4" style="padding: 15px;"  ng-repeat="ligne in fiche.productsDesign">
-                        <button class="btn btn-lg btn-info" ng-click="fiche.fnImagesLoad(ligne)" >{{ligne.libelle}}</button>
+                        <button class="btn btn-lg btn-info" style="background: {{ligne.color_code}}; width: 80%" ng-click="fiche.fnImagesLoad(ligne)" >{{ligne.libelle}}</button>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>

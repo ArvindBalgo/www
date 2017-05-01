@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once 'include_all.php';
 include_once "../chromePHP.php";
 
@@ -288,9 +289,9 @@ else if($mode == 9) {
 
     $modelMetier = new modelmetier();
     $modelMetier = $modelMetier->findByPrimaryKey($cataMetier->getIdMetier());
+    chromePHP::log($_SESSION["uid"] . " jhgkjvhgdfjy");
     $fraisLivr = new frais_livraison();
-    chromePHP::log($cataMetier->getId_Cata() . " ]]]]]");
-    $fraisLivr = $fraisLivr->findByIdModelMetier($modelMetier->getId(), $cataMetier->getId_Cata());
+    $fraisLivr = $fraisLivr->findByIdProd($_GET["id_model"], $_SESSION["pays"]);
     $arrData = [];
 
     //foreach($cata as $ligne) {

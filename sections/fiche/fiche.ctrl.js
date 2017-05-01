@@ -96,6 +96,11 @@ angular
         vm.productsDesign = [];
 
         vm.fnInit = function(idprod) {
+            console.log("**************************************");
+            console.log(localStorage.idModelMetier);
+            console.log(vm.currentProd);
+            console.log(idprod);
+            console.log("**************************************");
             $http({
                 method: 'GET',
                 params: {mode:9,metier: localStorage.idModelMetier, id_model:idprod},
@@ -148,7 +153,7 @@ angular
                         vm.fnCalcPrixVente();
                     });
                 //******************************************************
-                if(arrPapier.length > 0) {
+                if(arrPapier.length > 0  && typeof $('.sel_papier').select2('data') != 'undefined' ) {
                     var idSupport = $('.sel_papier').select2('data')[0].id;
                 }
                 var qte_commander = Number($('.sel_qte').select2('data')[0].text);
@@ -2718,6 +2723,11 @@ angular
             vm.linkMonPanier = "../assets/carts/carrello_italiano.png";
             vm.linkAjoutPanier = "../assets/carts/cart_italien.png";
         }
+        if(lang == "" || lang == null) {
+            lang = "FR";
+        }
+        console.log(lang, " this is the lang")
+
         $translate.use(localStorage.getItem('LANG'));
         $http({
             method: 'GET',

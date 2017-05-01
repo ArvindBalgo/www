@@ -7,17 +7,18 @@ $response["uid"] = $session['uid'];
 $response["email"] = $session['email'];
 $response["name"] = $session['name'];
 $response["type"] = $session['admin'];
+$response["pays"] = $session['pays'];
 echoResponse(200, $session);
 
 
 $app->get('/session', function() {
-    chromePHP::log(" HEREH WE GO");
     $db = new DbHandler();
     $session = $db->getSession();
     $response["uid"] = $session['uid'];
     $response["email"] = $session['email'];
     $response["name"] = $session['name'];
     $response["type"] = $session['admin'];
+    $response["pays"] = $session['pays'];
     echoResponse(200, $session);
 });
 
@@ -72,6 +73,8 @@ $app->post('/login', function() use ($app) {
         $response['email'] = $user['email'];
         $response['createdAt'] = $user['created'];
         $response['type'] = $user['admin'];
+        $response['pays'] = $user['pays'];
+
         if (!isset($_SESSION)) {
             session_start();
         }
@@ -79,6 +82,7 @@ $app->post('/login', function() use ($app) {
         $_SESSION['email'] = $email;
         $_SESSION['name'] = $user['name'];
         $_SESSION['admin'] = $user['admin'];
+        $_SESSION['pays'] = $user['pays'];
         } else {
             $response['status'] = "error";
             $response['message'] = 'Login failed. Incorrect credentials';

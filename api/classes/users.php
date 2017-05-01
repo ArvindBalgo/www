@@ -43,9 +43,10 @@ class users {
     private $_password = null;
     private $_address = null;
     private $_city = null;
+    private $_pays = "FR";
     private $_created = null;
 
-    private static $SELECT = "SELECT uid,name,email,phone,password,address,city,TO_CHAR(date_creation,'DD/MM/RRRR HH24:MI:SS') as created FROM USERS ";
+    private static $SELECT = "SELECT * FROM USERS ";
 
 
     //**** Constructeur ****
@@ -85,6 +86,10 @@ class users {
         $this->_city = $city;
     }
 
+     public function setPays($pays) {
+        $this->_pays = $pays;
+    }
+
     public function setCreated($created) {
         $this->_created = $created;
     }
@@ -119,6 +124,10 @@ class users {
         return $this->_city;
     }
 
+    public function getPays(){
+        return $this->_pays;
+    }
+
     public function getCreated(){
         return $this->_created;
     }
@@ -142,6 +151,7 @@ class users {
             $requete .= ",password='" . $this->_password . "',";
             $requete .= ",address='" . $this->_address . "',";
             $requete .= ",city='" . $this->_city . "',";
+            $requete .= ",pays='" . $this->_pays . "',";
             $requete .= ",created='" . $this->_created . "',";
             $requete .= " where uid=" . $this->_uid;
 
@@ -154,6 +164,7 @@ class users {
             $requete .= "password,";
             $requete .= "address,";
             $requete .= "city,";
+            $requete .= "pays,";
             $requete .= "created";
             $requete .= ") VALUES (";
             $requete .= "'" . $this->_uid . "',";
@@ -163,6 +174,7 @@ class users {
             $requete .= "'" . $this->_password . "',";
             $requete .= "'" . $this->_address . "',";
             $requete .= "'" . $this->_city . "',";
+            $requete .= "'" . $this->_pays . "',";
             $requete .= "'" . $this->_created . "')";
         }
 
@@ -182,6 +194,7 @@ class users {
         $user->_password = $rs->fields["password"];
         $user->_address = $rs->fields["address"];
         $user->_city = $rs->fields["city"];
+        $user->_pays = $rs->fields["pays"];
         $user->_created = $rs->fields["created"];
         return $user;
     }

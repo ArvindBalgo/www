@@ -16,7 +16,7 @@ $isUserExists = $db->getOneRecord("select 1 from customers_auth where (phone='$p
 if(!$isUserExists){
     $r->customer->password = passwordHash::hash($password);
     $table_name = "customers_auth";
-    $column_names = array('phone', 'name', 'email', 'password', 'city', 'address');
+    $column_names = array('phone', 'name', 'email', 'password', 'city', 'address', 'pays');
     $result = $db->insertIntoTable($r->customer, $column_names, $table_name);
     if ($result != NULL) {
         $response["status"] = "success";

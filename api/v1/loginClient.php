@@ -9,7 +9,7 @@ $response = array();
 $db = new DbHandler();
 $password = $r->customer->password;
 $email = $r->customer->email;
-$user = $db->getOneRecord("select uid,name,password,email,created,admin from customers_auth where (phone='$email' or email='$email') and admin=0");
+$user = $db->getOneRecord("select uid,name,password,email,created,admin, pays from customers_auth where (phone='$email' or email='$email') and admin=0");
 
 if ($user != NULL) {
     if(passwordHash::check_password($user['password'],$password)){
@@ -20,6 +20,7 @@ if ($user != NULL) {
         $response['email'] = $user['email'];
         $response['createdAt'] = $user['created'];
         $response['admin'] = $user['admin'];
+        $response['pays'] = $user['pays'];
 
         if (!isset($_SESSION)) {
             session_start();
@@ -28,6 +29,7 @@ if ($user != NULL) {
         $_SESSION['email'] = $email;
         $_SESSION['name'] = $user['name'];
         $_SESSION['admin'] = $user['admin'];
+        $_SESSION['pays'] = $user['pays'];
     } else {
         $response['status'] = "error";
         $response['message'] = 'Login failed. Incorrect credentials';

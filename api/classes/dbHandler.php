@@ -56,6 +56,7 @@ public function getSession(){
         $sess["name"] = $_SESSION['name'];
         $sess["email"] = $_SESSION['email'];
         $sess["admin"] = $_SESSION['admin'];
+        $sess["pays"] = $_SESSION['pays'];
     }
     else
     {
@@ -63,6 +64,7 @@ public function getSession(){
         $sess["name"] = 'Guest';
         $sess["email"] = '';
         $sess["admin"] = '0';
+        $sess["pays"] = 'FR';
     }
     return $sess;
 }
