@@ -5,10 +5,11 @@ class frais_livraison {
     private $_id = null;
     private $_id_modelmetier = 0;
     private $_id_produit = 0;
-    private $_manuel = 0;
+    private $_dimension = 0;
     private $_qte = 0;
     private $_weight = 0;
     private $_price = 0;
+    private $_pays = "FR";
 
    private static $SELECT="SELECT * FROM frais_livraison";
     //**** Constructeur ****
@@ -41,9 +42,13 @@ class frais_livraison {
         $this->_id_produit= $idproduit;
     }
 
-    public function setManuel($manuel) {
-        $this->_manuel= $manuel;
+    public function setDimension($dimension) {
+        $this->_dimension= $dimension;
     }
+
+    public function setPays($pay) {
+            $this->_pays= $pay;
+        }
 
     //**** Getters *****
 
@@ -73,8 +78,12 @@ class frais_livraison {
     }
 
 
-    public function getManuel() {
-        return $this->_manuel;
+    public function getDimension() {
+        return $this->_dimension;
+    }
+
+    public function getPays() {
+        return $this->_pays;
     }
 
     public function delete($id) {
@@ -91,7 +100,8 @@ class frais_livraison {
             $requete .= ", weight=".$this->_weight;
             $requete .= ", price=".$this->_price;
             $requete .= ", id_produit=".$this->_id_produit;
-            $requete .= ", manuel=".$this->_manuel;
+            $requete .= ", dimension='".$this->_dimension."'";
+            $requete .= ", pays='".$this->_pays."'";
             $requete .= " WHERE id=" . $this->_id;
 
         } else {
@@ -101,16 +111,17 @@ class frais_livraison {
             $requete .= ",weight";
             $requete .= ",price";
             $requete .= ",id_produit";
-            $requete .= ",manuel";
+            $requete .= ",dimension";
+            $requete .= ",pays";
             $requete .= ") VALUES (";
             $requete .= "'" . $this->_id_modelmetier. "',";
             $requete .= "'" . $this->_qte. "',";
             $requete .= "'" . $this->_weight. "',";
             $requete .= "'" . $this->_price. "',";
             $requete .= "'" . $this->_id_produit. "',";
-            $requete .= "'" . $this->_manuel. "')";
+            $requete .= "'" . $this->_dimension. "',";
+            $requete .= "'" . $this->_pays. "')";
         }
-        chromePHP::log($requete);
         $r = $this->conn->query($requete) or die($this->conn->error.__LINE__);
         return $r;
     }
@@ -129,7 +140,8 @@ class frais_livraison {
         $frais_livraison->_weight = $rs["weight"];
         $frais_livraison->_price = $rs["price"];
         $frais_livraison->_id_produit = $rs["id_produit"];
-        $frais_livraison->_manuel = $rs["manuel"];
+        $frais_livraison->_dimension = $rs["dimension"];
+        $frais_livraison->_pays = $rs["pays"];
         return $frais_livraison;
     }
 
@@ -166,8 +178,58 @@ class frais_livraison {
     }
 
     public function findByIdModelMetier($id, $idprod) {
-        $requete = self::$SELECT." where id_modelmetier=".$id ." and id_produit=".$idprod;
+        $requete = self::$SELECT." where id_modelmetier=".$id ." and id_produit=".$idprod." order by qte";
         chromePHP::log($requete);
+        $rs = $this->conn->query($requete) or die($this->conn->error.__LINE__);
+        $rows = [];
+        while($row = mysqli_fetch_array($rs))
+        {
+            $rows[] = $row;
+        }
+        return $rows;
+    }
+
+    public function deleleDuplicates() {
+        //SELECT GROUP_CONCAT(id), COUNT(*) c from frais_livraison GROUP by id_modelmetier, id_produit, qte HAVING c>1
+        $requete = "SELECT GROUP_CONCAT(id) idn, COUNT(*) c from frais_livraison where manuel=0 GROUP by id_modelmetier, id_produit, qte HAVING c>1";
+        $rs = $this->conn->query($requete) or die($this->conn->error.__LINE__);
+        $rows = [];
+        while($row = mysqli_fetch_array($rs))
+        {
+            $query = "delete from frais_livraison where id in (".$row["idn"].")";
+            $rrr = $this->conn->query($query) or die($this->conn->error.__LINE__);
+            /*chromePHP::log($query);
+            $rrr = $this->conn->query($query) or die($this->conn->error.__LINE__);
+            chromePHP::log($rrr);*/
+           /* $arrIDNS = explode(",", $row["idn"]);
+            foreach ($arrIDNS as $item) {
+                $query = "delete from frais_livraison where id=".$item;
+            }
+            $arrIDNS = array_pop($arrIDNS);
+            $row["idn"] = implode($arrIDNS);
+            $rows[] = $row;*/
+        }
+        $requete = "SELECT GROUP_CONCAT(id) idn, COUNT(*) c from frais_livraison where manuel=1 GROUP by id_modelmetier, id_produit, qte HAVING c>1";
+        $result = $this->conn->query($requete) or die($this->conn->error.__LINE__);
+        while($row = mysqli_fetch_array($result))
+        {
+            $data = explode(",", $row["idn"]);
+            $newData = array_pop($data);
+            $newStr = implode(",",$data);
+            $query = "delete from frais_livraison where id in (".$newStr.")";
+            $rrr = $this->conn->query($query) or die($this->conn->error.__LINE__);
+        }
+        return "done";
+    }
+
+    public function findByIdDimQte($id_produit, $dimension, $qte, $pays){
+        $requete = self::$SELECT." where id_produit=".$id_produit." and dimension='".$dimension."' and qte=".$qte." and pays='".$pays."'";
+        $result = $this->conn->query($requete) or die($this->conn->error.__LINE__);
+        return mysqli_fetch_array($result);
+    }
+
+    public function findByIdProd($idProduit, $pays) {
+        $requete = self::$SELECT." where id_produit=".$idProduit." and pays='".$pays."'";
         $rs = $this->conn->query($requete) or die($this->conn->error.__LINE__);
         $rows = [];
         while($row = mysqli_fetch_array($rs))
