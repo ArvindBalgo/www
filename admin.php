@@ -11,7 +11,7 @@
 
     <link rel="stylesheet"href="css/bootstrapcdn.css" />
     <link rel="stylesheet"href="css/bootstrap-theme.min.css" />
-    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
     <!-- Optional theme -->
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
     <link href="css/select2.min.css" rel="stylesheet" />
@@ -27,12 +27,12 @@
     <link rel="stylesheet" type="text/css" href="sections/admin/metier/metier.css" />
     <link rel="stylesheet" type="text/css" href="sections/admin/produits/produits.css" />
     <link rel="stylesheet" type="text/css" href="sections/admin/type_support/type_support.css" />
-    <link rel="stylesheet" type="text/css" href="sections/admin/tarif/tarif.css" />
     <link rel="stylesheet" type="text/css" href="sections/admin/apropos/apropos.css" />
     <link rel="stylesheet" type="text/css" href="sections/admin/conditionvente/conditionvente.css" />
     <link rel="stylesheet" type="text/css" href="sections/admin/utilisation/utilisation.css" />
     <link rel="stylesheet" type="text/css" href="sections/admin/legale/legale.css" />
     <link rel="stylesheet" type="text/css" href="sections/admin/langue/langue.css" />
+    <link rel="stylesheet" type="text/css" href="sections/admin/config_divers/config_divers.css" />
     <link rel="stylesheet" type="text/css" href="css/custom.css" />
     <!-- endbuild -->
 </head>
@@ -100,7 +100,6 @@
 <script src="sections/admin/model/model.ctrl.js"></script>
 <script src="sections/admin/produits/produits.ctrl.js"></script>
 <script src="sections/admin/instructions/instructions.ctrl.js"></script>
-<script src="sections/admin/tarif/tarif.ctrl.js"></script>
 <script src="sections/admin/type_support/type_support.ctrl.js"></script>
 <script src="sections/admin/apropos/apropos.ctrl.js"></script>
 <script src="sections/admin/conditionvente/conditionvente.ctrl.js"></script>
@@ -108,5 +107,6 @@
 <script src="sections/admin/legale/legale.ctrl.js"></script>
 <script src="sections/admin/langue/langue.ctrl.js"></script>
 <script src="sections/admin/pub/pub.ctrl.js"></script>
+<script src="sections/admin/config_divers/config_divers.ctrl.js"></script>
 </body>
 </html>

@@ -207,6 +207,7 @@ angular
             if(opt ==0){
                 vm.mode = "Nouvelle";
                 vm.libelle = "";
+                vm.codeCouleur="";
                 vm.active = false;
                 $('#modalCategory').modal();
             }
@@ -216,6 +217,7 @@ angular
                     if(value.id == $(".sel_category").select2().val()){
                         vm.objCategory = value;
                         vm.libelle = value.libelle;
+                        vm.codeCouleur = value.color_code;
                         if(value.active == 0){
                             vm.active = false;
                         }
@@ -236,6 +238,7 @@ angular
                 });
                 vm.reference    = "";
                 vm.libelle      = "";
+                vm.codeCouleur  = "";
                 vm.active       = false;
                 vm.isRowModif   =  false;
                 vm.isImgModif   =  false;
@@ -271,7 +274,7 @@ angular
             }
             $http({
                 method: 'GET',
-                params: {mode:mode, libelle:vm.libelle, id:vm.objCategory.id, active:flag},
+                params: {mode:mode, libelle:vm.libelle, id:vm.objCategory.id, active:flag, codeCouleur: vm.codeCouleur},
                 url: 'api/v1/imageInfo.php'
             }).then(function successCallback(response) {
                     console.log(response.data);

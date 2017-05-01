@@ -12,6 +12,7 @@ if($mode == 0) {
 else if ($mode == 1) {
     $category = new cata_category();
     $category->setLibelle($_GET["libelle"]);
+    $category->setColorCode($_GET["codeCouleur"]);
     $category->setActive($_GET["active"]);
     $category->save();
     print "done";
@@ -20,6 +21,7 @@ else if($mode == 2) {
     $category = new cata_category();
     $category = $category->findByPrimaryKey(trim($_GET["id"]));
     $category->setLibelle($_GET["libelle"]);
+    $category->setColorCode($_GET["codeCouleur"]);
     $category->setActive($_GET["active"]);
     $category->save();
     print "done";

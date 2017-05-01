@@ -79,10 +79,10 @@ app.config(['$routeProvider',
             templateUrl:'sections/admin/instructions/instructions.tpl.html',
             controller: 'instructionsController as instructions'
         })
-        .when('/tarif', {
-            title:      'Tarif',
-            templateUrl:'sections/admin/tarif/tarif.tpl.html',
-            controller: 'tarifController as tarif'
+        .when('/config_divers', {
+            title:      'Configuration Divers',
+            templateUrl:'sections/admin/config_divers/config_divers.tpl.html',
+            controller: 'configDiversController as configDivers'
         })
         .when('/support', {
             title:      'Type de Support',

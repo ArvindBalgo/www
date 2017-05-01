@@ -1,19 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Trisha
- * Date: 13/07/2016
- * Time: 22:43
- */
 
-class cata_category {
+class tva {
     //**** Variables declarations ****
     private $_id = null;
-    private $_libelle = null;
-    private $_color_code = "";
-    private $_active = null;
+    private $_value = "";
+    private $_pays = "";
 
-   private static $SELECT="SELECT * FROM cata_category";
+   private static $SELECT="SELECT * FROM tva";
     //**** Constructeur ****
     public function __construct() {
         require_once 'dbConnect.php';
@@ -27,17 +20,14 @@ class cata_category {
         $this->_id= $id;
     }
 
-    public function setLibelle($libelle) {
-        $this->_libelle= $libelle;
+    public function setValue($val) {
+        $this->_value= $val;
     }
 
-    public function setColorCode($val) {
-        $this->_color_code= $val;
+    public function setPays($val) {
+        $this->_pays= $val;
     }
 
-    public function setActive($active) {
-        $this->_active= $active;
-    }
 
     //**** Getters *****
 
@@ -45,42 +35,34 @@ class cata_category {
         return $this->_id;
     }
 
-    public function getLibelle() {
-        return $this->_libelle;
+    public function getValue() {
+        return $this->_value;
     }
 
-    public function getColorCode() {
-        return $this->_color_code;
-    }
-
-    public function getActive() {
-        return $this->_active;
+    public function getPays() {
+        return $this->_pays;
     }
 
     public function delete($id) {
-        $requete = "DELETE FROM cata_category WHERE id=" . $id ;
+        $requete = "DELETE FROM tva WHERE id=" . $id ;
         $r = $this->conn->query($requete) or die($this->conn->error.__LINE__);
     }
-
 
     //***** fonction de modification/cr�ation *****
     public function save() {
 
         if ($this->_id > 0) {
-            $requete = "UPDATE cata_category SET libelle='" . ($this->_libelle) . "'";
-            $requete .= ",color_code='". ($this->_color_code)."'";
-            $requete .= ",active=". ($this->_active);
+            $requete = "UPDATE tva SET value='" . ($this->_value) . "'";
+            $requete .= " , pays='".$this->_pays."'";
             $requete .= " WHERE id=" . $this->_id;
 
         } else {
-            $requete = "INSERT INTO cata_category (";
-            $requete .= "libelle";
-            $requete .= ",color_code";
-            $requete .= ",active";
+            $requete = "INSERT INTO tva (";
+            $requete .= "value";
+            $requete .= ",pays";
             $requete .= ") VALUES (";
-            $requete .= "'" . $this->_libelle . "',";
-            $requete .= "'" . $this->_color_code . "',";
-            $requete .= "" . $this->_active . ")";
+            $requete .= "'" . $this->_value. "',";
+            $requete .= "'" . $this->_pays. "')";
         }
         $r = $this->conn->query($requete) or die($this->conn->error.__LINE__);
         return $r;
@@ -90,12 +72,11 @@ class cata_category {
 
     //***** Fonction de passege sql->objet *****
     private function mapSqlToObject($rs) {
-        $cata_category = new cata_category();
-        $cata_category->_id = $rs["id"];
-        $cata_category->_libelle = $rs["libelle"];;
-        $cata_category->_color_code = $rs["color_code"];
-        $cata_category->_active = $rs["active"];;
-        return $cata_category;
+        $tva = new tva();
+        $tva->_id = $rs["id"];
+        $tva->_value = $rs["value"];
+        $tva->_pays = $rs["pays"];
+        return $tva;
     }
 
     public function rechercher() { // Recherche de toutes les adresses

@@ -1,0 +1,28 @@
+<header ng-include="'sections/admin/header.html'"></header>
+<div style="padding: 10px" class="row">
+    <div class="col-md-5">
+        <div class="panel panel-default">
+            <div class="panel-heading">TVA</div>
+            <div class="panel-body">
+                <table>
+                    <tr>
+                        <th>PAYS</th>
+                        <th>VALUE</th>
+                    </tr>
+                    <tr ng-repeat="item in configDivers.arrTva">
+                        <td>
+                            <label>{{item.pays}}</label>
+                        </td>
+                        <td>
+                            <input ng-model="item.value">
+                        </td>
+                    </tr>
+                    <tr style="border-right: none; border-left: none; border-bottom: none;">
+                        <td style="border: none"><button ng-click="configDivers.fnInit()" class="btn btn-default">Initialiser</button></td>
+                        <td style="border:none "><button ng-click="configDivers.fnSaveTva()" class="btn btn-success">Save</button></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
