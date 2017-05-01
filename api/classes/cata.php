@@ -418,4 +418,11 @@ class cata {
         }
         return $rows;
     }
+
+    public function findDimsQte($id) {
+        $query = "SELECT c.id as id_produit, c.dimensions as str_dimensions, mm.id as id_modelmetier, mm.qte as str_qte FROM cata c inner join cata_metier cm on c.id = cm.id_cata inner join modelmetier mm on cm.id_metier = mm.id where c.id=".$id;
+        $rs = $this->conn->query($query);
+
+        return mysqli_fetch_array($rs);
+    }
 }
