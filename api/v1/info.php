@@ -310,17 +310,15 @@ else if($mode == 21){
 
 else if($mode == 22) {
     $arrLivr = json_decode($_GET["data"]);
-    $isManuel = intval($_GET["isManuel"]);
 
-    foreach ($arrLivr as $ligne) {
-        $livraison = new frais_livraison();
-        $livraison = $livraison->findByPrimaryKey($ligne->id);
-        if($livraison) {
-            $livraison->setManuel($isManuel);
-            $livraison->setWeight($ligne->weight);
-            $livraison->setPrice($ligne->price);
-            $livraison->save();
+    foreach ($arrLivr as $item) {
+        foreach ($item as $ligne){
         }
     }
     echo "success";
+}
+else if($mode == 23) {
+    $frais_livr = new frais_livraison();
+    $frais_livr = $frais_livr->deleleDuplicates();
+
 }

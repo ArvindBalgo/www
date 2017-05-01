@@ -23,6 +23,16 @@ var vm  = this;
                 });
             //$location();
         };
+        /*$http({
+            method: 'GET',
+            params: {mode:23},
+            url: 'api/v1/info.php'
+        }).then(function successCallback(response) {
+            console.log(response.data);
+
+        }, function errorCallback(error) {
+            console.log(error);
+        });*/
         $scope.fnSession();
     });
 

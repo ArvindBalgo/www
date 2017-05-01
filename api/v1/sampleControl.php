@@ -395,3 +395,79 @@ else if($mode == 15) {
     $pays = $pays->rechercher();
     print json_encode($pays);
 }
+else if($mode == 16) {
+    //fill all delivery charges
+    $id_produit = $_GET["id"];
+    $cata = new cata();
+    $cata = $cata->findDimsQte($id_produit);
+    $arrDims = explode(",",$cata["str_dimensions"]);
+    $arrQte = explode(",", $cata["str_qte"]);
+    $arrPays = array("FR", "ES", "AL", "EN", "IT");
+    foreach ($arrPays as $pays) {
+        foreach ($arrDims as $dimension) {
+            foreach ($arrQte as $qte) {
+                $fraisLivr = new frais_livraison();
+                //findByDimensionQteProduit
+                $fraisLivr = $fraisLivr->findByIdDimQte($id_produit, $dimension, intval(trim($qte)), $pays);
+                if(!$fraisLivr) {
+                    $fraisLivr = new frais_livraison();
+                    $fraisLivr->setIdProduit($id_produit);
+                    $fraisLivr->setIdModelMetier($cata["id_modelmetier"]);
+                    $fraisLivr->setDimension($dimension);
+                    $fraisLivr->setQte(intval(trim($qte)));
+                    $fraisLivr->setWeight(0);
+                    $fraisLivr->setPrice(0);
+                    $fraisLivr->setPays($pays);
+                    $fraisLivr->save();
+                }
+            }
+        }
+    }
+    $arrResponse = array();
+    //pays == FR
+    $fraisLivraison = new frais_livraison();
+    $fraisLivraison = $fraisLivraison->findByIdProd($id_produit, "FR");
+    $arrResponse["FR"] = $fraisLivraison;
+
+    //pays == EN
+    $fraisLivraison = new frais_livraison();
+    $fraisLivraison = $fraisLivraison->findByIdProd($id_produit, "EN");
+    $arrResponse["EN"] = $fraisLivraison;
+
+    //pays == ES
+    $fraisLivraison = new frais_livraison();
+    $fraisLivraison = $fraisLivraison->findByIdProd($id_produit, "ES");
+    $arrResponse["ES"] = $fraisLivraison;
+
+    //pays == AL
+    $fraisLivraison = new frais_livraison();
+    $fraisLivraison = $fraisLivraison->findByIdProd($id_produit, "AL");
+    $arrResponse["AL"] = $fraisLivraison;
+
+    //pays == AL
+    $fraisLivraison = new frais_livraison();
+    $fraisLivraison = $fraisLivraison->findByIdProd($id_produit, "IT");
+    $arrResponse["IT"] = $fraisLivraison;
+
+    print json_encode($arrResponse);
+}
+else if($mode == 17) {
+    $arrData = json_decode($_GET["data"]);
+    foreach ($arrData as $item) {
+        $livr = new frais_livraison();
+        $livr = $livr->findByPrimaryKey($item->id);
+        $livr->setPrice($item->price);
+        $livr->setWeight($item->weight);
+        $livr->save();
+    }
+    return "done";
+}
+else if($mode == 18) {
+    $item = json_decode($_GET["data"]);
+    $livr = new frais_livraison();
+    $livr = $livr->findByPrimaryKey($item->id);
+    $livr->setPrice($item->price);
+    $livr->setWeight($item->weight);
+    $livr->save();
+    return "done";
+}

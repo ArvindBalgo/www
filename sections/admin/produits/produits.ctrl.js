@@ -148,17 +148,20 @@ angular
                 $('#modalEditProd').modal();
             }
             else if(opt == 6) {
+                $('body').addClass("spinner");
                 console.log(vm.currentProduit, " test");
                 $http({
                     method: 'GET',
-                    params: {mode:21, id_produit:row.id_cata, id_modelmetier:row.id_metier},
-                    url: 'api/v1/info.php'
+                    params: {mode:16, id:row.id_cata},
+                    url: '/api/v1/sampleControl.php'
                 }).then(function successCallback(response) {
                     console.log(response.data);
                     vm.arrFraisLivr = response.data;
-                    vm.isManuel = vm.arrFraisLivr.isManuel;
+                    $('#modalLivraison').on('show.bs.modal', function () {
+                        $('.modal-body').css('height',$( window ).height()*0.7);
+                    });
                     $("#modalLivraison").modal();
-
+                    $('body').removeClass("spinner");
                 }, function errorCallback(error) {
                     console.log(error);
                 });
@@ -166,16 +169,22 @@ angular
         };
 
         vm.fnSaveLivr = function() {
-            $http({
-                method: 'GET',
-                params: {mode:22, data:JSON.stringify(vm.arrFraisLivr.livraison), isManuel:vm.isManuel},
-                url: 'api/v1/info.php'
-            }).then(function successCallback(response) {
-                console.log(response.data);
-                bootbox.alert("Les frais sont sauvegarder");
-            }, function errorCallback(error) {
-                console.log(error);
+            $('body').addClass("spinner");
+            angular.forEach(vm.arrFraisLivr, function(val){
+                angular.forEach(val, function(item) {
+                    $http({
+                        method: 'GET',
+                        params: {mode:18, data:JSON.stringify(item)},
+                        url: 'api/v1/sampleControl.php'
+                    }).then(function successCallback(response) {
+                        console.log(response.data);
+                        // bootbox.alert("Les frais sont sauvegarder");
+                    }, function errorCallback(error) {
+                        console.log(error);
+                    });
+                })
             });
+            $('body').removeClass("spinner");
         };
 
         vm.fnSetManuelMode = function() {
