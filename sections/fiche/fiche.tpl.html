@@ -232,28 +232,28 @@
                             <tr ng-repeat="(key, ligne) in fiche.arrProduits">
                                 <td class="paddingTable">{{ligne.title}}</td>
                                 <td class="paddingTable">{{ligne.qte}}</td>
-                                <td class="paddingTable" style="font-weight: bold"><span class="glyphicon glyphicon-euro" style="font-size: initial"></span> {{ligne.unitprix}} </td>
-                                <td class="paddingTable" style="font-weight: bold"><span class="glyphicon glyphicon-euro" style="font-size: initial"></span> {{(ligne.unitprix * ligne.qte).toFixed(2)}} </td>
-                                <td class="paddingTable" style="font-weight: bold"><span class="glyphicon glyphicon-euro" style="font-size: initial"></span> {{(ligne.unitprix * ligne.qte * 1.2).toFixed(2)}} </td>
+                                <td class="paddingTable" style="font-weight: bold"> {{ligne.unitprix}} <span class="glyphicon glyphicon-euro"></span></td>
+                                <td class="paddingTable" style="font-weight: bold"> {{(ligne.unitprix * ligne.qte).toFixed(2)}} <span class="glyphicon glyphicon-euro"></span></td>
+                                <td class="paddingTable" style="font-weight: bold"> {{(ligne.unitprix * ligne.qte * fiche.montants.valTax).toFixed(2)}} <span class="glyphicon glyphicon-euro"></span></td>
                             </tr>
                         </table>
                     </div>
                     <div class="col-md-7">
                         <div class="col-md-12" style="margin-bottom: 25px;">
                         <label class="label label-default" style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">Frais Livraison : </label>
-                        <label class="label label-success" style="font-size: large; width: 165px;display: inline-block;text-align: right;"><span class="glyphicon glyphicon-euro" style="font-size: initial"></span> {{fiche.montants.frais_livr}}</label>
+                        <label class="label label-primary" style="font-size: large; width: 165px;display: inline-block;text-align: right;">{{fiche.montants.frais_livr}} <span class="glyphicon glyphicon-euro"></span></label>
                         </div>
                         <div class="col-md-12"  style="margin-bottom: 25px;">
                             <label class="label label-default" style="font-size: large; width: 165px ; margin-right: 10px;display: inline-block;text-align: right;">Prix totale HT : </label>
-                            <label class="label label-success" style="font-size: large; width: 165px;display: inline-block;text-align: right;"><span class="glyphicon glyphicon-euro" style="font-size: initial"></span> {{fiche.montants.prix_total_ht}}</label>
+                            <label class="label label-primary" style="font-size: large; width: 165px;display: inline-block;text-align: right;">{{fiche.montants.prix_total_ht}} <span class="glyphicon glyphicon-euro"></span></label>
                         </div>
                         <div class="col-md-12"  style="margin-bottom: 25px;">
-                            <label class="label label-default" style="font-size: large; width: 165px ; margin-right: 10px;display: inline-block;text-align: right;">Tax : </label>
-                            <label class="label label-success" style="font-size: large; width: 165px;display: inline-block;text-align: right;"><span class="glyphicon glyphicon-euro" style="font-size: initial"></span> {{fiche.montants.tax}}</label>
+                            <label class="label label-default" style="font-size: large; width: 165px ; margin-right: 10px;display: inline-block;text-align: right;">TVA : </label>
+                            <label class="label label-primary" style="font-size: large; width: 165px;display: inline-block;text-align: right;">{{fiche.montants.tax}} <span class="glyphicon glyphicon-euro"></span></label>
                         </div>
                         <div class="col-md-12"  style="margin-bottom: 25px;">
                             <label class="label label-default" style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">Prix totale TTC : </label>
-                            <label class="label label-success" style="font-size: large; width: 165px;display: inline-block;text-align: right;"><span class="glyphicon glyphicon-euro" style="font-size: initial"></span> {{fiche.montants.prix_ttc}}</label>
+                            <label class="label label-primary" style="font-size: large; width: 165px;display: inline-block;text-align: right;">{{fiche.montants.prix_ttc}} <span class="glyphicon glyphicon-euro"></span></label>
                         </div>
                         <div class="col-md-12"  style="margin-bottom: 25px;">
                             <label class="label label-default" style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">Coupon Discount : </label>
@@ -261,7 +261,7 @@
                         </div>
                         <div class="col-md-12"  style="margin-bottom: 25px;">
                             <label class="label label-default" style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">Montant Net : </label>
-                            <label class="label label-success" style="font-size: large; width: 165px;display: inline-block;text-align: right;"><span class="glyphicon glyphicon-euro" style="font-size: initial"></span> {{fiche.montants.montant_net}}</label>
+                            <label class="label label-primary" style="font-size: large; width: 165px;display: inline-block;text-align: right;">{{fiche.montants.montant_net}} <span class="glyphicon glyphicon-euro"></span></label>
                         </div>
                     </div>
                 </div>

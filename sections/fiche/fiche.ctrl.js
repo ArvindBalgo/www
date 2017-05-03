@@ -1733,36 +1733,8 @@ angular
                                 if(results.uid){
                                     $scope.isLogged = true;
                                     $scope.utilisateur = results.name;
-
-                                    $('#modalPanier').modal('hide');
-                                    $('#modalMaquette').modal();
-                                    vm.montants.frais_livr=0;
-                                    vm.montants.prix_total_ht=0;
-                                    vm.montants.tax=0;
-                                    vm.montants.prix_ttc=0;
-                                    vm.montants.montant_net=0;
-                                    //var arrProduits = JSON.parse(sessionStorage.getItem("arrProds"));
-                                    //console.log(arrProduits)
-                                    console.log(vm.arrProduits, " array of data")
-                                    angular.forEach(vm.arrProduits, function(value){
-                                        angular.forEach(value.fraisLivr, function(ligne){
-                                            if(Number(value.qte) == Number(ligne.qte)){
-                                                vm.montants.frais_livr += Number(ligne.price);
-                                            }
-                                        });
-                                        console.log(value.prix, " -- ", Number(value.prix));
-                                        vm.montants.prix_total_ht += Number(value.unitprix)*Number(value.qte);
-                                    });
-                                    console.log(vm.montants, " montants");
-                                    vm.montants.tax = 0.2 * (vm.montants.prix_total_ht + vm.montants.frais_livr);
-                                    vm.montants.prix_ttc = vm.montants.prix_total_ht + vm.montants.tax;
-                                    vm.montants.montant_net = vm.montants.prix_ttc;
-
-                                    vm.montants.frais_livr    = vm.montants.frais_livr.toFixed(2);
-                                    vm.montants.prix_total_ht = vm.montants.prix_total_ht.toFixed(2);
-                                    vm.montants.tax = vm.montants.tax.toFixed(2);
-                                    vm.montants.prix_ttc = vm.montants.prix_ttc.toFixed(2);
-                                    vm.montants.montant_net = vm.montants.montant_net.toFixed(2);
+                                    console.log(vm.arrProduits, " array produits");
+                                    vm.fnGetFraisLivr();
                                 }
                                 else if(!results.uid) {
                                     $scope.alertMsg = "Veuillez vous connecter ou vous enregistrer pour pouvoir continuer svp.";
@@ -1794,6 +1766,80 @@ angular
 
 
                             $("#modalMaquette").modal('hide');
+                        };
+
+                        vm.fnGetFraisLivr = function() {
+                            console.log(vm.arrProduits);
+                            var arrKeysDL = [];
+                            angular.forEach(vm.arrProduits, function(value){
+                                arrKeysDL.push({'idprod':value.idProduit, 'qte':value.qte, 'dimension':value.dimension});
+                            });
+                            console.log(arrKeysDL);
+
+                            $http({
+                                method: 'GET',
+                                params: {mode:19, data:JSON.stringify(arrKeysDL)},
+                                url: 'api/v1/sampleControl.php'
+                            }).then(function successCallback(response) {
+                                console.clear();
+                                console.log(vm.arrProduits);
+                                console.log(response.data);
+                                var arrFraisLivr = response.data;
+
+                                vm.montants.frais_livr=0;
+                                vm.montants.prix_total_ht=0;
+                                vm.montants.tax=0;
+                                vm.montants.valTax=0;
+                                vm.montants.prix_ttc=0;
+                                vm.montants.montant_net=0;
+                                //var arrProduits = JSON.parse(sessionStorage.getItem("arrProds"));
+                                //console.log(arrProduits)
+                                /*console.log(vm.arrProduits, " array of data")
+                                 angular.forEach(vm.arrProduits, function(value){
+                                 angular.forEach(value.fraisLivr, function(ligne){
+                                 if(Number(value.qte) == Number(ligne.qte)){
+                                 vm.montants.frais_livr += Number(ligne.price);
+                                 }
+                                 });
+                                 console.log(value.prix, " -- ", Number(value.prix));
+                                 vm.montants.prix_total_ht += Number(value.unitprix)*Number(value.qte);
+                                 });
+                                 console.log(vm.montants, " montants");
+                                 vm.montants.tax = 0.2 * (vm.montants.prix_total_ht + vm.montants.frais_livr);
+                                 vm.montants.prix_ttc = vm.montants.prix_total_ht + vm.montants.tax;
+                                 vm.montants.montant_net = vm.montants.prix_ttc;
+
+                                 vm.montants.frais_livr    = vm.montants.frais_livr.toFixed(2);
+                                 vm.montants.prix_total_ht = vm.montants.prix_total_ht.toFixed(2);
+                                 vm.montants.tax = vm.montants.tax.toFixed(2);
+                                 vm.montants.prix_ttc = vm.montants.prix_ttc.toFixed(2);
+                                 vm.montants.montant_net = vm.montants.montant_net.toFixed(2);*/
+
+                                angular.forEach(vm.arrProduits, function(value) {
+                                    angular.forEach(arrFraisLivr.frais_livraison, function(item){
+                                        if(item.qte == value.qte && item.dimension == value.dimension){
+                                            vm.montants.frais_livr += Number(item.price);
+                                        }
+                                    });
+                                    console.log(value.prix, Number(value.prix));
+                                    vm.montants.prix_total_ht += Number(value.unitprix) * Number(value.qte);
+                                });
+                                vm.montants.frais_livr      = (vm.montants.frais_livr).toFixed(2);
+                                vm.montants.prix_total_ht   = vm.montants.prix_total_ht.toFixed(2);
+                                vm.montants.tax             = ((Number(arrFraisLivr.tax)/100)*vm.montants.prix_total_ht).toFixed(2);
+                                vm.montants.valTax             = (1+(Number(arrFraisLivr.tax)/100));
+                                console.log(vm.montants.valTax, " tax value");
+                                vm.montants.prix_ttc        = Number(vm.montants.prix_total_ht) + Number(vm.montants.tax);
+                                vm.montants.prix_ttc        = (vm.montants.prix_ttc).toFixed(2);
+                                vm.montants.montant_net     = vm.montants.prix_ttc;
+
+                                $('#modalMaquette').modal();
+                                $('#modalPanier').modal('hide');
+                            }, function errorCallback(error) {
+                                console.log(error);
+                            });
+
+
                         }
 
                         vm.fnAddBasket = function() {
@@ -1844,6 +1890,7 @@ angular
                                                     obj.random_str      = Math.random().toString(36).substring(7);
                                                     obj.arrDims         = vm.arrCurrentDims;
                                                     obj.arrQtes         = vm.arrCurrentQtes;
+                                                    obj.idProduit       = vm.productList[0].id;
 
                                                     if(typeof vm.produit.commentaire == 'undefined'){
                                                         vm.produit.commentaire = " ";
@@ -1865,6 +1912,7 @@ angular
                                                             liserai         : vm.productList[0].liserai,
                                                             escargot        : vm.productList[0].escargot,
                                                             idmodelmetier   : vm.productList[0].idmodelmetier,
+                                                            idproduit       : vm.productList[0].id,
                                                             escargot_val    : $('input[name="optescargot"]:checked').val(),
                                                             dimension       : $('.sel_dimensions').select2('data')[0].text,
                                                             id_dimension    : $('.sel_dimensions').select2('data')[0].id,
@@ -1933,6 +1981,7 @@ angular
                                                     obj.random_str      = vm.prodEnCours.random_str;
                                                     obj.arrDims         = vm.arrCurrentDims;
                                                     obj.arrQtes         = vm.arrCurrentQtes;
+                                                    obj.idProduit       = vm.productList[0].id;
 
                                                     if(typeof vm.produit.commentaire == 'undefined'){
                                                         vm.produit.commentaire = " ";
@@ -1955,6 +2004,7 @@ angular
                                                             escargot        : vm.productList[0].escargot,
                                                             escargot_val    : $('input[name="optescargot"]:checked').val(),
                                                             idmodelmetier   : vm.productList[0].idmodelmetier,
+                                                            idproduit       : vm.productList[0].id,
                                                             dimension       : $('.sel_dimensions').select2('data')[0].text,
                                                             id_dimension    : $('.sel_dimensions').select2('data')[0].id,
                                                             qte             : $('.sel_qte').select2('data')[0].text,
@@ -2007,7 +2057,6 @@ angular
                                 obj.escargot_val   = $('input[name="optescargot"]:checked').val();
                                 obj.id_dimension    = $('.sel_dimensions').select2('data')[0].id;
                                 obj.dimension       = $('.sel_dimensions').select2('data')[0].text;
-                                obj.fraisLivr       = vm.productList[0].frais_livraison;
                                 obj.id_qte          = $('.sel_qte').select2('data')[0].id;
                                 obj.qte             = $('.sel_qte').select2('data')[0].text;
                                 obj.bonrepli        = $('input[name="optcommande"]:checked').val();
@@ -2019,6 +2068,7 @@ angular
                                 obj.random_str      = Math.random().toString(36).substring(7);
                                 obj.arrDims         = vm.arrCurrentDims;
                                 obj.arrQtes         = vm.arrCurrentQtes;
+                                obj.idProduit       = vm.productList[0].id;
 
                                 if(typeof vm.produit.commentaire == 'undefined'){
                                     vm.produit.commentaire = " ";
@@ -2043,6 +2093,7 @@ angular
                                         dimension       : $('.sel_dimensions').select2('data')[0].text,
                                         id_dimension    : $('.sel_dimensions').select2('data')[0].id,
                                         idmodelmetier   : vm.productList[0].idmodelmetier,
+                                        idproduit       : vm.productList[0].id,
                                         qte             : $('.sel_qte').select2('data')[0].text,
                                         id_qte          : $('.sel_qte').select2('data')[0].id,
                                         bonrepli        : $('input[name="optcommande"]:checked').val(),
@@ -2687,9 +2738,10 @@ angular
         };
 
         vm.fnCheckOut = function() {
+            console.clear();
     console.log($scope.sessionInfo);
             vm.fnValidMaquette();
-}
+        }
 
         vm.doLogin = function(login) {
             console.clear();

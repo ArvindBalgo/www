@@ -33,6 +33,7 @@ $temp_prod->setIdSupport($_POST["idsupport"]);
 $temp_prod->setSupport($_POST["support"]);
 $temp_prod->setIdnKey($_POST["idn_key"]);
 $temp_prod->setIdModelMetier($_POST["idmodelmetier"]);
+$temp_prod->setIdProduit($_POST["idproduit"]);
 $temp_prod->setRandomStr($_POST["random_str"]);
 $temp_prod->setData($_POST["data"]);
 $temp_prod->setIdDimension($_POST["id_dimension"]);

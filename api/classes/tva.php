@@ -97,4 +97,11 @@ class tva {
 
         return $this->mapSqlToObject(mysqli_fetch_array($rs));
     }
+
+    public function findByPays($key) { // Recherche d'une adresse par id
+        $requete = self::$SELECT . " WHERE pays='" . $key."'";
+        $rs = $this->conn->query($requete);
+
+        return $this->mapSqlToObject(mysqli_fetch_array($rs));
+    }
 } 

@@ -12,6 +12,7 @@ class temp_prod
     private $_escargot = "";
     private $_idn_key = "";
     private $_idmodelmetier = 0;
+    private $_idproduit = 0;
     private $_opt = "";
     private $_prix = 0;
     private $_unitprix = 0.00;
@@ -61,6 +62,10 @@ class temp_prod
     public function setIdModelMetier($val)
     {
         $this->_idmodelmetier = $val;
+    }
+    public function setIdProduit($val)
+    {
+        $this->_idproduit = $val;
     }
 
     public function setCommentaire($comm)
@@ -179,6 +184,11 @@ class temp_prod
         return $this->_idmodelmetier;
     }
 
+    public function getIdProduit()
+    {
+        return $this->_idproduit;
+    }
+
     public function getCommentaire()
     {
         return $this->_commentaire;
@@ -287,6 +297,7 @@ class temp_prod
             $requete .= ", escargot=" . $this->_escargot . "";
             $requete .= ", idn_key='" . $this->_idn_key . "'";
             $requete .= ", idmodelmetier='" . $this->_idmodelmetier . "'";
+            $requete .= ", idproduit='" . $this->_idproduit . "'";
             $requete .= ", opt=" . $this->_opt . "";
             $requete .= ", prix=" . $this->_prix . "";
             $requete .= ", unitprix=" . $this->_unitprix . "";
@@ -313,6 +324,7 @@ class temp_prod
             $requete .= ",escargot";
             $requete .= ",idn_key";
             $requete .= ",idmodelmetier";
+            $requete .= ",idproduit";
             $requete .= ",opt";
             $requete .= ",prix";
             $requete .= ",unitprix";
@@ -336,6 +348,7 @@ class temp_prod
             $requete .= "'" . $this->_escargot . "',";
             $requete .= "'" . $this->_idn_key . "',";
             $requete .= "'" . $this->_idmodelmetier . "',";
+            $requete .= "'" . $this->_idproduit. "',";
             $requete .= "'" . $this->_opt . "',";
             $requete .= "'" . $this->_prix . "',";
             $requete .= "'" . $this->_unitprix . "',";
@@ -369,6 +382,7 @@ class temp_prod
         $temp_prod->_escargot = $rs["escargot"];
         $temp_prod->_idn_key = $rs["idn_key"];
         $temp_prod->_idmodelmetier = $rs["idmodelmetier"];
+        $temp_prod->_idproduit = $rs["idproduit"];
         $temp_prod->_opt = $rs["opt"];
         $temp_prod->_prix = $rs["prix"];
         $temp_prod->_unitprix = $rs["unitprix"];

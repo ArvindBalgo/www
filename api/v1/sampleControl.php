@@ -79,12 +79,6 @@ else if($mode == 3){
     $cata = $cata->findAllByIdCataRange($strCata);
 
     $arrData = [];
-    /*    foreach($sample as $ligne) {
-            $img_src = [];
-            $img_src[] =array('id'=>$ligne["id"], "src"=>$ligne["src"]);
-            $arrData[] = array('id'=>$ligne["id"], 'title'=>$ligne["description"], 'thumbnail_src'=>$ligne["src"], 'img_src'=>$img_src);
-        }
-    */
     foreach($cata as $ligne) {
         $img_src = [];
         $arrFront = [];
@@ -115,8 +109,6 @@ else if($mode == 3){
 else if($mode == 4){
     $cata = new cata();
     $results = $cata->findAllBySousCategory($_GET["id"]);
-    /*$sample = new gabarits();
-    $sample = $sample->findByIdModel($id);*/
     print json_encode($results);
     return;
 }
@@ -130,7 +122,6 @@ else if($mode == 5) {
     
     $cataMetier = new cata_metier();
     $cataMetier = $cataMetier->findByIdCata($_GET["id"]);
-    chromePHP::log($_GET["id"] . " -------");
     $modelMetier = new modelmetier();
     $modelMetier = $modelMetier->findByPrimaryKey($cataMetier->getIdMetier());
     $fraisLivr = new frais_livraison();
@@ -289,9 +280,6 @@ else if($mode == 9) {
 
     $modelMetier = new modelmetier();
     $modelMetier = $modelMetier->findByPrimaryKey($cataMetier->getIdMetier());
-    chromePHP::log($_SESSION["uid"] . " jhgkjvhgdfjy");
-    $fraisLivr = new frais_livraison();
-    $fraisLivr = $fraisLivr->findByIdProd($_GET["id_model"], $_SESSION["pays"]);
     $arrData = [];
 
     //foreach($cata as $ligne) {
@@ -336,7 +324,6 @@ else if($mode == 9) {
                             'coucher'=>$cata->getCoucher(),
                             'dimensions'=>$cata->getDimensions(),
                             'qte'=>$modelMetier->getQte(),
-                            'frais_livraison'=>$fraisLivr,
                             'idmodelmetier'=>$modelMetier->getId(),
                             'elemfront'=>$arrFront,
                             'elemback'=>$arrBack,
@@ -471,4 +458,23 @@ else if($mode == 18) {
     $livr->setWeight($item->weight);
     $livr->save();
     return "done";
+}
+else if($mode == 19) {
+    $tva = new tva();
+    $tva = $tva->findByPays($_SESSION['pays']);
+
+    $arrData = json_decode($_GET["data"]);
+    $arrFrais = array();
+    foreach ($arrData as $ligne) {
+        $fraisLivraison = new frais_livraison();
+        $fraisLivraison = $fraisLivraison->findByIdDimQte($ligne->idprod, $ligne->dimension, $ligne->qte, $_SESSION["pays"]);
+        $arrFrais[$fraisLivraison["id"]] = array(   'id_modelmetier'    => $fraisLivraison["id_modelmetier"],
+                                                    'id_produit'        => $fraisLivraison["id_produit"],
+                                                    'dimension'         => $fraisLivraison["dimension"],
+                                                    'qte'               => $fraisLivraison["qte"],
+                                                    'weight'            => $fraisLivraison["weight"],
+                                                    'price'             => $fraisLivraison["price"],
+                                                    'pays'              => $fraisLivraison["pays"]);
+    }
+    print json_encode(array('frais_livraison'=>$arrFrais, 'tax'=>$tva->getValue(), 'pays'=>$tva->getPays()));
 }
