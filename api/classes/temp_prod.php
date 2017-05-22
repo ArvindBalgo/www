@@ -285,6 +285,12 @@ class temp_prod
         $r = $this->conn->query($requete) or die($this->conn->error . __LINE__);
     }
 
+    public function deleteByKeyRandomStr($id, $randomStr)
+    {
+        $requete = "DELETE FROM temp_prod WHERE idn_key='" . $id."' and random_str='".$randomStr."'";
+        $r = $this->conn->query($requete) or die($this->conn->error . __LINE__);
+    }
+
     //***** fonction de modification/cr�ation *****
     public function save()
     {
@@ -473,4 +479,15 @@ class temp_prod
         }
         return $this->mapSqlToObject(mysqli_fetch_array($rs));
     }
+
+    public function findByComboUserRandom($id, $random_str) {
+        $requete = self::$SELECT . " WHERE random_str='" . $random_str . "' and idn_key='" . $id . "'";
+        $rs = $this->conn->query($requete);
+
+        if (!$rs) {
+            return 'false';
+        }
+        return $this->mapSqlToObject(mysqli_fetch_array($rs));
+    }
+
 } 

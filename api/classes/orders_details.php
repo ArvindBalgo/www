@@ -30,8 +30,8 @@ class orders_details
     private $_modified_by = "";
     private $_date_created = "";
     private $_date_modified = "";
-    private $_flag = 0;
-    private $_status = 0;
+    private $_flag = "";
+    private $_status = "";
 
     private static $SELECT = "SELECT * FROM orders_details";
 
@@ -383,7 +383,7 @@ class orders_details
             $requete .= ",opt='".$this->_opt."'";
             $requete .= ",prix_ht='".$this->_prix_ht."'";
             $requete .= ",prix_ttc='".$this->_prix_ttc."'";
-            $requete .= ",unit_prix='".$this->_unit_prix."'";
+            $requete .= ",unitprix='".$this->_unit_prix."'";
             $requete .= ",prix_livraison_ht='".$this->_prix_livraison_ht."'";
             $requete .= ",prix_livraison_ttc='".$this->_prix_livraison_ttc."'";
             $requete .= ",idsupport='".$this->_idsupport."'";
@@ -391,7 +391,7 @@ class orders_details
             $requete .= ",qte='".$this->_qte."'";
             $requete .= ",id_qte='".$this->_id_qte."'";
             $requete .= ",title='".$this->_title."'";
-            $requete .= ",data='".$this->_data."'";
+            $requete .= ",data='".json_encode($this->_data)."'";
             $requete .= ",created_by='".$this->_created_by."'";
             $requete .= ",modified_by='".$this->_modified_by."'";
             $requete .= ",date_created='".$this->_date_created."'";
@@ -415,7 +415,7 @@ class orders_details
             $requete .= ",opt";
             $requete .= ",prix_ht";
             $requete .= ",prix_ttc";
-            $requete .= ",unit_prix";
+            $requete .= ",unitprix";
             $requete .= ",prix_livraison_ht";
             $requete .= ",prix_livraison_ttc";
             $requete .= ",idsupport";
@@ -452,7 +452,7 @@ class orders_details
             $requete .= "'" . $this->_qte . "',";
             $requete .= "'" . $this->_id_qte . "',";
             $requete .= "'" . $this->_title . "',";
-            $requete .= "'" . $this->_data . "',";
+            $requete .= "'" . json_encode($this->_data) . "',";
             $requete .= "'" . $this->_created_by . "',";
             $requete .= "'" . $this->_modified_by . "',";
             $requete .= "'" . $this->_date_created . "',";

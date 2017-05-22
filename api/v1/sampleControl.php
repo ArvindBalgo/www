@@ -4,7 +4,7 @@ include_once 'include_all.php';
 include_once "../chromePHP.php";
 
 $mode = $_GET['mode'];
-if($mode == 0) {
+if ($mode == 0) {
     $id = $_GET["id"];
     $cata = new cata();
     $results = $cata->findAllByMetier($id);
@@ -12,27 +12,26 @@ if($mode == 0) {
     $sample = $sample->findByIdModel($id);*/
     print json_encode($results);
     return;
-}
-else if($mode == 1) {
+} else if ($mode == 1) {
     $type = $_GET["type"];
     $sample = new gabarits();
     $sample = $sample->findByType($type);
-    $cata  = new cata();
+    $cata = new cata();
     $cata = $cata->rechercher();
-    if(count($cata) == 0) {
+    if (count($cata) == 0) {
         print "null";
         return;
     }
 
 
     $arrData = [];
-/*    foreach($sample as $ligne) {
-        $img_src = [];
-        $img_src[] =array('id'=>$ligne["id"], "src"=>$ligne["src"]);
-        $arrData[] = array('id'=>$ligne["id"], 'title'=>$ligne["description"], 'thumbnail_src'=>$ligne["src"], 'img_src'=>$img_src);
-    }
-*/
-    foreach($cata as $ligne) {
+    /*    foreach($sample as $ligne) {
+            $img_src = [];
+            $img_src[] =array('id'=>$ligne["id"], "src"=>$ligne["src"]);
+            $arrData[] = array('id'=>$ligne["id"], 'title'=>$ligne["description"], 'thumbnail_src'=>$ligne["src"], 'img_src'=>$img_src);
+        }
+    */
+    foreach ($cata as $ligne) {
         $img_src = [];
         $arrFront = [];
         $arrBack = [];
@@ -42,23 +41,22 @@ else if($mode == 1) {
         $cata_ligne = $cata_ligne->findByPrimaryKey($ligne["id_front"]);
         $cata_ligne_params = new cata_ligne_params();
         $cata_ligne_params = $cata_ligne_params->findByIdCata($cata_ligne->getId());
-        $arrFront = array('id'=>$cata_ligne->getId(), 'src'=>$cata_ligne->getSrc(), 'title'=>$cata_ligne->getTitle(), 'params' =>$cata_ligne_params);
+        $arrFront = array('id' => $cata_ligne->getId(), 'src' => $cata_ligne->getSrc(), 'title' => $cata_ligne->getTitle(), 'params' => $cata_ligne_params);
 
         $cata_back = $cata_ligne->findByPrimaryKey($ligne["id_back"]);
         $cata_ligne_params1 = new cata_ligne_params();
-        $cata_ligne_params1 =  $cata_ligne_params1->findByIdCata($cata_back->getId());
+        $cata_ligne_params1 = $cata_ligne_params1->findByIdCata($cata_back->getId());
 
-        $arrBack = array('id'=>$cata_back->getId(), 'src'=>$cata_back->getSrc(), 'title'=>$cata_back->getTitle(), 'params'=>$cata_ligne_params1);
+        $arrBack = array('id' => $cata_back->getId(), 'src' => $cata_back->getSrc(), 'title' => $cata_back->getTitle(), 'params' => $cata_ligne_params1);
 
         //$img_src[] =array('id'=>$cata_ligne->getId(), "src"=>$cata_ligne->getSrc());
         //$arrData[] = array('id'=>$ligne["id"], 'title'=>$ligne["libelle"], 'thumbnail_src'=>$ligne["src"], 'img_src'=>$img_src);
-        $arrData[] = array('id'=>$ligne["id"], 'title'=>$ligne["libelle"], 'thumbnail_src'=>$ligne["src"], 'elemfront'=>$arrFront, 'elemback'=>$arrBack);
+        $arrData[] = array('id' => $ligne["id"], 'title' => $ligne["libelle"], 'thumbnail_src' => $ligne["src"], 'elemfront' => $arrFront, 'elemback' => $arrBack);
     }
     print json_encode($arrData);
     //print json_encode($sample);
     return;
-}
-else if($mode == 2){
+} else if ($mode == 2) {
     $data = json_encode($_GET["data"]);
     $sample = new sample();
     $sample->setIdModelMetier(2);
@@ -66,60 +64,57 @@ else if($mode == 2){
     $sample->setContent(($data));
     $sample->save();
     print json_decode($data);
-}
-else if($mode == 3){
+} else if ($mode == 3) {
     $cata_metier = new cata_metier();
     $cata_metier = $cata_metier->findByMetier($_GET["metier"]);
     $arrIdCata = [];
-    foreach($cata_metier as $ligne){
+    foreach ($cata_metier as $ligne) {
         $arrIdCata[] = $ligne["id_cata"];
     }
     $strCata = implode(",", $arrIdCata);
-    $cata  = new cata();
+    $cata = new cata();
     $cata = $cata->findAllByIdCataRange($strCata);
 
     $arrData = [];
-    foreach($cata as $ligne) {
+    foreach ($cata as $ligne) {
         $img_src = [];
         $arrFront = [];
         $arrBack = [];
         $arrElem = [];
 
         $cata_ligne = new cata_ligne();
-        if($ligne["id_front"] > 0){
+        if ($ligne["id_front"] > 0) {
             $cata_ligne = $cata_ligne->findByPrimaryKey($ligne["id_front"]);
             $cata_ligne_params = new cata_ligne_params();
             $cata_ligne_params = $cata_ligne_params->findByIdCata($cata_ligne->getId());
-            $arrFront = array('id'=>$cata_ligne->getId(), 'src'=>$cata_ligne->getSrc(), 'title'=>$cata_ligne->getTitle(), 'params' =>$cata_ligne_params);
+            $arrFront = array('id' => $cata_ligne->getId(), 'src' => $cata_ligne->getSrc(), 'title' => $cata_ligne->getTitle(), 'params' => $cata_ligne_params);
         }
-        if($ligne["id_back"] > 0) {
+        if ($ligne["id_back"] > 0) {
             $cata_back = $cata_ligne->findByPrimaryKey($ligne["id_back"]);
             $cata_ligne_params1 = new cata_ligne_params();
-            $cata_ligne_params1 =  $cata_ligne_params1->findByIdCata($cata_back->getId());
+            $cata_ligne_params1 = $cata_ligne_params1->findByIdCata($cata_back->getId());
 
-            $arrBack = array('id'=>$cata_back->getId(), 'src'=>$cata_back->getSrc(), 'title'=>$cata_back->getTitle(), 'params'=>$cata_ligne_params1);
+            $arrBack = array('id' => $cata_back->getId(), 'src' => $cata_back->getSrc(), 'title' => $cata_back->getTitle(), 'params' => $cata_ligne_params1);
 
         }
-        $arrData[] = array('id'=>$ligne["id"], 'title'=>$ligne["libelle"], 'thumbnail_src'=>$ligne["src"], 'elemfront'=>$arrFront, 'elemback'=>$arrBack);
+        $arrData[] = array('id' => $ligne["id"], 'title' => $ligne["libelle"], 'thumbnail_src' => $ligne["src"], 'elemfront' => $arrFront, 'elemback' => $arrBack);
 
     }
     print json_encode($arrData);
     return;
-}
-else if($mode == 4){
+} else if ($mode == 4) {
     $cata = new cata();
     $results = $cata->findAllBySousCategory($_GET["id"]);
     print json_encode($results);
     return;
-}
-else if($mode == 5) {
-    $cata  = new cata();
+} else if ($mode == 5) {
+    $cata = new cata();
     $cata = $cata->findByPrimaryKey($_GET["id"]);
-    if(count($cata) == 0) {
+    if (count($cata) == 0) {
         print "null";
         return;
     }
-    
+
     $cataMetier = new cata_metier();
     $cataMetier = $cataMetier->findByIdCata($_GET["id"]);
     $modelMetier = new modelmetier();
@@ -130,55 +125,52 @@ else if($mode == 5) {
 
     //foreach($cata as $ligne) {
     $ligne = $cata;
-        $img_src = [];
-        $arrFront = [];
-        $arrBack = [];
-        $arrElem = [];
+    $img_src = [];
+    $arrFront = [];
+    $arrBack = [];
+    $arrElem = [];
 
-        $cata_ligne = new cata_ligne();
-        $cata_ligne = $cata_ligne->findByPrimaryKey( $cata->getIdFront());
-    if($cata_ligne != null){
+    $cata_ligne = new cata_ligne();
+    $cata_ligne = $cata_ligne->findByPrimaryKey($cata->getIdFront());
+    if ($cata_ligne != null) {
         $cata_ligne_params = new cata_ligne_params();
         $cata_ligne_params = $cata_ligne_params->findByIdCata($cata_ligne->getId());
-        $arrFront = array('id'=>$cata_ligne->getId(), 'src'=>$cata_ligne->getSrc(), 'title'=>$cata_ligne->getTitle(), 'params' =>$cata_ligne_params);
-    }
-    else{
+        $arrFront = array('id' => $cata_ligne->getId(), 'src' => $cata_ligne->getSrc(), 'title' => $cata_ligne->getTitle(), 'params' => $cata_ligne_params);
+    } else {
         $arrFront = array();
     }
 
     $cata_ligne = new cata_ligne();
-        $cata_back = $cata_ligne->findByPrimaryKey($cata->getIdBack());
-    if($cata_back != null) {
+    $cata_back = $cata_ligne->findByPrimaryKey($cata->getIdBack());
+    if ($cata_back != null) {
         $cata_ligne_params1 = new cata_ligne_params();
-        $cata_ligne_params1 =  $cata_ligne_params1->findByIdCata($cata_back->getId());
+        $cata_ligne_params1 = $cata_ligne_params1->findByIdCata($cata_back->getId());
 
-        $arrBack = array('id'=>$cata_back->getId(), 'src'=>$cata_back->getSrc(), 'title'=>$cata_back->getTitle(), 'params'=>$cata_ligne_params1);
+        $arrBack = array('id' => $cata_back->getId(), 'src' => $cata_back->getSrc(), 'title' => $cata_back->getTitle(), 'params' => $cata_ligne_params1);
 
-    }
-    else {
+    } else {
         $arrBack = array();
     }
 
-        //$img_src[] =array('id'=>$cata_ligne->getId(), "src"=>$cata_ligne->getSrc());
-        //$arrData[] = array('id'=>$ligne["id"], 'title'=>$ligne["libelle"], 'thumbnail_src'=>$ligne["src"], 'img_src'=>$img_src);
-        $arrData[] = array( 'id'=>$cata->getId_Cata(),
-                            'title'=>$cata->getLibelle(),
-                            'thumbnail_src'=>$cata->getSrc(),
-                            'escargot'=>$cata->getEscargot(),
-                            'contours'=>$cata->getContours(),
-                            'liserai'=>$cata->getLiserai(),
-                            'coucher'=>$cata->getCoucher(),
-                            'dimensions'=>$cata->getDimensions(),
-                            'qte'=>$modelMetier->getQte(),
-                            'frais_livraison'=>$fraisLivr,
-                            'elemfront'=>$arrFront,
-                            'elemback'=>$arrBack);
+    //$img_src[] =array('id'=>$cata_ligne->getId(), "src"=>$cata_ligne->getSrc());
+    //$arrData[] = array('id'=>$ligne["id"], 'title'=>$ligne["libelle"], 'thumbnail_src'=>$ligne["src"], 'img_src'=>$img_src);
+    $arrData[] = array('id' => $cata->getId_Cata(),
+        'title' => $cata->getLibelle(),
+        'thumbnail_src' => $cata->getSrc(),
+        'escargot' => $cata->getEscargot(),
+        'contours' => $cata->getContours(),
+        'liserai' => $cata->getLiserai(),
+        'coucher' => $cata->getCoucher(),
+        'dimensions' => $cata->getDimensions(),
+        'qte' => $modelMetier->getQte(),
+        'frais_livraison' => $fraisLivr,
+        'elemfront' => $arrFront,
+        'elemback' => $arrBack);
     //}
     print json_encode($arrData);
     //print json_encode($sample);
     return;
-}
-else if($mode == 6) {
+} else if ($mode == 6) {
     $cata_metier = new cata_metier();
     $cata_metier->deleteIdCata($_GET["id"]);
 
@@ -195,8 +187,7 @@ else if($mode == 6) {
     $cata->delete($_GET["id"]);
 
     print "done";
-}
-else if($mode == 7) {
+} else if ($mode == 7) {
     $id = $_GET["id"];
     $cata = new cata();
     $cata = $cata->findByPrimaryKey($id);
@@ -207,21 +198,20 @@ else if($mode == 7) {
     $modelMetier = new modelmetier();
     $modelMetier = $modelMetier->findByPrimaryKey($cataMetier->getIdMetier());
 
-    $arrCata = array('id'=>$cata->getId_Cata(),
-        'libelle'=>$cata->getLibelle(),
-        'reference'=>$cata->getReference(),
-        'description'=>$cata->getDescription(),
-        'dimensions' =>$cata->getDimensions(),
-        'escargot' =>$cata->getEscargot(),
-        'contours' =>$cata->getContours(),
-        'liserai' =>$cata->getLiserai(),
-        'coucher' =>$cata->getCoucher(),
-        'gabarit' =>$cata->getGabarit(),
+    $arrCata = array('id' => $cata->getId_Cata(),
+        'libelle' => $cata->getLibelle(),
+        'reference' => $cata->getReference(),
+        'description' => $cata->getDescription(),
+        'dimensions' => $cata->getDimensions(),
+        'escargot' => $cata->getEscargot(),
+        'contours' => $cata->getContours(),
+        'liserai' => $cata->getLiserai(),
+        'coucher' => $cata->getCoucher(),
+        'gabarit' => $cata->getGabarit(),
         'qte' => $modelMetier->getQte()
-        );
+    );
     print json_encode($arrCata);
-}
-else if($mode == 8) {
+} else if ($mode == 8) {
     $arrData = [];
     $metier = new listmetier();
     $metier = $metier->rechTous();
@@ -234,17 +224,16 @@ else if($mode == 8) {
     //print json_encode($modelMetier);
     //print json_encode($metier);
     print json_encode($arrData);
-}
-else if($mode == 9) {
-    $cata  = new cata();
+} else if ($mode == 9) {
+    $cata = new cata();
     $cata = $cata->findByPrimaryKey($_GET["id_model"]);
-    if(count($cata) == 0) {
+    if (count($cata) == 0) {
         print "null";
         return;
     }
     $id_souscategory_coeffprix = $cata->getIdSousCategoryCoeffPrix();
     $tarif_man = new tarif_manuel();
-    $tarif_man  = $tarif_man->findByIDCata($cata->getId_Cata());
+    $tarif_man = $tarif_man->findByIDCata($cata->getId_Cata());
 
     $coeffprix = new coeff_prix();
     $coeffprix = $coeffprix->findByProduit($id_souscategory_coeffprix);
@@ -252,27 +241,25 @@ else if($mode == 9) {
     $cata_metier = new cata_metier();
     $cata_metier = $cata_metier->findByIdCata($_GET["id_model"]);
 
-    if($id_souscategory_coeffprix >=0) {
+    if ($id_souscategory_coeffprix >= 0) {
         $coeffprix1 = new coeff_prix();
-        $coeffprix1 = $coeffprix1->getListIdPapierSupport($cata_metier->getIdModelMetier() , $id_souscategory_coeffprix);
+        $coeffprix1 = $coeffprix1->getListIdPapierSupport($cata_metier->getIdModelMetier(), $id_souscategory_coeffprix);
 
-    }
-    else {
+    } else {
         $tarif_manuel = new tarif_manuel();
         $tarif_manuel = $tarif_manuel->getSupportById($cata->getId_Cata());
         $coeffprix1 = $tarif_manuel;
     }
 
-    if($coeffprix1['ligne'] != null){
+    if ($coeffprix1['ligne'] != null) {
         $cata_papier = new cata_papier();
         $cata_papier = $cata_papier->findByList($coeffprix1['ligne']);
-    }
-    else{
+    } else {
         $cata_papier = array();
     }
-    
+
     $cata_dim = new cata_dimension();
-    $cata_dim = $cata_dim->findByIDSCategory($cata_metier->getIdModelMetier() , $id_souscategory_coeffprix);
+    $cata_dim = $cata_dim->findByIDSCategory($cata_metier->getIdModelMetier(), $id_souscategory_coeffprix);
 
 
     $cataMetier = new cata_metier();
@@ -290,62 +277,58 @@ else if($mode == 9) {
     $arrElem = [];
 
     $cata_ligne = new cata_ligne();
-    $cata_ligne = $cata_ligne->findByPrimaryKey( $cata->getIdFront());
-    if($cata_ligne != null){
+    $cata_ligne = $cata_ligne->findByPrimaryKey($cata->getIdFront());
+    if ($cata_ligne != null) {
         $cata_ligne_params = new cata_ligne_params();
         $cata_ligne_params = $cata_ligne_params->findByIdCata($cata_ligne->getId());
-        $arrFront = array('id'=>$cata_ligne->getId(), 'src'=>$cata_ligne->getSrc(), 'title'=>$cata_ligne->getTitle(), 'params' =>$cata_ligne_params);
-    }
-    else{
+        $arrFront = array('id' => $cata_ligne->getId(), 'src' => $cata_ligne->getSrc(), 'title' => $cata_ligne->getTitle(), 'params' => $cata_ligne_params);
+    } else {
         $arrFront = array();
     }
 
     $cata_ligne = new cata_ligne();
     $cata_back = $cata_ligne->findByPrimaryKey($cata->getIdBack());
-    if($cata_back != null) {
+    if ($cata_back != null) {
         $cata_ligne_params1 = new cata_ligne_params();
-        $cata_ligne_params1 =  $cata_ligne_params1->findByIdCata($cata_back->getId());
+        $cata_ligne_params1 = $cata_ligne_params1->findByIdCata($cata_back->getId());
 
-        $arrBack = array('id'=>$cata_back->getId(), 'src'=>$cata_back->getSrc(), 'title'=>$cata_back->getTitle(), 'params'=>$cata_ligne_params1);
+        $arrBack = array('id' => $cata_back->getId(), 'src' => $cata_back->getSrc(), 'title' => $cata_back->getTitle(), 'params' => $cata_ligne_params1);
 
-    }
-    else {
+    } else {
         $arrBack = array();
     }
 
     //$img_src[] =array('id'=>$cata_ligne->getId(), "src"=>$cata_ligne->getSrc());
     //$arrData[] = array('id'=>$ligne["id"], 'title'=>$ligne["libelle"], 'thumbnail_src'=>$ligne["src"], 'img_src'=>$img_src);
-    $arrData[] = array(     'id'=>$cata->getId_Cata(),
-                            'title'=>$cata->getLibelle(),
-                            'thumbnail_src'=>$cata->getSrc(),
-                            'escargot'=>$cata->getEscargot(),
-                            'contours'=>$cata->getContours(),
-                            'liserai'=>$cata->getLiserai(),
-                            'coucher'=>$cata->getCoucher(),
-                            'dimensions'=>$cata->getDimensions(),
-                            'qte'=>$modelMetier->getQte(),
-                            'idmodelmetier'=>$modelMetier->getId(),
-                            'elemfront'=>$arrFront,
-                            'elemback'=>$arrBack,
-                            'type_support'=>$cata_papier,
-                            'info_prix'=>$coeffprix,
-                            'coeff_dims'=>$cata_dim,
-                            'type_tarif'=>$id_souscategory_coeffprix,
-                            'tarifManuel'=>$tarif_man);
+    $arrData[] = array('id' => $cata->getId_Cata(),
+        'title' => $cata->getLibelle(),
+        'thumbnail_src' => $cata->getSrc(),
+        'escargot' => $cata->getEscargot(),
+        'contours' => $cata->getContours(),
+        'liserai' => $cata->getLiserai(),
+        'coucher' => $cata->getCoucher(),
+        'dimensions' => $cata->getDimensions(),
+        'qte' => $modelMetier->getQte(),
+        'idmodelmetier' => $modelMetier->getId(),
+        'elemfront' => $arrFront,
+        'elemback' => $arrBack,
+        'type_support' => $cata_papier,
+        'info_prix' => $coeffprix,
+        'coeff_dims' => $cata_dim,
+        'type_tarif' => $id_souscategory_coeffprix,
+        'tarifManuel' => $tarif_man);
     //}
 
     print json_encode($arrData);
     //print json_encode($sample);
     return;
-}
-else if($mode == 10) {
+} else if ($mode == 10) {
     $modelMetier = new modelmetier();
 
     $modelMetier = $modelMetier->rechTous();
     print json_encode($modelMetier);
 
-}
-else if($mode == 11) {
+} else if ($mode == 11) {
     $id = $_GET["id"];
     $cata = new cata();
     $results = $cata->fnFindAllModelCategory($id);
@@ -353,23 +336,20 @@ else if($mode == 11) {
     $sample = $sample->findByIdModel($id);*/
     print json_encode($results);
     return;
-}
-else if($mode == 12) {
+} else if ($mode == 12) {
     $id = $_GET["id"];
     $cata = new cata();
-    $results  = $cata->findAllBySousCategory($id);
+    $results = $cata->findAllBySousCategory($id);
     print json_encode($results);
     return;
-}
-else if($mode == 13) {
+} else if ($mode == 13) {
     $id_produit = $_GET["id_produit"];
     $id_subcategory = $_GET["id_category"];
 
     $cataMetier = new cata_metier();
     $cataMetier = $cataMetier->fnUpdateSubCat($id_produit, $id_subcategory);
     print json_encode($cataMetier);
-}
-else if($mode == 14) {
+} else if ($mode == 14) {
     $id = $_GET["id"];
     $cata = new cata();
     $results = $cata->findAllByModelMetier($id);
@@ -377,18 +357,16 @@ else if($mode == 14) {
     $sample = $sample->findByIdModel($id);*/
     print json_encode($results);
     return;
-}
-else if($mode == 15) {
+} else if ($mode == 15) {
     $pays = new pays();
     $pays = $pays->rechercher();
     print json_encode($pays);
-}
-else if($mode == 16) {
+} else if ($mode == 16) {
     //fill all delivery charges
     $id_produit = $_GET["id"];
     $cata = new cata();
     $cata = $cata->findDimsQte($id_produit);
-    $arrDims = explode(",",$cata["str_dimensions"]);
+    $arrDims = explode(",", $cata["str_dimensions"]);
     $arrQte = explode(",", $cata["str_qte"]);
     $arrPays = array("FR", "ES", "AL", "EN", "IT");
     foreach ($arrPays as $pays) {
@@ -397,7 +375,7 @@ else if($mode == 16) {
                 $fraisLivr = new frais_livraison();
                 //findByDimensionQteProduit
                 $fraisLivr = $fraisLivr->findByIdDimQte($id_produit, $dimension, intval(trim($qte)), $pays);
-                if(!$fraisLivr) {
+                if (!$fraisLivr) {
                     $fraisLivr = new frais_livraison();
                     $fraisLivr->setIdProduit($id_produit);
                     $fraisLivr->setIdModelMetier($cata["id_modelmetier"]);
@@ -438,8 +416,7 @@ else if($mode == 16) {
     $arrResponse["IT"] = $fraisLivraison;
 
     print json_encode($arrResponse);
-}
-else if($mode == 17) {
+} else if ($mode == 17) {
     $arrData = json_decode($_GET["data"]);
     foreach ($arrData as $item) {
         $livr = new frais_livraison();
@@ -449,8 +426,7 @@ else if($mode == 17) {
         $livr->save();
     }
     return "done";
-}
-else if($mode == 18) {
+} else if ($mode == 18) {
     $item = json_decode($_GET["data"]);
     $livr = new frais_livraison();
     $livr = $livr->findByPrimaryKey($item->id);
@@ -458,8 +434,7 @@ else if($mode == 18) {
     $livr->setWeight($item->weight);
     $livr->save();
     return "done";
-}
-else if($mode == 19) {
+} else if ($mode == 19) {
     $tva = new tva();
     $tva = $tva->findByPays($_SESSION['pays']);
 
@@ -468,13 +443,102 @@ else if($mode == 19) {
     foreach ($arrData as $ligne) {
         $fraisLivraison = new frais_livraison();
         $fraisLivraison = $fraisLivraison->findByIdDimQte($ligne->idprod, $ligne->dimension, $ligne->qte, $_SESSION["pays"]);
-        $arrFrais[$fraisLivraison["id"]] = array(   'id_modelmetier'    => $fraisLivraison["id_modelmetier"],
-                                                    'id_produit'        => $fraisLivraison["id_produit"],
-                                                    'dimension'         => $fraisLivraison["dimension"],
-                                                    'qte'               => $fraisLivraison["qte"],
-                                                    'weight'            => $fraisLivraison["weight"],
-                                                    'price'             => $fraisLivraison["price"],
-                                                    'pays'              => $fraisLivraison["pays"]);
+        $arrFrais[$fraisLivraison["id"]] = array('id_modelmetier' => $fraisLivraison["id_modelmetier"],
+            'id_produit' => $fraisLivraison["id_produit"],
+            'dimension' => $fraisLivraison["dimension"],
+            'qte' => $fraisLivraison["qte"],
+            'weight' => $fraisLivraison["weight"],
+            'price' => $fraisLivraison["price"],
+            'pays' => $fraisLivraison["pays"]);
     }
-    print json_encode(array('frais_livraison'=>$arrFrais, 'tax'=>$tva->getValue(), 'pays'=>$tva->getPays()));
+    print json_encode(array('frais_livraison' => $arrFrais, 'tax' => $tva->getValue(), 'pays' => $tva->getPays()));
+} else if ($mode == 20) {
+    $arrListKeys = json_decode($_GET["list"]);
+    //chromePHP::log($arrListKeys);
+    $id_user = $_SESSION['uid'];
+    $tva = new tva();
+    $tva = $tva->findByPays($_SESSION['pays']);
+
+    $frais_livraison = 0;
+    $totalPrixHT = 0;
+    foreach ($arrListKeys as $val) {
+        foreach ($val as $key=>$item){
+            //chromePHP::log(($item));
+            $tempProd = new temp_prod();
+            $tempProd = $tempProd->findByComboKeyRandom($key, $item);
+
+            if ($tempProd) {
+                $fraisLivraison = new frais_livraison();
+                $fraisLivraison = $fraisLivraison->findByIdDimQte($tempProd->getIdProduit(), $tempProd->getDimension(), $tempProd->getQte(), $_SESSION["pays"]);
+                $frais_livraison = $frais_livraison + floatval($fraisLivraison["price"]);
+
+                $totalPrixHT = $totalPrixHT + ($tempProd->getUnitPrix() * $tempProd->getQte());
+            }
+        }
+    }
+    $orders = new orders_main();
+    $orders->setIdUser($id_user);
+    $orders->setTotalLivraisonHT($frais_livraison);
+    $orders->setTotalLivraisonTTC(number_format(($frais_livraison * $tva->getValue())/100 + $frais_livraison, 2,  '.', ''));
+    $orders->setTotalPrixHT(number_format($totalPrixHT, 2,  '.', ''));
+    $orders->setTotalPrixTTC(number_format((($totalPrixHT * $tva->getValue()) / 100) + $totalPrixHT, 2,  '.', ''));
+    $orders->setTax(number_format((($totalPrixHT * $tva->getValue()) / 100), 2,  '.', ''));
+    $orders->setStatus("NEW");
+    $orders->setCreatedBy($id_user);
+    $orders->setModifiedBy($id_user);
+    $orders->setDateCreated(date("Y-m-d H:i:s"));
+    $orders->setDateModified(date("Y-m-d H:i:s"));
+    $orders->save();
+    $lastID = $orders->fnGetLastId();
+
+    foreach ($arrListKeys as $val1) {
+        chromePHP::log($val1);
+        foreach ($val1 as $key=>$item){
+            chromePHP::log(">>>  ".$key." :: ".$item);
+            $tempProd = new temp_prod();
+            $tempProd = $tempProd->findByComboKeyRandom($key, $item);
+            if ($tempProd) {
+                $fraisLivraison = new frais_livraison();
+                $fraisLivraison = $fraisLivraison->findByIdDimQte($tempProd->getIdProduit(), $tempProd->getDimension(), $tempProd->getQte(), $_SESSION["pays"]);
+                $frais_livraison = $frais_livraison + floatval($fraisLivraison["price"]);
+
+                $totalPrixHT = $totalPrixHT + ($tempProd->getUnitPrix() * $tempProd->getQte());
+                $orders_details = new orders_details();
+                $orders_details->setIdOrder($lastID["id"]);
+                $orders_details->setBase64Image($tempProd->getbase64Image());
+                $orders_details->setBonRepli($tempProd->getBonRepli());
+                $orders_details->setCommentaire($tempProd->getCommentaire());
+                $orders_details->setDimension($tempProd->getDimension());
+                $orders_details->setIdDimension($tempProd->getIdDimension());
+                $orders_details->setEscargot($tempProd->getEscargot());
+                $orders_details->setEscargotVal($tempProd->getEscargotVal());
+                $orders_details->setContours($tempProd->getContours());
+                $orders_details->setLiserai($tempProd->getLiserai());
+                $orders_details->setOpt($tempProd->getOpt());
+                $orders_details->setPrixHT(number_format(($tempProd->getUnitPrix() * $tempProd->getQte()), 2,  '.', ''));
+                $orders_details->setPrixTTC(number_format(((($tempProd->getUnitPrix() * $tempProd->getQte()) * $tva->getValue()) / 100) + ($tempProd->getUnitPrix() * $tempProd->getQte()), 2,  '.', ''));
+                $orders_details->setUnitPrix($tempProd->getUnitPrix());
+                $orders_details->setPrixLivraisonHT(number_format($fraisLivraison["price"], 2,  '.', ''));
+                $orders_details->setPrixLivraisonTTC(number_format(($fraisLivraison["price"]*$tva->getValue())/100 + $fraisLivraison["price"], 2,  '.', ''));
+                $orders_details->setIdSupport($tempProd->getIdSupport());
+                $orders_details->setSupport($tempProd->getSupport());
+                $orders_details->setQte($tempProd->getQte());
+                $orders_details->setIdQte($tempProd->getIdQte());
+                $orders_details->setTitle($tempProd->getTitle());
+                $orders_details->setData($tempProd->getData());
+                $orders_details->setFlag("NEW");
+                $orders_details->setStatus("INCOMPLETE");
+                $orders_details->setDateCreated(date("Y-m-d H:i:s"));
+                $orders_details->setDateModified(date("Y-m-d H:i:s"));
+                $orders_details->setCreatedBy($id_user);
+                $orders_details->setModifiedBy($id_user);
+                $orders_details->save();
+                $tempProd->deleteByKeyRandomStr($key, $item);
+            }
+
+        }
+
+    }
+
+    return "done";
 }

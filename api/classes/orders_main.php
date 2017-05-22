@@ -11,7 +11,7 @@ class orders_main
     private $_total_prix_ttc = 0;
     private $_tax = 0;
     private $_total_prix_net = 0;
-    private $_status = 0;
+    private $_status = "";
     private $_date_created = "";
     private $_date_modified = "";
     private $_created_by = 0;
@@ -214,6 +214,7 @@ class orders_main
             $requete .= "'" . $this->_created_by . "',";
             $requete .= "'" . $this->_modified_by. "')";
         }
+        chromePHP::log($requete);
         $r = $this->conn->query($requete) or die($this->conn->error . __LINE__);
         return $r;
     }
@@ -257,5 +258,12 @@ class orders_main
         $rs = $this->conn->query($requete);
 
         return $this->mapSqlToObject(mysqli_fetch_array($rs));
+    }
+
+    public function fnGetLastId(){
+        $requete = "select max(id) as id from orders_main";
+        $rs = $this->conn->query($requete);
+
+        return mysqli_fetch_array($rs);
     }
 } 

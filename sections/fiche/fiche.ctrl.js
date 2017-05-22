@@ -1747,25 +1747,39 @@ angular
                         }
 
                         vm.fnSaveProduit = function(){
+                            console.clear();
+                            console.log(vm.arrProduits);
+                            var arrListCheckoutProds = new Array();
+                            angular.forEach(vm.arrProduits, function(value, key){
+                                arrListCheckoutProds[key] = {};
+                               arrListCheckoutProds[key][value.idn_key] = value.random_str;
+                               // arrListCheckoutProds.push(value.random_str);
+                            });
+                            console.log(JSON.stringify(arrListCheckoutProds));
                             $http({
                                 method: 'GET',
-                                params: {mode:5, id:id},
+                                params: {mode:20, list:JSON.stringify(arrListCheckoutProds)},
                                 url: 'api/v1/sampleControl.php'
                             }).then(function successCallback(response) {
-
-                            }, function errorCallback(error) {
+                                vm.arrProduits = [];
+                                sessionStorage.clear();
+                                $('#modalMaquette').modal('hide');
+                                    $('#modalPanier').modal('hide');
+                                toastr.success("Order Confirmed");
+                            }
+                            , function errorCallback(error) {
                                 console.log(error);
                             });
 
 
-                            bootbox.alert('Votre Schèma a été enregistré.');
+                           /* bootbox.alert('Votre Schèma a été enregistré.');
                             toastr.options.positionClass = 'toast-top-right';
                             toastr.success("Enregistrement terminé");
                             //localStorage.setItem("id_model", $id_cata);
 
 
 
-                            $("#modalMaquette").modal('hide');
+                            $("#modalMaquette").modal('hide');*/
                         };
 
                         vm.fnGetFraisLivr = function() {
