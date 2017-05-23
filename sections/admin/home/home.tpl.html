@@ -3,27 +3,111 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-3 col-md-3 box_header">
-            <h3 class="stitched">Commande receptionné</h3>
-            <div class="box_content">
-
-                <div>
-                    <span>#5421</span>
-                    <p style="text-align: center">Client Name</p>
-                </div>
-            </div>
-            <div class="box_content">
-
+            <h3 class="stitched">Nouveau</h3>
+            <div ng-repeat="order in home.listOrders" style="margin-bottom: 20px;" ng-show="order.status == 'NEW'">
+                <table class="customers" style="width: 100%">
+                    <tr>
+                        <th>
+                            Order No: {{order.id}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <div>Date: {{order.date_created}}</div>
+                                <div>Nb Produits: {{order.num_prods}}</div>
+                                <div>Montant: {{order.total_prix_ttc}}</div>
+                                <div>
+                                    <span><button class="btn btn-success" ng-click="home.fnStart(order)">Démarrer</button></span>
+                                    <span><button class="btn btn-danger">Rejeter</button></span>
+                                    <span class="glyphicon glyphicon-eye-open pull-right" style="cursor:pointer;" ng-click="home.fnToggleEye(order)"></span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr ng-show="order.displayDetails">
+                        <table ng-show="order.displayDetails" class="customer" ng-repeat="item in order.details" style="width: 100%;">
+                            <tr>
+                                <th style="background-color: lightskyblue">
+                                    Titre: {{item.title}}
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>
+                                        <img src="{{item.base64_image}}" style="width: 100%;">
+                                    </div>
+                                    <div>
+                                        Qte : {{item.qte}}
+                                    </div>
+                                    <div>
+                                        Montant: {{item.prix_ttc}}
+                                    </div>
+                                    <div>
+                                        Commentaire: {{item.commentaire}}
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </tr>
+                </table>
             </div>
         </div>
         <div class="col-sm-3 col-md-3 box_header">
-            <h3 class="stitched">Commande en cours</h3>
-            <div class="box_content">
-
+            <h3 class="stitched">En cours</h3>
+            <div ng-repeat="order in home.listOrders" style="margin-bottom: 20px;" ng-show="order.status == 'INPROCESS'">
+                <table class="customers" style="width: 100%">
+                    <tr>
+                        <th>
+                            Order No: {{order.id}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <div>Date Crée: {{order.date_created}}</div>
+                                <div>Date debuté: {{order.date_modified}}</div>
+                                <div>Nb Produits: {{order.num_prods}}</div>
+                                <div>Montant: {{order.total_prix_ttc}}</div>
+                                <div>
+                                    <span><button class="btn btn-success" ng-click="home.fnStart(order)">Terminer</button></span>
+                                    <span><button class="btn btn-danger">Rejeter</button></span>
+                                    <span class="glyphicon glyphicon-eye-open pull-right" style="cursor:pointer;" ng-click="home.fnToggleEye(order)"></span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr ng-show="order.displayDetails">
+                        <table ng-show="order.displayDetails" class="customer" ng-repeat="item in order.details" style="width: 100%;">
+                            <tr>
+                                <th style="background-color: lightskyblue">
+                                    Titre: {{item.title}}
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>
+                                        <img src="{{item.base64_image}}" style="width: 100%;">
+                                    </div>
+                                    <div>
+                                        Qte : {{item.qte}}
+                                    </div>
+                                    <div>
+                                        Montant: {{item.prix_ttc}}
+                                    </div>
+                                    <div>
+                                        Commentaire: {{item.commentaire}}
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </tr>
+                </table>
             </div>
 
         </div>
         <div class="col-sm-3 col-md-3 box_header">
-            <h3 class="stitched">Retour Client</h3>
+            <h3 class="stitched">Rejeté</h3>
             <div class="box_content">
 
             </div>

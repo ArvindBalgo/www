@@ -371,33 +371,33 @@ class orders_details
 
         if ($this->_id > 0) {
             $requete = "UPDATE orders_details SET id_order='" . ($this->_id_order) . "'";
-            $requete .= ",base64_image='".$this->_base64_image."'";
-            $requete .= ",bonrepli='".$this->_bonrepli."'";
-            $requete .= ",commentaire='".$this->_commentaire."'";
-            $requete .= ",dimension='".$this->_dimension."'";
-            $requete .= ",id_dimension='".$this->_id_dimension."'";
-            $requete .= ",escargot='".$this->_escargot."'";
-            $requete .= ",escargot_val='".$this->_escargot_val."'";
-            $requete .= ",contours='".$this->_contours."'";
-            $requete .= ",liserai='".$this->_liserai."'";
-            $requete .= ",opt='".$this->_opt."'";
-            $requete .= ",prix_ht='".$this->_prix_ht."'";
-            $requete .= ",prix_ttc='".$this->_prix_ttc."'";
-            $requete .= ",unitprix='".$this->_unit_prix."'";
-            $requete .= ",prix_livraison_ht='".$this->_prix_livraison_ht."'";
-            $requete .= ",prix_livraison_ttc='".$this->_prix_livraison_ttc."'";
-            $requete .= ",idsupport='".$this->_idsupport."'";
-            $requete .= ",support='".$this->_support."'";
-            $requete .= ",qte='".$this->_qte."'";
-            $requete .= ",id_qte='".$this->_id_qte."'";
-            $requete .= ",title='".$this->_title."'";
-            $requete .= ",data='".json_encode($this->_data)."'";
-            $requete .= ",created_by='".$this->_created_by."'";
-            $requete .= ",modified_by='".$this->_modified_by."'";
-            $requete .= ",date_created='".$this->_date_created."'";
-            $requete .= ",date_modified='".$this->_date_modified."'";
-            $requete .= ",flag='".$this->_flag."'";
-            $requete .= ",status='".$this->_status."'";
+            $requete .= ",base64_image='" . $this->_base64_image . "'";
+            $requete .= ",bonrepli='" . $this->_bonrepli . "'";
+            $requete .= ",commentaire='" . $this->_commentaire . "'";
+            $requete .= ",dimension='" . $this->_dimension . "'";
+            $requete .= ",id_dimension='" . $this->_id_dimension . "'";
+            $requete .= ",escargot='" . $this->_escargot . "'";
+            $requete .= ",escargot_val='" . $this->_escargot_val . "'";
+            $requete .= ",contours='" . $this->_contours . "'";
+            $requete .= ",liserai='" . $this->_liserai . "'";
+            $requete .= ",opt='" . $this->_opt . "'";
+            $requete .= ",prix_ht='" . $this->_prix_ht . "'";
+            $requete .= ",prix_ttc='" . $this->_prix_ttc . "'";
+            $requete .= ",unitprix='" . $this->_unit_prix . "'";
+            $requete .= ",prix_livraison_ht='" . $this->_prix_livraison_ht . "'";
+            $requete .= ",prix_livraison_ttc='" . $this->_prix_livraison_ttc . "'";
+            $requete .= ",idsupport='" . $this->_idsupport . "'";
+            $requete .= ",support='" . $this->_support . "'";
+            $requete .= ",qte='" . $this->_qte . "'";
+            $requete .= ",id_qte='" . $this->_id_qte . "'";
+            $requete .= ",title='" . $this->_title . "'";
+            $requete .= ",data='" . json_encode($this->_data) . "'";
+            $requete .= ",created_by='" . $this->_created_by . "'";
+            $requete .= ",modified_by='" . $this->_modified_by . "'";
+            $requete .= ",date_created='" . $this->_date_created . "'";
+            $requete .= ",date_modified='" . $this->_date_modified . "'";
+            $requete .= ",flag='" . $this->_flag . "'";
+            $requete .= ",status='" . $this->_status . "'";
             $requete .= " WHERE id=" . $this->_id;
 
         } else {
@@ -458,7 +458,7 @@ class orders_details
             $requete .= "'" . $this->_date_created . "',";
             $requete .= "'" . $this->_date_modified . "',";
             $requete .= "'" . $this->_flag . "',";
-            $requete .= "'" . $this->_status. "')";
+            $requete .= "'" . $this->_status . "')";
         }
         $r = $this->conn->query($requete) or die($this->conn->error . __LINE__);
         return $r;
@@ -519,5 +519,29 @@ class orders_details
         $rs = $this->conn->query($requete);
 
         return $this->mapSqlToObject(mysqli_fetch_array($rs));
+    }
+
+    public function getCountProds($id)
+    {
+        $requete = "select count(*) as prods from orders_details WHERE id_order=" . $id;
+        $rs = $this->conn->query($requete);
+        return mysqli_fetch_array($rs);
+    }
+
+    public function getProds($id)
+    {
+        $requete = "select * from orders_details WHERE id_order=" . $id;
+        $rs = $this->conn->query($requete);
+        $rows = [];
+        while ($row = mysqli_fetch_array($rs)) {
+            $rows[] = $row;
+        }
+        return $rows;
+    }
+
+    public function updateStatusProds($id, $status) {
+        $requete = "update order_details set status=".$status." where id_order=".$id;
+        $rs = $this->conn->query($requete);
+        return "done";
     }
 } 

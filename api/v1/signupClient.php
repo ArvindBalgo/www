@@ -1,5 +1,4 @@
 <?php
-
 require 'authFN.php';
 require_once '../classes/passwordHash.php';
 $response = array();
@@ -9,6 +8,7 @@ verifyRequiredParams(array('email', 'name', 'password'),$r->customer);
 $db = new DbHandler();
 $phone = $r->customer->phone;
 $name = $r->customer->name;
+$surname = $r->customer->surname;
 $email = $r->customer->email;
 $address = $r->customer->address;
 $password = $r->customer->password;
@@ -16,7 +16,7 @@ $isUserExists = $db->getOneRecord("select 1 from customers_auth where (phone='$p
 if(!$isUserExists){
     $r->customer->password = passwordHash::hash($password);
     $table_name = "customers_auth";
-    $column_names = array('phone', 'name', 'email', 'password', 'city', 'address', 'pays');
+    $column_names = array('phone', 'name','surname', 'email', 'password', 'city', 'address', 'pays');
     $result = $db->insertIntoTable($r->customer, $column_names, $table_name);
     if ($result != NULL) {
         $response["status"] = "success";
@@ -28,6 +28,7 @@ if(!$isUserExists){
         $_SESSION['uid'] = $response["uid"];
         $_SESSION['phone'] = $phone;
         $_SESSION['name'] = $name;
+        $_SESSION['surname'] = $surname;
         $_SESSION['email'] = $email;
         $_SESSION['admin'] = 0;
         echoResponse(200, $response);

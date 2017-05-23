@@ -57,3 +57,4 @@ include_once '../classes/frais_livraison.php';
 include_once '../classes/orders_main.php';
 include_once '../classes/orders_details.php';
 include_once '../classes/tva.php';
+include_once '../classes/users.php';

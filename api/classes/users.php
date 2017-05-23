@@ -38,6 +38,7 @@ class users {
     //**** Variables declarations ****
     private $_uid = null;
     private $_name = null;
+    private $_surname = "";
     private $_email = null;
     private $_phone = null;
     private $_password = null;
@@ -46,7 +47,7 @@ class users {
     private $_pays = "FR";
     private $_created = null;
 
-    private static $SELECT = "SELECT * FROM USERS ";
+    private static $SELECT = "SELECT * FROM customers_auth ";
 
 
     //**** Constructeur ****
@@ -64,6 +65,10 @@ class users {
 
     public function setName($name) {
         $this->_name = $name;
+    }
+
+    public function setSurname($name) {
+        $this->_surname = $name;
     }
 
     public function setEmail($email) {
@@ -104,6 +109,11 @@ class users {
         return $this->_name;
     }
 
+
+    public function getSurname() {
+        return $this->_surname;
+    }
+
     public function getEmail(){
         return $this->_email;
     }
@@ -133,7 +143,7 @@ class users {
     }
 
     public function delete($uid) {
-        $requete = "delete from users where uid=" . $uid ;
+        $requete = "delete from customers_auth where uid=" . $uid ;
         $r = $this->conn->query($requete) or die($this->conn->error.__LINE__);
     }
 
@@ -145,7 +155,8 @@ class users {
             $this->_created = date('Y/m/d H:i:s', time());
         }
         if ($this->_uid > 0) {
-            $requete = "update users set name='" . ($this->_name) . "'";
+            $requete = "update customers_auth set name='" . ($this->_name) . "'";
+            $requete .= ",surname='" . $this->_surname . "',";
             $requete .= ",email='" . $this->_email . "',";
             $requete .= ",phone='" . $this->_phone . "',";
             $requete .= ",password='" . $this->_password . "',";
@@ -156,9 +167,10 @@ class users {
             $requete .= " where uid=" . $this->_uid;
 
         } else {
-            $requete = "insert into users (";
+            $requete = "insert into customers_auth (";
             $requete .= "uid,";
             $requete .= "name,";
+            $requete .= "surname,";
             $requete .= "email,";
             $requete .= "phone,";
             $requete .= "password,";
@@ -169,6 +181,7 @@ class users {
             $requete .= ") VALUES (";
             $requete .= "'" . $this->_uid . "',";
             $requete .= "'" . $this->_name . "',";
+            $requete .= "'" . $this->_surname . "',";
             $requete .= "'" . $this->_email . "',";
             $requete .= "'" . $this->_phone . "',";
             $requete .= "'" . $this->_password . "',";
@@ -186,16 +199,21 @@ class users {
 
     //***** Fonction de passege sql->objet *****
     private function mapSqlToObject($rs) {
+        if(!$rs || $rs == null ) {
+            return false;
+        }
+
         $user = new users();
-        $user->_uid = $rs->fields["uid"];
-        $user->_name = $rs->fields["name"];
-        $user->_email = $rs->fields["email"];
-        $user->_phone = $rs->fields["phone"];
-        $user->_password = $rs->fields["password"];
-        $user->_address = $rs->fields["address"];
-        $user->_city = $rs->fields["city"];
-        $user->_pays = $rs->fields["pays"];
-        $user->_created = $rs->fields["created"];
+        $user->_uid = $rs["uid"];
+        $user->_name = $rs["name"];
+        $user->_surname = $rs["surname"];
+        $user->_email = $rs["email"];
+        $user->_phone = $rs["phone"];
+        $user->_password = $rs["password"];
+        $user->_address = $rs["address"];
+        $user->_city = $rs["city"];
+        $user->_pays = $rs["pays"];
+        $user->_created = $rs["created"];
         return $user;
     }
 
@@ -214,9 +232,6 @@ class users {
     public function findByPrimaryKey($key) { // Recherche d'une adresse par id
         $requete = self::$SELECT . " WHERE uid=" . $key;
         $rs = $this->conn->query($requete);
-        if ($rs->EOF) {
-            return null;
-        }
-        return $this->mapSqlToObject($rs);
+        return $this->mapSqlToObject(mysqli_fetch_array($rs));
     }
 } 
