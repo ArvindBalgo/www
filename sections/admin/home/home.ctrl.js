@@ -72,6 +72,60 @@ angular
                 .error(function (data, status, headers, config) {
                 });
         };
+
+        vm.fnReject = function(item) {
+            bootbox.prompt("Raison: ", function(result) {
+                if(result && result.trim() !='') {
+                    console.log(result);
+                    $http({
+                        method  : "POST",
+                        url     : "/api/v1/commande.php",
+                        data: $.param({mode:4, idOrder:item.id, status:'REJECT', comments:result.trim()}),
+                        headers : {'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'}
+                    })
+                        .success(function (data, status, headers, config) {
+                            console.log(data);
+                            vm.listOrders = data;
+                        })
+                        .error(function (data, status, headers, config) {
+                        });
+                }
+                else if(result && result.trim() == '') {
+                    vm.fnReject(item);
+                }
+            });
+        };
+
+        vm.fnRecup = function(item) {
+            $http({
+                method  : "POST",
+                url     : "/api/v1/commande.php",
+                data: $.param({mode:5, idOrder:item.id, status:'INPROCESS'}),
+                headers : {'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'}
+            })
+                .success(function (data, status, headers, config) {
+                    console.log(data);
+                    vm.listOrders = data;
+                })
+                .error(function (data, status, headers, config) {
+                });
+        };
+
+        vm.fnEnd = function(item) {
+            $http({
+                method  : "POST",
+                url     : "/api/v1/commande.php",
+                data: $.param({mode:5, idOrder:item.id, status:'COMPLETE'}),
+                headers : {'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'}
+            })
+                .success(function (data, status, headers, config) {
+                    console.log(data);
+                    vm.listOrders = data;
+                })
+                .error(function (data, status, headers, config) {
+                });
+        };
+
         $scope.fnSession();
     });
 

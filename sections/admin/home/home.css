@@ -1,6 +1,7 @@
 .box_header {
-    border-right: thick solid #ff83ae;
-    border-bottom: thick solid #ff83ae;
+   /* border-right: thick solid mediumpurple;
+    border-left: thick solid mediumpurple;
+    border-bottom: thick solid mediumpurple;*/
 }
 
 .box_title {
@@ -17,16 +18,14 @@
 .stitched {
     padding: 20px;
     margin: 10px;
-    background: #ff7777;
+    background: rebeccapurple;
     color: #fff;
     font-size: 21px;
     font-weight: bold;
     line-height: 1.3em;
-    border: 2px dashed #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 0 4px #ff7777, 2px 1px 6px 4px rgba(10, 10, 0, 0.5);
+    border-radius: 2px;
+    box-shadow: 0 0 0 4px mediumpurple, 2px 1px 6px 4px rgba(10, 10, 0, 0.5);
     text-shadow: -1px -1px #aa3030;
-    font-weight: normal;
     text-align: center;
 }
 

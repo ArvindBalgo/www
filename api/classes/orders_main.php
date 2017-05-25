@@ -11,6 +11,7 @@ class orders_main
     private $_total_prix_ttc = 0;
     private $_tax = 0;
     private $_total_prix_net = 0;
+    private $_comments = "";
     private $_status = "";
     private $_date_created = "";
     private $_date_modified = "";
@@ -72,6 +73,11 @@ class orders_main
     public function setStatus($val)
     {
         $this->_status = $val;
+    }
+
+    public function setComments($val)
+    {
+        $this->_comments = $val;
     }
 
     public function setDateCreated($val)
@@ -141,6 +147,12 @@ class orders_main
         return $this->_status;
     }
 
+
+    public function getComments()
+    {
+        return $this->_comments;
+    }
+
     public function getDateCreated()
     {
         return $this->_date_created;
@@ -179,6 +191,7 @@ class orders_main
             $requete .= ", total_prix_ttc='".$this->_total_prix_ttc . "'";
             $requete .= ", tax='".$this->_tax . "'";
             $requete .= ", total_prix_net='".$this->_total_prix_net . "'";
+            $requete .= ", comments='".$this->_comments . "'";
             $requete .= ", status='".$this->_status . "'";
             $requete .= ", date_created='".$this->_date_created . "'";
             $requete .= ", date_modified='".$this->_date_modified . "'";
@@ -195,6 +208,7 @@ class orders_main
             $requete .= ",total_prix_ttc";
             $requete .= ",tax";
             $requete .= ",total_prix_net";
+            $requete .= ",comments";
             $requete .= ",status";
             $requete .= ",date_created";
             $requete .= ",date_modified";
@@ -208,6 +222,7 @@ class orders_main
             $requete .= "'" . $this->_total_prix_ttc . "',";
             $requete .= "'" . $this->_tax . "',";
             $requete .= "'" . $this->_total_prix_net. "',";
+            $requete .= "'" . $this->_comments . "',";
             $requete .= "'" . $this->_status . "',";
             $requete .= "'" . $this->_date_created. "',";
             $requete .= "'" . $this->_date_modified . "',";
@@ -232,6 +247,7 @@ class orders_main
         $orders_main->_total_prix_ttc = $rs["total_prix_ttc"];
         $orders_main->_tax = $rs["tax"];
         $orders_main->_total_prix_net = $rs["total_prix_net"];
+        $orders_main->_comments = $rs["comments"];
         $orders_main->_status = $rs["status"];
         $orders_main->_date_created = $rs["date_created"];
         $orders_main->_date_modified = $rs["date_modified"];
