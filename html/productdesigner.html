@@ -23,12 +23,15 @@
 			</div>
 		</div>
 
-		<div class="fpd-text-tools fpd-row fpd-clearfix">
+		<div class="fpd-text-tools fpd-text-font-tools fpd-row fpd-clearfix">
 			<div class="fpd-tool-font-family fpd-dropdown fpd-search">
 				<input type="text" class="fpd-dropdown-current" data-control="fontFamily" value="Helvetica" />
 				<div class="fpd-dropdown-arrow"><span class="fpd-icon-arrow-dropdown"></span></div>
 				<div class="fpd-dropdown-list"></div>
 			</div>
+		</div>
+
+		<div class="fpd-text-tools fpd-text-size-tools fpd-row fpd-clearfix">
 			<div class="fpd-tool-text-size fpd-tooltip" data-defaulttext="Font Size" title="toolbar.font_size">
 				<span class="fpd-icon-format-size"></span>
 				<input type="number" class="fpd-number" value="12" step="1" min="1" max="1000" data-control="fontSize" />
@@ -37,9 +40,13 @@
 				<span class="fpd-icon-format-line-spacing"></span>
 				<input type="number" class="fpd-number" value="1" step="0.1" min="1" max="3" data-control="lineHeight" />
 			</div>
+			<div class="fpd-tool-text-letter-spacing fpd-tooltip" data-defaulttext="Letter Spacing" title="toolbar.letter_spacing">
+				<span class="fpd-icon-letter-spacing"></span>
+				<input type="number" class="fpd-number" value="0" step="1" min="0" max="100" data-control="letterSpacing" />
+			</div>
 		</div>
 
-		<div class="fpd-text-tools fpd-row fpd-clearfix">
+		<div class="fpd-text-tools fpd-text-random-tools fpd-row fpd-clearfix">
 			<div class="fpd-tool-text-bold fpd-toggle fpd-tooltip" data-defaulttext="Bold" data-control="fontWeight" data-enabled="bold" data-disabled="normal" title="toolbar.bold">
 				<span class="fpd-icon-format-bold"></span>
 			</div>
@@ -63,6 +70,9 @@
 					</span>
 					<span class="fpd-item" data-value="right">
 						<span class="fpd-icon-format-align-right"></span>
+					</span>
+					<span class="fpd-item" data-value="justify">
+						<span class="fpd-icon-format-align-justify"></span>
 					</span>
 				</div>
 			</div>

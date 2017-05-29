@@ -1,16 +1,19 @@
 <header ng-include="'sections/header.html'"></header>
-<div class="a2a_kit a2a_kit_size_52 a2a_floating_style a2a_vertical_style" style="right:0px; top:100px;background-color: transparent;">
+<div class="a2a_kit a2a_kit_size_52 a2a_floating_style a2a_vertical_style"
+     style="right:0px; top:100px;background-color: transparent;">
     <!--a class="a2a_button_facebook"></a>
     <a class="a2a_button_twitter"></a>
     <a-- class="a2a_button_google_plus"></a-->
     <!--a class="">Passer la commande</a-->
     <!--a-- class="">Ajouter au Panier</a-->
     <div style="margin-bottom: 5px;">
-        <img src="{{fiche.linkMonPanier}}" ng-click="fiche.fnClickPanier()" style="width:120px; height:65px;cursor:pointer;">
+        <img src="{{fiche.linkMonPanier}}" ng-click="fiche.fnClickPanier()"
+             style="width:120px; height:65px;cursor:pointer;">
 
     </div>
     <div>
-        <img src="{{fiche.linkAjoutPanier}}" ng-click="fiche.fnAddBasket()" style="width:120px; height:65px;cursor:pointer;">
+        <img src="{{fiche.linkAjoutPanier}}" ng-click="fiche.fnAddBasket()"
+             style="width:120px; height:65px;cursor:pointer;">
     </div>
 
     <!--a class="btn btn-warning" ng-click="fiche.fnClickPanier()" style="margin-bottom: 5px;"><div class="glyphicon glyphicon-shopping-cart"></div><div>{{langue.panier}}</div><div>({{fiche.countProds}})</div></a>
@@ -24,7 +27,8 @@
         <div class="col-md-12">
             <div id="main-container">
                 <div class="row">
-                    <div class="col-md-9" style="margin-left: 50px"><h3 id="clothing">{{'create_maquette' | translate}}</h3></div>
+                    <div class="col-md-9" style="margin-left: 50px"><h3 id="clothing">{{'create_maquette' |
+                        translate}}</h3></div>
                 </div>
 
                 <div class="row" style="margin: 2px">
@@ -35,7 +39,8 @@
                                 {{'titre' | translate}}
                             </div>
                             <div class="col-md-7">
-                                <input type="text" class="form-control" ng-model="fiche.produit.titre" placeholder="Titre" aria-describedby="basic-addon1">
+                                <input type="text" class="form-control" ng-model="fiche.produit.titre"
+                                       placeholder="Titre" aria-describedby="basic-addon1">
                             </div>
                         </div>
                         <div class="col-md-12" style="padding-bottom: 5px" ng-show="fiche.productList[0].escargot == 1">
@@ -45,18 +50,22 @@
                             <div class="col-md-7">
                                 <form>
                                     <label class="radio-inline">
-                                        <input id="aucunEscargot" type="radio" name="optescargot" value="0">{{'aucun' |translate}}
+                                        <input id="aucunEscargot" type="radio" name="optescargot" value="0">{{'aucun'
+                                        |translate}}
                                     </label>
                                     <label class="radio-inline">
-                                        <input id="avecTrou" type="radio" name="optescargot" value="1">{{'attache_escargot' | translate}}
+                                        <input id="avecTrou" type="radio" name="optescargot" value="1">{{'attache_escargot'
+                                        | translate}}
                                     </label>
                                     <label class="radio-inline">
-                                        <input id="sansTrou" type="radio" name="optescargot" value="2">{{'avec_trou' | translate}}
+                                        <input id="sansTrou" type="radio" name="optescargot" value="2">{{'avec_trou' |
+                                        translate}}
                                     </label>
                                 </form>
                             </div>
                         </div>
-                        <div class="col-md-12" style="padding-bottom: 5px" ng-show="fiche.productList[0].contours == 1 || fiche.productList[0].liserai == 1">
+                        <div class="col-md-12" style="padding-bottom: 5px"
+                             ng-show="fiche.productList[0].contours == 1 || fiche.productList[0].liserai == 1">
                             <div class="col-md-3" style="font-weight: bold">
                                 {{'carac_add' | translate}}
                             </div>
@@ -69,7 +78,8 @@
                                         <input id="trait" type="radio" name="optradio" value="1">{{'cadre' | translate}}
                                     </label>
                                     <label class="radio-inline" ng-show="fiche.productList[0].liserai == 1">
-                                        <input id="liserai" type="radio" name="optradio" value="2">{{'lisere' | translate}}
+                                        <input id="liserai" type="radio" name="optradio" value="2">{{'lisere' |
+                                        translate}}
                                     </label>
                                 </form>
                             </div>
@@ -80,11 +90,13 @@
                             </div>
                             <div class="col-md-7">
                                 <form>
-                                    <label  class="radio-inline">
-                                        <input id="cmdBonTirer" type="radio" name="optcommande" value="1">{{'bonatirer_avec' | translate}}
+                                    <label class="radio-inline">
+                                        <input id="cmdBonTirer" type="radio" name="optcommande" value="1">{{'bonatirer_avec'
+                                        | translate}}
                                     </label>
                                     <label class="radio-inline">
-                                        <input id="cmdBonNonTirer" type="radio" name="optcommande" value="2">{{'bonatirer_sans' | translate}}
+                                        <input id="cmdBonNonTirer" type="radio" name="optcommande" value="2">{{'bonatirer_sans'
+                                        | translate}}
                                     </label>
                                 </form>
                             </div>
@@ -118,7 +130,8 @@
                                 {{'vos_instructions' | translate}}
                             </div>
                             <div class="col-md-7">
-                                <textarea class="form-control" rows="5" id="comment" ng-model="fiche.produit.commentaire"></textarea>
+                                <textarea class="form-control" rows="5" id="comment"
+                                          ng-model="fiche.produit.commentaire"></textarea>
                             </div>
                         </div>
                         <!--div class="col-md-12">
@@ -139,8 +152,17 @@
                         </div-->
                     </div>
                     <div class="col-md-12" style="margin: 5px">
-                        <button ng-click="fiche.fnMetierList();" class="col-md-3 btn btn-lg " style="background-color: #D893E3; color: white; text-wrap: normal"><span><img src="images/icons/gallery.ico" style="height: 50px;width:50px"></span> {{'galerie_models' | translate}}</button>
-                        <button  class="col-md-3 btn btn-lg pull-right" style="background-color: lightcoral; color: white; text-wrap: normal" ng-click="fiche.loadModalImgs()"> <span><img src="assets/images/gallery_icon.png" style="height: 50px;width:50px"></span>Gallery Images</button>
+                        <button ng-click="fiche.fnMetierList();" class="col-md-3 btn btn-lg "
+                                style="background-color: #D893E3; color: white; text-wrap: normal"><span><img
+                                src="images/icons/gallery.ico" style="height: 50px;width:50px"></span>
+                            {{'galerie_models' | translate}}
+                        </button>
+                        <button class="col-md-3 btn btn-lg pull-right"
+                                style="background-color: lightcoral; color: white; text-wrap: normal"
+                                ng-click="fiche.loadModalImgs()"><span><img src="assets/images/gallery_icon.png"
+                                                                            style="height: 50px;width:50px"></span>Gallery
+                            Images
+                        </button>
                         <div class=" col-md-6" style="text-align: center; color: darkgrey">
                             <div>
                                 <b>{{'conception_msg' | translate}}</b>
@@ -154,12 +176,13 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <div id="model" class="fpd-container fpd-shadow-2 fpd-topbar fpd-tabs fpd-tabs-side fpd-top-actions-centered fpd-bottom-actions-centered fpd-views-inside-left">
+                        <div id="model"
+                             class="fpd-container fpd-shadow-2 fpd-topbar fpd-tabs fpd-tabs-side fpd-top-actions-centered fpd-bottom-actions-centered fpd-views-inside-left">
                         </div>
                     </div>
                 </div>
 
-                <br />
+                <br/>
             </div>
         </div>
     </div>
@@ -169,18 +192,21 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><span><img src="images/icons/gallery.ico" style="height: 50px;width:50px">{{'galerie_models' | translate}}</span></h4>
+                <h4 class="modal-title"><span><img src="images/icons/gallery.ico" style="height: 50px;width:50px">{{'galerie_models' | translate}}</span>
+                </h4>
             </div>
             <div class="modal-body" style="height: 550px;overflow: scroll">
                 <div class="row" style="padding: 3px;">
-                    <div class="col-md-2">{{'type_model' | translate}} </div>
-                    <div id="selModelMetier" class="col-md-10" >
+                    <div class="col-md-2">{{'type_model' | translate}}</div>
+                    <div id="selModelMetier" class="col-md-10">
                         <select class="sel_model_metier" style="width: 75%;"></select>
                     </div>
                 </div>
                 <ul class="nav nav-tabs">
-                    <li id="tab1" ng-class="{ active: fiche.activeId == 1 }" style="cursor: pointer" ng-click="fiche.fnClickTabs(1)"><a>{{'maquette_avec' | translate}}</a></li>
-                    <li id="tab2" ng-class="{ active: fiche.activeId == 2 }" style="cursor: pointer" ng-click="fiche.fnClickTabs(2)"><a>{{'maquette_sans' | translate}}</a></li>
+                    <li id="tab1" ng-class="{ active: fiche.activeId == 1 }" style="cursor: pointer"
+                        ng-click="fiche.fnClickTabs(1)"><a>{{'maquette_avec' | translate}}</a></li>
+                    <li id="tab2" ng-class="{ active: fiche.activeId == 2 }" style="cursor: pointer"
+                        ng-click="fiche.fnClickTabs(2)"><a>{{'maquette_sans' | translate}}</a></li>
                 </ul>
                 <div ng-show="fiche.isShow == 1">
                     <!--div class="row" style="padding: 3px;">
@@ -190,8 +216,10 @@
                         </div>
                     </div-->
 
-                    <div class="col-md-4" style="margin-bottom: 5px; margin-top: 5px;" ng-repeat="model in fiche.models">
-                        <div class="tileImg" style="height: 250px" ng-click="fiche.fnModelClick(model.id_cata, model.id_metier)" >
+                    <div class="col-md-4" style="margin-bottom: 5px; margin-top: 5px;"
+                         ng-repeat="model in fiche.models">
+                        <div class="tileImg" style="height: 250px"
+                             ng-click="fiche.fnModelClick(model.id_cata, model.id_metier)">
                             <img style="width: 100%; height: 200px" src="{{model.src}}">
                             <span><p>{{model.description}}</p></span>
                         </div>
@@ -201,7 +229,8 @@
                 <div ng-show="fiche.isShow == 2">
                     <div class="col-md-4" style="margin-bottom: 5px; margin-top: 5px;" ng-repeat="model in fiche.
                     gabarits">
-                        <div class="tileImg" style="height: 250px" ng-click="fiche.fnModelClick(model.id_cata, model.id_metier)" >
+                        <div class="tileImg" style="height: 250px"
+                             ng-click="fiche.fnModelClick(model.id_cata, model.id_metier)">
                             <img style="width: 100%; height: 200px" src="{{model.src}}">
                             <span><p>{{model.description}}</p></span>
                         </div>
@@ -226,49 +255,77 @@
                         <table border="1">
                             <th class="paddingTable">{{'titre' | translate}}</th>
                             <th class="paddingTable">{{'qte' | translate}}</th>
-                            <th class="paddingTable">{{'unit_price' | translate}}</th>
-                            <th class="paddingTable">Prix HT</th>
-                            <th class="paddingTable">Prix TTC</th>
+                            <th class="paddingTable">{{'unit_price' | translate}} <small>(Euro)</small></th>
+                            <th class="paddingTable">Prix HT <small>(Euro)</small></th>
+                            <th class="paddingTable">Prix TTC <small>(Euro)</small></th>
                             <tr ng-repeat="(key, ligne) in fiche.arrProduits">
                                 <td class="paddingTable">{{ligne.title}}</td>
                                 <td class="paddingTable">{{ligne.qte}}</td>
-                                <td class="paddingTable" style="font-weight: bold"> {{ligne.unitprix}} <span class="glyphicon glyphicon-euro"></span></td>
-                                <td class="paddingTable" style="font-weight: bold"> {{(ligne.unitprix * ligne.qte).toFixed(2)}} <span class="glyphicon glyphicon-euro"></span></td>
-                                <td class="paddingTable" style="font-weight: bold"> {{(ligne.unitprix * ligne.qte * fiche.montants.valTax).toFixed(2)}} <span class="glyphicon glyphicon-euro"></span></td>
+                                <td class="paddingTable" style="font-weight: bold; font-size: smaller"> {{ligne.unitprix}}</td>
+                                <td class="paddingTable" style="font-weight: bold; font-size: smaller"> {{(ligne.unitprix *
+                                    ligne.qte).toFixed(2)}} </td>
+                                <td class="paddingTable" style="font-weight: bold; font-size: smaller"> {{(ligne.unitprix * ligne.qte *
+                                    fiche.montants.valTax).toFixed(2)}}
+                                </td>
                             </tr>
                         </table>
                     </div>
                     <div class="col-md-7">
                         <div class="col-md-12" style="margin-bottom: 25px;">
-                        <label class="label label-default" style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">Frais Livraison : </label>
-                        <label class="label label-primary" style="font-size: large; width: 165px;display: inline-block;text-align: right;">{{fiche.montants.frais_livr}} <span class="glyphicon glyphicon-euro"></span></label>
+                            <label class="label label-default label-sm"
+                                   style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">Frais
+                                Livraison : </label>
+                            <label class="label label-primary label-sm"
+                                   style="font-size: large; width: 165px;display: inline-block;text-align: right;">{{fiche.montants.frais_livr}}
+                                <small> Euro</small>
                         </div>
-                        <div class="col-md-12"  style="margin-bottom: 25px;">
-                            <label class="label label-default" style="font-size: large; width: 165px ; margin-right: 10px;display: inline-block;text-align: right;">Prix totale HT : </label>
-                            <label class="label label-primary" style="font-size: large; width: 165px;display: inline-block;text-align: right;">{{fiche.montants.prix_total_ht}} <span class="glyphicon glyphicon-euro"></span></label>
+                        <div class="col-md-12" style="margin-bottom: 25px;">
+                            <label class="label label-default"
+                                   style="font-size: large; width: 165px ; margin-right: 10px;display: inline-block;text-align: right;">Prix
+                                totale HT : </label>
+                            <label class="label label-primary"
+                                   style="font-size: large; width: 165px;display: inline-block;text-align: right;">{{fiche.montants.prix_total_ht}}
+                                <small> Euro</small></label>
                         </div>
-                        <div class="col-md-12"  style="margin-bottom: 25px;">
-                            <label class="label label-default" style="font-size: large; width: 165px ; margin-right: 10px;display: inline-block;text-align: right;">TVA : </label>
-                            <label class="label label-primary" style="font-size: large; width: 165px;display: inline-block;text-align: right;">{{fiche.montants.tax}} <span class="glyphicon glyphicon-euro"></span></label>
+                        <div class="col-md-12" style="margin-bottom: 25px;">
+                            <label class="label label-default"
+                                   style="font-size: large; width: 165px ; margin-right: 10px;display: inline-block;text-align: right;">TVA
+                                : </label>
+                            <label class="label label-primary"
+                                   style="font-size: large; width: 165px;display: inline-block;text-align: right;">{{fiche.montants.tax}}
+                                <small> Euro</small></label>
                         </div>
-                        <div class="col-md-12"  style="margin-bottom: 25px;">
-                            <label class="label label-default" style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">Prix totale TTC : </label>
-                            <label class="label label-primary" style="font-size: large; width: 165px;display: inline-block;text-align: right;">{{fiche.montants.prix_ttc}} <span class="glyphicon glyphicon-euro"></span></label>
+                        <div class="col-md-12" style="margin-bottom: 25px;">
+                            <label class="label label-default"
+                                   style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">Prix
+                                totale TTC : </label>
+                            <label class="label label-primary"
+                                   style="font-size: large; width: 165px;display: inline-block;text-align: right;">{{fiche.montants.prix_ttc}}
+                                <small> Euro</small></label>
                         </div>
-                        <div class="col-md-12"  style="margin-bottom: 25px;">
-                            <label class="label label-default" style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">Coupon Discount : </label>
+                        <div class="col-md-12" style="margin-bottom: 25px;">
+                            <label class="label label-default"
+                                   style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">Coupon
+                                Discount : </label>
                             <input type="text" style="width: 165px;" ng-model="fiche.discountCode">
                         </div>
-                        <div class="col-md-12"  style="margin-bottom: 25px;">
-                            <label class="label label-default" style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">Montant Net : </label>
-                            <label class="label label-primary" style="font-size: large; width: 165px;display: inline-block;text-align: right;">{{fiche.montants.montant_net}} <span class="glyphicon glyphicon-euro"></span></label>
+                        <div class="col-md-12" style="margin-bottom: 25px;">
+                            <label class="label label-default"
+                                   style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">Montant
+                                Net : </label>
+                            <label class="label label-primary"
+                                   style="font-size: large; width: 165px;display: inline-block;text-align: right;">{{fiche.montants.montant_net}}
+                                <small> Euro</small></label>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger pull-left" ng-click="" data-dismiss="modal">{{'cancel' | translate}}</button>
-                <button type="button" class="btn btn-success pull-right" ng-click="fiche.fnSaveProduit()">Valider</button>
+                <button type="button" class="btn btn-danger pull-left" ng-click="" data-dismiss="modal">{{'cancel' |
+                    translate}}
+                </button>
+                <button type="button" class="btn btn-success pull-right" ng-click="fiche.fnSaveProduit()">Valider
+                </button>
             </div>
         </div>
     </div>
@@ -288,98 +345,124 @@
                         <div class="col-md-6 col-sm-offset-1">
                             <div id="login-box">
                                 <div>
-                                    <div >
+                                    <div>
                                         <form name="signupForm" class="form-horizontal" role="form">
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="email">{{'mail' | translate}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="email">{{'mail'
+                                                    | translate}}</label>
                                                 <div class="col-sm-7">
                                     <span class="block input-icon input-icon-right">
-                                        <input type="text" class="form-control" placeholder="Email" name="email" ng-model="signup.email" focus/>
+                                        <input type="text" class="form-control" placeholder="Email" name="email"
+                                               ng-model="signup.email" focus/>
                                         <span ng-show="signupForm.email.$error.email" class="help-inline">{{'mail_msg' | translate}}</span>
                                     </span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="password">{{'password' | translate}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="password">{{'password'
+                                                    | translate}}</label>
                                                 <div class="col-sm-7">
                                     <span class="block input-icon input-icon-right">
-                                <input type="password" class="form-control" name = "password" placeholder="Mot de Passe" ng-model="signup.password" required/>
-                                <small class="errorMessage" data-ng-show="signupForm.password.$dirty && signupForm.password.$invalid"> {{'enter_password' | translate}}</small>
+                                <input type="password" class="form-control" name="password" placeholder="Mot de Passe"
+                                       ng-model="signup.password" required/>
+                                <small class="errorMessage"
+                                       data-ng-show="signupForm.password.$dirty && signupForm.password.$invalid"> {{'enter_password' | translate}}</small>
                             </span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="password2">{{'confirm_password' | translate}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="password2">{{'confirm_password'
+                                                    | translate}}</label>
                                                 <div class="col-sm-7">
                                     <span class="block input-icon input-icon-right">
-                                <input type="password" class="form-control" name="password2" placeholder="Mot de Passe" ng-model="signup.password2" password-match="signup.password" required/>
-                                <small class="errorMessage" data-ng-show="signupForm.password2.$dirty && signupForm.password2.$error.required"> {{'enter_password' | translate}}</small>
+                                <input type="password" class="form-control" name="password2" placeholder="Mot de Passe"
+                                       ng-model="signup.password2" password-match="signup.password" required/>
+                                <small class="errorMessage"
+                                       data-ng-show="signupForm.password2.$dirty && signupForm.password2.$error.required"> {{'enter_password' | translate}}</small>
 
-                               <small class="errorMessage" data-ng-show="signupForm.password2.$dirty && signupForm.password2.$error.passwordNoMatch && !signupForm.password2.$error.required"> {{'password_msg' | translate}}</small>
+                               <small class="errorMessage"
+                                      data-ng-show="signupForm.password2.$dirty && signupForm.password2.$error.passwordNoMatch && !signupForm.password2.$error.required"> {{'password_msg' | translate}}</small>
 
                             </span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="name">{{'name' | translate}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="name">{{'name'
+                                                    | translate}}</label>
                                                 <div class="col-sm-7">
                                                     <span class="block input-icon input-icon-right">
-                                                        <input type="text" class="form-control" placeholder="Nom" ng-model="signup.name" />
+                                                        <input type="text" class="form-control" placeholder="Nom"
+                                                               ng-model="signup.name"/>
                                                     </span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="surname">{{'surname' | translate}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="surname">{{'surname'
+                                                    | translate}}</label>
                                                 <div class="col-sm-7">
                                                     <span class="block input-icon input-icon-right">
-                                                        <input type="text" class="form-control" placeholder="Nom" ng-model="signup.surname" />
+                                                        <input type="text" class="form-control" placeholder="Nom"
+                                                               ng-model="signup.surname"/>
                                                     </span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="phone">{{'no_tel' | translate}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="phone">{{'no_tel'
+                                                    | translate}}</label>
                                                 <div class="col-sm-7">
                                                     <span class="block input-icon input-icon-right">
-                                                        <input type="text" class="form-control" placeholder="Phone" name="phone" ng-model="signup.phone"/>
+                                                        <input type="text" class="form-control" placeholder="Phone"
+                                                               name="phone" ng-model="signup.phone"/>
                                                     </span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="address">{{'adresse' | translate}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="address">{{'adresse'
+                                                    | translate}}</label>
                                                 <div class="col-sm-7">
                                                     <span class="block input-icon input-icon-right">
-                                                        <input type="text" class="form-control" placeholder="Adresse" ng-model="signup.address" />
+                                                        <input type="text" class="form-control" placeholder="Adresse"
+                                                               ng-model="signup.address"/>
                                                     </span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="ville">{{'ville' | translate}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="ville">{{'ville'
+                                                    | translate}}</label>
                                                 <div class="col-sm-7">
                                                     <span class="block input-icon input-icon-right">
-                                                        <input type="text" class="form-control" placeholder="Ville" ng-model="signup.ville" />
+                                                        <input type="text" class="form-control" placeholder="Ville"
+                                                               ng-model="signup.ville"/>
                                                     </span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="codepostal">{{'code_postal' | translate}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="codepostal">{{'code_postal'
+                                                    | translate}}</label>
                                                 <div class="col-sm-7">
                                                      <span class="block input-icon input-icon-right">
-                                                        <input type="text" class="form-control" placeholder="Code Postal" ng-model="signup.codepostal" />
+                                                        <input type="text" class="form-control"
+                                                               placeholder="Code Postal" ng-model="signup.codepostal"/>
                                                     </span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
-                                                <label class="col-sm-5 control-label no-padding-right" for="nosiret">{{'no_siret' | translate}}</label>
+                                                <label class="col-sm-5 control-label no-padding-right" for="nosiret">{{'no_siret'
+                                                    | translate}}</label>
                                                 <div class="col-sm-7">
                                                     <span class="block input-icon input-icon-right">
-                                                        <input type="text" class="form-control" placeholder="No Siret" ng-model="signup.nosiret" />
+                                                        <input type="text" class="form-control" placeholder="No Siret"
+                                                               ng-model="signup.nosiret"/>
                                                     </span>
                                                 </div>
                                             </div>
                                             <div class="form-group">
                                                 <span class="lbl col-sm-5"> </span>
                                                 <div class="col-sm-7">
-                                                    <button type="submit" class="width-35 pull-right btn btn-sm btn-primary" ng-click="fiche.fnRegister(signup)" data-ng-disabled="signupForm.$invalid">
+                                                    <button type="submit"
+                                                            class="width-35 pull-right btn btn-sm btn-primary"
+                                                            ng-click="fiche.fnRegister(signup)"
+                                                            data-ng-disabled="signupForm.$invalid">
                                                         {{'registration' | translate}}
                                                     </button>
                                                 </div>
@@ -405,13 +488,14 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><span class="glyphicon glyphicon-shopping-cart"></span><span> {{'panier_produit' | translate}}</span></h4>
+                <h4 class="modal-title"><span class="glyphicon glyphicon-shopping-cart"></span><span> {{'panier_produit' | translate}}</span>
+                </h4>
             </div>
             <div class="modal-body" style="overflow: hidden">
                 <div class="row">
-                     <h3 style="color: purple; font-weight: bold; padding-bottom: 15px; font-size:medium;">
-                         {{'promo_libelle' | translate}}
-                     </h3>
+                    <h3 style="color: purple; font-weight: bold; padding-bottom: 15px; font-size:medium;">
+                        {{'promo_libelle' | translate}}
+                    </h3>
                 </div>
                 <div class="row">
                     <table border="1">
@@ -429,7 +513,9 @@
                             <td class="paddingTable">{{ligne.title}}</td>
                             <!--Escargot-->
                             <td class="paddingTable" ng-show="ligne.escargot_val == 0">{{'aucun' | translate}}</td>
-                            <td class="paddingTable" ng-show="ligne.escargot_val == 1">{{'attache_escargot' | translate}}</td>
+                            <td class="paddingTable" ng-show="ligne.escargot_val == 1">{{'attache_escargot' |
+                                translate}}
+                            </td>
                             <td class="paddingTable" ng-show="ligne.escargot_val == 2">{{'avec_trou' | translate}}</td>
                             <!--Caractéristiques Optionnel-->
                             <td class="paddingTable" ng-show="ligne.opt==0">{{'aucun' | translate}}</td>
@@ -442,8 +528,12 @@
                             <td class="paddingTable">{{ligne.support}}</td>
                             <td class="paddingTable">{{ligne.qte}}</td>
                             <!--td class="paddingTable">{{ligne.commentaire}}</td-->
-                            <td class="paddingTable">{{ligne.unitprix}} </td>
-                            <td class="paddingTable" style="text-align: center"><button ng-show="fiche.fnShowButtonComm(ligne.commentaire)" type="button" class="btn btn-primary btn-circle1" ng-click="fiche.fnAlertCommentaire(ligne.commentaire)"><b>i</b></button></td>
+                            <td class="paddingTable">{{ligne.unitprix}}</td>
+                            <td class="paddingTable" style="text-align: center">
+                                <button ng-show="fiche.fnShowButtonComm(ligne.commentaire)" type="button"
+                                        class="btn btn-primary btn-circle1"
+                                        ng-click="fiche.fnAlertCommentaire(ligne.commentaire)"><b>i</b></button>
+                            </td>
                             <td>
                                 <button type='button'
                                         class='btn btn-success btn-circle'
@@ -470,8 +560,12 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" ng-click="" data-dismiss="modal">{{'quit' | translate}}</button>
-                <button type="button" class="btn btn-success pull-right" ng-click="fiche.fnCheckOut()">{{'valider' | translate}}</button>
+                <button type="button" class="btn btn-default pull-left" ng-click="" data-dismiss="modal">{{'quit' |
+                    translate}}
+                </button>
+                <button type="button" class="btn btn-success pull-right" ng-click="fiche.fnCheckOut()">{{'valider' |
+                    translate}}
+                </button>
             </div>
         </div>
     </div>
@@ -487,8 +581,10 @@
             </div>
             <div class="modal-body" style="height: 550px;overflow: auto">
                 <div class="row" style="padding: 3px;">
-                    <div class="col-md-4" style="padding: 15px;"  ng-repeat="ligne in fiche.productsDesign">
-                        <button class="btn btn-lg btn-info" style="background: {{ligne.color_code}}; width: 80%" ng-click="fiche.fnImagesLoad(ligne)" >{{ligne.libelle}}</button>
+                    <div class="col-md-4" style="padding: 15px;" ng-repeat="ligne in fiche.productsDesign">
+                        <button class="btn btn-lg btn-info" style="background: {{ligne.color_code}}; width: 80%"
+                                ng-click="fiche.fnImagesLoad(ligne)">{{ligne.libelle}}
+                        </button>
                     </div>
                 </div>
             </div>
@@ -505,8 +601,9 @@
             </div>
             <div class="modal-body" style="height: 550px;overflow: scroll">
                 <div class="row" style="padding: 3px;">
-                    <div class="col-md-4" style="padding: 15px;"  ng-repeat="ligne in fiche.imagesList">
-                        <img src="{{ligne.src}}" style="width: 200px; height: 200px;" ng-click="fiche.fnUploadImg(ligne)">
+                    <div class="col-md-4" style="padding: 15px;" ng-repeat="ligne in fiche.imagesList">
+                        <img src="{{ligne.src}}" style="width: 200px; height: 200px;"
+                             ng-click="fiche.fnUploadImg(ligne)">
                     </div>
                 </div>
 
@@ -524,23 +621,29 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-10 col-lg-12 col-sm-12" style="margin-bottom: 10px;"><div class="label-danger"><b>{{alertMsg}}</b></div></div>
+                    <div class="col-md-10 col-lg-12 col-sm-12" style="margin-bottom: 10px;">
+                        <div class="label-danger"><b>{{alertMsg}}</b></div>
+                    </div>
                 </div>
                 <form name="loginForm" class="form-horizontal" role="form">
                     <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right" for="email"> {{'email_phone' | translate}} </label>
+                        <label class="col-sm-3 control-label no-padding-right" for="email"> {{'email_phone' |
+                            translate}} </label>
                         <div class="col-sm-7">
                            <span class="block input-icon input-icon-right">
-                                <input type="text" class="form-control" placeholder="Email" name="email" ng-model="login.email" required focus/>
+                                <input type="text" class="form-control" placeholder="Email" name="email"
+                                       ng-model="login.email" required focus/>
                                 <i class="ace-icon fa fa-user"></i>
                             </span>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label no-padding-right" for="password"> {{'password' | translate}} </label>
+                        <label class="col-sm-3 control-label no-padding-right" for="password"> {{'password' |
+                            translate}} </label>
                         <div class="col-sm-7">
                            <span class="block input-icon input-icon-right">
-                                <input type="password" class="form-control" placeholder="Password" ng-model="login.password" required/>
+                                <input type="password" class="form-control" placeholder="Password"
+                                       ng-model="login.password" required/>
                                 <i class="ace-icon fa fa-lock"></i>
                             </span>
                         </div>
@@ -555,11 +658,14 @@
                         </div>
                     </div>
                     <div class="space-4"></div>
-                    <span class="lbl col-sm-3"> </span><div class="col-sm-7">Pas de compte? <a href="" ng-click="fnSignUp()">{{'register' | translate}}</a></div>
+                    <span class="lbl col-sm-3"> </span>
+                    <div class="col-sm-7">Pas de compte? <a href="" ng-click="fnSignUp()">{{'register' | translate}}</a>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="width-35 pull-right btn btn-md btn-primary" data-dismiss="modal" ng-click="doLogin(login)" data-ng-disabled="loginForm.$invalid">
+                <button type="submit" class="width-35 pull-right btn btn-md btn-primary" data-dismiss="modal"
+                        ng-click="doLogin(login)" data-ng-disabled="loginForm.$invalid">
                     <i class="ace-icon fa fa-key"></i>
                     {{'connect' | translate}}
                 </button>
