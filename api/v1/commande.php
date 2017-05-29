@@ -13,6 +13,12 @@ if($mode == 1) {
         $user  = $user->findByPrimaryKey($item["id_user"]);
         $item["name"] = $user->getName();
         $item["surname"] = $user->getSurname();
+        $modifUser = new users();
+        $modifUser = $modifUser->findByPrimaryKey($item["modified_by"]);
+        $item["modified_user"] = "";
+        if($modifUser) {
+            $item["modified_user"] = $modifUser->getSurname() ." " . $modifUser->getName();
+        }
         $ordersDetails = new orders_details();
         $ordersDetails = $ordersDetails->getCountProds($item["id"]);
         $item["num_prods"] = $ordersDetails["prods"];

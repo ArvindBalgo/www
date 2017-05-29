@@ -19,6 +19,11 @@ app.config(['$routeProvider',
             templateUrl: 'sections/admin/param/param.tpl.html',
             controller: 'paramController as param'
         })
+        .when('/produitclient/:idCommDetail', {
+            title: 'Produit Client',
+            templateUrl: 'sections/admin/prod_client/prod_client.tpl.html',
+            controller: 'prodClientController as prod'
+        })
         .when('/maquette', {
             title: 'Maquette',
             templateUrl: 'sections/admin/maquette/maquette.tpl.html',

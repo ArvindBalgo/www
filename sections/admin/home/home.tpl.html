@@ -17,6 +17,8 @@
                                 <div>Date: {{order.date_created}}</div>
                                 <div>Nb Produits: {{order.num_prods}}</div>
                                 <div>Montant: {{order.total_prix_ttc}}</div>
+                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Crée Par: {{order.surname}} {{order.name}}</div>
+                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Modifié Par: {{order.modified_user}}</div>
                                 <div>
                                     <span><button class="btn btn-success" ng-click="home.fnStart(order)">Démarrer</button></span>
                                     <span><button class="btn btn-danger" ng-click="home.fnReject(order)">Rejeter</button></span>
@@ -48,6 +50,11 @@
                                     </div>
                                 </td>
                             </tr>
+                            <tr>
+                                <td>
+                                    <span><a href="#/produitclient/{{item.id}}">Détails</a></span>
+                                </td>
+                            </tr>
                         </table>
                     </tr>
                 </table>
@@ -69,6 +76,8 @@
                                 <div>Date debuté: {{order.date_modified}}</div>
                                 <div>Nb Produits: {{order.num_prods}}</div>
                                 <div>Montant: {{order.total_prix_ttc}}</div>
+                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Crée Par: {{order.surname}} {{order.name}}</div>
+                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Modifié Par: {{order.modified_user}}</div>
                                 <div>
                                     <span><button class="btn btn-success" ng-click="home.fnEnd(order)">Terminer</button></span>
                                     <span><button class="btn btn-danger" ng-click="home.fnReject(order)">Rejeter</button></span>
@@ -100,6 +109,11 @@
                                     </div>
                                 </td>
                             </tr>
+                            <tr>
+                                <td>
+                                    <span><a href="#/produitclient/{{item.id}}">Détails</a></span>
+                                </td>
+                            </tr>
                         </table>
                     </tr>
                 </table>
@@ -122,6 +136,8 @@
                                 <div>Date debuté: {{order.date_modified}}</div>
                                 <div>Nb Produits: {{order.num_prods}}</div>
                                 <div>Montant: {{order.total_prix_ttc}}</div>
+                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Crée Par: {{order.surname}} {{order.name}}</div>
+                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Modifié Par: {{order.modified_user}}</div>
                                 <div>
                                     <span><button class="btn btn-info" ng-click="home.fnRecup(order)">Récupérer</button></span>
                                     <span class="glyphicon glyphicon-eye-open pull-right" style="cursor:pointer;" ng-click="home.fnToggleEye(order)"></span>
@@ -152,6 +168,11 @@
                                     </div>
                                 </td>
                             </tr>
+                            <tr>
+                                <td>
+                                    <span><a href="#/produitclient/{{item.id}}">Détails</a></span>
+                                </td>
+                            </tr>
                         </table>
                     </tr>
                 </table>
@@ -174,6 +195,8 @@
                                 <div>Date debuté: {{order.date_modified}}</div>
                                 <div>Nb Produits: {{order.num_prods}}</div>
                                 <div>Montant: {{order.total_prix_ttc}}</div>
+                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Crée Par: {{order.surname}} {{order.name}}</div>
+                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Modifié Par: {{order.modified_user}}</div>
                                 <div>
                                     <span><button class="btn btn-info" ng-click="home.fnRecup(order)">Récupérer</button></span>
                                     <span class="glyphicon glyphicon-eye-open pull-right" style="cursor:pointer;" ng-click="home.fnToggleEye(order)"></span>
@@ -202,6 +225,11 @@
                                     <div>
                                         Commentaire: {{item.commentaire}}
                                     </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span><a href="#/produitclient/{{item.id}}">Détails</a></span>
                                 </td>
                             </tr>
                         </table>
