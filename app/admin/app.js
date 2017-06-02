@@ -124,6 +124,11 @@ app.config(['$routeProvider',
             templateUrl:'sections/admin/pub/pub.tpl.html',
             controller: 'pubController as pub'
         })
+        .when('/polices', {
+            title:      'Polices',
+            templateUrl:'sections/admin/polices/polices.tpl.html',
+            controller: 'policesController as polices'
+        })
         .when('/', {
             title: 'Login',
             templateUrl: 'sections/login/login.tpl.html',

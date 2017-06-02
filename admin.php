@@ -34,6 +34,7 @@
     <link rel="stylesheet" type="text/css" href="sections/admin/langue/langue.css" />
     <link rel="stylesheet" type="text/css" href="sections/admin/config_divers/config_divers.css" />
     <link rel="stylesheet" type="text/css" href="sections/admin/prod_client/prod_client.css" />
+    <link rel="stylesheet" type="text/css" href="sections/admin/polices/polices.css" />
     <link rel="stylesheet" type="text/css" href="css/custom.css" />
     <!-- endbuild -->
 </head>
@@ -110,5 +111,6 @@
 <script src="sections/admin/pub/pub.ctrl.js"></script>
 <script src="sections/admin/config_divers/config_divers.ctrl.js"></script>
 <script src="sections/admin/prod_client/prod_client.ctrl.js"></script>
+<script src="sections/admin/polices/polices.ctrl.js"></script>
 </body>
 </html>
