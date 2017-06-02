@@ -17,3 +17,8 @@ else if($mode == 1) {
     $police->setActive(1);
     $police->save();
 }
+else if($mode == 2) {
+    $data = new polices();
+    $data = $data->rechercher1();
+    print json_encode($data);
+}

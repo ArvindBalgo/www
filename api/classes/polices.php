@@ -99,6 +99,18 @@ class polices {
         return $rows;
     }
 
+    public function rechercher1() { // Recherche de toutes les adresses
+        $listLOG =	 array();
+        $requete = "SELECT id, nom as name, path as url, active FROM `polices`";
+        $rs = $this->conn->query($requete) or die($this->conn->error.__LINE__);
+        $rows = [];
+        while($row = mysqli_fetch_array($rs))
+        {
+            $rows[] = $row;
+        }
+        return $rows;
+    }
+
     public function findByPrimaryKey($key) { // Recherche d'une adresse par id
         $requete = self::$SELECT . " WHERE id=" . $key;
         $rs = $this->conn->query($requete);
