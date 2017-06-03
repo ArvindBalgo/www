@@ -83,6 +83,7 @@ angular
                 console.log(response.data);
                 vm.arrDataOrig = angular.copy(response.data);
                 vm.arrData = response.data;
+                $('body').removeClass("spinner");
             }, function errorCallback(error) {
                 console.log(error);
             });
@@ -236,6 +237,46 @@ angular
                     console.log(error);
                 });
             })
+        };
+        vm.fnDelete = function(item) {
+            $('body').addClass("spinner");
+            $http({
+                method: 'GET',
+                params: {mode:3, id:item.id},
+                url: 'api/v1/policesCRUD.php'
+            }).then(function successCallback(response) {
+
+                console.log(response.data);
+                vm.fnInit();
+            }, function errorCallback(error) {
+                console.log(error);
+            });
+        };
+        vm.fnEdit = function(item) {
+
+            bootbox.prompt({
+                title: "Nom",
+                inputType: 'text',
+                value:item.nom,
+                callback: function (result) {
+                    console.log(result, item);
+                    $('body').addClass("spinner");
+                    if(result != null && result.trim() != ""){
+                        $http({
+                            method: 'GET',
+                            params: {mode:4, id:item.id, nom:result},
+                            url: 'api/v1/policesCRUD.php'
+                        }).then(function successCallback(response) {
+
+                            console.log(response.data);
+                            vm.fnInit();
+                            $('body').removeClass("spinner");
+                        }, function errorCallback(error) {
+                            console.log(error);
+                        });
+                    }
+                }
+            });
         }
 
         vm.fnInit();

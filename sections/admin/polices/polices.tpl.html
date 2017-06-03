@@ -94,15 +94,17 @@
             <th>police</th>
             <th>lien</th>
             <th>Actif</th>
+            <th>Action</th>
             <tr ng-repeat="ligne in polices.arrData">
 
                 <td style="">{{ ligne.nom }}</td>
                 <td style="">{{ ligne.path }}</td>
+                <td style="">{{ ligne.active }}</td>
                 <td>
-                   <!-- <div>
-                        <button type='button' title="Sauvegarder" class='btn btn-success btn-circle' style='margin-left: 5px;margin-top: 5px;' ng-click="langue.fnValider(ligne)"><i class='glyphicon glyphicon-ok'></i></button>
-                        <button type='button' title="Annuler les modifs pour cette ligne" class='btn btn-danger btn-circle' style='margin-left: 5px;margin-top: 5px;' ng-click="langue.fnInitialiser(ligne)"><i class='glyphicon glyphicon-remove'></i></button>
-                    </div>-->
+                    <div>
+                        <button type='button' title="Editer" class='btn btn-info btn-circle' style='margin-left: 5px;margin-top: 5px;' ng-click="polices.fnEdit(ligne)"><i class='glyphicon glyphicon-pencil'></i></button>
+                        <button type='button' title="Supprimer cette ligne" class='btn btn-danger btn-circle' style='margin-left: 5px;margin-top: 5px;' ng-click="polices.fnDelete(ligne)"><i class='glyphicon glyphicon-trash'></i></button>
+                    </div>
                 </td>
             </tr>
         </table>
