@@ -19,6 +19,7 @@ angular
         vm.arrData = [];
         vm.message  = "";
         vm.flagIndex = 0;
+        vm.isDisplayed = true;
 
         var uploader = $scope.uploader = new FileUploader({
             url: 'api/php_scripts/upload.php'
@@ -277,6 +278,17 @@ angular
                     }
                 }
             });
+        };
+        vm.fnDisplay = function (flag) { {
+            if(flag == 0) {
+                vm.isDisplayed = true;
+            }
+            else{
+                vm.isDisplayed = false;
+            }
+
+        }
+
         }
 
         vm.fnInit();

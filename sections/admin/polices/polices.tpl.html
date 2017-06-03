@@ -1,5 +1,9 @@
 <header ng-include="'sections/admin/header.html'"></header>
 <div class="row">
+    <button class="btn btn-info" ng-show="!polices.isDisplayed" ng-click="polices.fnDisplay(0)">Display Upload</button>
+    <button class="btn btn-default" ng-show="polices.isDisplayed" ng-click="polices.fnDisplay(1)">Hide Upload</button>
+</div>
+<div class="row" ng-show="polices.isDisplayed">
     <div class="row">
         <h2 style="font-weight: bold; text-align: center">Upload Zone</h2>
     </div>
