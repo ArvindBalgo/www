@@ -458,7 +458,6 @@ if ($mode == 0) {
     $id_user = $_SESSION['uid'];
     $tva = new tva();
     $tva = $tva->findByPays($_SESSION['pays']);
-
     $frais_livraison = 0;
     $totalPrixHT = 0;
     foreach ($arrListKeys as $val) {

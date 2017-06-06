@@ -483,7 +483,7 @@ class orders_details
         $orders_details->_opt = $rs["opt"];
         $orders_details->_prix_ht = $rs["prix_ht"];
         $orders_details->_prix_ttc = $rs["prix_ttc"];
-        $orders_details->_unit_prix = $rs["unit_prix"];
+        $orders_details->_unit_prix = $rs["unitprix"];
         $orders_details->_prix_livraison_ht = $rs["prix_livraison_ht"];
         $orders_details->_prix_livraison_ttc = $rs["prix_livraison_ttc"];
         $orders_details->_idsupport = $rs["idsupport"];
@@ -519,6 +519,14 @@ class orders_details
         $rs = $this->conn->query($requete);
 
         return $this->mapSqlToObject(mysqli_fetch_array($rs));
+    }
+
+    public function findByPrimaryKey1($key)
+    { // Recherche d'une adresse par id
+        $requete = self::$SELECT . " WHERE id=" . $key;
+        $rs = $this->conn->query($requete);
+
+        return json_encode(mysqli_fetch_array($rs));
     }
 
     public function getCountProds($id)

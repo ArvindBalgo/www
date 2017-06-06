@@ -1,6 +1,55 @@
 <header ng-include="'sections/admin/header.html'"></header>
 <div class="row">
-
+    <div class="col-md-4" style="border-right: 2px solid gainsboro;">
+        <div style="margin-bottom: 25px;">
+            <label class="label label-primary col-md-5" style="font-size: large; margin-right: 5px; ">Order #: </label>
+            <label class="label label-info col-md-5" style="font-size: large">{{prod.infoProd.id_order}}</label>
+        </div>
+        <div style="margin-bottom: 25px;" ng-show="prod.infoProd.commentaire.trim() !=''">
+            <label class="label label-primary col-md-5" style="font-size: large; margin-right: 5px; ">Commentaire: </label>
+            <label class="label label-info col-md-5" style="font-size: large">{{prod.infoProd.commentaire}}</label>
+        </div>
+        <div style="margin-bottom: 25px;">
+            <label class="label label-primary col-md-5" style="font-size: large; margin-right: 5px; ">Bon de repli </label>
+            <label class="label label-info col-md-5" style="font-size: large" ng-show="prod.infoProd.bonrepli == 1">Oui</label>
+            <label class="label label-danger col-md-5" style="font-size: large" ng-show="prod.infoProd.bonrepli == 0">Non</label>
+        </div>
+        <div style="margin-bottom: 25px;">
+            <label class="label label-primary col-md-5" style="font-size: large; margin-right: 5px; ">Attach Escargot </label>
+            <label class="label label-info col-md-5" style="font-size: large" ng-show="prod.infoProd.escargot_val == 1">Oui</label>
+            <label class="label label-danger col-md-5" style="font-size: large" ng-show="prod.infoProd.escargot_val == 0">Non</label>
+        </div>
+        <div style="margin-bottom: 25px;">
+            <label class="label label-primary col-md-5" style="font-size: large; margin-right: 5px; ">Liserai</label>
+            <label class="label label-info col-md-5" style="font-size: large" ng-show="prod.infoProd.liserai == 1">Oui</label>
+            <label class="label label-danger col-md-5" style="font-size: large" ng-show="prod.infoProd.liserai == 0">Non</label>
+        </div>
+        <div style="margin-bottom: 25px;">
+            <label class="label label-primary col-md-5" style="font-size: large; margin-right: 5px; ">Contours</label>
+            <label class="label label-info col-md-5" style="font-size: large" ng-show="prod.infoProd.contours == 1">Oui</label>
+            <label class="label label-danger col-md-5" style="font-size: large" ng-show="prod.infoProd.contours == 0">Non</label>
+        </div>
+        <div style="margin-bottom: 25px;">
+            <label class="label label-primary col-md-5" style="font-size: large; margin-right: 5px; ">Quantité</label>
+            <label class="label label-info col-md-5" style="font-size: large">{{prod.infoProd.qte}}</label>
+        </div>
+        <div style="margin-bottom: 25px;">
+            <label class="label label-primary col-md-12" style="font-size: large; margin-right: 5px; ">Dimension</label>
+            <label class="label label-info col-md-12" style="font-size: large; display: inline-block; width: 100%">{{prod.infoProd.dimension}}</label>
+        </div>
+        <div style="margin-bottom: 25px;">
+            <label class="label label-primary col-md-5" style="font-size: large; margin-right: 5px; ">Prix TTC</label>
+            <label class="label label-info col-md-5" style="font-size: large">{{prod.infoProd.prix_ttc}} Euros</label>
+        </div>
+    </div>
+    <div class="col-md-offset-1"></div>
+    <div class="col-md-7">
+        <div class="col-md-12">
+            <div id="model"
+                 class="fpd-container fpd-shadow-2 fpd-topbar fpd-tabs fpd-tabs-side fpd-top-actions-centered fpd-bottom-actions-centered fpd-views-inside-left">
+            </div>
+        </div>
+    </div>
 </div>
 <footer class="sig">
 </footer>

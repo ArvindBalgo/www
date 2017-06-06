@@ -1789,7 +1789,7 @@ angular
                     }
 
                     vm.fnSaveProduit = function () {
-                        console.clear();
+                      //  console.clear();
                         console.log(vm.arrProduits);
                         var arrListCheckoutProds = new Array();
                         angular.forEach(vm.arrProduits, function (value, key) {
@@ -1837,7 +1837,7 @@ angular
                             params: {mode: 19, data: JSON.stringify(arrKeysDL)},
                             url: 'api/v1/sampleControl.php'
                         }).then(function successCallback(response) {
-                            console.clear();
+                            //console.clear();
                             console.log(vm.arrProduits);
                             console.log(response.data);
                             var arrFraisLivr = response.data;
@@ -2810,13 +2810,13 @@ angular
         };
 
         vm.fnCheckOut = function () {
-            console.clear();
+            //console.clear();
             console.log($scope.sessionInfo);
             vm.fnValidMaquette();
         }
 
         vm.doLogin = function (login) {
-            console.clear();
+            //console.clear();
             console.log(login);
             console.log(vm.login);
         };
