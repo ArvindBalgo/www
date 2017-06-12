@@ -43,6 +43,7 @@ angular
             else if (lang == 'EN') {
                 urlLang = "lang/en.json";
             }
+            urlLang = "lang/fr.json";
 
             $http({
                 method: 'POST',

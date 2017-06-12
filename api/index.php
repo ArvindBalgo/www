@@ -1,8 +1,8 @@
 <?php
 
-require_once 'classes/dbHandler.php';
-require_once 'classes/passwordHash.php';
-require_once 'classes/listmetier.php';
+require_once 'v1/dbHandler.php';
+require_once 'v1/passwordHash.php';
+require_once 'v1/listmetier.php';
 require 'libs/Slim/Slim.php';
 
 \Slim\Slim::registerAutoloader();

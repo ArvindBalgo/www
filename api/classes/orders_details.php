@@ -536,6 +536,14 @@ class orders_details
         return mysqli_fetch_array($rs);
     }
 
+    public function getMaxId()
+    {
+        $requete = "select max(id) as id from orders_details ";
+        $requete = "select max(id) as id from orders_details ";
+        $rs = $this->conn->query($requete);
+        return mysqli_fetch_array($rs);
+    }
+
     public function getProds($id)
     {
         $requete = "select * from orders_details WHERE id_order=" . $id;

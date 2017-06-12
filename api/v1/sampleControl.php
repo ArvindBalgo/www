@@ -1,6 +1,7 @@
 <?php
 session_start();
 include_once 'include_all.php';
+require('../fpdf.php');
 include_once "../chromePHP.php";
 
 $mode = $_GET['mode'];
@@ -465,7 +466,7 @@ if ($mode == 0) {
             //chromePHP::log(($item));
             $tempProd = new temp_prod();
             $tempProd = $tempProd->findByComboKeyRandom($key, $item);
-
+            chromePHP::log($tempProd->getIdProduit() . "   :::");
             if ($tempProd) {
                 $fraisLivraison = new frais_livraison();
                 $fraisLivraison = $fraisLivraison->findByIdDimQte($tempProd->getIdProduit(), $tempProd->getDimension(), $tempProd->getQte(), $_SESSION["pays"]);
@@ -491,11 +492,12 @@ if ($mode == 0) {
     $lastID = $orders->fnGetLastId();
 
     foreach ($arrListKeys as $val1) {
-        chromePHP::log($val1);
+        //chromePHP::log($val1);
         foreach ($val1 as $key=>$item){
-            chromePHP::log(">>>  ".$key." :: ".$item);
+            //chromePHP::log(">>>  ".$key." :: ".$item);
             $tempProd = new temp_prod();
             $tempProd = $tempProd->findByComboKeyRandom($key, $item);
+
             if ($tempProd) {
                 $fraisLivraison = new frais_livraison();
                 $fraisLivraison = $fraisLivraison->findByIdDimQte($tempProd->getIdProduit(), $tempProd->getDimension(), $tempProd->getQte(), $_SESSION["pays"]);
@@ -532,12 +534,55 @@ if ($mode == 0) {
                 $orders_details->setCreatedBy($id_user);
                 $orders_details->setModifiedBy($id_user);
                 $orders_details->save();
-                $tempProd->deleteByKeyRandomStr($key, $item);
+                $orders_details = new orders_details();
+                $orders_details = $orders_details->getMaxId();
+
+                $TEMPIMGLOC = 'tempimg.png';
+
+                $dataURI    = $tempProd->getbase64Image();
+                $dataPieces = explode(',',$dataURI);
+                $encodedImg = $dataPieces[1];
+                $decodedImg = base64_decode($encodedImg);
+
+//  Check if image was properly decoded
+                if( $decodedImg!==false )
+                {
+                    //  Save image to a temporary location
+                    if( file_put_contents($TEMPIMGLOC,$decodedImg)!==false )
+                    {
+                        $pdf = new FPDF();
+                        $pdf->AddPage();
+                        $pdf->SetFont('Arial','B',16);
+                        $pdf->Cell(40,10,'No COMMANDE:'.$lastID["id"]);
+                        $pdf->Image($TEMPIMGLOC, 10,30, 200);
+                        $filename="../pdf/".$orders_details['id'].'.pdf';
+                        foreach ($tempProd->getData() as $ligne) {
+                            foreach ($ligne->elements as $elem) {
+                               // chromePHP::log($elem);
+                                $pdf->AddPage();
+                                $pdf->Cell(40,10,'Composants: ' . $ligne->title);
+                                $pdf->Ln(5);
+                                if($elem->type == 'image') {
+                                    $pdf->Cell(0, 25, $elem->title.' : '. $elem->type);
+                                    $pdf->Ln(2);
+                                    $pdf->Image("../../".$elem->source, 10,30,150, 250);
+                                }
+                                else if($elem->type=='text') {
+                                    $pdf->Cell(0, 25, $elem->title.' : '. $elem->type);
+                                    $pdf->Ln(2);
+                                    $pdf->Cell(0, 50, 'Police: '.$elem->parameters->fontFamily);
+                                }
+                            }
+                        }
+                        $pdf->Output($filename,'F');
+
+                        //  Delete image from server
+                        unlink($TEMPIMGLOC);
+                    }
+                }
             }
-
         }
-
     }
 
-    return "done";
+    print_r( "done");
 }
