@@ -23,6 +23,7 @@
                                     <span><button class="btn btn-success" ng-click="home.fnStart(order)">Démarrer</button></span>
                                     <span><button class="btn btn-danger" ng-click="home.fnReject(order)">Rejeter</button></span>
                                     <span class="glyphicon glyphicon-eye-open pull-right" style="cursor:pointer;" ng-click="home.fnToggleEye(order)"></span>
+                                    <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/factures/{{order.id}}.pdf" ></a></span>
                                 </div>
                             </div>
                         </td>
@@ -49,10 +50,12 @@
                                         Commentaire: {{item.commentaire}}
                                     </div>
                                 </td>
+                                </td>d
                             </tr>
                             <tr>
                                 <td>
                                     <span><a href="#/produitclient/{{item.id}}">Détails</a></span>
+                                    <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/{{item.id}}.pdf" ></a></span>
                                 </td>
                             </tr>
                         </table>
@@ -82,6 +85,7 @@
                                     <span><button class="btn btn-success" ng-click="home.fnEnd(order)">Terminer</button></span>
                                     <span><button class="btn btn-danger" ng-click="home.fnReject(order)">Rejeter</button></span>
                                     <span class="glyphicon glyphicon-eye-open pull-right" style="cursor:pointer;" ng-click="home.fnToggleEye(order)"></span>
+                                    <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/factures/{{order.id}}.pdf" ></a></span>
                                 </div>
                             </div>
                         </td>
@@ -112,6 +116,7 @@
                             <tr>
                                 <td>
                                     <span><a href="#/produitclient/{{item.id}}">Détails</a></span>
+                                    <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/{{item.id}}.pdf" ></a></span>
                                 </td>
                             </tr>
                         </table>
@@ -141,6 +146,7 @@
                                 <div>
                                     <span><button class="btn btn-info" ng-click="home.fnRecup(order)">Récupérer</button></span>
                                     <span class="glyphicon glyphicon-eye-open pull-right" style="cursor:pointer;" ng-click="home.fnToggleEye(order)"></span>
+                                    <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/factures/{{order.id}}.pdf" ></a></span>
                                 </div>
                             </div>
                         </td>
@@ -171,6 +177,7 @@
                             <tr>
                                 <td>
                                     <span><a href="#/produitclient/{{item.id}}">Détails</a></span>
+                                    <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/{{item.id}}.pdf" ></a></span>
                                 </td>
                             </tr>
                         </table>
@@ -200,6 +207,7 @@
                                 <div>
                                     <span><button class="btn btn-info" ng-click="home.fnRecup(order)">Récupérer</button></span>
                                     <span class="glyphicon glyphicon-eye-open pull-right" style="cursor:pointer;" ng-click="home.fnToggleEye(order)"></span>
+                                    <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/factures/{{order.id}}.pdf" ></a></span>
                                 </div>
                             </div>
                         </td>
@@ -230,13 +238,13 @@
                             <tr>
                                 <td>
                                     <span><a href="#/produitclient/{{item.id}}">Détails</a></span>
+                                    <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/{{item.id}}.pdf" ></a></span>
                                 </td>
                             </tr>
                         </table>
                     </tr>
                 </table>
             </div>
-
         </div>
     </div>
 </div>

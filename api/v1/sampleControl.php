@@ -550,12 +550,51 @@ if ($mode == 0) {
                     //  Save image to a temporary location
                     if( file_put_contents($TEMPIMGLOC,$decodedImg)!==false )
                     {
+
+                        $facture = new FPDF();
+                        $facture->AddPage();
+                        $facture->SetFont('Arial', 'B', 16);
+                        $facture->Cell(40,10,'EXAKOM');
+                        $facture->Cell(0,10,'Facture No. '.$lastID["id"], 0, 0, 'R');
+                        $facture->Ln(5);
+                        $facture->SetTextColor(105,105,105);
+                        $facture->SetFont('Arial', 'I', 12);
+                        $facture->Cell(40,10,'7, Rue de Castellane');
+                        $facture->Ln(5);
+                        $facture->Cell(40,10,'75008 PARIS');
+                        $facture->Ln(5);
+                        $facture->Cell(40,10,'FR81 822624334 00014');
+                        $facture->Ln(15);
+
+                        $facture->SetFont('Arial', '', 12);
+                        $facture->Cell(40,10,'Date: ');
+                        $facture->Cell(65,10,'04/27/2017');
+                        $facture->Ln(5);
+
+                        $facture->Cell(40,10,'Code de client ');
+                        $facture->Cell(65,10,'123F001');
+                        $facture->Ln(5);
+
+                        $facture->Cell(40,10,'No Siret ');
+                        $facture->Cell(65,10,'8226244334 00014');
+                        $facture->Ln(10);
+
+                        $facture->Cell(40,10,'Pour la communaute Europeenne  ');
+                        $facture->Ln(5);
+                        $facture->Cell(40,10,'numero de TVA intracomuautaire obligatoire');
+                        $facture->Ln(5);
+                        $facture->Cell(40,10,'FR81 82262443334 00014 ');
+                        $facture->Ln(5);
+
+
+
                         $pdf = new FPDF();
                         $pdf->AddPage();
                         $pdf->SetFont('Arial','B',16);
                         $pdf->Cell(40,10,'No COMMANDE:'.$lastID["id"]);
                         $pdf->Image($TEMPIMGLOC, 10,30, 200);
                         $filename="../pdf/".$orders_details['id'].'.pdf';
+                        $fileNameFacture="../pdf/factures/".$lastID["id"].'.pdf';
                         foreach ($tempProd->getData() as $ligne) {
                             foreach ($ligne->elements as $elem) {
                                // chromePHP::log($elem);
@@ -575,6 +614,7 @@ if ($mode == 0) {
                             }
                         }
                         $pdf->Output($filename,'F');
+                        $facture->Output($fileNameFacture,'F');
 
                         //  Delete image from server
                         unlink($TEMPIMGLOC);

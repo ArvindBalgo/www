@@ -5,7 +5,7 @@
  * Date: 8/15/16
  * Time: 7:04 PM
  */
-include_once '../classes/dbConnect.php';
+//include_once '../classes/dbConnect.php';
 include_once '../classes/listmetier.php';
 include_once '../classes/modelmetier.php';
 include_once '../classes/gabarits.php';
