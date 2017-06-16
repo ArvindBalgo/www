@@ -217,7 +217,8 @@ angular
 
                     var $yourDesigner = $('#model'),
                         pluginOpts = {
-                            mainBarModules: ['images', 'text'],
+                            mainBarModules: ['images', 'drawing', 'text'],
+                            colorSelectionPlacement: 'inside-br',
                             stageWidth: 2000,
                             stageHeight: 1000,
                             editorMode: true,
@@ -1789,7 +1790,7 @@ angular
                     }
 
                     vm.fnSaveProduit = function () {
-                      //  console.clear();
+                        //  console.clear();
                         console.log(vm.arrProduits);
                         var arrListCheckoutProds = new Array();
                         angular.forEach(vm.arrProduits, function (value, key) {
@@ -2642,7 +2643,6 @@ angular
         }, function errorCallback(error) {
             console.log(error);
         });
-
 
 
         vm.fnGallery = function () {

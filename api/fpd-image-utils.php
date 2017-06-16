@@ -9,22 +9,22 @@ if(!class_exists('FPD_Image_Utils')) {
 			$date_path = '';
 
 			if(!file_exists($upload_path))
-				mkdir($upload_path);
+				mkdir($upload_path, 0755);
 
 			$year = @date() === false ? gmdate('Y') : date('Y');
 			$date_path .= '/'. $year . '/';
 			if(!file_exists($upload_path . $date_path))
-				mkdir($upload_path . $date_path);
+				mkdir($upload_path . $date_path, 0755);
 
 			$month = @date() === false ? gmdate('m') : date('m');
 			$date_path .= $month . '/';
 			if(!file_exists($upload_path . $date_path))
-				mkdir($upload_path . $date_path);
+				mkdir($upload_path . $date_path, 0755);
 
 			$day = @date() === false ? gmdate('d') : date('d');
 			$date_path .= $day . '/';
 			if(!file_exists($upload_path . $date_path))
-				mkdir($upload_path . $date_path);
+				mkdir($upload_path . $date_path, 0755);
 
 			$file_path = $upload_path.$date_path.$filename;
 

@@ -89,16 +89,16 @@
     "plus": {
         "names_numbers": "Names & Numbers",
         "names_numbers_add_new": "Add New",
-        "drawing": "Free Drawing",
+        "drawing": "Crayon",
         "drawing_brush_type": "Brush Type",
-        "drawing_pencil": "Pencil",
-        "drawing_circle": "Circle",
+        "drawing_pencil": "Crayon",
+        "drawing_circle": "Cercle",
         "drawing_spray": "Spray",
-        "drawing_color": "Color",
+        "drawing_color": "Couleur",
         "drawing_line_width": "Line Width",
-        "drawing_draw_here": "Draw Here",
-        "drawing_clear": "Clear",
-        "drawing_add": "Add",
+        "drawing_draw_here": "Dessiner ici",
+        "drawing_clear": "Initialiser",
+        "drawing_add": "Ajouter",
         "bulk_add_variations_title": "Bulk Order",
         "bulk_add_variations_add": "Add"
     }

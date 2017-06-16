@@ -54,11 +54,6 @@ window.smartsupp||(function(d) {
 </script>
 <script src="assets/js/jquery.js"></script>
 <script src="js/jquery-ui.min.js"></script>
-<script src="js/jquery.ui.core.min.js"></script>
-<script src="js/jquery.ui.widget.min.js"></script>
-<script src="js/jquery.ui.mouse.min.js"></script>
-<script src="js/jquery.ui.draggable.min.js"></script>
-<script src="js/jquery.ui.sortable.min.js"></script>
 <script src="assets/js/endless_scroll_min.js"></script>
 <!-- jQuery -->
 <!--script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script-->
@@ -70,6 +65,7 @@ window.smartsupp||(function(d) {
 <script src="js/bootbox.min.js"></script>
 <script src="js/fabric.min.js"></script>
 <script src="js/FancyProductDesigner-all.min.js"></script>
+<script src="js/FancyProductDesignerPlus.js"></script>
 <script src="assets/js/angular-1.5.7/angular.js"></script>
 <script src="assets/js/angular-1.5.7/angular-animate.js"></script>
 <script src="assets/js/angular-1.5.7/angular-route.js"></script>

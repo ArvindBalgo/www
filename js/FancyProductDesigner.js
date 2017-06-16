@@ -131,21 +131,17 @@
 		},
 		setText: function (text){
 			if(this.letters){
-				while(text.length!==0&&this.letters.size()>=text.length){
+				while(this.letters.size()>0){
 					this.letters.remove(this.letters.item(this.letters.size()-1));
 				}
-				if(text.length === 0) {
-					this.letters.remove(this.letters.item(0));
-				}
 				for(var i=0; i<text.length; i++){
-					//I need to pass the options from the main options
-					if(this.letters.item(i)===undefined){
 						this.letters.add(new fabric.Text(text[i]));
-					}else{
-						this.letters.item(i).setText(text[i]);
-					}
 				}
 			}
+			this.letters.add(new fabric.Text(''));
+			this.letters.add(new fabric.Text(''));
+			this.letters.add(new fabric.Text(''));
+			this.letters.add(new fabric.Text(''));
 			this.callSuper('setText', text);
 		},
 		_initDimensions: function (ctx){
@@ -356,6 +352,45 @@
 						this.letters.item(i).set('top', -1*this.letters.item(i).get('height')/2);
 					}
 				}
+
+				//start fpd-custom
+				if(this.effect==='curved'){
+					var l1 = this.letters.item(this.letters.size()-4);
+					var l2 = this.letters.item(this.letters.size()-3);
+					var l3 = this.letters.item(this.letters.size()-2);
+					var l4 = this.letters.item(this.letters.size()-1);
+					for(var key in this.delegatedProperties){
+						l1.set(key, this.get(key));
+						l2.set(key, this.get(key));
+						l3.set(key, this.get(key));
+						l4.set(key, this.get(key));
+					}
+					var multiplier=this.reverse?-1:1
+					l1.setAngle(0);
+					l1.set('top', multiplier*-1*(Math.cos(0)*this.radius));
+					l1.set('left', multiplier*(Math.sin(0)*this.radius));
+					l1.set('padding', 0);
+					l1.set('selectable', false);
+
+					l2.setAngle(90);
+					l2.set('top', multiplier*-1*(Math.cos(90*Math.PI/180)*this.radius));
+					l2.set('left', multiplier*(Math.sin(90*Math.PI/180)*this.radius));
+					l2.set('padding', 0);
+					l2.set('selectable', false);
+
+					l3.setAngle(180);
+					l3.set('top', multiplier*-1*(Math.cos(180*Math.PI/180)*this.radius));
+					l3.set('left', multiplier*(Math.sin(180*Math.PI/180)*this.radius));
+					l3.set('padding', 0);
+					l3.set('selectable', false);
+
+					l4.setAngle(270);
+					l4.set('top', multiplier*-1*(Math.cos(270*Math.PI/180)*this.radius));
+					l4.set('left', multiplier*(Math.sin(270*Math.PI/180)*this.radius));
+					l4.set('padding', 0);
+					l4.set('selectable', false);
+				}
+				//end fpd-custom
 
 				var scaleX=this.letters.get('scaleX');
 				var scaleY=this.letters.get('scaleY');
@@ -1401,7 +1436,7 @@ var FPDUtil =  {
 		}
 
 
-		return parseFloat(scaling.toFixed(2));
+		return parseFloat(scaling.toFixed(10));
 
 	},
 
@@ -1581,15 +1616,15 @@ var FPDUtil =  {
 /**
  * The class defining the default options for Fancy Product Designer.
  *
- * @class FancyProductDesignerOptions
+ * @class Options
  */
 var FancyProductDesignerOptions = function() {
 
 	/**
-	 * The default options. See: {{#crossLink "FancyProductDesignerOptions.defaults"}}{{/crossLink}}
+	 * The default options. See: {{#crossLink "Options.defaults"}}{{/crossLink}}
 	 *
 	 * @property defaults
-	 * @for FancyProductDesignerOptions
+	 * @for Options
 	 * @type {Object}
 	 */
 	this.defaults = {
@@ -1598,7 +1633,7 @@ var FancyProductDesignerOptions = function() {
 		* The stage(canvas) width for the product designer.
 		*
 		* @property stageWidth
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Number}
 		* @default "900"
 		*/
@@ -1607,7 +1642,7 @@ var FancyProductDesignerOptions = function() {
 		* The stage(canvas) height for the product designer.
 		*
 		* @property stageHeight
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Number}
 		* @default "600"
 		*/
@@ -1616,7 +1651,7 @@ var FancyProductDesignerOptions = function() {
 		* Enables the editor mode, which will add a helper box underneath the product designer with some options of the current selected element.
 		*
 		* @property editorMode
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Boolean}
 		* @default false
 		*/
@@ -1625,7 +1660,7 @@ var FancyProductDesignerOptions = function() {
 		* The properties that will be displayed in the editor box when an element is selected.
 		*
 		* @property editorBoxParameters
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Array}
 		* @default ['left', 'top', 'angle', 'fill', 'width', 'height', 'fontSize', 'price']
 		*/
@@ -1634,7 +1669,7 @@ var FancyProductDesignerOptions = function() {
 		* An array containing all available fonts.<br/>Since V4.3 you can use TrueType fonts (ttf), which is also recommend. TrueType fonts are required to include the font in the PDF for Fancy Product Designer - Admin, see example.
 		*
 		* @property fonts
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Aarray}
 		* @default [{name: 'Arial'}, {name: 'Lobster', url: 'google'}]
 		* @example since V4.3 set font like this<br />[{name: "Lobster", url: "google"}, {name: 'Custom', url: 'https://yourdomain.com/fonts/custom.ttf"}]
@@ -1644,7 +1679,7 @@ var FancyProductDesignerOptions = function() {
 		* The directory path that contains the templates.
 		*
 		* @property templatesDirectory
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {String}
 		* @default 'templates/'
 		*/
@@ -1653,7 +1688,7 @@ var FancyProductDesignerOptions = function() {
 		* To add photos from Facebook, you have to set your own Facebook API key.
 		*
 		* @property facebookAppId
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {String}
 		* @default ''
 		*/
@@ -1662,7 +1697,7 @@ var FancyProductDesignerOptions = function() {
 		* To add photos from Instagram, you have to set an <a href="http://instagram.com/developer/" target="_blank">Instagram client ID</a>.
 		*
 		* @property instagramClientId
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {String}
 		* @default ''
 		*/
@@ -1671,7 +1706,7 @@ var FancyProductDesignerOptions = function() {
 		* This URI to the php/instagram-auth.php. You have to update this option if you are using a different folder structure.
 		*
 		* @property instagramRedirectUri
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {String}
 		* @default ''
 		*/
@@ -1680,7 +1715,7 @@ var FancyProductDesignerOptions = function() {
 		* The zoom step when using the UI slider to change the zoom level.
 		*
 		* @property zoomStep
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Number}
 		* @default 0.2
 		*/
@@ -1689,7 +1724,7 @@ var FancyProductDesignerOptions = function() {
 		* The maximal zoom factor. Set it to 1 to hide the zoom feature in the user interface.
 		*
 		* @property maxZoom
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Number}
 		* @default 3
 		*/
@@ -1698,7 +1733,7 @@ var FancyProductDesignerOptions = function() {
 		* Set custom names for your hexdecimal colors. key=hexcode without #, value: name of the color.
 		*
 		* @property hexNames
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Object}
 		* @default {}
 		* @example hexNames: {000000: 'dark',ffffff: 'white'}
@@ -1708,7 +1743,7 @@ var FancyProductDesignerOptions = function() {
 		* The border color of the selected element.
 		*
 		* @property selectedColor
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {String}
 		* @default '#d5d5d5'
 		*/
@@ -1717,7 +1752,7 @@ var FancyProductDesignerOptions = function() {
 		* The border color of the bounding box.
 		*
 		* @property boundingBoxColor
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {String}
 		* @default '#005ede'
 		*/
@@ -1726,7 +1761,7 @@ var FancyProductDesignerOptions = function() {
 		* The border color of the element when its outside of his bounding box.
 		*
 		* @property outOfBoundaryColor
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {String}
 		* @default '#990000'
 		*/
@@ -1735,7 +1770,7 @@ var FancyProductDesignerOptions = function() {
 		* If true only the initial elements will be replaced when changing the product. Custom added elements will not be removed.
 		*
 		* @property replaceInitialElements
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Boolean}
 		* @default false
 		*/
@@ -1744,7 +1779,7 @@ var FancyProductDesignerOptions = function() {
 		* If true lazy load will be used for the images in the "Designs" module and "Change Product" module.
 		*
 		* @property lazyLoad
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Boolean}
 		* @default true
 		*/
@@ -1753,7 +1788,7 @@ var FancyProductDesignerOptions = function() {
 		* Defines the file type used for the templates. E.g. if you want to convert all template files (productdesigner.html, instagram_auth.html and canvaserror.html) into PHP files, you need to change this option to 'php'.
 		*
 		* @property templatesType
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {String}
 		* @default 'html'
 		*/
@@ -1762,7 +1797,7 @@ var FancyProductDesignerOptions = function() {
 		* An object that contains the settings for the AJAX post when a custom added image is added to the canvas (Uploaded Images, Facebook/Instagram Photos). This allows to send the URL of the image to a custom-built script, that returns the data URI of the image or uploads the image to your server and returns the new URL on your server. By default the URL is send to php/custom-image-handler.php. See the <a href="http://api.jquery.com/jquery.ajax/" target="_blank">official jQuery.ajax documentation</a> for more information. The data object has a reserved property called url, which is the image URL that will send to the script. The success function is also reserved.
 		*
 		* @property customImageAjaxSettings
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Object}
 		* @example
 		* <pre> customImageAjaxSettings: {<br />  url: 'src/php/custom-image-handler.php',<br />  data: {<br/>   saveOnServer: 1, //image is uploaded to your server <br/>   uploadsDir: '/path/to/uploads_dir', //into this directory <br/>   uploadsDirURL: 'http://yourdomain.com/uploads_dir' //and returns the new URL from this location <br />}}</pre>
@@ -1773,7 +1808,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property url
 			* @type {String}
-			* @for FancyProductDesignerOptions.defaults.customImageAjaxSettings
+			* @for Options.defaults.customImageAjaxSettings
 			* @default 'php/custom-image-handler.php'
 			*/
 			url: 'php/custom-image-handler.php',
@@ -1782,7 +1817,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property method
 			* @type {String}
-			* @for FancyProductDesignerOptions.defaults.customImageAjaxSettings
+			* @for Options.defaults.customImageAjaxSettings
 			* @default 'POST'
 			*/
 			method: 'POST',
@@ -1791,7 +1826,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property dataType
 			* @type {String}
-			* @for FancyProductDesignerOptions.defaults.customImageAjaxSettings
+			* @for Options.defaults.customImageAjaxSettings
 			* @default 'json'
 			*/
 			dataType: 'json',
@@ -1800,7 +1835,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property data
 			* @type {Object}
-			* @for FancyProductDesignerOptions.defaults.customImageAjaxSettings
+			* @for Options.defaults.customImageAjaxSettings
 			* @default {
 				saveOnServer: 0, - use integer as boolean value. 0=false, 1=true
 				uploadsDir: './uploads', - if saveOnServer is 1, you need to specify the directory path where the images are saved
@@ -1817,7 +1852,7 @@ var FancyProductDesignerOptions = function() {
 		* Enable an improved resize filter, that may improve the image quality when its resized.
 		*
 		* @property improvedResizeQuality
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Boolean}
 		* @default false
 		*/
@@ -1826,7 +1861,7 @@ var FancyProductDesignerOptions = function() {
 		* Make the canvas and the elements in the canvas responsive.
 		*
 		* @property responsive
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Boolean}
 		* @default true
 		*/
@@ -1835,7 +1870,7 @@ var FancyProductDesignerOptions = function() {
 		* Hex color value defining the color for the corner icon controls.
 		*
 		* @property cornerIconColor
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {String}
 		* @default '#000000'
 		*/
@@ -1844,7 +1879,7 @@ var FancyProductDesignerOptions = function() {
 		* The URL to the JSON file or an object containing all content from the JSON file. Set to false, if you do not need it.
 		*
 		* @property langJSON
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {String | Object | Boolean}
 		* @default 'lang/default.json'
 		*/
@@ -1853,7 +1888,7 @@ var FancyProductDesignerOptions = function() {
 		* The color palette when the color wheel is displayed.
 		*
 		* @property colorPickerPalette
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Array}
 		* @default []
 		* @example ['#000', '#fff']
@@ -1863,7 +1898,7 @@ var FancyProductDesignerOptions = function() {
 		* An object defining the available actions in the different zones.
 		*
 		* @property actions
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Object}
 		* @default {'top': [], 'right': [], 'bottom': [], 'left': []}
 		* @example {'top': ['manage-layers'], 'right': ['info'], 'bottom': ['undo', 'redo'], 'left': []}
@@ -1878,7 +1913,7 @@ var FancyProductDesignerOptions = function() {
 		* An array defining the available modules in the main bar. Possible values: 'products', 'images', 'text', 'designs'. 'names-numbers', 'drawing' requires Fancy Product Designer Plus Add-On.
 		*
 		* @property mainBarModules
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Array}
 		* @default ['products', 'images', 'text', 'designs']
 		*/
@@ -1887,7 +1922,7 @@ var FancyProductDesignerOptions = function() {
 		* Set the initial active module.
 		*
 		* @property initialActiveModule
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {String}
 		* @default ''
 		*/
@@ -1896,7 +1931,7 @@ var FancyProductDesignerOptions = function() {
 		* An object defining the maximum values for input elements in the toolbar.
 		*
 		* @property maxValues
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {String}
 		* @default {}
 		*/
@@ -1905,7 +1940,7 @@ var FancyProductDesignerOptions = function() {
 		* Set a watermark image when the user downloads/prints the product via the actions. To pass a watermark, just enter a string with an image URL.
 		*
 		* @property watermark
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Boolean | String}
 		* @default false
 		*/
@@ -1914,7 +1949,7 @@ var FancyProductDesignerOptions = function() {
 		* The number of columns used for the grid images in the images and designs module.
 		*
 		* @property gridColumns
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Number}
 		* @default 2
 		*/
@@ -1923,7 +1958,7 @@ var FancyProductDesignerOptions = function() {
 		* Define the price format. Use %d as placeholder for the price.
 		*
 		* @property priceFormat
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {String}
 		* @default '&#36;%d'
 		*/
@@ -1932,7 +1967,7 @@ var FancyProductDesignerOptions = function() {
 		* The ID of an element that will be used as container for the main bar.
 		*
 		* @property mainBarContainer
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Boolean | String}
 		* @default false
 		* @example #customMainBarContainer
@@ -1942,7 +1977,7 @@ var FancyProductDesignerOptions = function() {
 		* The ID of an element that will be used to open the modal, in which the designer is included.
 		*
 		* @property modalMode
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Boolean | String}
 		* @default false
 		* @example #modalButton
@@ -1952,7 +1987,7 @@ var FancyProductDesignerOptions = function() {
 		* Enable keyboard control. Use arrow keys to move and backspace key to delete selected element.
 		*
 		* @property keyboardControl
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Boolean}
 		* @default true
 		*/
@@ -1961,7 +1996,7 @@ var FancyProductDesignerOptions = function() {
 		* Deselect active element when clicking outside of the product designer.
 		*
 		* @property deselectActiveOnOutside
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Boolean}
 		* @default true
 		*/
@@ -1970,7 +2005,7 @@ var FancyProductDesignerOptions = function() {
 		* All upload zones will be always on top of all elements.
 		*
 		* @property uploadZonesTopped
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Boolean}
 		* @default true
 		*/
@@ -1979,7 +2014,7 @@ var FancyProductDesignerOptions = function() {
 		* Loads the first initial product into stage.
 		*
 		* @property loadFirstProductInStage
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Boolean}
 		* @default true
 		*/
@@ -1988,7 +2023,7 @@ var FancyProductDesignerOptions = function() {
 		* If the user leaves the page without saving the product or the getProduct() method is not, a alert window will pop up.
 		*
 		* @property unsavedProductAlert
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Boolean}
 		* @default false
 		*/
@@ -1997,7 +2032,7 @@ var FancyProductDesignerOptions = function() {
 		* If the user adds something and off-canvas panel or dialog is opened, it will be closed.
 		*
 		* @property hideDialogOnAdd
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Boolean}
 		* @default false
 		*/
@@ -2006,7 +2041,7 @@ var FancyProductDesignerOptions = function() {
 		* Set the placement of the toolbar. Possible values: 'dynamic', 'inside-bottom', 'inside-top'
 		*
 		* @property toolbarPlacement
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {String}
 		* @default 'dynamic'
 		*/
@@ -2015,7 +2050,7 @@ var FancyProductDesignerOptions = function() {
 		* The grid size for snap action. First value defines the width on the a-axis, the second on the y-axis.
 		*
 		* @property snapGridSize
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Array}
 		* @default [50, 50]
 		*/
@@ -2024,7 +2059,7 @@ var FancyProductDesignerOptions = function() {
 		* An object containing <a href="http://fabricjs.com/docs/fabric.Canvas.html" target="_blank">options for the fabricjs canvas</a>.
 		*
 		* @property fabricCanvasOptions
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Object}
 		* @default {}
 		*/
@@ -2033,7 +2068,7 @@ var FancyProductDesignerOptions = function() {
 		* Defines the values for the select element in the names & numbers module. Requires Fancy Product Designer Plus Add-On.
 		*
 		* @property namesNumbersDropdown
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Array}
 		* @default []
 		*/
@@ -2042,7 +2077,7 @@ var FancyProductDesignerOptions = function() {
 		* Sets price for any extra entry in the names & numbers module. Requires Fancy Product Designer Plus Add-On.
 		*
 		* @property namesNumbersEntryPrice
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Number}
 		* @default 0
 		*/
@@ -2051,16 +2086,25 @@ var FancyProductDesignerOptions = function() {
 		* Sets the placement for the color selection, possible values: 'inside-tl', 'inside-tc', 'inside-tr', 'inside-bl', 'inside-bc', 'inside-br' or ID of another element(#my-color-selection). You have to define a main element in data-mainelement for the fpd-product element. Requires Fancy Product Designer Plus Add-On.
 		*
 		* @property colorSelectionPlacement
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {String}
 		* @default ''
 		*/
 		colorSelectionPlacement: '',
 		/**
+		* Enable tooltips to display the color code in the color selection panel. If you are using hex names, the hex name will be displayed in the tooltip. Requires Fancy Product Designer Plus Add-On.
+		*
+		* @property colorSelectionTooltip
+		* @for Options.defaults
+		* @type {Boolean}
+		* @default false
+		*/
+		colorSelectionTooltip: false,
+		/**
 		* Sets the placement for the Bulk-Add Variations Form. Just enter ID or class of another element(#my-color-selection). Requires Fancy Product Designer Plus Add-On.
 		*
 		* @property bulkVariationsPlacement
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {String}
 		* @default ''
 		*/
@@ -2069,7 +2113,7 @@ var FancyProductDesignerOptions = function() {
 		* The available variations for the Bulk-Add Variations Form, e.g.: {'Size': ['XL', 'L', 'M', 'S'], 'Color': ['Red', 'Blue']}. Requires Fancy Product Designer Plus Add-On.
 		*
 		* @property bulkVariations
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Object}
 		* @default {}
 		*/
@@ -2078,7 +2122,7 @@ var FancyProductDesignerOptions = function() {
 		* The element where the toolbar will be appended when toolbarPlacement='dynamic'.
 		*
 		* @property toolbarContext
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {String}
 		* @default 'body'
 		*/
@@ -2087,16 +2131,25 @@ var FancyProductDesignerOptions = function() {
 		* Addtional properties for the bounding box. Can be used to set the stroke width etc.. See http://fabricjs.com/docs/fabric.Rect.html
 		*
 		* @property boundingBoxProps
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Object}
 		* @default {strokeWidth: 1}
 		*/
 		boundingBoxProps: {strokeWidth: 1},
 		/**
-		* An object containing the default element parameters in addition to the <a href="http://fabricjs.com/docs/fabric.Object.html" target="_blank">default Fabric Object properties</a>. See <a href="./FancyProductDesignerOptions.defaults.elementParameters.html">FancyProductDesignerOptions.defaults.elementParameters</a>.
+		* If the image (custom uploaded or design) is larger than the canvas, it will be scaled down to fit into the canvas.
+		*
+		* @property fitImagesInCanvas
+		* @for Options.defaults
+		* @type {Boolean}
+		* @default false
+		*/
+		fitImagesInCanvas: false,
+		/**
+		* An object containing the default element parameters in addition to the <a href="http://fabricjs.com/docs/fabric.Object.html" target="_blank">default Fabric Object properties</a>. See <a href="./Options.defaults.elementParameters.html">Options.defaults.elementParameters</a>.
 		*
 		* @property elementParameters
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Object}
 		*/
 		elementParameters: {
@@ -2105,7 +2158,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property z
 			* @type {Number}
-			* @for FancyProductDesignerOptions.defaults.elementParameters
+			* @for Options.defaults.elementParameters
 			* @default -1
 			*/
 			z: -1,
@@ -2114,7 +2167,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property price
 			* @type {Number}
-			* @for FancyProductDesignerOptions.defaults.elementParameters
+			* @for Options.defaults.elementParameters
 			* @default 0
 			*/
 			price: 0, //how much does the element cost
@@ -2123,7 +2176,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property colors
 			* @type {Boolean | String}
-			* @for FancyProductDesignerOptions.defaults.elementParameters
+			* @for Options.defaults.elementParameters
 			* @default false
 			* @example colors: "#000000" => Colorpicker, colors: "#000000,#ffffff" => Range of colors
 			*/
@@ -2133,7 +2186,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property removable
 			* @type {Boolean}
-			* @for FancyProductDesignerOptions.defaults.elementParameters
+			* @for Options.defaults.elementParameters
 			* @default false
 			*/
 			removable: false,
@@ -2142,7 +2195,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property draggable
 			* @type {Boolean}
-			* @for FancyProductDesignerOptions.defaults.elementParameters
+			* @for Options.defaults.elementParameters
 			* @default false
 			*/
 			draggable: false,
@@ -2151,7 +2204,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property rotatable
 			* @type {Boolean}
-			* @for FancyProductDesignerOptions.defaults.elementParameters
+			* @for Options.defaults.elementParameters
 			* @default false
 			*/
 			rotatable: false,
@@ -2160,7 +2213,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property resizable
 			* @type {Boolean}
-			* @for FancyProductDesignerOptions.defaults.elementParameters
+			* @for Options.defaults.elementParameters
 			* @default false
 			*/
 			resizable: false,
@@ -2169,7 +2222,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property copyable
 			* @type {Boolean}
-			* @for FancyProductDesignerOptions.defaults.elementParameters
+			* @for Options.defaults.elementParameters
 			* @default false
 			*/
 			copyable: false,
@@ -2178,7 +2231,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property zChangeable
 			* @type {Boolean}
-			* @for FancyProductDesignerOptions.defaults.elementParameters
+			* @for Options.defaults.elementParameters
 			* @default false
 			*/
 			zChangeable: false,
@@ -2187,7 +2240,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property boundingBox
 			* @type {Boolean}
-			* @for FancyProductDesignerOptions.defaults.elementParameters
+			* @for Options.defaults.elementParameters
 			* @default false
 			*/
 			boundingBox: false,
@@ -2196,7 +2249,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property boundingBoxMode
 			* @type {String}
-			* @for FancyProductDesignerOptions.defaults.elementParameters
+			* @for Options.defaults.elementParameters
 			* @default 'inside'
 			*/
 			boundingBoxMode: 'inside',
@@ -2205,7 +2258,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property autoCenter
 			* @type {Boolean}
-			* @for FancyProductDesignerOptions.defaults.elementParameters
+			* @for Options.defaults.elementParameters
 			* @default false
 			*/
 			autoCenter: false,
@@ -2214,7 +2267,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property replace
 			* @type {String}
-			* @for FancyProductDesignerOptions.defaults.elementParameters
+			* @for Options.defaults.elementParameters
 			* @default ''
 			*/
 			replace: '',
@@ -2223,7 +2276,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property replaceInAllViews
 			* @type {Boolean}
-			* @for FancyProductDesignerOptions.defaults.elementParameters
+			* @for Options.defaults.elementParameters
 			* @default ''
 			*/
 			replaceInAllViews: false,
@@ -2232,7 +2285,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property autoSelect
 			* @type {Boolean}
-			* @for FancyProductDesignerOptions.defaults.elementParameters
+			* @for Options.defaults.elementParameters
 			* @default false
 			*/
 			autoSelect: false,
@@ -2241,7 +2294,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property topped
 			* @type {Boolean}
-			* @for FancyProductDesignerOptions.defaults.elementParameters
+			* @for Options.defaults.elementParameters
 			* @default false
 			*/
 			topped: false,
@@ -2250,7 +2303,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property colorPrices
 			* @type {Object}
-			* @for FancyProductDesignerOptions.defaults.elementParameters
+			* @for Options.defaults.elementParameters
 			* @default {}
 			* @example colorPrices: {"000000": 2, "ffffff: "3.5"}
 			*/
@@ -2260,7 +2313,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property colorLinkGroup
 			* @type {Boolean | String}
-			* @for FancyProductDesignerOptions.defaults.elementParameters
+			* @for Options.defaults.elementParameters
 			* @default false
 			* @example 'my-color-group'
 			*/
@@ -2270,7 +2323,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property patterns
 			* @type {Array}
-			* @for FancyProductDesignerOptions.defaults.elementParameters
+			* @for Options.defaults.elementParameters
 			* @default []
 			* @example patterns: ['patterns/pattern_1.png', 'patterns/pattern_2.png',]
 			*/
@@ -2280,7 +2333,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property sku
 			* @type {String}
-			* @for FancyProductDesignerOptions.defaults.elementParameters
+			* @for Options.defaults.elementParameters
 			* @default ''
 			*/
 			sku: '',
@@ -2298,13 +2351,21 @@ var FancyProductDesignerOptions = function() {
 			opacity: 1,
 			scaleX: 1,
 			scaleY: 1,
+			/**
+			* When true the element is not exported in SVG. If you are going to use one of the data URL methods (e.g. <a href="./FancyProductDesigner.html#method_getProductDataURL">getProductDataURL()</a>), you need to set onlyExportable=true in the options, so the element is not exported in the data URL.
+			*
+			* @property excludeFromExport
+			* @type {Boolean}
+			* @for Options.defaults.elementParameters
+			* @default false
+			*/
 			excludeFromExport: false,
 		},
 		/**
-		* An object containing the default text element parameters in addition to the <a href="http://fabricjs.com/docs/fabric.IText.html" target="_blank">default Fabric IText properties</a>. See <a href="./FancyProductDesignerOptions.defaults.textParameters.html">FancyProductDesignerOptions.defaults.textParameters</a>. The properties in the object will merge with the properties in the elementParameters.
+		* An object containing the default text element parameters in addition to the <a href="http://fabricjs.com/docs/fabric.IText.html" target="_blank">default Fabric IText properties</a>. See <a href="./Options.defaults.textParameters.html">Options.defaults.textParameters</a>. The properties in the object will merge with the properties in the elementParameters.
 		*
 		* @property textParameters
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Object}
 		*/
 		textParameters: {
@@ -2313,7 +2374,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property maxLength
 			* @type {Number}
-			* @for FancyProductDesignerOptions.defaults.textParameters
+			* @for Options.defaults.textParameters
 			* @default 0
 			*/
 			maxLength: 0,
@@ -2322,7 +2383,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property curved
 			* @type {Boolean}
-			* @for FancyProductDesignerOptions.defaults.textParameters
+			* @for Options.defaults.textParameters
 			* @default false
 			*/
 			curved: false,
@@ -2331,7 +2392,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property curvable
 			* @type {Boolean}
-			* @for FancyProductDesignerOptions.defaults.textParameters
+			* @for Options.defaults.textParameters
 			* @default false
 			*/
 			curvable: false,
@@ -2340,7 +2401,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property curveSpacing
 			* @type {Number}
-			* @for FancyProductDesignerOptions.defaults.textParameters
+			* @for Options.defaults.textParameters
 			* @default 10
 			*/
 			curveSpacing: 10,
@@ -2349,7 +2410,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property curveRadius
 			* @type {Number}
-			* @for FancyProductDesignerOptions.defaults.textParameters
+			* @for Options.defaults.textParameters
 			* @default 80
 			*/
 			curveRadius: 80,
@@ -2358,7 +2419,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property curveReverse
 			* @type {Boolean}
-			* @for FancyProductDesignerOptions.defaults.textParameters
+			* @for Options.defaults.textParameters
 			* @default false
 			*/
 			curveReverse: false,
@@ -2367,7 +2428,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property maxLines
 			* @type {Number}
-			* @for FancyProductDesignerOptions.defaults.textParameters
+			* @for Options.defaults.textParameters
 			* @default 0
 			*/
 			maxLines: 0,
@@ -2376,7 +2437,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property textBox
 			* @type {Boolean}
-			* @for FancyProductDesignerOptions.defaults.textParameters
+			* @for Options.defaults.textParameters
 			* @default false
 			*/
 			textBox: false,
@@ -2385,7 +2446,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property textPlaceholder
 			* @type {Boolean | Array}
-			* @for FancyProductDesignerOptions.defaults.textParameters
+			* @for Options.defaults.textParameters
 			* @default false
 			*/
 			textPlaceholder: false,
@@ -2394,7 +2455,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property numberPlaceholder
 			* @type {Boolean}
-			* @for FancyProductDesignerOptions.defaults.textParameters
+			* @for Options.defaults.textParameters
 			* @default false
 			*/
 			numberPlaceholder: false,
@@ -2403,10 +2464,19 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property letterSpacing
 			* @type {Number}
-			* @for FancyProductDesignerOptions.defaults.textParameters
+			* @for Options.defaults.textParameters
 			* @default 0
 			*/
 			letterSpacing: 0,
+			/**
+			* The price will be charged first after the text has been edited.
+			*
+			* @property chargeAfterEditing
+			* @type {Boolean}
+			* @for Options.defaults.textParameters
+			* @default false
+			*/
+			chargeAfterEditing: false,
 			editable: true,
 			fontFamily: "Arial",
 			fontSize: 18,
@@ -2421,10 +2491,10 @@ var FancyProductDesignerOptions = function() {
 			charSpacing: 0,
 		},
 		/**
-		* An object containing the default image element parameters in addition to the <a href="http://fabricjs.com/docs/fabric.Image.html" target="_blank">default Fabric Image properties</a>. See <a href="./FancyProductDesignerOptions.defaults.imageParameters.html">FancyProductDesignerOptions.defaults.imageParameters</a>. The properties in the object will merge with the properties in the elementParameters.
+		* An object containing the default image element parameters in addition to the <a href="http://fabricjs.com/docs/fabric.Image.html" target="_blank">default Fabric Image properties</a>. See <a href="./Options.defaults.imageParameters.html">Options.defaults.imageParameters</a>. The properties in the object will merge with the properties in the elementParameters.
 		*
 		* @property imageParameters
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Object}
 		*/
 		imageParameters: {
@@ -2433,7 +2503,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property uploadZone
 			* @type {Boolean}
-			* @for FancyProductDesignerOptions.defaults.imageParameters
+			* @for Options.defaults.imageParameters
 			* @default false
 			*/
 			uploadZone: false,
@@ -2442,7 +2512,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property filter
 			* @type {Boolean}
-			* @for FancyProductDesignerOptions.defaults.imageParameters
+			* @for Options.defaults.imageParameters
 			* @default false
 			*/
 			filter: false,
@@ -2451,7 +2521,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property availableFilters
 			* @type {Array}
-			* @for FancyProductDesignerOptions.defaults.imageParameters
+			* @for Options.defaults.imageParameters
 			* @default []
 			* @example availableFilters: ['grayscale', 'sepia', 'sepia2']
 			*/
@@ -2461,7 +2531,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property uniScalingUnlockable
 			* @type {Boolean}
-			* @for FancyProductDesignerOptions.defaults.imageParameters
+			* @for Options.defaults.imageParameters
 			* @default false
 			*/
 			uniScalingUnlockable: false,
@@ -2470,7 +2540,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property uploadZoneScaleMode
 			* @type {String}
-			* @for FancyProductDesignerOptions.defaults.imageParameters
+			* @for Options.defaults.imageParameters
 			* @default 'fit'
 			*/
 			scaleMode: 'fit',
@@ -2479,7 +2549,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property resizeToW
 			* @type {Number}
-			* @for FancyProductDesignerOptions.defaults.customImageParameters
+			* @for Options.defaults.customImageParameters
 			* @default 300
 			*/
 			resizeToW: 0,
@@ -2488,7 +2558,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property resizeToH
 			* @type {Number}
-			* @for FancyProductDesignerOptions.defaults.customImageParameters
+			* @for Options.defaults.customImageParameters
 			* @default 300
 			*/
 			resizeToH: 0,
@@ -2496,10 +2566,10 @@ var FancyProductDesignerOptions = function() {
 			minScaleLimit: 0.01
 		},
 		/**
-		* An object containing the default parameters for custom added images. See <a href="./FancyProductDesignerOptions.defaults.customImageParameters.html">FancyProductDesignerOptions.defaults.customImageParameters</a>. The properties in the object will merge with the properties in the elementParameters and imageParameters.
+		* An object containing the default parameters for custom added images. See <a href="./Options.defaults.customImageParameters.html">Options.defaults.customImageParameters</a>. The properties in the object will merge with the properties in the elementParameters and imageParameters.
 		*
 		* @property customImageParameters
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Object}
 		*/
 		customImageParameters: {
@@ -2508,7 +2578,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property minW
 			* @type {Number}
-			* @for FancyProductDesignerOptions.defaults.customImageParameters
+			* @for Options.defaults.customImageParameters
 			* @default 100
 			*/
 			minW: 100,
@@ -2517,7 +2587,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property minH
 			* @type {Number}
-			* @for FancyProductDesignerOptions.defaults.customImageParameters
+			* @for Options.defaults.customImageParameters
 			* @default 100
 			*/
 			minH: 100,
@@ -2526,7 +2596,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property maxW
 			* @type {Number}
-			* @for FancyProductDesignerOptions.defaults.customImageParameters
+			* @for Options.defaults.customImageParameters
 			* @default 1500
 			*/
 			maxW: 1500,
@@ -2535,7 +2605,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property maxH
 			* @type {Number}
-			* @for FancyProductDesignerOptions.defaults.customImageParameters
+			* @for Options.defaults.customImageParameters
 			* @default 1500
 			*/
 			maxH: 1500,
@@ -2544,7 +2614,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property minDPI
 			* @type {Number}
-			* @for FancyProductDesignerOptions.defaults.customImageParameters
+			* @for Options.defaults.customImageParameters
 			* @default 72
 			*/
 			minDPI: 72,
@@ -2553,7 +2623,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property maxSize
 			* @type {Number}
-			* @for FancyProductDesignerOptions.defaults.customImageParameters
+			* @for Options.defaults.customImageParameters
 			* @default 10
 			*/
 			maxSize: 10
@@ -2562,7 +2632,7 @@ var FancyProductDesignerOptions = function() {
 		* An object containing additional parameters for custom added text.The properties in the object will merge with the properties in the elementParameters and textParameters.
 		*
 		* @property customTextParameters
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Object}
 		*/
 		customTextParameters: {
@@ -2572,7 +2642,7 @@ var FancyProductDesignerOptions = function() {
 		* An object containing the supported media types the user can add in the product designer.
 		*
 		* @property customAdds
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Object}
 		*/
 		customAdds: {
@@ -2581,7 +2651,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property designs
 			* @type {Boolean}
-			* @for FancyProductDesignerOptions.defaults.customAdds
+			* @for Options.defaults.customAdds
 			* @default true
 			*/
 			designs: true,
@@ -2590,7 +2660,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property uploads
 			* @type {Boolean}
-			* @for FancyProductDesignerOptions.defaults.customAdds
+			* @for Options.defaults.customAdds
 			* @default true
 			*/
 			uploads: true,
@@ -2599,7 +2669,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property texts
 			* @type {Boolean}
-			* @for FancyProductDesignerOptions.defaults.customAdds
+			* @for Options.defaults.customAdds
 			* @default true
 			*/
 			texts: true,
@@ -2608,7 +2678,7 @@ var FancyProductDesignerOptions = function() {
 			*
 			* @property drawing
 			* @type {Boolean}
-			* @for FancyProductDesignerOptions.defaults.customAdds
+			* @for Options.defaults.customAdds
 			* @default true
 			*/
 			drawing: true
@@ -2617,7 +2687,7 @@ var FancyProductDesignerOptions = function() {
 		* An object containing the properties (parameters) for the QR code.
 		*
 		* @property qrCodeProps
-		* @for FancyProductDesignerOptions.defaults
+		* @for Options.defaults
 		* @type {Object}
 		*/
 		qrCodeProps: {
@@ -2632,7 +2702,7 @@ var FancyProductDesignerOptions = function() {
 	 * Merges the default options with custom options.
 	 *
 	 * @method merge
-	 * @for FancyProductDesignerOptions
+	 * @for Options
 	 * @param {Object} defaults The default object.
 	 * @param {Object} [merge] The merged object, that will be merged into the defaults.
 	 * @return {Object} The new options object.
@@ -2659,7 +2729,7 @@ var FancyProductDesignerOptions = function() {
 	 * Returns all element parameter keys.
 	 *
 	 * @method getParameterKeys
-	 * @for FancyProductDesignerOptions
+	 * @for Options
 	 * @return {Array} An array containing all element parameter keys.
 	 */
 	this.getParameterKeys = function() {
@@ -2816,6 +2886,7 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 		instance.textPlaceholder = null;
 		instance.numberPlaceholder = null;
 		instance.names_numbers = view.names_numbers ? view.names_numbers : null;
+		instance.mainElement = view.mainElement ? view.mainElement : null;
 
 		//replace old width option with stageWidth
 		if(instance.options.width) {
@@ -2868,7 +2939,12 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 
 				}
 
-				if(price !== undefined && price !== 0 && !element.uploadZone && element.type !== 'rect') {
+				if(price !== undefined &&
+					price !== 0 &&
+					!element.uploadZone &&
+					element.type !== 'rect' &&
+					(!element.chargeAfterEditing || element._isPriced))
+				{
 
 					element.setCoords();
 					instance.changePrice(price, '+');
@@ -2880,7 +2956,8 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 
 				var element = opts.target;
 
-				if(element.price !== undefined && element.price !== 0 && !element.uploadZone) {
+				if(element.price !== undefined && element.price !== 0 && !element.uploadZone
+					&& (!element.chargeAfterEditing || element._isPriced)) {
 					instance.changePrice(element.price, '-');
 				}
 
@@ -2953,6 +3030,14 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 
 		}
 
+		$this.on('elementChange', function() {
+
+			if(fabricCanvasOptions.allowTouchScrolling) {
+				instance.stage.allowTouchScrolling = false;
+			}
+
+		});
+
 		//attach handlers to stage
 		instance.stage.on({
 			'mouse:over': function(opts) {
@@ -2975,6 +3060,10 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 
 			},
 			'mouse:up': function(opts) {
+
+				if(fabricCanvasOptions.allowTouchScrolling) {
+					instance.stage.allowTouchScrolling = true;
+				}
 
 				var targetCorner = false;
 				if(opts.target) {
@@ -3447,8 +3536,10 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 	//sets the price for the element if it has color prices
 	var _setColorPrice = function(element, hex) {
 
-		if(element.colorPrices && typeof element.colors === 'object' && element.colors.length > 1) {
+		//only execute when initial elements are loaded and element has color prices and colors is an object
+		if(initialElementsLoaded && element.colorPrices && typeof element.colors === 'object' && element.colors.length > 1) {
 
+			//subtract current color price, if set and is hex
 			if(element.currentColorPrice !== undefined) {
 				element.price -= element.currentColorPrice;
 				instance.changePrice(element.currentColorPrice, '-');
@@ -3457,6 +3548,7 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 			if(typeof hex === 'string') {
 
 				var hexKey = hex.replace('#', '');
+
 				if(element.colorPrices.hasOwnProperty(hexKey) || element.colorPrices.hasOwnProperty(hexKey.toUpperCase())) {
 
 					var elementColorPrice = element.colorPrices[hexKey] === undefined ? element.colorPrices[hexKey.toUpperCase()] : element.colorPrices[hexKey];
@@ -3541,19 +3633,18 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 
 		scale = scale === undefined ? 1 : scale;
 
-		var centerPoint = _this.getCenterPoint(),
-			clipRect = _this.clippingRect,
-			scaleXTo1 = (1 / _this.scaleX),
-			scaleYTo1 = (1 / _this.scaleY);
+		var clipRect = _this.clippingRect;
 
 	    ctx.save();
-	    ctx.translate(0,0);
-	    ctx.rotate(fabric.util.degreesToRadians(_this.angle * -1));
-	    ctx.scale(scaleXTo1, scaleYTo1);
+
+	    var m = _this.calcTransformMatrix(),
+			iM = fabric.util.invertTransform(m);
+
+		ctx.transform.apply(ctx, iM);
 	    ctx.beginPath();
 	    ctx.rect(
-	        (clipRect.left) - centerPoint.x,
-	        (clipRect.top) - centerPoint.y,
+	        clipRect.left,
+	        clipRect.top,
 	        clipRect.width * scale,
 	        clipRect.height * scale
 	    );
@@ -3660,6 +3751,18 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 		if(type === undefined || source === undefined || title === undefined) {
 			return;
 		}
+
+		/**
+	     * Gets fired as soon as an element has beed added.
+	     *
+	     * @event FancyProductDesignerView#beforeElementAdd
+	     * @param {Event} event
+	     * @param {String} type - The element type.
+	     * @param {String} source - URL for image, text string for text element.
+	     * @param {String} title - The title for the element.
+	     * @param {Object} params - The default properties.
+	     */
+		$this.trigger('beforeElementAdd', [type, source, title, params]);
 
 		params = typeof params !== 'undefined' ? params : {};
 		if(type === 'text') {
@@ -3887,6 +3990,10 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 				originParams: $.extend({}, params)
 			});
 
+			//ensure origin text is always the initial text, even when action:save
+			if(params.originParams && params.originParams.text) {
+				fabricParams.originParams.text = params.originParams.text;
+			}
 
 			//fix for correct boundary when using custom fonts
 			var tempFontSize = fabricParams.fontSize;
@@ -4197,6 +4304,20 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 			element.setText(text);
 			parameters.text = text;
 
+			if(element.chargeAfterEditing) {
+
+				if(!element._isPriced) {
+					instance.changePrice(element.price, '+');
+					element._isPriced = true;
+				}
+
+				if( element.originParams.text === text && element._isPriced) {
+					instance.changePrice(element.price, '-');
+					element._isPriced = false;
+				}
+
+			}
+
 		}
 
 		if(elemType === 'text') {
@@ -4381,7 +4502,7 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 	 * @param {Function} callback A function that will be called when the data URL is created. The function receives the data URL.
 	 * @param {String} [backgroundColor=transparent] The background color as hexadecimal value. For 'png' you can also use 'transparent'.
 	 * @param {Object} [options] See fabricjs documentation http://fabricjs.com/docs/fabric.Canvas.html#toDataURL.
-	 * @param {String} [options.onlyExportable=false] If true elements with excludeFromExport=true are not exported in the image.
+	 * @param {Boolean} [options.onlyExportable=false] If true elements with excludeFromExport=true are not exported in the image.
 	 * @param {String} [watermarkImg=false] URL to an imae that will be added as watermark.
 	 */
 	this.toDataURL = function(callback, backgroundColor, options, watermarkImg) {
@@ -4685,6 +4806,9 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 		properties.push('clippingRect');
 		properties.push('evented');
 		properties.push('isCustom');
+		properties.push('currentColorPrice');
+		properties.push('_isPriced');
+		properties.push('originParams');
 		properties = properties.sort();
 
 		if(includeFabricProperties) {
@@ -4929,6 +5053,8 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 		else {
 			instance.totalPrice -= price;
 		}
+
+		instance.totalPrice = Number(instance.totalPrice.toFixed(2));
 
 		/**
 	     * Gets fired as soon as the price has changed.
@@ -5242,6 +5368,11 @@ var FPDToolbar = function($uiElementToolbar, fpdInstance) {
 						move: function(color) {
 							instance.isTransforming = true;
 							fpdInstance.currentViewInstance.setElementParameters( {stroke: color.toHexString()} );
+
+						},
+						change: function(color) {
+
+							fpdInstance.currentViewInstance.setElementParameters({stroke: color.toHexString()});
 
 						}
 					});
@@ -5985,7 +6116,7 @@ var FPDMainBar = function(fpdInstance, $mainBar, $modules, $draggableDialog) {
 			$content.find('.fpd-manage-layers-panel')
 			.find('.fpd-current-color, .fpd-path-colorpicker').spectrum('destroy');
 
-			if(fpdInstance.$container.hasClass('fpd-topbar') && $this.hasClass('fpd-active')) {
+			if(fpdInstance.$container.hasClass('fpd-topbar') && $this.hasClass('fpd-active')) { //hide dialog when clicking on active nav item
 
 				$this.removeClass('fpd-active');
 				instance.toggleDialog(false);
@@ -6379,9 +6510,13 @@ var FPDActions = function(fpdInstance, $actions){
 
 		}
 
-		fpdInstance.$container.on('viewSelect', function() {
+		fpdInstance.$container.on('viewSelect', function(evt, viewIndex, viewInstance) {
 
 			instance.resetAllActions();
+
+			fpdInstance.$mainWrapper.find('[data-action="previous-view"], [data-action="next-view"]').toggleClass('fpd-hidden', fpdInstance.viewInstances.length <= 1);
+			fpdInstance.$mainWrapper.find('[data-action="previous-view"]').toggleClass('fpd-disabled', viewIndex === 0);
+			fpdInstance.$mainWrapper.find('[data-action="next-view"]').toggleClass('fpd-disabled', viewIndex === fpdInstance.viewInstances.length - 1);
 
 		});
 
@@ -6490,7 +6625,7 @@ var FPDActions = function(fpdInstance, $actions){
 				}
 
 				var orientation = fpdInstance.currentViewInstance.stage.getWidth() > fpdInstance.currentViewInstance.stage.getHeight() ? 'l' : 'p',
-					doc = new jsPDF(orientation, 'mm', [largestWidth * 0.26, largestHeight * 0.26]);
+					doc = new jsPDF(orientation, 'mm', [largestWidth * 0.264583, largestHeight * 0.264583]);
 
 				for(var i=0; i < dataURLs.length; ++i) {
 
@@ -6991,6 +7126,12 @@ var FPDActions = function(fpdInstance, $actions){
 			$this.toggleClass('fpd-active');
 
 		}
+		else if(action === 'previous-view') {
+			fpdInstance.selectView(fpdInstance.currentViewIndex - 1);
+		}
+		else if(action === 'next-view') {
+			fpdInstance.selectView(fpdInstance.currentViewIndex + 1);
+		}
 
 	};
 
@@ -7028,7 +7169,9 @@ FPDActions.availableActions = [
 	'download',
 	'magnify-glass',
 	'preview-lightbox',
-	'ruler'
+	'ruler',
+	'previous-view',
+	'next-view'
 ];
 
 FPDActions.rulerHorImg = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAAAeCAYAAADaW7vzAAAAAXNSR0IArs4c6QAAAMtJREFUaAXt0bENAkEMBVGgJVranja5lq4myH50wUr+wQRDZCHWWPPee+/fdV33yw+iwAdxhUekgCBJwRgEYTjkCkGSgjEIwnDIFYIkBWMQhOGQKwRJCsYgCMMhVwiSFIxBEIZDrhAkKRiDIAyHXCFIUjAGQRgOuUKQpGAMgjAccoUgScEYjkHWWt+Tk/3dc6XTLscgz3/jt+0CgrSLDvcJMgzYfi5Iu+hwnyDDgO3ngrSLDvcJMgzYfi5Iu+hwnyDDgO3ngrSLDvf9ARH1Efg/D4CQAAAAAElFTkSuQmCC';
@@ -7238,24 +7381,54 @@ var DesignsModule = function(fpdInstance, $module) {
 			var $this = $(this),
 				designParams = $this.data('parameters'),
 				currentImageParameters = fpdInstance.currentViewInstance.options.imageParameters,
-				params = $.extend({}, currentImageParameters, designParams);
+				params = $.extend({}, currentImageParameters, designParams),
+				source = $this.data('source'),
+				scaleX = designParams.scaleX || 1,
+				scaleY = designParams.scaleY || 1;
 
-			if(params.resizeToW || params.resizeToH) {
+			var image = new Image();
 
-				var scaling = FPDUtil.getScalingByDimesions(
-					$this.children('picture').data('originWidth'),
-					$this.children('picture').data('originHeight'),
-					params.resizeToW,
-					params.resizeToH
-				);
-				designParams.scaleX = scaling;
-				designParams.scaleY = scaling;
+			image.onload = function() {
 
-			}
+				var imageW = this.width,
+					imageH = this.height;
 
-			designParams.isCustom = true;
+				if(params.resizeToW || params.resizeToH) {
 
-			fpdInstance.addElement('image', $this.data('source'), $this.data('title'), designParams);
+					scaleX = scaleY = FPDUtil.getScalingByDimesions(
+						imageW,
+						imageH,
+						params.resizeToW,
+						params.resizeToH
+					);
+				}
+
+				if(fpdInstance.mainOptions.fitImagesInCanvas) {
+
+					var iconTolerance = fpdInstance.mainOptions.elementParameters.cornerSize;
+
+					if((imageW * scaleX) + iconTolerance > fpdInstance.currentViewInstance.stage.width
+						|| (imageH * scaleY) + iconTolerance > fpdInstance.currentViewInstance.stage.height) {
+
+						scaleX = scaleY = FPDUtil.getScalingByDimesions(
+							imageW,
+							imageH,
+							fpdInstance.currentViewInstance.options.stageWidth - iconTolerance,
+							fpdInstance.currentViewInstance.options.stageHeight - iconTolerance
+						);
+
+					}
+				}
+
+				designParams.isCustom = true;
+				designParams.scaleX = scaleX;
+				designParams.scaleY = scaleY;
+
+				fpdInstance.addElement('image', source, $this.data('title'), designParams);
+
+			};
+			image.src = source;
+
 
 		}).data('parameters', design.parameters);
 
@@ -8391,7 +8564,7 @@ var ImagesModule = function(fpdInstance, $module) {
  * @class FancyProductDesigner
  * @constructor
  * @param {HTMLElement | jQuery} elem - A HTML element with an unique ID.
- * @param {Object} [opts] - The default options - {{#crossLink "FancyProductDesignerOptions"}}{{/crossLink}}.
+ * @param {Object} [opts] - See {{#crossLink "Options.defaults"}}{{/crossLink}}.
  */
 var FancyProductDesigner = function(elem, opts) {
 
@@ -8414,7 +8587,9 @@ var FancyProductDesigner = function(elem, opts) {
 		productIsCustomized = false,
 		zoomReseted = false,
 		initCSSClasses = '',
-		anonymFuncs = {};
+		anonymFuncs = {},
+		_totalProductElements = 0,
+		_productElementLoadingIndex = 0;
 
 	/**
 	 * Array containing all added products categorized.
@@ -8426,7 +8601,7 @@ var FancyProductDesigner = function(elem, opts) {
 	/**
 	 * Array containing all added products uncategorized.
 	 *
-	 * @property products
+	 * @property plainProducts
 	 * @type Array
 	 */
 	this.plainProducts = [];
@@ -8526,7 +8701,7 @@ var FancyProductDesigner = function(elem, opts) {
 	/**
 	 * Indicates if the product is created or not.
 	 *
-	 * @property watermarkImg
+	 * @property productCreated
 	 * @type Boolean
 	 * @default false
 	 */
@@ -8558,20 +8733,11 @@ var FancyProductDesigner = function(elem, opts) {
 	/**
 	 * The price for a single product without quantity.
 	 *
-	 * @property colorLinkGroups
+	 * @property singleProductPrice
 	 * @type Number
 	 * @default 0
 	 */
 	this.singleProductPrice = 0;
-	this.languageJSON = {
-		"toolbar": {},
-		"actions": {},
-		"modules": {},
-		"misc": {},
-		"plus": {}
-	};
-
-	this.mainElement = null;
 	//PLUS
 	/**
 	 * The order quantity.
@@ -8582,6 +8748,14 @@ var FancyProductDesigner = function(elem, opts) {
 	 */
 	this.orderQuantity = 1;
 
+	this.languageJSON = {
+		"toolbar": {},
+		"actions": {},
+		"modules": {},
+		"misc": {},
+		"plus": {}
+	};
+	this.mainElement = null;
 	this._order = {};
 	this._loadingCustomImage = false;
 
@@ -8617,6 +8791,10 @@ var FancyProductDesigner = function(elem, opts) {
 			$elem.removeClass('fpd-topbar').addClass('fpd-sidebar');
 		}
 
+		if(!options.fabricCanvasOptions.allowTouchScrolling) {
+			$elem.addClass('fpd-disable-touch-scrolling');
+		}
+
 		instance.$container = $elem.data('instance', instance);
 
 		//save products and designs HTML
@@ -8645,6 +8823,7 @@ var FancyProductDesigner = function(elem, opts) {
 				$modalProductDesigner.addClass('fpd-fullscreen').fadeIn(300);
 				if(instance.currentViewInstance) {
 					instance.currentViewInstance.resetCanvasSize();
+					instance.resetZoom();
 				}
 
 				var $selectedModule = $mainBar.children('.fpd-navigation').children('.fpd-active');
@@ -8698,14 +8877,6 @@ var FancyProductDesigner = function(elem, opts) {
 			anonymFuncs.loadCanvasError = function(html) {
 
 				$elem.append($.parseHTML(html)).fadeIn(300);
-
-				/**
-			     * Gets fired as soon as a template has been loaded.
-			     *
-			     * @event FancyProductDesigner#templateLoad
-			     * @param {Event} event
-			     * @param {string} URL - The URL of the loaded template.
-			     */
 				$elem.trigger('templateLoad', [this.url]);
 
 			};
@@ -8839,8 +9010,9 @@ var FancyProductDesigner = function(elem, opts) {
 			}
 
 			if($window.width() < 568 && !instance.$container.hasClass('fpd-topbar')) {
-				instance.$container.removeClass('fpd-sidebar').addClass('fpd-topbar');
+
 				if(instance.mainBar && !options.mainBarContainer) {
+					instance.$container.removeClass('fpd-sidebar').addClass('fpd-topbar');
 					instance.mainBar.setContentWrapper('draggable-dialog');
 				}
 
@@ -8912,6 +9084,8 @@ var FancyProductDesigner = function(elem, opts) {
 				_translateElement($(uiElement));
 
 			});
+
+			instance.translatedUI = $uiElements;
 
 			if(options.mainBarContainer) {
 
@@ -9659,10 +9833,12 @@ var FancyProductDesigner = function(elem, opts) {
 	 * @method loadProduct
 	 * @param {array} views An array containing the views for the product.
 	 * @param {Boolean} [onlyReplaceInitialElements=false] If true, the initial elements will be replaced. Custom added elements will stay on the canvas.
+	 * @param {Boolean} [mergeMainOptions=false] Merges the main options into every view options.
 	 */
-	this.loadProduct = function(views, replaceInitialElements) {
+	this.loadProduct = function(views, replaceInitialElements, mergeMainOptions) {
 
 		replaceInitialElements = typeof replaceInitialElements !== 'undefined' ? replaceInitialElements : false;
+		mergeMainOptions = typeof mergeMainOptions !== 'undefined' ? mergeMainOptions : false;
 
 		if($stageLoader.is(':hidden')) {
 			instance.toggleSpinner(true);
@@ -9672,9 +9848,9 @@ var FancyProductDesigner = function(elem, opts) {
 		instance.productCreated = productIsCustomized = false;
 		instance.colorLinkGroups = {};
 
+		nonInitials = [];
 		if(replaceInitialElements) {
 
-			nonInitials = [];
 			nonInitials = instance.getCustomElements();
 
 		}
@@ -9683,7 +9859,21 @@ var FancyProductDesigner = function(elem, opts) {
 		}
 
 		instance.clear();
+
+		if(mergeMainOptions) {
+
+			views.forEach(function(view, i) {
+				view.options = fpdOptions.merge(instance.mainOptions, view.options);
+			});
+
+		}
+
 		instance.currentViews = views;
+
+		_totalProductElements = _productElementLoadingIndex = 0;
+		views.forEach(function(view, i) {
+			_totalProductElements += view.elements.length;
+		});
 
 		var viewSelectionHtml = '<div class="fpd-views-selection fpd-grid-contain fpd-clearfix"></div>';
 
@@ -9710,7 +9900,9 @@ var FancyProductDesigner = function(elem, opts) {
 	 */
 	this.addView = function(view) {
 
-		instance.$viewSelectionWrapper.append('<div class="fpd-shadow-1 fpd-item fpd-tooltip" title="'+view.title+'"><picture style="background-image: url('+view.thumbnail+');"></picture></div>')
+		var viewImageURL = instance.mainOptions._loadFromScript ? instance.mainOptions._loadFromScript + view.thumbnail : view.thumbnail;
+
+		instance.$viewSelectionWrapper.append('<div class="fpd-shadow-1 fpd-item fpd-tooltip" title="'+view.title+'"><picture style="background-image: url('+viewImageURL+');"></picture></div>')
 		.children('div:last').click(function(evt) {
 
 			instance.selectView(instance.$viewSelectionWrapper.children('div').index($(this)));
@@ -9762,6 +9954,7 @@ var FancyProductDesigner = function(elem, opts) {
 
 		}, instance.mainOptions.fabricCanvasOptions);
 
+
 		viewInstance.stage.on({
 
 			'object:moving': function(opts) {
@@ -9780,6 +9973,16 @@ var FancyProductDesigner = function(elem, opts) {
 		_viewInstances.push(viewInstance);
 
 		$(viewInstance)
+		.on('beforeElementAdd', function(evt, type, source, title, params) {
+
+			if(!instance.productCreated) {
+				_productElementLoadingIndex++;
+
+				var loadElementState = title + '<br>' + String(_productElementLoadingIndex) + '/' + _totalProductElements;
+				$stageLoader.find('.fpd-loader-text').html(loadElementState);
+			}
+
+		})
 		.on('elementAdd', function(evt, element) {
 
 			if(!element) {
@@ -10211,7 +10414,7 @@ var FancyProductDesigner = function(elem, opts) {
 	 * @param {Function} callback A function that will be called when the data URL is created. The function receives the data URL.
 	 * @param {String} [backgroundColor=transparent] The background color as hexadecimal value. For 'png' you can also use 'transparent'.
 	 * @param {Object} [options] See fabricjs documentation http://fabricjs.com/docs/fabric.Canvas.html#toDataURL.
-	 * @param {String} [options.onlyExportable=false] If true elements with excludeFromExport=true are not exported in the image.
+	 * @param {Boolean} [options.onlyExportable=false] If true elements with excludeFromExport=true are not exported in the image.
 	 * @example fpd.getProductDataURL( function(dataURL){} );
 	 */
 	this.getProductDataURL = function(callback, backgroundColor, options) {
@@ -10283,7 +10486,7 @@ var FancyProductDesigner = function(elem, opts) {
 	 * @param {Function} callback A function that will be called when the data URL is created. The function receives the data URL.
 	 * @param {string} [backgroundColor=transparent] The background color as hexadecimal value. For 'png' you can also use 'transparent'.
 	 * @param {string} [options] See fabricjs documentation http://fabricjs.com/docs/fabric.Canvas.html#toDataURL.
-	 * @param {String} [options.onlyExportable=false] If true elements with excludeFromExport=true are not exported in the image.
+	 * @param {Boolean} [options.onlyExportable=false] If true elements with excludeFromExport=true are not exported in the image.
 	 * @return {array} An array with all views as data URLs.
 	 */
 	this.getViewsDataURL = function(callback, backgroundColor, options) {
@@ -10478,7 +10681,7 @@ var FancyProductDesigner = function(elem, opts) {
 	 * @param {boolean} [forceDownload=false] Downloads the image to the user's computer.
 	 * @param {string} [backgroundColor=transparent] The background color as hexadecimal value. For 'png' you can also use 'transparent'.
 	 * @param {string} [options] See fabricjs documentation http://fabricjs.com/docs/fabric.Canvas.html#toDataURL.
-	 * @param {String} [options.onlyExportable=false] If true elements with excludeFromExport=true are not exported in the image.
+	 * @param {Boolean} [options.onlyExportable=false] If true elements with excludeFromExport=true are not exported in the image.
 	 */
 	this.createImage = function(openInBlankPage, forceDownload, backgroundColor, options) {
 
@@ -10633,7 +10836,8 @@ var FancyProductDesigner = function(elem, opts) {
 				thumbnail: viewInstance.thumbnail,
 				elements: [],
 				options: relevantViewOpts,
-				names_numbers: viewInstance.names_numbers
+				names_numbers: viewInstance.names_numbers,
+				mainElement: viewInstance.mainElement
 			});
 		}
 
@@ -10757,23 +10961,43 @@ var FancyProductDesigner = function(elem, opts) {
 				imageW = this.width,
 				currentCustomImageParameters = instance.currentViewInstance.options.customImageParameters,
 				imageParts = this.src.split('.'),
-				scaling = 1;
+				scaleX = currentCustomImageParameters.scaleX || 1,
+				scaleY = currentCustomImageParameters.scaleY || 1;
 
 			if(!FPDUtil.checkImageDimensions(instance, imageW, imageH)) {
 				instance.toggleSpinner(false);
     			return false;
 			}
 
-			scaling = FPDUtil.getScalingByDimesions(
-				imageW,
-				imageH,
-				currentCustomImageParameters.resizeToW,
-				currentCustomImageParameters.resizeToH
-			);
+			if(currentCustomImageParameters.resizeToW || currentCustomImageParameters.resizeToH) {
+				scaleX = scaleY = FPDUtil.getScalingByDimesions(
+					imageW,
+					imageH,
+					currentCustomImageParameters.resizeToW,
+					currentCustomImageParameters.resizeToH
+				);
+			}
+
+			if(instance.mainOptions.fitImagesInCanvas) {
+
+				var iconTolerance = instance.mainOptions.elementParameters.cornerSize;
+
+				if((imageW * scaleX) + iconTolerance > instance.currentViewInstance.stage.width
+					|| (imageH * scaleY) + iconTolerance > instance.currentViewInstance.stage.height) {
+
+					scaleX = scaleY = FPDUtil.getScalingByDimesions(
+						imageW,
+						imageH,
+						instance.currentViewInstance.options.stageWidth - iconTolerance,
+						instance.currentViewInstance.options.stageHeight - iconTolerance
+					);
+
+				}
+			}
 
 			var fixedParams = {
-				scaleX: scaling,
-				scaleY: scaling,
+				scaleX: scaleX,
+				scaleY: scaleY,
 				isCustom: true
 			};
 
@@ -10849,7 +11073,9 @@ var FancyProductDesigner = function(elem, opts) {
 	 * @method getOrder
 	 * @param {Object} options Options for the methods that are called inside this mehtod, e.g. getProduct() can receive two parameters.
 	 * @return {object} An object containing different objects representing important order data.
-	 * @example fpd.getOrder( {onlyEditableElements: true, customizationRequired: true} );
+	 * @example
+	 * // includes only editable elements and the user needs to customize the initial product
+	 * fpd.getOrder( {onlyEditableElements: true, customizationRequired: true} );
 	 */
 	this.getOrder = function(options) {
 
