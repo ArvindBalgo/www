@@ -53,8 +53,8 @@ angular
             }).then(function successCallback(response) {
                 console.log(response.data);
                 vm.infoProd = response.data;
-
-                console.log(JSON.parse(vm.infoProd.data));
+                var result = vm.infoProd.data.slice(1, -1);
+                console.log(JSON.parse(result));
 
 
                 $timeout(function () {
@@ -123,11 +123,11 @@ angular
                         },
                         yourDesigner = new FancyProductDesigner($yourDesigner, pluginOpts);
 
-                    var data = JSON.parse(vm.infoProd.data);
+                    var data = JSON.parse(result);
                     var arrProducts = [];
                     var arrFront = [];
                     var arrBack = [];
-                    console.log(data[0].elements, " -----")
+                    console.log(data, " -----")
                     angular.forEach(data[0].elements, function (value1) {
                         console.log(value1, '====' );
                         var flag = false;

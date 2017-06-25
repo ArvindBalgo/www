@@ -54,7 +54,8 @@
 <script src="js/jquery.ui.sortable.min.js"></script>
 <script src="assets/js/endless_scroll_min.js"></script>
 <script src="js/fabric.min.js"></script>
-<script src="js/FancyProductDesigner.js"></script>
+<script src="js/FancyProductDesigner-all.min.js"></script>
+<script src="js/FancyProductDesignerPlus.min.js"></script>
 <!--script src="js/FancyProductDesigner-all.min.js"></script-->
 <script src="js/plugins.min.js"></script>
 <script src="assets/js/angular-1.5.7/angular.js"></script>
