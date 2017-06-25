@@ -2,7 +2,17 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Exakom</title>
+    <TITLE>Exakom créateur spécialisé pour votre communication</TITLE>
+    <META NAME="KEYWORDS" CONTENT="Sentorette, calendrier, carte message, carte prix,
+étiquette autocollante, flyer,
+contenant, Flower bag, plaquette,
+Bon cadeau,
+disque de stationnement,
+ballotin, bloc note, sous main, sac, pochette couvert, rond serviette, sous bock, set table, accroche porte,
+chemise rabats, marque page,
+Exakom, bolduc, étiquette fleuriste">
+    <META NAME="DESCRIPTION" CONTENT="Produit spécialisé fleuriste, jardinerie, pompes funèbres, Boulanger, Pâtisserie, Traiteur, Boucherie, Goût et Gastronomie, Restaurant, Soins et beauté, Prêt à porter, Bijouterie, Opticien, Parfumerie">
+    <META NAME="ROBOTS" CONTENT="INDEX,FOLLOW">
     <link rel="icon" type="image/png" href="assets/images/favicon.ico">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
@@ -13,6 +23,7 @@
     <link rel="stylesheet" href="sections/fiche/fiche.css"/>
     <link rel="stylesheet" href="sections/apropos/apropos.css"/>
     <link rel="stylesheet" href="sections/client/client.css"/>
+    <link rel="stylesheet" href="sections/checkout/checkout.css"/>
     <!-- The CSS for the plugin itself - required -->
     <link rel="stylesheet" type="text/css" href="css/FancyProductDesigner-all.min.css" />
     <!-- Optional - only when you would like to use custom fonts - optional -->
@@ -100,6 +111,7 @@ window.smartsupp||(function(d) {
 <script src="sections/legale/legale.ctrl.js"></script>
 <script src="sections/utilisation/utilisation.ctrl.js"></script>
 <script src="sections/client/client.ctrl.js"></script>
+<script src="sections/checkout/checkout.ctrl.js"></script>
 <!--script src="sections/premieres/premieres.ctrl.js"></script>
 <script src="sections/search/search.ctrl.js"></script>
 <script src="sections/view/view.ctrl.js"></script>

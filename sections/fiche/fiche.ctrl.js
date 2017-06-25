@@ -96,7 +96,32 @@ angular
         vm.productsDesign = [];
 
         vm.fnInit = function (idprod) {
-            console.log("**************************************");
+
+
+
+            $.ajax({
+                url: 'https://www.klikandpay.com/paiementtest/check.pl',
+                type: 'post',
+                dataType: 'json',
+                success: function (data) {
+                    console.log("data");
+                },
+                data: {
+                    NOM: 'arvind',
+                    PRENOM:'BALGO',
+                    ADDRESSE: 'LE GRAND ROAD',
+                    CODEPOSTAL:'65065',
+                    VILLE:'GRAND BOIS',
+                    PAYS:'FR',
+                    TEL:'6175942',
+                    ID:'1234567890',
+                    MONTANT:'1200'                }
+            }).done(function (data) {});
+
+
+
+
+                console.log("**************************************");
             console.log(localStorage.idModelMetier);
             console.log(vm.currentProd);
             console.log(idprod);
@@ -2286,6 +2311,8 @@ angular
                                 console.log(ligne, " current prod selected");
                                 vm.produit.titre = produit.title;
                                 vm.produit.commentaire = ligne.commentaire;
+                                ligne.data = ligne.data.slice(1, -1);
+                                console.log(ligne.data)
                                 angular.forEach(ligne.data, function (value) {
                                     angular.forEach(value.elements, function (value1) {
                                         var flag = false;

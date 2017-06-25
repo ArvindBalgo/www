@@ -396,7 +396,7 @@ class temp_prod
         $temp_prod->_support = $rs["idsupport"];
         $temp_prod->_qte = $rs["qte"];
         $temp_prod->_title = $rs["title"];
-        $temp_prod->_data = json_decode($rs["data"]);
+        $temp_prod->_data = ($rs["data"]);
         $temp_prod->_random_str = json_decode($rs["random_str"]);
         $temp_prod->_escargot_val = json_decode($rs["escargot_val"]);
         $temp_prod->_contours = json_decode($rs["contours"]);

@@ -19,6 +19,11 @@ app.config(['$routeProvider',
                 templateUrl: 'partials/login.html',
                 controller: 'logoutCtrl'
             })
+        .when('/checkout', {
+                title: 'Checkout',
+                templateUrl: 'sections/checkout/checkout.tpl.html',
+                controller: 'checkoutController as chcekout'
+            })
         .when('/signup', {
                 title: 'Signup',
                 templateUrl: 'partials/signup.html',

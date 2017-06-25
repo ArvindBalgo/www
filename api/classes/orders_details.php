@@ -391,7 +391,7 @@ class orders_details
             $requete .= ",qte='" . $this->_qte . "'";
             $requete .= ",id_qte='" . $this->_id_qte . "'";
             $requete .= ",title='" . $this->_title . "'";
-            $requete .= ",data='" . json_encode($this->_data) . "'";
+            $requete .= ",data='" . ($this->_data) . "'";
             $requete .= ",created_by='" . $this->_created_by . "'";
             $requete .= ",modified_by='" . $this->_modified_by . "'";
             $requete .= ",date_created='" . $this->_date_created . "'";
@@ -452,7 +452,7 @@ class orders_details
             $requete .= "'" . $this->_qte . "',";
             $requete .= "'" . $this->_id_qte . "',";
             $requete .= "'" . $this->_title . "',";
-            $requete .= "'" . json_encode($this->_data) . "',";
+            $requete .= "'" . $this->_data . "',";
             $requete .= "'" . $this->_created_by . "',";
             $requete .= "'" . $this->_modified_by . "',";
             $requete .= "'" . $this->_date_created . "',";

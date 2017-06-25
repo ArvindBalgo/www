@@ -526,7 +526,7 @@ if ($mode == 0) {
                 $orders_details->setQte($tempProd->getQte());
                 $orders_details->setIdQte($tempProd->getIdQte());
                 $orders_details->setTitle($tempProd->getTitle());
-                $orders_details->setData($tempProd->getData());
+                $orders_details->setData(json_encode($tempProd->getData()));
                 $orders_details->setFlag("NEW");
                 $orders_details->setStatus("INCOMPLETE");
                 $orders_details->setDateCreated(date("Y-m-d H:i:s"));

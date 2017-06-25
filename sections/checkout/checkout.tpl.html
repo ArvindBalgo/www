@@ -1,0 +1,61 @@
+<header ng-include="'sections/header.html'"></header>
+<div class="row">
+    <form method="POST" action="https://www.klikandpay.com/paiement/order1.pl" accept-charset="UTF8" id="knp-form" target="_top">
+        <table border="0" cellpadding="2" cellspacing="0" width="20%">
+            <meta charset="UTF-8">
+            <tr>
+                <td width="50%">Surname:</td>
+                <td width="50%"><input type="text" name="NOM" size="24" value=""></td>
+            </tr>
+            <tr>
+                <td width="50%">First name:</td>
+                <td width="50%"><input type="text" name="PRENOM" size="24" value=""></td>
+            </tr>
+            <tr>
+                <td width="50%">Address:</td>
+                <td width="50%"><input type="text" name="ADDRESSE" size="24" value=""></td>
+            </tr>
+            <tr>
+                <td width="50%">Postcode:</td>
+                <td width="50%"><input type="text" name="CODEPOSTAL" size="24" value=""></td>
+            </tr>
+            <tr>
+                <td width="50%">Town:</td>
+                <td width="50%"><input type="text" name="VILLE" size="24" value=""></td>
+            </tr>
+            <tr>
+                <td width="50%">Country:</td>
+                <td width="50%"><select size="1" name="PAYS">
+                    <option value="CH" selected="selected">Switzerland</option>
+                    <option value="FR">France</option>
+                </select>
+                </td>
+            </tr>
+            <tr>
+                <td width="50%">Tel:</font></td>
+                <td width="50%"><input type="text" name="TEL" size="24" value=""></td>
+            </tr>
+            <tr>
+                <td width="50%">E-mail:</font></td>
+                <td width="50%"><input type="text" name="EMAIL" size="24" value=""></td>
+            </tr>
+            <input type="hidden" name="ID" value="1494249383">
+            <input type="hidden" name="MONTANT" value="1">
+            <tr>
+                <td width="100%" colspan="2">
+                    <p align="center"><input type="submit" value="Send" name="B1"></p></td>
+            </tr>
+</div>
+<footer>
+    <div class="signature">
+        <div class="col-md-4">
+            <span class='block-image' ng-show="apropos.isFrance"><img style="width: 60px; height: 60px;" src="images/Logo_fabrique_en_france.png"></span>
+            <span class='block-image'><img style="width: 60px; height: 60px;" src="images/logo_Imprim_vert_vert.png"></span>
+            <span class='block-image'><img style="width: 60px; height: 60px;" src="images/moton71.gif"></span>
+            <span class='block-image'><img style="width: 60px; height: 60px;" src="images/moton73.gif"></span>
+        </div>
+        <div class="col-md-offset-4" style="padding-top: 50px">
+            <a href="#/apropos" style="color: white">{{'whois' | translate}}</a> / <a style="color: white " href="#/conditionvente">{{'vente_conditions' | translate}}</a> / <a style="color: white " href="#/utilisation">{{'usage_utils' | translate}}</a> / <a style="color: white " href="#/legale">{{'usage_legal' | translate}}</a>
+        </div>
+    </div>
+</footer>
