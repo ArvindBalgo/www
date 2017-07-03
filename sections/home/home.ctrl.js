@@ -436,6 +436,23 @@ Data.get('session.php').then(function (results) {
             }
         };
 
+        vm.fnCheckout = function() {
+            Data.get('session.php').then(function (results) {
+                console.log(results, "  DATA results");
+                if (results.uid) {
+                    $scope.isLogged = true;
+                    $scope.utilisateur = results.name;
+                    console.log(vm.arrProduits, " array produits");
+                    $location.path('/checkout');
+                }
+                else if (!results.uid) {
+                    $scope.alertMsg = "Veuillez vous connecter ou vous enregistrer pour pouvoir continuer svp.";
+                }
+                $scope.sessionInfo = results;
+                //$location();
+            })
+        }
+
         vm.fnShowButtonComm = function(text) {
             if(text != "" && typeof text !== 'undefined'){
                 return true;

@@ -46,6 +46,7 @@ class users {
     private $_city = null;
     private $_pays = "FR";
     private $_created = null;
+    private $_postalcode = null;
 
     private static $SELECT = "SELECT * FROM customers_auth ";
 
@@ -98,6 +99,9 @@ class users {
     public function setCreated($created) {
         $this->_created = $created;
     }
+    public function setPostalCode($postalCode) {
+        $this->_postalcode = $postalCode;
+    }
 
     //**** Getters *****
 
@@ -142,6 +146,10 @@ class users {
         return $this->_created;
     }
 
+    public function getPostalCode(){
+        return $this->_postalcode;
+    }
+
     public function delete($uid) {
         $requete = "delete from customers_auth where uid=" . $uid ;
         $r = $this->conn->query($requete) or die($this->conn->error.__LINE__);
@@ -164,6 +172,7 @@ class users {
             $requete .= ",city='" . $this->_city . "',";
             $requete .= ",pays='" . $this->_pays . "',";
             $requete .= ",created='" . $this->_created . "',";
+            $requete .= ",postalcode='" . $this->_created . "'";
             $requete .= " where uid=" . $this->_uid;
 
         } else {
@@ -177,6 +186,7 @@ class users {
             $requete .= "address,";
             $requete .= "city,";
             $requete .= "pays,";
+            $requete .= "postalcode,";
             $requete .= "created";
             $requete .= ") VALUES (";
             $requete .= "'" . $this->_uid . "',";
@@ -188,6 +198,7 @@ class users {
             $requete .= "'" . $this->_address . "',";
             $requete .= "'" . $this->_city . "',";
             $requete .= "'" . $this->_pays . "',";
+            $requete .= "'" . $this->_postalcode . "',";
             $requete .= "'" . $this->_created . "')";
         }
 
@@ -213,6 +224,7 @@ class users {
         $user->_address = $rs["address"];
         $user->_city = $rs["city"];
         $user->_pays = $rs["pays"];
+        $user->_postalcode = $rs["postalcode"];
         $user->_created = $rs["created"];
         return $user;
     }
@@ -234,4 +246,4 @@ class users {
         $rs = $this->conn->query($requete);
         return $this->mapSqlToObject(mysqli_fetch_array($rs));
     }
-} 
+}

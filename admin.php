@@ -11,6 +11,7 @@
 
     <link rel="stylesheet"href="css/bootstrapcdn.css" />
     <link rel="stylesheet"href="css/bootstrap-theme.min.css" />
+    <link rel="stylesheet"href="css/angular-material.min.css" />
     <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
     <!-- Optional theme -->
     <link rel="stylesheet" href="css/bootstrap-theme.min.css">
@@ -62,6 +63,8 @@
 <script src="assets/js/angular-1.5.7/angular-animate.js"></script>
 <script src="assets/js/angular-1.5.7/angular-route.js"></script>
 <script src="js/angular-sanitize.min.js"></script>
+<script src="js/angular-aria.min.js"></script>
+<script src="js/angular-material.min.js"></script>
 
 <!-- Latest compiled and minified JavaScript -->
 <!--script src="js/bootstrap.min.js"></script-->

@@ -57,6 +57,11 @@ public function getSession(){
         $sess["email"] = $_SESSION['email'];
         $sess["admin"] = $_SESSION['admin'];
         $sess["pays"] = $_SESSION['pays'];
+        $sess["city"] = $_SESSION['city'];
+        $sess["surname"] = $_SESSION['surname'];
+        $sess["tel"] = $_SESSION['tel'];
+        $sess["address"] = $_SESSION['address'];
+        $sess["postalcode"] = $_SESSION['postalcode'];
     }
     else
     {
@@ -65,6 +70,11 @@ public function getSession(){
         $sess["email"] = '';
         $sess["admin"] = '0';
         $sess["pays"] = 'FR';
+        $sess["city"] = '';
+        $sess["surname"] = '';
+        $sess["tel"] = '';
+        $sess["address"] = '';
+        $sess["postalcode"] = '';
     }
     return $sess;
 }
@@ -78,6 +88,13 @@ public function destroySession(){
         unset($_SESSION['name']);
         unset($_SESSION['email']);
         unset($_SESSION['admin']);
+        unset($_SESSION['pays']);
+        unset($_SESSION['city']);
+        unset($_SESSION['surname']);
+        unset($_SESSION['tel']);
+        unset($_SESSION['address']);
+        unset($_SESSION['postalcode']);
+
         $info='info';
         if(isSet($_COOKIE[$info]))
         {

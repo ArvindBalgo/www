@@ -18,6 +18,7 @@ Exakom, bolduc, étiquette fleuriste">
     <link href='https://fonts.googleapis.com/css?family=Lato:300,400,700' rel='stylesheet' type='text/css'>
     <!-- build:css assets/css/styles.css -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="css/angular-material.min.css"/>
     <link rel="stylesheet" href="sections/home/home.css"/>
     <link href="css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="sections/fiche/fiche.css"/>
@@ -98,6 +99,8 @@ window.smartsupp||(function(d) {
 <script src="js/angular-translate.min.js"></script>
 <script src="js/angular-translate-storage-cookie.min.js"></script>
 <script src="js/angular-translate-loader-url.min.js"></script>
+<script src="js/angular-aria.min.js"></script>
+<script src="js/angular-material.min.js"></script>
 <!-- / -->
 <!-- endbuild -->
 <!-- endbuild -->

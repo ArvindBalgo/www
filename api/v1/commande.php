@@ -13,6 +13,7 @@ if($mode == 1) {
         $user  = $user->findByPrimaryKey($item["id_user"]);
         $item["name"] = $user->getName();
         $item["surname"] = $user->getSurname();
+        $item["codepostale"] = $user->getPostalCode();
         $modifUser = new users();
         $modifUser = $modifUser->findByPrimaryKey($item["modified_by"]);
         $item["modified_user"] = "";
@@ -56,6 +57,7 @@ elseif($mode == 3) {
         $user  = $user->findByPrimaryKey($item["id_user"]);
         $item["name"] = $user->getName();
         $item["surname"] = $user->getSurname();
+        $item["codepostale"] = $user->getPostalCode();
         $ordersDetails = new orders_details();
         $ordersDetails = $ordersDetails->getCountProds($item["id"]);
         $item["num_prods"] = $ordersDetails["prods"];
@@ -92,6 +94,7 @@ else if($mode == 4) {
         $user  = $user->findByPrimaryKey($item["id_user"]);
         $item["name"] = $user->getName();
         $item["surname"] = $user->getSurname();
+        $item["codepostale"] = $user->getPostalCode();
         $ordersDetails = new orders_details();
         $ordersDetails = $ordersDetails->getCountProds($item["id"]);
         $item["num_prods"] = $ordersDetails["prods"];
@@ -126,6 +129,7 @@ else if($mode == 5) {
         $user  = $user->findByPrimaryKey($item["id_user"]);
         $item["name"] = $user->getName();
         $item["surname"] = $user->getSurname();
+        $item["codepostale"] = $user->getPostalCode();
         $ordersDetails = new orders_details();
         $ordersDetails = $ordersDetails->getCountProds($item["id"]);
         $item["num_prods"] = $ordersDetails["prods"];

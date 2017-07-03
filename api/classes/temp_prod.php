@@ -370,6 +370,7 @@ class temp_prod
             $requete .= "'" . $this->_id_dimension . "',";
             $requete .= "'" . $this->_id_qte . "')";
         }
+        chromePHP::log($requete);
         $r = $this->conn->query($requete) or die($this->conn->error . __LINE__);
         return $r;
     }
@@ -472,6 +473,7 @@ class temp_prod
 
     public function findByComboKeyRandom($id, $random_str) {
         $requete = self::$SELECT . " WHERE random_str='" . $random_str . "' and idn_key='" . $id . "'";
+        chromePHP::log($requete);
         $rs = $this->conn->query($requete);
 
         if (!$rs) {

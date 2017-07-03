@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ngRoute', 'ngAnimate', 'toaster','angularFileUpload', 'ngSanitize','pascalprecht.translate', 'ngCookies']);
+var app = angular.module('myApp', ['ngRoute', 'ngAnimate', 'toaster','angularFileUpload', 'ngSanitize','pascalprecht.translate', 'ngCookies', 'ngMaterial']);
 
 app.config(['$routeProvider',
   function ($routeProvider) {
@@ -22,7 +22,7 @@ app.config(['$routeProvider',
         .when('/checkout', {
                 title: 'Checkout',
                 templateUrl: 'sections/checkout/checkout.tpl.html',
-                controller: 'checkoutController as chcekout'
+                controller: 'checkoutController as checkout'
             })
         .when('/signup', {
                 title: 'Signup',

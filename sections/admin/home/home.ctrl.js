@@ -4,6 +4,23 @@ angular
         console.log("HOME CONtroller admin partt");
         var vm = this;
         vm.listOrders = [];
+        vm.listOrdersOrig = [];
+        vm.rechKey = "";
+
+        vm.states = [
+                { id: 'NEW', name: 'Nouveau' },
+                { id: 'BON_TIRER', name: 'Bon à tirer' },
+                { id: 'MONTAGE_MAQUETTE', name: 'Montage et maquette' },
+                { id: 'IMPRESSION', name: 'Impression' },
+                { id: 'PELLICULAGE_VERNISSAGE', name: 'Pellicullage et vernissage' },
+                { id: 'COUPE_DECOUPE', name: 'Coupe et decoupe' },
+                { id: 'FACONNAGE', name: 'Façonnage' },
+                { id: 'LIVRAISON', name: 'Livraison' },
+                { id: 'TERMINER', name: 'Terminer' },
+                { id: 'ARCHIEVE', name: 'Archiver' },
+                { id: 'REJECT', name: 'Rejeter' }
+            ];
+
 
         $scope.fnSession = function () {
             Data.get('session.php').then(function (results) {
@@ -35,6 +52,7 @@ angular
             })
                 .success(function (data, status, headers, config) {
                     console.log(data);
+                    vm.listOrdersOrig = data;
                     vm.listOrders = data;
                 })
                 .error(function (data, status, headers, config) {
@@ -58,44 +76,23 @@ angular
             item.displayDetails = !item.displayDetails;
         };
 
-        vm.fnStart = function(item) {
+        vm.fnSetStage = function(item) {
             $http({
                 method  : "POST",
                 url     : "/api/v1/commande.php",
-                data: $.param({mode:3, idOrder:item.id, status:'INPROCESS'}),
+                data: $.param({mode:3, idOrder:item.id, status:vm.etat.id}),
                 headers : {'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'}
             })
                 .success(function (data, status, headers, config) {
                     console.log(data);
+                    vm.listOrdersOrig = data;
                     vm.listOrders = data;
+                    vm.etat = "";
+                    vm.fnFilter();
                 })
                 .error(function (data, status, headers, config) {
                 });
         };
-
-        vm.fnReject = function(item) {
-            bootbox.prompt("Raison: ", function(result) {
-                if(result && result.trim() !='') {
-                    console.log(result);
-                    $http({
-                        method  : "POST",
-                        url     : "/api/v1/commande.php",
-                        data: $.param({mode:4, idOrder:item.id, status:'REJECT', comments:result.trim()}),
-                        headers : {'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'}
-                    })
-                        .success(function (data, status, headers, config) {
-                            console.log(data);
-                            vm.listOrders = data;
-                        })
-                        .error(function (data, status, headers, config) {
-                        });
-                }
-                else if(result && result.trim() == '') {
-                    vm.fnReject(item);
-                }
-            });
-        };
-
         vm.fnRecup = function(item) {
             $http({
                 method  : "POST",
@@ -105,25 +102,25 @@ angular
             })
                 .success(function (data, status, headers, config) {
                     console.log(data);
-                    vm.listOrders = data;
+                    vm.listOrdersOrig = data;
                 })
                 .error(function (data, status, headers, config) {
                 });
         };
 
-        vm.fnEnd = function(item) {
-            $http({
-                method  : "POST",
-                url     : "/api/v1/commande.php",
-                data: $.param({mode:5, idOrder:item.id, status:'COMPLETE'}),
-                headers : {'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'}
-            })
-                .success(function (data, status, headers, config) {
-                    console.log(data);
-                    vm.listOrders = data;
-                })
-                .error(function (data, status, headers, config) {
-                });
+        vm.fnFilter = function() {
+            if(vm.rechKey == '' ) {
+                return;
+            }
+            var arrOrders = [];
+            var strName = "";
+            angular.forEach(vm.listOrdersOrig, function(value) {
+                strName = value.name + ' ' + value.surname;
+                if((value.surname.toLowerCase()).indexOf(vm.rechKey.toLowerCase()) >= 0 || (value.name.toLowerCase()).indexOf(vm.rechKey.toLowerCase()) >= 0 || value.codepostale.indexOf(vm.rechKey.toLowerCase()) >= 0  || (strName.toLowerCase()).indexOf(vm.rechKey.toLowerCase())>=0){
+                    arrOrders.push(value);
+                }
+            });
+            vm.listOrders = angular.copy(arrOrders);
         };
 
         $scope.fnSession();

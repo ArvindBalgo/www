@@ -540,15 +540,15 @@ if ($mode == 0) {
                 $TEMPIMGLOC = 'tempimg.png';
 
                 $dataURI    = $tempProd->getbase64Image();
-                $dataPieces = explode(',',$dataURI);
+               /* $dataPieces = explode(',',$dataURI);
                 $encodedImg = $dataPieces[1];
-                $decodedImg = base64_decode($encodedImg);
+                $decodedImg = base64_decode($encodedImg);*/
 
 //  Check if image was properly decoded
-                if( $decodedImg!==false )
+                //if( $decodedImg!==false )
                 {
                     //  Save image to a temporary location
-                    if( file_put_contents($TEMPIMGLOC,$decodedImg)!==false )
+                    //if( file_put_contents($TEMPIMGLOC,$decodedImg)!==false )
                     {
 
                         $facture = new FPDF();
@@ -592,7 +592,8 @@ if ($mode == 0) {
                         $pdf->AddPage();
                         $pdf->SetFont('Arial','B',16);
                         $pdf->Cell(40,10,'No COMMANDE:'.$lastID["id"]);
-                        $pdf->Image($TEMPIMGLOC, 10,30, 200);
+                        //$pdf->Image($TEMPIMGLOC, 10,30, 200);
+                        $pdf->Image("../imgs_temp/".$dataURI, 10,30,150, 250);
                         $filename="../pdf/".$orders_details['id'].'.pdf';
                         $fileNameFacture="../pdf/factures/".$lastID["id"].'.pdf';
                         foreach ($tempProd->getData() as $ligne) {
@@ -617,7 +618,7 @@ if ($mode == 0) {
                         $facture->Output($fileNameFacture,'F');
 
                         //  Delete image from server
-                        unlink($TEMPIMGLOC);
+                      //  unlink($TEMPIMGLOC);
                     }
                 }
             }
@@ -625,4 +626,6 @@ if ($mode == 0) {
     }
 
     print_r( "done");
+} else if($mode == 21) {
+
 }

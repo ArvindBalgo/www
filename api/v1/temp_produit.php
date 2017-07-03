@@ -12,7 +12,9 @@ if($temp_prod == 'false') {
     $temp_prod = new temp_prod();
 }*/
 $temp_prod = new temp_prod();
-if($_POST["modified"] == true || $_POST["modified"] == 'true') {
+chromePHP::log($_POST['modified']);
+chromePHP::log($_POST["idn_key"]);
+if($_POST["modified"] || $_POST["modified"] == 'true') {
     $temp_prod = $temp_prod->findByComboKeyRandom($_POST["idn_key"], $_POST["random_str"]);
 }
 $temp_prod->setSessionId(session_id());

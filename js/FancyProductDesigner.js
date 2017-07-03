@@ -2146,6 +2146,15 @@ var FancyProductDesignerOptions = function() {
 		*/
 		fitImagesInCanvas: false,
 		/**
+		* Set a maximum price for all products or for specific views. -1 disables the max. price.
+		*
+		* @property maxPrice
+		* @for Options.defaults
+		* @type {Number}
+		* @default -1
+		*/
+		maxPrice: -1,
+		/**
 		* An object containing the default element parameters in addition to the <a href="http://fabricjs.com/docs/fabric.Object.html" target="_blank">default Fabric Object properties</a>. See <a href="./Options.defaults.elementParameters.html">Options.defaults.elementParameters</a>.
 		*
 		* @property elementParameters
@@ -2817,13 +2826,21 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 		 */
 		instance.redos = [];
 		/**
-		 * The total price for the view.
+		 * The total price for the view without max. price.
 		 *
 		 * @property totalPrice
 		 * @type Number
 		 * @default 0
 		 */
 		instance.totalPrice = 0;
+		/**
+		 * The total price for the view including max. price and corrert formatting.
+		 *
+		 * @property truePrice
+		 * @type Number
+		 * @default 0
+		 */
+		instance.truePrice = 0;
 		/**
 		 * The set zoom for the view.
 		 *
@@ -2880,6 +2897,22 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 		 * @default ['_isInitial', 'lockMovementX', 'lockMovementY', 'lockRotation', 'lockScalingX', 'lockScalingY', 'lockScalingFlip', 'lockUniScaling', 'resizeType', 'clipTo', 'clippingRect', 'boundingBox', 'boundingBoxMode', 'selectable', 'evented', 'title', 'editable', 'cornerColor', 'cornerIconColor', 'borderColor', 'isEditable', 'hasUploadZone']
 		 */
 		instance.propertiesToInclude = ['_isInitial', 'lockMovementX', 'lockMovementY', 'lockRotation', 'lockScalingX', 'lockScalingY', 'lockScalingFlip', 'lockUniScaling', 'resizeType', 'clipTo', 'clippingRect', 'boundingBox', 'boundingBoxMode', 'selectable', 'evented', 'title', 'editable', 'cornerColor', 'cornerIconColor', 'borderColor', 'isEditable', 'hasUploadZone'];
+		/**
+		 * The URL to the SVG that is going to be used as mask.
+		 *
+		 * @property mask
+		 * @type String
+		 * @default null
+		 */
+		instance.mask = view.mask ? view.mask : null;
+		/**
+		 * The image object that is going to be used as mask for this view.
+		 *
+		 * @property maskObject
+		 * @type fabric.Image
+		 * @default null
+		 */
+		instance.maskObject = null;
 		instance.dragStage = false;
 
 		//PLUS
@@ -2965,6 +2998,10 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 		});
 
 		instance.stage.setDimensions({width: instance.options.stageWidth, height: instance.options.stageHeight});
+
+		if(instance.mask) {
+			instance.setMask(instance.mask);
+		}
 
 	};
 
@@ -3526,6 +3563,11 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 					instance.stage.renderAll();
 
 					element._tempFontSize = null;
+
+					//render again after timeout to fix issue with some fonts
+					setTimeout(function() {
+						instance.stage.renderAll();
+					}, 300);
 				}
 
 			}
@@ -4606,7 +4648,7 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 		instance.undos = [];
 		instance.redos = [];
 		instance.elements = null;
-		instance.totalPrice = 0;
+		instance.totalPrice = instance.truePrice = 0;
 		instance.stage.clear();
 		instance.stage.wrapperEl.remove();
 
@@ -4730,6 +4772,13 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 		.setZoom(instance.responsiveScale)
 		.calcOffset()
 		.renderAll();
+
+		if(instance.maskObject && instance.maskObject._originParams) {
+			instance.maskObject.left = instance.maskObject._originParams.left * instance.responsiveScale;
+			instance.maskObject.top = instance.maskObject._originParams.top * instance.responsiveScale;
+			instance.maskObject.scaleX = instance.maskObject._originParams.scaleX * instance.responsiveScale;
+			instance.maskObject.scaleY = instance.maskObject._originParams.scaleY * instance.responsiveScale;
+		}
 
 		$productStage.height(instance.stage.height);
 
@@ -5054,7 +5103,16 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 			instance.totalPrice -= price;
 		}
 
-		instance.totalPrice = Number(instance.totalPrice.toFixed(2));
+		instance.truePrice = instance.totalPrice;
+
+		if(typeof instance.options.maxPrice === 'number' && instance.options.maxPrice !== -1 && instance.truePrice > instance.options.maxPrice) {
+			instance.truePrice = instance.options.maxPrice;
+		}
+
+		//price has decimals, set max. decimals to 2
+		if(instance.truePrice % 1 != 0) {
+			instance.truePrice = Number(instance.truePrice.toFixed(2));
+		}
 
 		/**
 	     * Gets fired as soon as the price has changed.
@@ -5062,11 +5120,88 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 	     * @event FancyProductDesignerView#priceChange
 	     * @param {Event} event
 	     * @param {number} elementPrice - The price of the element.
-	     * @param {number} totalPrice - The total price.
+	     * @param {number} truePrice - The total price.
 	     */
-		$this.trigger('priceChange', [price, instance.totalPrice]);
+		$this.trigger('priceChange', [price, instance.truePrice]);
 
-		return instance.totalPrice;
+		return instance.truePrice;
+
+	};
+
+	/**
+	 * Use a SVG image as mask for the whole view. The image needs to be a SVG file with only one path. The method toSVG() does not include the mask.
+	 *
+	 * @method setMask
+	 * @param {Object|Null} maskObject An object containing the URL to the svg. Optional: scaleX, scaleY, left and top.
+	 */
+	this.setMask = function(maskObject, callback) {
+
+		callback = typeof callback !== 'undefined' ? callback : function() {};
+
+		if(maskObject && maskObject.url && $.inArray('svg', maskObject.url.split('.')) != -1) {
+
+			var timeStamp = Date.now().toString(),
+				_loadFromScript = instance.options._loadFromScript ? instance.options._loadFromScript : '',
+				url = _loadFromScript + maskObject.url;
+
+			if(instance.options.imageLoadTimestamp && !instance.options._loadFromScript) {
+				url += '?'+timeStamp;
+			}
+
+			fabric.loadSVGFromURL(url, function(objects, options) {
+
+				//if objects is null, svg is loaded from external server with cors disabled
+				var svgGroup = objects ? fabric.util.groupSVGElements(objects, options) : null;
+
+				svgGroup.excludeFromExport = true;
+				svgGroup.setFill('rgba(0,0,0,0)');
+				svgGroup.setScaleX(maskObject.scaleX ? Number(maskObject.scaleX) :  1);
+				svgGroup.setScaleY(maskObject.scaleY ? Number(maskObject.scaleY) :  1);
+				svgGroup.setLeft(maskObject.left ? Number(maskObject.left) :  0);
+				svgGroup.setTop(maskObject.top ? Number(maskObject.top) :  0);
+				svgGroup._originParams = {
+					scaleX: svgGroup.scaleX,
+					scaleY: svgGroup.scaleX,
+					left: svgGroup.left,
+					top: svgGroup.top
+				}
+				instance.stage.clipTo = function(ctx) {
+				  svgGroup.render(ctx);
+				};
+				instance.stage.renderAll();
+
+				instance.maskObject = svgGroup;
+				callback(svgGroup);
+
+			});
+
+		}
+		else {
+			instance.stage.clipTo = instance.maskObject = instance.mask = null;
+			instance.stage.renderAll();
+		}
+
+	};
+
+	/**
+	 * Returns all options with the keys that are set in FancyProductDesignerView.relevantOptions property.
+	 *
+	 * @method getOptions
+	 * @return {Object} An object containing all relevant options.
+	 */
+	this.getOptions = function() {
+
+		var options = {};
+
+		if(typeof FancyProductDesignerView.relevantOptions === 'object') {
+
+			FancyProductDesignerView.relevantOptions.forEach(function(key) {
+				options[key] = instance.options[key];
+			});
+
+		}
+
+		return options;
 
 	};
 
@@ -5143,6 +5278,14 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 	_initialize();
 
 };
+
+FancyProductDesignerView.relevantOptions = [
+	'stageWidth',
+	'stageHeight',
+	'customAdds',
+	'customImageParameters',
+	'customTextParameters'
+];
 
 var FPDToolbar = function($uiElementToolbar, fpdInstance) {
 
@@ -8738,7 +8881,6 @@ var FancyProductDesigner = function(elem, opts) {
 	 * @default 0
 	 */
 	this.singleProductPrice = 0;
-	//PLUS
 	/**
 	 * The order quantity.
 	 *
@@ -8747,6 +8889,14 @@ var FancyProductDesigner = function(elem, opts) {
 	 * @default 1
 	 */
 	this.orderQuantity = 1;
+	/**
+	 * If FPDBulkVariations is used with the product designer, this is the instance to the FPDBulkVariations class.
+	 *
+	 * @property bulkVariations
+	 * @type FPDBulkVariations
+	 * @default null
+	 */
+	this.bulkVariations = null;
 
 	this.languageJSON = {
 		"toolbar": {},
@@ -9034,8 +9184,6 @@ var FancyProductDesigner = function(elem, opts) {
 			if(instance.$container.filter('[class*="fpd-off-canvas-"]').length > 0) {
 				instance.mainBar.$content.height(instance.$mainWrapper.height());
 			}
-
-
 
 		});
 
@@ -9481,6 +9629,8 @@ var FancyProductDesigner = function(elem, opts) {
 						viewObj.productThumbnail = $view.data('productthumbnail');
 					}
 
+					viewObj.mask = $view.data('mask') ? $view.data('mask') : null;
+
 					//PLUS: Store main element of the product
 					viewObj.mainElement = $view.data('mainelement') ? $view.data('mainelement') : null;
 
@@ -9762,6 +9912,19 @@ var FancyProductDesigner = function(elem, opts) {
 
 	};
 
+	var _priceHandler = function() {
+
+		var truePrice = instance.currentPrice;
+
+		//price has decimals, set max. decimals to 2
+		if(truePrice % 1 != 0) {
+			truePrice = Number(truePrice.toFixed(2));
+		}
+
+		return truePrice;
+
+	};
+
 	/**
 	 * Adds a new product to the product designer.
 	 *
@@ -9910,6 +10073,7 @@ var FancyProductDesigner = function(elem, opts) {
 		});
 
 		view.options = $.extend({}, instance.mainOptions, view.options);
+
 		var viewInstance = new FancyProductDesignerView(instance.$productStage, view, function(viewInstance) {
 
 			//remove view instance if not added to product container
@@ -10128,11 +10292,12 @@ var FancyProductDesigner = function(elem, opts) {
 			//calulate total price of all views
 			for(var i=0; i < _viewInstances.length; ++i) {
 
-				instance.singleProductPrice += _viewInstances[i].totalPrice;
+				instance.singleProductPrice += _viewInstances[i].truePrice;
 
 			}
 
 			instance.currentPrice = instance.singleProductPrice * instance.orderQuantity;
+			var truePrice = _priceHandler();
 
 			/**
 		     * Gets fired as soon as the price changes in a view.
@@ -10140,10 +10305,10 @@ var FancyProductDesigner = function(elem, opts) {
 		     * @event FancyProductDesigner#priceChange
 		     * @param {Event} event
 		     * @param {number} elementPrice - The price of the element.
-		     * @param {number} totalPrice - The total price of all views with quantity.
-		     * @param {number} singleProductPrice - The total price of all views without quantity.
+		     * @param {number} totalPrice - The true price of all views with quantity.
+		     * @param {number} singleProductPrice - The true price of all views without quantity.
 		     */
-			$elem.trigger('priceChange', [price, instance.currentPrice, instance.singleProductPrice]);
+			$elem.trigger('priceChange', [price, truePrice, instance.singleProductPrice]);
 
 		})
 		.on('elementCheckContainemt', function(evt, element, boundingBoxMode) {
@@ -10824,21 +10989,18 @@ var FancyProductDesigner = function(elem, opts) {
 		var product = [];
 		//add views
 		for(var i=0; i < instance.viewInstances.length; ++i) {
-			var viewInstance = instance.viewInstances[i],
-				relevantViewOpts = {
-					stageWidth: viewInstance.options.stageWidth,
-					stageHeight: viewInstance.options.stageHeight,
-					customAdds: viewInstance.options.customAdds
-				};
 
+			var viewInstance = instance.viewInstances[i];
 			product.push({
 				title: viewInstance.title,
 				thumbnail: viewInstance.thumbnail,
 				elements: [],
-				options: relevantViewOpts,
+				options: instance.viewInstances[i].options,
 				names_numbers: viewInstance.names_numbers,
-				mainElement: viewInstance.mainElement
+				mainElement: viewInstance.mainElement,
+				mask: viewInstance.mask
 			});
+
 		}
 
 		for(var i=0; i < viewElements.length; ++i) {
@@ -11063,7 +11225,9 @@ var FancyProductDesigner = function(elem, opts) {
 		instance.orderQuantity = quantity;
 		instance.currentPrice = instance.singleProductPrice * instance.orderQuantity;
 
-		$elem.trigger('priceChange', [null, instance.currentPrice, instance.singleProductPrice]);
+		var truePrice = _priceHandler();
+
+		$elem.trigger('priceChange', [null, truePrice, instance.singleProductPrice]);
 
 	};
 
@@ -11097,7 +11261,7 @@ var FancyProductDesigner = function(elem, opts) {
 	/**
 	 * Get all fonts used in the product.
 	 *
-	 * @method setOrderQuantity
+	 * @method getUsedFonts
 	 * @return {array} An array with objects containing the font name and optional the URL to the font.
 	 */
 	this.getUsedFonts = function() {

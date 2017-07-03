@@ -99,7 +99,7 @@ angular
 
 
 
-            $.ajax({
+            /*$.ajax({
                 url: 'https://www.klikandpay.com/paiementtest/check.pl',
                 type: 'post',
                 dataType: 'json',
@@ -116,7 +116,7 @@ angular
                     TEL:'6175942',
                     ID:'1234567890',
                     MONTANT:'1200'                }
-            }).done(function (data) {});
+            }).done(function (data) {});*/
 
 
 
@@ -242,7 +242,7 @@ angular
 
                     var $yourDesigner = $('#model'),
                         pluginOpts = {
-                            mainBarModules: ['images', 'drawing', 'text'],
+                            mainBarModules: ['images', 'text'],
                             colorSelectionPlacement: 'inside-br',
                             stageWidth: 2000,
                             stageHeight: 1000,
@@ -1851,6 +1851,9 @@ angular
                     };
 
                     vm.fnGetFraisLivr = function () {
+                        /*$('#modalPanier').modal('hide');
+                        $location.path('/checkout');
+                        return;*/
                         console.log(vm.arrProduits);
                         var arrKeysDL = [];
                         angular.forEach(vm.arrProduits, function (value) {
@@ -1874,28 +1877,6 @@ angular
                             vm.montants.valTax = 0;
                             vm.montants.prix_ttc = 0;
                             vm.montants.montant_net = 0;
-                            //var arrProduits = JSON.parse(sessionStorage.getItem("arrProds"));
-                            //console.log(arrProduits)
-                            /*console.log(vm.arrProduits, " array of data")
-                             angular.forEach(vm.arrProduits, function(value){
-                             angular.forEach(value.fraisLivr, function(ligne){
-                             if(Number(value.qte) == Number(ligne.qte)){
-                             vm.montants.frais_livr += Number(ligne.price);
-                             }
-                             });
-                             console.log(value.prix, " -- ", Number(value.prix));
-                             vm.montants.prix_total_ht += Number(value.unitprix)*Number(value.qte);
-                             });
-                             console.log(vm.montants, " montants");
-                             vm.montants.tax = 0.2 * (vm.montants.prix_total_ht + vm.montants.frais_livr);
-                             vm.montants.prix_ttc = vm.montants.prix_total_ht + vm.montants.tax;
-                             vm.montants.montant_net = vm.montants.prix_ttc;
-
-                             vm.montants.frais_livr    = vm.montants.frais_livr.toFixed(2);
-                             vm.montants.prix_total_ht = vm.montants.prix_total_ht.toFixed(2);
-                             vm.montants.tax = vm.montants.tax.toFixed(2);
-                             vm.montants.prix_ttc = vm.montants.prix_ttc.toFixed(2);
-                             vm.montants.montant_net = vm.montants.montant_net.toFixed(2);*/
 
                             angular.forEach(vm.arrProduits, function (value) {
                                 angular.forEach(arrFraisLivr.frais_livraison, function (item) {
@@ -1930,9 +1911,139 @@ angular
                             bootbox.alert("<div style='text-align: center'><b>Veuillez renseigner le titre s'il-vous-plait.</b></div>");
                             return;
                         }
+                        yourDesigner.getProductDataURL(function (dataURL) {
+                            $http({
+                                method: 'POST',
+                                data: $.param({base64_image: dataURL}),
+                                url: 'api/v1/save_img.php',
+                                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                            }).then(function successCallback(response) {
+                                console.clear();
+                                console.log(response.data);
+                                var countProduit = 0;
+                                var arrProds = [];
+                                if (sessionStorage.produitCount) {
+                                    countProduit = Number(sessionStorage.produitCount) + 1;
+                                }
+                                var obj = {};
+                                obj.title = vm.produit.titre;
+                                obj.commentaire = vm.produit.commentaire;
+                                obj.opt = $('input[name="optradio"]:checked').val();
+                                obj.contours = vm.productList[0].contours;
+                                obj.liserai = vm.productList[0].liserai;
+                                obj.escargot = vm.productList[0].escargot;
+                                obj.escargot_val = $('input[name="optescargot"]:checked').val();
+                                obj.id_dimension = $('.sel_dimensions').select2('data')[0].id;
+                                obj.dimension = $('.sel_dimensions').select2('data')[0].text;
+                                obj.id_qte = $('.sel_qte').select2('data')[0].id;
+                                obj.qte = $('.sel_qte').select2('data')[0].text;
+                                obj.bonrepli = $('input[name="optcommande"]:checked').val();
+                                obj.prix = vm.prixvente;
+                                obj.idsupport = $('.sel_papier').select2('data')[0].id;
+                                obj.support = $('.sel_papier').select2('data')[0].text;
+                                obj.unitprix = vm.unitprix;
+                                obj.idn_key = "produit" + countProduit;
+                                obj.random_str = Math.random().toString(36).substring(7);
+                                obj.arrDims = vm.arrCurrentDims;
+                                obj.arrQtes = vm.arrCurrentQtes;
+                                obj.idProduit = vm.productList[0].id;
+console.clear();
+                                console.log(obj);
+                                if (typeof vm.produit.commentaire == 'undefined') {
+                                    vm.produit.commentaire = " ";
+                                }
+                                /*$.ajax({
+                                    url: 'api/v1/temp_produit.php',
+                                    type: 'post',
+                                    dataType: 'json',
+                                    success: function (data) {
+                                        console.log("data");
+                                    },
+                                    data: {
+                                        modified: false,
+                                        base64_image: response.data,
+                                        title: vm.produit.titre,
+                                        comm: vm.produit.commentaire,
+                                        opt: $('input[name="optradio"]:checked').val(),
+                                        contours: vm.productList[0].contours,
+                                        liserai: vm.productList[0].liserai,
+                                        escargot: vm.productList[0].escargot,
+                                        escargot_val: $('input[name="optescargot"]:checked').val(),
+                                        dimension: $('.sel_dimensions').select2('data')[0].text,
+                                        id_dimension: $('.sel_dimensions').select2('data')[0].id,
+                                        idmodelmetier: vm.productList[0].idmodelmetier,
+                                        idproduit: vm.productList[0].id,
+                                        qte: $('.sel_qte').select2('data')[0].text,
+                                        id_qte: $('.sel_qte').select2('data')[0].id,
+                                        bonrepli: $('input[name="optcommande"]:checked').val(),
+                                        data: yourDesigner.getProduct(),
+                                        prix: vm.prixvente,
+                                        idsupport: $('.sel_papier').select2('data')[0].id,
+                                        support: $('.sel_papier').select2('data')[0].text,
+                                        unitprix: vm.unitprix,
+                                        random_str: obj.random_str,
+                                        idn_key: "produit" + countProduit
+                                    }
+                                }).done(function (data) {
+                                });*/
+
+                                $http({
+                                    method: 'POST',
+                                    data: $.param({
+                                        modified: false,
+                                        base64_image: response.data,
+                                        title: vm.produit.titre,
+                                        comm: vm.produit.commentaire,
+                                        opt: $('input[name="optradio"]:checked').val(),
+                                        contours: vm.productList[0].contours,
+                                        liserai: vm.productList[0].liserai,
+                                        escargot: vm.productList[0].escargot,
+                                        escargot_val: $('input[name="optescargot"]:checked').val(),
+                                        dimension: $('.sel_dimensions').select2('data')[0].text,
+                                        id_dimension: $('.sel_dimensions').select2('data')[0].id,
+                                        idmodelmetier: vm.productList[0].idmodelmetier,
+                                        idproduit: vm.productList[0].id,
+                                        qte: $('.sel_qte').select2('data')[0].text,
+                                        id_qte: $('.sel_qte').select2('data')[0].id,
+                                        bonrepli: $('input[name="optcommande"]:checked').val(),
+                                        prix: vm.prixvente,
+                                        idsupport: $('.sel_papier').select2('data')[0].id,
+                                        support: $('.sel_papier').select2('data')[0].text,
+                                        unitprix: vm.unitprix,
+                                        random_str: obj.random_str,
+                                        idn_key: "produit" + countProduit,
+                                        data: yourDesigner.getProduct()
+                                    }),
+                                    url: 'api/v1/temp_produit.php',
+                                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                                }).then(function successCallback(response) {
+                                    sessionStorage.setItem("produitCount", countProduit);
+                                    arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
+                                    if (arrProds == null) {
+                                        arrProds = [];
+                                    }
+                                    arrProds.push("produit" + countProduit);
+                                    vm.prodEnCours = obj;
+                                    sessionStorage.setItem("arrProds", JSON.stringify(arrProds));
+                                    sessionStorage.setItem("produit" + countProduit, JSON.stringify(obj));
+                                    vm.arrProduits = [];
+                                    toastr.options.positionClass = 'toast-top-right';
+                                    toastr.success('Produit rajouté');
+                                }, function errorCallback(error) {
+                                    console.log(error);
+                                });
+
+
+                            }, function errorCallback(error) {
+                                console.log(error);
+                            });
+
+                        });
+
+                        return;
                         // console.clear();
                         console.log("vois si produit en cour de modifs", vm.prodEnCours);
-                        if (vm.prodEnCours.length != 0) {
+                        /*if (vm.prodEnCours.length != 0) {
 
                             bootbox.dialog({
                                 message: "Cette produit est issue d'une produit déjà dans le panier. Souhaitez-vouz modifier l'existant ou le rajouter comme nouveau",
@@ -2121,91 +2232,14 @@ angular
                                 }
                             });
                             return;
-                        }
-                        var countProduit = 0;
-                        var arrProds = [];
+                        }*/
 
-                        console.log(vm.productList[0], " <<<<===");
-                        if (sessionStorage.produitCount) {
-                            countProduit = Number(sessionStorage.produitCount) + 1;
-                        }
-                        var obj = {};
                         yourDesigner.getProductDataURL(function (dataURL) {
 
                             //obj.base64_image    = dataURL;
-                            obj.title = vm.produit.titre;
-                            obj.commentaire = vm.produit.commentaire;
-                            obj.opt = $('input[name="optradio"]:checked').val();
-                            obj.contours = vm.productList[0].contours;
-                            obj.liserai = vm.productList[0].liserai;
-                            obj.escargot = vm.productList[0].escargot;
-                            obj.escargot_val = $('input[name="optescargot"]:checked').val();
-                            obj.id_dimension = $('.sel_dimensions').select2('data')[0].id;
-                            obj.dimension = $('.sel_dimensions').select2('data')[0].text;
-                            obj.id_qte = $('.sel_qte').select2('data')[0].id;
-                            obj.qte = $('.sel_qte').select2('data')[0].text;
-                            obj.bonrepli = $('input[name="optcommande"]:checked').val();
-                            obj.prix = vm.prixvente;
-                            obj.idsupport = $('.sel_papier').select2('data')[0].id;
-                            obj.support = $('.sel_papier').select2('data')[0].text;
-                            obj.unitprix = vm.unitprix;
-                            obj.idn_key = "produit" + countProduit;
-                            obj.random_str = Math.random().toString(36).substring(7);
-                            obj.arrDims = vm.arrCurrentDims;
-                            obj.arrQtes = vm.arrCurrentQtes;
-                            obj.idProduit = vm.productList[0].id;
 
-                            if (typeof vm.produit.commentaire == 'undefined') {
-                                vm.produit.commentaire = " ";
-                            }
-                            $.ajax({
-                                url: 'api/v1/temp_produit.php',
-                                type: 'post',
-                                dataType: 'json',
-                                success: function (data) {
-                                    console.log("data");
-                                },
-                                data: {
-                                    modified: false,
-                                    base64_image: dataURL,
-                                    title: vm.produit.titre,
-                                    comm: vm.produit.commentaire,
-                                    opt: $('input[name="optradio"]:checked').val(),
-                                    contours: vm.productList[0].contours,
-                                    liserai: vm.productList[0].liserai,
-                                    escargot: vm.productList[0].escargot,
-                                    escargot_val: $('input[name="optescargot"]:checked').val(),
-                                    dimension: $('.sel_dimensions').select2('data')[0].text,
-                                    id_dimension: $('.sel_dimensions').select2('data')[0].id,
-                                    idmodelmetier: vm.productList[0].idmodelmetier,
-                                    idproduit: vm.productList[0].id,
-                                    qte: $('.sel_qte').select2('data')[0].text,
-                                    id_qte: $('.sel_qte').select2('data')[0].id,
-                                    bonrepli: $('input[name="optcommande"]:checked').val(),
-                                    data: yourDesigner.getProduct(),
-                                    prix: vm.prixvente,
-                                    idsupport: $('.sel_papier').select2('data')[0].id,
-                                    support: $('.sel_papier').select2('data')[0].text,
-                                    unitprix: vm.unitprix,
-                                    random_str: obj.random_str,
-                                    idn_key: "produit" + countProduit
-                                }
-                            }).done(function (data) {
-                            });
-
-                            sessionStorage.setItem("produitCount", countProduit);
-                            arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
-                            if (arrProds == null) {
-                                arrProds = [];
-                            }
-                            arrProds.push("produit" + countProduit);
-                            vm.prodEnCours = obj;
-                            sessionStorage.setItem("arrProds", JSON.stringify(arrProds));
-                            sessionStorage.setItem("produit" + countProduit, JSON.stringify(obj));
-                            vm.arrProduits = [];
                         });
-                        toastr.options.positionClass = 'toast-top-right';
-                        toastr.success('Produit rajouté');
+
 
                     };
 
@@ -2285,6 +2319,7 @@ angular
                         }).then(function successCallback(response) {
 
                                 $('body').removeClass("spinner");
+                                z=response.data;
                                 var ligne = response.data;
                                 console.log(ligne);
                                 ligne.data = JSON.parse(ligne.data);

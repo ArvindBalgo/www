@@ -2,7 +2,18 @@
 <link rel="stylesheet" type="text/css" href="sections/admin/home/home.css" />
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-3 col-md-3 box_header">
+        <div class="col-md-1"></div>
+        <div class="col-md-10">
+            <md-input-container style="width: 100%;">
+                <label>Recherche par nom, code postale</label>
+                <input ng-model="home.rechKey" ng-change="home.fnFilter()">
+            </md-input-container>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+    <div class="row" style="font-size: 9px;">
+        <div class="col-md-1 box_header"></div>
+        <div class="col-md-1 box_header">
             <h3 class="stitched">Nouveau</h3>
             <div ng-repeat="order in home.listOrders" style="margin-bottom: 20px;" ng-show="order.status == 'NEW'">
                 <table class="customers" style="width: 100%">
@@ -20,8 +31,11 @@
                                 <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Crée Par: {{order.surname}} {{order.name}}</div>
                                 <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Modifié Par: {{order.modified_user}}</div>
                                 <div>
-                                    <span><button class="btn btn-success" ng-click="home.fnStart(order)">Démarrer</button></span>
-                                    <span><button class="btn btn-danger" ng-click="home.fnReject(order)">Rejeter</button></span>
+                                    <md-select placeholder="Deplacer" ng-model="home.etat" ng-model-options="{trackBy: '$value.id'}" md-on-close="home.fnSetStage(order, home.etat)" style="font-size: 10px;width: 90%;">
+                                        <md-option ng-value="state" ng-repeat="state in home.states">{{state.name}}</md-option>
+                                    </md-select>
+                                    <!--<span><button class="btn btn-sm btn-success" style="font-size: 12px;" ng-click="home.fnStart(order)">Démarrer</button></span>
+                                    <span><button class="btn btn-sm btn-danger" style="font-size: 12px;" ng-click="home.fnReject(order)">Rejeter</button></span>-->
                                     <span class="glyphicon glyphicon-eye-open pull-right" style="cursor:pointer;" ng-click="home.fnToggleEye(order)"></span>
                                     <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/factures/{{order.id}}.pdf" ></a></span>
                                 </div>
@@ -50,7 +64,7 @@
                                         Commentaire: {{item.commentaire}}
                                     </div>
                                 </td>
-                                </td>d
+                                </td>
                             </tr>
                             <tr>
                                 <td>
@@ -63,9 +77,9 @@
                 </table>
             </div>
         </div>
-        <div class="col-sm-3 col-md-3 box_header">
-            <h3 class="stitched">En cours</h3>
-            <div ng-repeat="order in home.listOrders" style="margin-bottom: 20px;" ng-show="order.status == 'INPROCESS'">
+        <div class="col-md-1 box_header">
+            <h3 class="stitched">Bon à tirer</h3>
+            <div ng-repeat="order in home.listOrders" style="margin-bottom: 20px;" ng-show="order.status == 'BON_TIRER'">
                 <table class="customers" style="width: 100%">
                     <tr>
                         <th>
@@ -75,15 +89,17 @@
                     <tr>
                         <td>
                             <div>
-                                <div>Date Crée: {{order.date_created}}</div>
-                                <div>Date debuté: {{order.date_modified}}</div>
+                                <div>Date: {{order.date_created}}</div>
                                 <div>Nb Produits: {{order.num_prods}}</div>
                                 <div>Montant: {{order.total_prix_ttc}}</div>
                                 <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Crée Par: {{order.surname}} {{order.name}}</div>
                                 <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Modifié Par: {{order.modified_user}}</div>
                                 <div>
-                                    <span><button class="btn btn-success" ng-click="home.fnEnd(order)">Terminer</button></span>
-                                    <span><button class="btn btn-danger" ng-click="home.fnReject(order)">Rejeter</button></span>
+                                    <md-select placeholder="Deplacer" ng-model="home.etat" ng-model-options="{trackBy: '$value.id'}" md-on-close="home.fnSetStage(order, home.etat)" style="font-size: 10px;width: 90%;">
+                                        <md-option ng-value="state" ng-repeat="state in home.states">{{state.name}}</md-option>
+                                    </md-select>
+                                    <!--<span><button class="btn btn-success" ng-click="home.fnStart(order)">Démarrer</button></span>
+                                    <span><button class="btn btn-danger" ng-click="home.fnReject(order)">Rejeter</button></span>-->
                                     <span class="glyphicon glyphicon-eye-open pull-right" style="cursor:pointer;" ng-click="home.fnToggleEye(order)"></span>
                                     <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/factures/{{order.id}}.pdf" ></a></span>
                                 </div>
@@ -112,6 +128,7 @@
                                         Commentaire: {{item.commentaire}}
                                     </div>
                                 </td>
+                                </td>
                             </tr>
                             <tr>
                                 <td>
@@ -123,9 +140,457 @@
                     </tr>
                 </table>
             </div>
-
         </div>
-        <div class="col-sm-3 col-md-3 box_header">
+        <div class="col-md-1 box_header">
+            <h3 class="stitched">Montage Maquette</h3>
+            <div ng-repeat="order in home.listOrders" style="margin-bottom: 20px;" ng-show="order.status == 'MONTAGE_MAQUETTE'">
+                <table class="customers" style="width: 100%">
+                    <tr>
+                        <th>
+                            Order No: {{order.id}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <div>Date: {{order.date_created}}</div>
+                                <div>Nb Produits: {{order.num_prods}}</div>
+                                <div>Montant: {{order.total_prix_ttc}}</div>
+                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Crée Par: {{order.surname}} {{order.name}}</div>
+                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Modifié Par: {{order.modified_user}}</div>
+                                <div>
+                                    <md-select placeholder="Deplacer" ng-model="home.etat" ng-model-options="{trackBy: '$value.id'}" md-on-close="home.fnSetStage(order, home.etat)" style="font-size: 10px;width: 90%;">
+                                        <md-option ng-value="state" ng-repeat="state in home.states">{{state.name}}</md-option>
+                                    </md-select>
+                                    <!--<span><button class="btn btn-success" ng-click="home.fnStart(order)">Démarrer</button></span>
+                                    <span><button class="btn btn-danger" ng-click="home.fnReject(order)">Rejeter</button></span>-->
+                                    <span class="glyphicon glyphicon-eye-open pull-right" style="cursor:pointer;" ng-click="home.fnToggleEye(order)"></span>
+                                    <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/factures/{{order.id}}.pdf" ></a></span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr ng-show="order.displayDetails">
+                        <table ng-show="order.displayDetails" class="customer" ng-repeat="item in order.details" style="width: 100%;">
+                            <tr>
+                                <th style="background-color: lightskyblue">
+                                    Titre: {{item.title}}
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>
+                                        <img src="{{item.base64_image}}" style="width: 100%;">
+                                    </div>
+                                    <div>
+                                        Qte : {{item.qte}}
+                                    </div>
+                                    <div>
+                                        Montant: {{item.prix_ttc}}
+                                    </div>
+                                    <div>
+                                        Commentaire: {{item.commentaire}}
+                                    </div>
+                                </td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span><a href="#/produitclient/{{item.id}}">Détails</a></span>
+                                    <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/{{item.id}}.pdf" ></a></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-1 box_header">
+            <h3 class="stitched">Impression</h3>
+            <div ng-repeat="order in home.listOrders" style="margin-bottom: 20px;" ng-show="order.status == 'IMPRESSION'">
+                <table class="customers" style="width: 100%">
+                    <tr>
+                        <th>
+                            Order No: {{order.id}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <div>Date: {{order.date_created}}</div>
+                                <div>Nb Produits: {{order.num_prods}}</div>
+                                <div>Montant: {{order.total_prix_ttc}}</div>
+                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Crée Par: {{order.surname}} {{order.name}}</div>
+                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Modifié Par: {{order.modified_user}}</div>
+                                <div>
+                                    <md-select placeholder="Deplacer" ng-model="home.etat" ng-model-options="{trackBy: '$value.id'}" md-on-close="home.fnSetStage(order, home.etat)" style="font-size: 10px;width: 90%;">
+                                        <md-option ng-value="state" ng-repeat="state in home.states">{{state.name}}</md-option>
+                                    </md-select>
+
+                                    <!--<span><button class="btn btn-success" ng-click="home.fnStart(order)">Démarrer</button></span>
+                                    <span><button class="btn btn-danger" ng-click="home.fnReject(order)">Rejeter</button></span>-->
+                                    <span class="glyphicon glyphicon-eye-open pull-right" style="cursor:pointer;" ng-click="home.fnToggleEye(order)"></span>
+                                    <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/factures/{{order.id}}.pdf" ></a></span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr ng-show="order.displayDetails">
+                        <table ng-show="order.displayDetails" class="customer" ng-repeat="item in order.details" style="width: 100%;">
+                            <tr>
+                                <th style="background-color: lightskyblue">
+                                    Titre: {{item.title}}
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>
+                                        <img src="{{item.base64_image}}" style="width: 100%;">
+                                    </div>
+                                    <div>
+                                        Qte : {{item.qte}}
+                                    </div>
+                                    <div>
+                                        Montant: {{item.prix_ttc}}
+                                    </div>
+                                    <div>
+                                        Commentaire: {{item.commentaire}}
+                                    </div>
+                                </td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span><a href="#/produitclient/{{item.id}}">Détails</a></span>
+                                    <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/{{item.id}}.pdf" ></a></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-1 box_header">
+            <h3 class="stitched">Pellicullage et Vernissage</h3>
+            <div ng-repeat="order in home.listOrders" style="margin-bottom: 20px;" ng-show="order.status == 'PELLICULAGE_VERNISSAGE'">
+                <table class="customers" style="width: 100%">
+                    <tr>
+                        <th>
+                            Order No: {{order.id}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <div>Date: {{order.date_created}}</div>
+                                <div>Nb Produits: {{order.num_prods}}</div>
+                                <div>Montant: {{order.total_prix_ttc}}</div>
+                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Crée Par: {{order.surname}} {{order.name}}</div>
+                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Modifié Par: {{order.modified_user}}</div>
+                                <div>
+                                    <md-select placeholder="Deplacer" ng-model="home.etat" ng-model-options="{trackBy: '$value.id'}" md-on-close="home.fnSetStage(order, home.etat)" style="font-size: 10px;width: 90%;">
+                                        <md-option ng-value="state" ng-repeat="state in home.states">{{state.name}}</md-option>
+                                    </md-select>
+                                    <!--<span><button class="btn btn-success" ng-click="home.fnStart(order)">Démarrer</button></span>
+                                    <span><button class="btn btn-danger" ng-click="home.fnReject(order)">Rejeter</button></span>-->
+                                    <span class="glyphicon glyphicon-eye-open pull-right" style="cursor:pointer;" ng-click="home.fnToggleEye(order)"></span>
+                                    <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/factures/{{order.id}}.pdf" ></a></span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr ng-show="order.displayDetails">
+                        <table ng-show="order.displayDetails" class="customer" ng-repeat="item in order.details" style="width: 100%;">
+                            <tr>
+                                <th style="background-color: lightskyblue">
+                                    Titre: {{item.title}}
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>
+                                        <img src="{{item.base64_image}}" style="width: 100%;">
+                                    </div>
+                                    <div>
+                                        Qte : {{item.qte}}
+                                    </div>
+                                    <div>
+                                        Montant: {{item.prix_ttc}}
+                                    </div>
+                                    <div>
+                                        Commentaire: {{item.commentaire}}
+                                    </div>
+                                </td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span><a href="#/produitclient/{{item.id}}">Détails</a></span>
+                                    <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/{{item.id}}.pdf" ></a></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-1 box_header">
+            <h3 class="stitched">Coupe et Decoupe</h3>
+            <div ng-repeat="order in home.listOrders" style="margin-bottom: 20px;" ng-show="order.status == 'COUPE_DECOUPE'">
+                <table class="customers" style="width: 100%">
+                    <tr>
+                        <th>
+                            Order No: {{order.id}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <div>Date: {{order.date_created}}</div>
+                                <div>Nb Produits: {{order.num_prods}}</div>
+                                <div>Montant: {{order.total_prix_ttc}}</div>
+                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Crée Par: {{order.surname}} {{order.name}}</div>
+                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Modifié Par: {{order.modified_user}}</div>
+                                <div>
+                                    <md-select placeholder="Deplacer" ng-model="home.etat" ng-model-options="{trackBy: '$value.id'}" md-on-close="home.fnSetStage(order, home.etat)" style="font-size: 10px;width: 90%;">
+                                        <md-option ng-value="state" ng-repeat="state in home.states">{{state.name}}</md-option>
+                                    </md-select>
+                                    <!--<span><button class="btn btn-success" ng-click="home.fnStart(order)">Démarrer</button></span>
+                                    <span><button class="btn btn-danger" ng-click="home.fnReject(order)">Rejeter</button></span>-->
+                                    <span class="glyphicon glyphicon-eye-open pull-right" style="cursor:pointer;" ng-click="home.fnToggleEye(order)"></span>
+                                    <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/factures/{{order.id}}.pdf" ></a></span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr ng-show="order.displayDetails">
+                        <table ng-show="order.displayDetails" class="customer" ng-repeat="item in order.details" style="width: 100%;">
+                            <tr>
+                                <th style="background-color: lightskyblue">
+                                    Titre: {{item.title}}
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>
+                                        <img src="{{item.base64_image}}" style="width: 100%;">
+                                    </div>
+                                    <div>
+                                        Qte : {{item.qte}}
+                                    </div>
+                                    <div>
+                                        Montant: {{item.prix_ttc}}
+                                    </div>
+                                    <div>
+                                        Commentaire: {{item.commentaire}}
+                                    </div>
+                                </td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span><a href="#/produitclient/{{item.id}}">Détails</a></span>
+                                    <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/{{item.id}}.pdf" ></a></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-1 box_header">
+            <h3 class="stitched">Façonnage</h3>
+            <div ng-repeat="order in home.listOrders" style="margin-bottom: 20px;" ng-show="order.status == 'FACONNAGE'">
+                <table class="customers" style="width: 100%">
+                    <tr>
+                        <th>
+                            Order No: {{order.id}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <div>Date: {{order.date_created}}</div>
+                                <div>Nb Produits: {{order.num_prods}}</div>
+                                <div>Montant: {{order.total_prix_ttc}}</div>
+                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Crée Par: {{order.surname}} {{order.name}}</div>
+                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Modifié Par: {{order.modified_user}}</div>
+                                <div>
+                                    <md-select placeholder="Deplacer" ng-model="home.etat" ng-model-options="{trackBy: '$value.id'}" md-on-close="home.fnSetStage(order, home.etat)" style="font-size: 10px;width: 90%;">
+                                        <md-option ng-value="state" ng-repeat="state in home.states">{{state.name}}</md-option>
+                                    </md-select>
+                                   <!-- <span><button class="btn btn-success" ng-click="home.fnStart(order)">Démarrer</button></span>
+                                    <span><button class="btn btn-danger" ng-click="home.fnReject(order)">Rejeter</button></span>-->
+                                    <span class="glyphicon glyphicon-eye-open pull-right" style="cursor:pointer;" ng-click="home.fnToggleEye(order)"></span>
+                                    <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/factures/{{order.id}}.pdf" ></a></span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr ng-show="order.displayDetails">
+                        <table ng-show="order.displayDetails" class="customer" ng-repeat="item in order.details" style="width: 100%;">
+                            <tr>
+                                <th style="background-color: lightskyblue">
+                                    Titre: {{item.title}}
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>
+                                        <img src="{{item.base64_image}}" style="width: 100%;">
+                                    </div>
+                                    <div>
+                                        Qte : {{item.qte}}
+                                    </div>
+                                    <div>
+                                        Montant: {{item.prix_ttc}}
+                                    </div>
+                                    <div>
+                                        Commentaire: {{item.commentaire}}
+                                    </div>
+                                </td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span><a href="#/produitclient/{{item.id}}">Détails</a></span>
+                                    <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/{{item.id}}.pdf" ></a></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-1 box_header">
+            <h3 class="stitched">Livraison</h3>
+            <div ng-repeat="order in home.listOrders" style="margin-bottom: 20px;" ng-show="order.status == 'LIVRAISON'">
+                <table class="customers" style="width: 100%">
+                    <tr>
+                        <th>
+                            Order No: {{order.id}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <div>Date: {{order.date_created}}</div>
+                                <div>Nb Produits: {{order.num_prods}}</div>
+                                <div>Montant: {{order.total_prix_ttc}}</div>
+                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Crée Par: {{order.surname}} {{order.name}}</div>
+                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Modifié Par: {{order.modified_user}}</div>
+                                <div>
+                                    <md-select placeholder="Deplacer" ng-model="etat" style="width: 90%;">
+                                        <md-option ng-value="state" ng-repeat="state in home.states">{{state.name}}</md-option>
+                                    </md-select>
+                                    <!--<span><button class="btn btn-success" ng-click="home.fnStart(order)">Démarrer</button></span>
+                                    <span><button class="btn btn-danger" ng-click="home.fnReject(order)">Rejeter</button></span>-->
+                                    <span class="glyphicon glyphicon-eye-open pull-right" style="cursor:pointer;" ng-click="home.fnToggleEye(order)"></span>
+                                    <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/factures/{{order.id}}.pdf" ></a></span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr ng-show="order.displayDetails">
+                        <table ng-show="order.displayDetails" class="customer" ng-repeat="item in order.details" style="width: 100%;">
+                            <tr>
+                                <th style="background-color: lightskyblue">
+                                    Titre: {{item.title}}
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>
+                                        <img src="{{item.base64_image}}" style="width: 100%;">
+                                    </div>
+                                    <div>
+                                        Qte : {{item.qte}}
+                                    </div>
+                                    <div>
+                                        Montant: {{item.prix_ttc}}
+                                    </div>
+                                    <div>
+                                        Commentaire: {{item.commentaire}}
+                                    </div>
+                                </td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span><a href="#/produitclient/{{item.id}}">Détails</a></span>
+                                    <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/{{item.id}}.pdf" ></a></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-1 box_header">
+            <h3 class="stitched">Terminer</h3>
+            <div ng-repeat="order in home.listOrders" style="margin-bottom: 20px;" ng-show="order.status == 'TERMINER'">
+                <table class="customers" style="width: 100%">
+                    <tr>
+                        <th>
+                            Order No: {{order.id}}
+                        </th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>
+                                <div>Date: {{order.date_created}}</div>
+                                <div>Nb Produits: {{order.num_prods}}</div>
+                                <div>Montant: {{order.total_prix_ttc}}</div>`
+                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Crée Par: {{order.surname}} {{order.name}}</div>
+                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Modifié Par: {{order.modified_user}}</div>
+                                <div>
+                                    <md-select placeholder="Deplacer" ng-model="home.etat" ng-model-options="{trackBy: '$value.id'}" md-on-close="home.fnSetStage(order, home.etat)" style="font-size: 10px;width: 90%;">
+                                        <md-option ng-value="state" ng-repeat="state in home.states">{{state.name}}</md-option>
+                                    </md-select>
+                                    <!--<span><button class="btn btn-success" ng-click="home.fnStart(order)">Démarrer</button></span>
+                                    <span><button class="btn btn-danger" ng-click="home.fnReject(order)">Rejeter</button></span>-->
+                                    <span class="glyphicon glyphicon-eye-open pull-right" style="cursor:pointer;" ng-click="home.fnToggleEye(order)"></span>
+                                    <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/factures/{{order.id}}.pdf" ></a></span>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr ng-show="order.displayDetails">
+                        <table ng-show="order.displayDetails" class="customer" ng-repeat="item in order.details" style="width: 100%;">
+                            <tr>
+                                <th style="background-color: lightskyblue">
+                                    Titre: {{item.title}}
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div>
+                                        <img src="{{item.base64_image}}" style="width: 100%;">
+                                    </div>
+                                    <div>
+                                        Qte : {{item.qte}}
+                                    </div>
+                                    <div>
+                                        Montant: {{item.prix_ttc}}
+                                    </div>
+                                    <div>
+                                        Commentaire: {{item.commentaire}}
+                                    </div>
+                                </td>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <span><a href="#/produitclient/{{item.id}}">Détails</a></span>
+                                    <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/{{item.id}}.pdf" ></a></span>
+                                </td>
+                            </tr>
+                        </table>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-1 box_header">
             <h3 class="stitched">Rejeté</h3>
             <div ng-repeat="order in home.listOrders" style="margin-bottom: 20px;" ng-show="order.status == 'REJECT'">
                 <table class="customers" style="width: 100%">
@@ -137,14 +602,17 @@
                     <tr>
                         <td>
                             <div>
-                                <div>Date Crée: {{order.date_created}}</div>
-                                <div>Date debuté: {{order.date_modified}}</div>
+                                <div>Date: {{order.date_created}}</div>
                                 <div>Nb Produits: {{order.num_prods}}</div>
                                 <div>Montant: {{order.total_prix_ttc}}</div>
                                 <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Crée Par: {{order.surname}} {{order.name}}</div>
                                 <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Modifié Par: {{order.modified_user}}</div>
                                 <div>
-                                    <span><button class="btn btn-info" ng-click="home.fnRecup(order)">Récupérer</button></span>
+                                    <md-select placeholder="Deplacer" ng-model="home.etat" ng-model-options="{trackBy: '$value.id'}" md-on-close="home.fnSetStage(order, home.etat)" style="font-size: 10px;width: 90%;">
+                                        <md-option ng-value="state" ng-repeat="state in home.states">{{state.name}}</md-option>
+                                    </md-select>
+                                    <!--<span><button class="btn btn-success" ng-click="home.fnStart(order)">Démarrer</button></span>
+                                    <span><button class="btn btn-danger" ng-click="home.fnReject(order)">Rejeter</button></span>-->
                                     <span class="glyphicon glyphicon-eye-open pull-right" style="cursor:pointer;" ng-click="home.fnToggleEye(order)"></span>
                                     <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/factures/{{order.id}}.pdf" ></a></span>
                                 </div>
@@ -173,66 +641,6 @@
                                         Commentaire: {{item.commentaire}}
                                     </div>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span><a href="#/produitclient/{{item.id}}">Détails</a></span>
-                                    <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/{{item.id}}.pdf" ></a></span>
-                                </td>
-                            </tr>
-                        </table>
-                    </tr>
-                </table>
-            </div>
-
-        </div>
-        <div class="col-sm-3 col-md-3 box_header">
-            <h3 class="stitched">Terminé</h3>
-            <div ng-repeat="order in home.listOrders" style="margin-bottom: 20px;" ng-show="order.status == 'COMPLETE'">
-                <table class="customers" style="width: 100%">
-                    <tr>
-                        <th>
-                            Order No: {{order.id}}
-                        </th>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div>
-                                <div>Date Crée: {{order.date_created}}</div>
-                                <div>Date debuté: {{order.date_modified}}</div>
-                                <div>Nb Produits: {{order.num_prods}}</div>
-                                <div>Montant: {{order.total_prix_ttc}}</div>
-                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Crée Par: {{order.surname}} {{order.name}}</div>
-                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Modifié Par: {{order.modified_user}}</div>
-                                <div>
-                                    <span><button class="btn btn-info" ng-click="home.fnRecup(order)">Récupérer</button></span>
-                                    <span class="glyphicon glyphicon-eye-open pull-right" style="cursor:pointer;" ng-click="home.fnToggleEye(order)"></span>
-                                    <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/factures/{{order.id}}.pdf" ></a></span>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr ng-show="order.displayDetails">
-                        <table ng-show="order.displayDetails" class="customer" ng-repeat="item in order.details" style="width: 100%;">
-                            <tr>
-                                <th style="background-color: lightskyblue">
-                                    Titre: {{item.title}}
-                                </th>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div>
-                                        <img src="{{item.base64_image}}" style="width: 100%;">
-                                    </div>
-                                    <div>
-                                        Qte : {{item.qte}}
-                                    </div>
-                                    <div>
-                                        Montant: {{item.prix_ttc}}
-                                    </div>
-                                    <div>
-                                        Commentaire: {{item.commentaire}}
-                                    </div>
                                 </td>
                             </tr>
                             <tr>
@@ -248,4 +656,3 @@
         </div>
     </div>
 </div>
-

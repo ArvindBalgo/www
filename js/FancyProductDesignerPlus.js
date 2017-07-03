@@ -8,7 +8,7 @@
 
 var FancyProductDesignerPlus = {
 
-	version: '1.0.2',
+	version: '1.0.3',
 	setup: function($elem, fpdInstance) {
 
 		// @@include('../envato/evilDomain.js')
@@ -576,6 +576,13 @@ var FPDColorSelection = function(fpdInstance) {
 	_initialize();
 };
 
+/**
+ * The class to create the Bulk Variations that is related to FancyProductDesigner class.
+ *
+ * @class FPDBulkVariations
+ * @constructor
+ * @param {FancyProductDesigner} fpdInstance - An instance of FancyProductDesigner class.
+ */
 var FPDBulkVariations = function(fpdInstance) {
 
 	var instance = this,
@@ -584,6 +591,12 @@ var FPDBulkVariations = function(fpdInstance) {
 		variationRowHtml = '';
 
 
+	/**
+	 * Gets the variation(s) from the UI.
+	 *
+	 * @method getOrderVariations
+	 * @return {Array|Boolean} An array containing objects with variation and quantity properties. If a variation in the UI is not set, it will return false.
+	 */
 	this.getOrderVariations = function() {
 
 		var variations = [];
@@ -613,6 +626,38 @@ var FPDBulkVariations = function(fpdInstance) {
 		});
 
 		return variations;
+	};
+
+	/**
+	 * Loads variation(s) in the UI.
+	 *
+	 * @method setup
+	 * @param {Array} variations An array containing objects with variation and quantity properties.
+	 */
+	this.setup = function(variations) {
+
+		if(typeof variations === 'object') {
+
+			$container.children('.fpd-variations-list').empty();
+			variations.forEach(function(variationItem) {
+
+				$container.children('.fpd-variations-list').append(variationRowHtml);
+
+				var $lastRow = $container.children('.fpd-variations-list').children('.fpd-row:last');
+
+				//Set value of select dropdowns
+				Object.keys(variationItem.variation).forEach(function(attribute) {
+					$lastRow.find('select[name="'+attribute+'"]').val(variationItem.variation[attribute]);
+				});
+
+				$lastRow.find('.fpd-quantity').val(variationItem.quantity);
+
+			});
+
+		}
+
+		_setTotalQuantity();
+
 	};
 
 	var _setTotalQuantity = function() {
