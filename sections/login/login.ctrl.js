@@ -16,9 +16,12 @@ angular
                     console.log("RESULTS", results);
                     Data.toast(results);
                     if (results.status == "success") {
-                        if(results.uid > 0) {
+                        if(results.uid > 0 && results.admintype == 0) {
                             console.log("reslts:  ". results);
                             $location.path('home');
+                        }
+                        else if(results.uid > 0  && results.admintype == 1){
+                            $location.path('operateurs');
                         }
                         console.log("LOGGING IN:: ", results);
                     }

@@ -47,6 +47,7 @@ class users {
     private $_pays = "FR";
     private $_created = null;
     private $_postalcode = null;
+    private $_admintype = 0;
 
     private static $SELECT = "SELECT * FROM customers_auth ";
 
@@ -103,6 +104,10 @@ class users {
         $this->_postalcode = $postalCode;
     }
 
+    public function setAdmintype($type) {
+        $this->_admintype = $type;
+    }
+
     //**** Getters *****
 
     public function getUid() {
@@ -150,6 +155,10 @@ class users {
         return $this->_postalcode;
     }
 
+    public function getAdmintype(){
+        return $this->_admintype;
+    }
+
     public function delete($uid) {
         $requete = "delete from customers_auth where uid=" . $uid ;
         $r = $this->conn->query($requete) or die($this->conn->error.__LINE__);
@@ -172,6 +181,7 @@ class users {
             $requete .= ",city='" . $this->_city . "',";
             $requete .= ",pays='" . $this->_pays . "',";
             $requete .= ",created='" . $this->_created . "',";
+            $requete .= ",admintype='" . $this->_admintype. "',";
             $requete .= ",postalcode='" . $this->_created . "'";
             $requete .= " where uid=" . $this->_uid;
 
@@ -187,6 +197,7 @@ class users {
             $requete .= "city,";
             $requete .= "pays,";
             $requete .= "postalcode,";
+            $requete .= "admintype,";
             $requete .= "created";
             $requete .= ") VALUES (";
             $requete .= "'" . $this->_uid . "',";
@@ -199,6 +210,7 @@ class users {
             $requete .= "'" . $this->_city . "',";
             $requete .= "'" . $this->_pays . "',";
             $requete .= "'" . $this->_postalcode . "',";
+            $requete .= "'" . $this->_admintype. "',";
             $requete .= "'" . $this->_created . "')";
         }
 
@@ -225,6 +237,7 @@ class users {
         $user->_city = $rs["city"];
         $user->_pays = $rs["pays"];
         $user->_postalcode = $rs["postalcode"];
+        $user->_admintype = $rs["admintype"];
         $user->_created = $rs["created"];
         return $user;
     }

@@ -8,7 +8,7 @@ $response = array();
 $db = new DbHandler();
 $password = $r->customer->password;
 $email = $r->customer->email;
-$user = $db->getOneRecord("select uid,name,password,email,created,admin, pays, surname, city, postalcode,phone, address  from customers_auth where (phone='$email' or email='$email') and admin=1");
+$user = $db->getOneRecord("select uid,name,password,email,created,admin, pays, surname, city, postalcode,phone, address, admintype  from customers_auth where (phone='$email' or email='$email') and admin=1");
 
 if ($user != NULL) {
     if(passwordHash::check_password($user['password'],$password)){
@@ -20,6 +20,7 @@ if ($user != NULL) {
         $response['address'] = $user['address'];
         $response['createdAt'] = $user['created'];
         $response['admin'] = $user['admin'];
+        $response['admintype'] = $user['admintype'];
         $response['pays'] = $user['pays'];
         $response['surname'] = $user['surname'];
         $response['tel'] = $user['phone'];
@@ -33,6 +34,7 @@ if ($user != NULL) {
         $_SESSION['email'] = $email;
         $_SESSION['name'] = $user['name'];
         $_SESSION['admin'] = $user['admin'];
+        $_SESSION['admintype'] = $user['admintype'];
         $_SESSION['pays'] = $user['pays'];
         $_SESSION['surname'] = $user['surname'];
         $_SESSION['tel'] = $user['phone'];

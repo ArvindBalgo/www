@@ -56,6 +56,7 @@ public function getSession(){
         $sess["name"] = $_SESSION['name'];
         $sess["email"] = $_SESSION['email'];
         $sess["admin"] = $_SESSION['admin'];
+        $sess["admintype"] = $_SESSION['admintype'];
         $sess["pays"] = $_SESSION['pays'];
         $sess["city"] = $_SESSION['city'];
         $sess["surname"] = $_SESSION['surname'];
@@ -69,6 +70,7 @@ public function getSession(){
         $sess["name"] = 'Guest';
         $sess["email"] = '';
         $sess["admin"] = '0';
+        $sess["admintype"] = '0';
         $sess["pays"] = 'FR';
         $sess["city"] = '';
         $sess["surname"] = '';
@@ -88,6 +90,7 @@ public function destroySession(){
         unset($_SESSION['name']);
         unset($_SESSION['email']);
         unset($_SESSION['admin']);
+        unset($_SESSION['admintype']);
         unset($_SESSION['pays']);
         unset($_SESSION['city']);
         unset($_SESSION['surname']);

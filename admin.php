@@ -116,5 +116,6 @@
 <script src="sections/admin/config_divers/config_divers.ctrl.js"></script>
 <script src="sections/admin/prod_client/prod_client.ctrl.js"></script>
 <script src="sections/admin/polices/polices.ctrl.js"></script>
+<script src="sections/admin/operateurs/operateurs.ctrl.js"></script>
 </body>
 </html>

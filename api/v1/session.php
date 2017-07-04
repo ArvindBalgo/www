@@ -12,6 +12,7 @@ $response["name"] = $session['name'];
 $response["surname"] = $session['surname'];
 $response["type"] = $session['admin'];
 $response["admin"] = $session['admin'];
+$response["admintype"] = $session['admintype'];
 $response["pays"] = $session['pays'];
 $response["address"] = $session['address'];
 $response["city"] = $session['city'];

@@ -14,6 +14,11 @@ app.config(['$routeProvider',
             templateUrl: 'sections/admin/home/home.tpl.html',
             controller: 'homeController as home'
         })
+        .when('/operateurs', {
+            title: 'Operateurs Dashboard',
+            templateUrl: 'sections/admin/operateurs/operateurs.tpl.html',
+            controller: 'operateursController as operateurs'
+        })
         .when('/param', {
             title: 'Parametrage',
             templateUrl: 'sections/admin/param/param.tpl.html',
