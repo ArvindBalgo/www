@@ -26,7 +26,12 @@ $pathCategory = "groupe";
         $cata_image->setLibelle($_POST["libelle"]);
         $cata_image->setActive($_POST["active"]);
         $cata_image->setIdCategory($_POST["id_category"]);
-        $cata_image->setSrc("images/gallery/".$pathCategory."/".$_FILES['file']['name']);
+        if($_POST["displaySrc"] == true) {
+            $cata_image->setDisplaySrc("images/gallery/".$pathCategory."/".$_FILES['file']['name']);
+        }
+        else {
+            $cata_image->setSrc("images/gallery/".$pathCategory."/".$_FILES['file']['name']);
+        }
 
         $cata_image->save();
         echo json_encode("DONE");

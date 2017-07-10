@@ -8,6 +8,7 @@ angular
         vm.active       =  false;
         vm.isRowModif   =  false;
         vm.isImgModif   =  false;
+        vm.isDisplayImgModif =  false;
         vm.optCategory  = 0;
         vm.id           = 0;
         vm.objCategory  = {};
@@ -61,12 +62,13 @@ angular
             if(vm.isImgModif){
                 id = vm.id;
             }
-            item.formData = [{id:id,libelle:vm.libelle, reference:vm.reference, active:act, id_category:vm.objSel.id, category_name:vm.objSel.libelle}];
+            item.formData = [{id:id,libelle:vm.libelle, reference:vm.reference, active:act, id_category:vm.objSel.id, category_name:vm.objSel.libelle, displaySrc:vm.isDisplayImgModif}];
         };
         uploader.onSuccessItem = function(fileItem, response, status, headers) {
             console.info('onSuccessItem', fileItem, response, status, headers);
             vm.fnGetAllImages();
             $('#modalImage').modal('hide');
+            $('#modalDisplaySrcImg').modal('hide');
 
 
         };
@@ -136,14 +138,29 @@ angular
                 vm.imgsrc = row.src;
                 $("#modalSrcImg").modal();
             }
+            else if(opt == 4) {
+                vm.isRowModif   =  true;
+                vm.imgsrc = row.display_src;
+                vm.reference    = row.reference;
+                vm.libelle      = row.libelle;
+                vm.id = row.id;
+                if(row.active == 1){
+                    vm.active = true;
+                }
+                else {
+                    vm.active = false;
+                }
 
+                $("#modalDisplaySrcImg").modal();
+            }
         };
 
         vm.formatCell = function(){
             var trash = "<button type='button' class='btn btn-default btn-circle'   style='margin-left: 5px;margin-top: 5px;' ng-click='grid.appScope.editImage(grid, row.entity, 1)'><i class='glyphicon glyphicon-trash'></i></button>";
             var edit  = "<button type='button' class='btn btn-info btn-circle'      style='margin-left: 5px;margin-top: 5px;' ng-click='grid.appScope.editImage(grid, row.entity, 2)'><i class='glyphicon glyphicon-pencil'></i></button>";
+            var edit1  = "<button type='button' class='btn btn-secondary'      style='margin-left: 5px;margin-top: 5px;' ng-click='grid.appScope.editImage(grid, row.entity, 4)'><i class='glyphicon glyphicon-pencil'>Display Img</i></button>";
             var image = "<button type='button' class='btn btn-success btn-circle'   style='margin-left: 5px;margin-top: 5px;' ng-click='grid.appScope.editImage(grid, row.entity, 3)'><i class='glyphicon glyphicon-picture'></i></button>";
-            return image+edit+trash;
+            return image+edit+edit1+trash;
         }
 
         vm.columns = [  { name:'Libelle',field: 'libelle',enableHiding:false},
@@ -250,6 +267,7 @@ angular
             $('#modalCategory').modal('hide');
             $('#modalImage').modal('hide');
             $('#modalSrcImg').modal('hide');
+            $('#modalDisplaySrcImg').modal('hide');
         }
 
         vm.fnModifImg = function(){
@@ -257,6 +275,11 @@ angular
             vm.isImgModif   =  true;
         }
 
+        vm.fnModifDisplayImg = function(){
+            vm.isRowModif   =  false;
+            vm.isImgModif   =  true;
+            vm.isDisplayImgModif   =  true;
+        }
         //valider category
         vm.fnValider = function(){
             console.log("valider");

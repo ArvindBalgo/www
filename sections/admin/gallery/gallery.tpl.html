@@ -121,3 +121,44 @@
         </div>
     </div>
 </div>
+
+<div id="modalDisplaySrcImg" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 50%;height: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> {{gallery.mode}} Image</h4>
+            </div>
+            <div class="modal-body" style="width: 100%">
+                <div class="row">
+                    <div class="col-md-12" style="padding-bottom: 5px">
+                        <div class="col-md-2"><b>Reference </b></div>
+                        <input type="text" style="width: 75%;" class="form-control col-md-7" ng-model="gallery.reference" placeholder="reference" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-2"><b>Libelle </b></div>
+                        <input type="text" style="width: 75%" class="form-control col-md-8" ng-model="gallery.libelle" placeholder="Libelle" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="col-md-12">
+                        <div class="col-md-2" style="padding-top: 7px"><b>Actif </b></div>
+                        <div class="checkbox col-md-1">
+                            <label><input type="checkbox" ng-model="gallery.active"></label>
+                        </div>
+                    </div>
+                    <div class="col-md-12" ng-show="!gallery.isRowModif">
+                        <input class="col-md-5 col-md-offset-2" style="margin-top: 15px" type="file" nv-file-select="" uploader="uploader">
+                    </div>
+                    <div class="col-md-12" ng-show="gallery.isRowModif">
+                        <img class="col-md-5 col-md-offset-2" src="{{gallery.imgsrc}}" style="width: 100px; height: 100px;">
+                        <button class="btn btn-warning btn-sm" ng-click="gallery.fnModifDisplayImg()"><i class='glyphicon glyphicon-pencil'></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger pull-left" ng-click="gallery.fnQuitter()">Annuler</button>
+                <button ng-show="!gallery.isRowModif" class="btn btn-success pull-right" ng-click="uploader.uploadAll()">Valider UP</button>
+                <button ng-show="gallery.isRowModif" class="btn btn-success pull-right" ng-click="gallery.fnValidRow()">Valider</button>
+            </div>
+        </div>
+    </div>
+</div>
