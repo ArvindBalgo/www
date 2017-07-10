@@ -25,6 +25,8 @@ Exakom, bolduc, étiquette fleuriste">
     <link rel="stylesheet" href="sections/apropos/apropos.css"/>
     <link rel="stylesheet" href="sections/client/client.css"/>
     <link rel="stylesheet" href="sections/checkout/checkout.css"/>
+    <link rel="stylesheet" href="sections/facturevalid/facturevalid.css"/>
+    <link rel="stylesheet" href="sections/factureinvalid/factureinvalid.css"/>
     <!-- The CSS for the plugin itself - required -->
     <link rel="stylesheet" type="text/css" href="css/FancyProductDesigner-all.min.css" />
     <!-- Optional - only when you would like to use custom fonts - optional -->
@@ -36,7 +38,7 @@ Exakom, bolduc, étiquette fleuriste">
 
     <!-- endbuild -->
 </head>
-<body data-ng-app="myApp" ng-controller="mainController" style="margin: 5px; overflow-y: hidden">
+<body data-ng-app="myApp" ng-controller="mainController" style="margin: 5px;">
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -103,7 +105,6 @@ window.smartsupp||(function(d) {
 <script src="js/angular-material.min.js"></script>
 <!-- / -->
 <!-- endbuild -->
-<!-- endbuild -->
 <!-- CONTROLLERS -->
 <script src="sections/mainController.js"></script>
 <script src="sections/home/home.ctrl.js"></script>
@@ -115,22 +116,7 @@ window.smartsupp||(function(d) {
 <script src="sections/utilisation/utilisation.ctrl.js"></script>
 <script src="sections/client/client.ctrl.js"></script>
 <script src="sections/checkout/checkout.ctrl.js"></script>
-<!--script src="sections/premieres/premieres.ctrl.js"></script>
-<script src="sections/search/search.ctrl.js"></script>
-<script src="sections/view/view.ctrl.js"></script>
-<script src="components/bar/bar.ctrl.js"></script>
-<script src="sections/popular/popular.ctrl.js"></script>
-<!-- / -->
-<!-- SERVICES -->
-<!--script src="services/show.fct.js"></script>
-<script src="services/page.val.js"></script>
-<!-- / -->
-<!-- DIRECTIVES -->
-<!--script src="components/show/show.drct.js"></script>
-<script src="directives/ngEnter.drct.js"></script-->
-<!-- / -->
-<!-- inject:js -->
-<!-- endinject -->
-<!-- endbuild -->
+<script src="sections/facturevalid/facturevalid.ctrl.js"></script>
+<script src="sections/factureinvalid/factureinvalid.ctrl.js"></script>
 </body>
 </html>

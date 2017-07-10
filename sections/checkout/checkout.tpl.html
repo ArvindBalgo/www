@@ -140,6 +140,7 @@
                             <input type="text" name="PAYS" size="24" ng-model="checkout.userDetails.pays">
                         </td>
                     </tr>-->
+                    <input type="hidden" name="L" value="checkout.lang" ng-model="checkout.lang"/>
                     <td width="50%"><select size="1" name="PAYS">
                         <option value="checkout.userDetails.pays" selected="selected">France</option>
                     </select>
@@ -156,7 +157,7 @@
                     <input name="MONTANT" value="{{checkout.montants.montant_net}}">
                     <tr>
                         <td width="100%" colspan="2">
-                            <p align="center"><input type="submit" class="btn btn-lg btn-success" value="Facturation" name="B1"></p></td>
+                            <p align="center"><button class="btn btn-lg btn-success" value="Facturation" ng-click="checkout.fnPay()">Facturation</button></p></td>
                     </tr>
                 </table>
             </form>

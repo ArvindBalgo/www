@@ -11,7 +11,15 @@ angular
         vm.montants = {frais_livr: 0, prix_total_ht: 0, tax: 0, prix_ttc: 0, montant_net: 0};
         vm.arrProduits = [];
         vm.userDetails = [];
-
+        vm.lang = localStorage.getItem("LANG");
+        if (vm.lang == "" || vm.lang == null) {
+            vm.lang = "FR";
+        }
+        if(vm.lang == 'AL') {
+            vm.lang = 'DE'
+        }
+console.clear();
+        console.log(vm.lang);
         vm.fnInit = function() {
             var param = localStorage.getItem('LANG');
             if(param == "") {
@@ -91,6 +99,18 @@ angular
                 $scope.sessionInfo = results;
                 });
         }
+
+        vm.fnPay = function () {
+            vm.lang = localStorage.getItem("LANG");
+            if (vm.lang == "" || vm.lang == null) {
+                vm.lang = "FR";
+            }
+            if(vm.lang == 'AL') {
+                vm.lang = 'DE'
+            }
+            console.log(vm.lang , " ======");
+          //  document.getElementById("knp-form").submit();
+        };
 
         var lang = localStorage.getItem("LANG");
         $http({

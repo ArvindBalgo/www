@@ -1,16 +1,9 @@
 <?php
 include_once 'include_all.php';
 include_once "../chromePHP.php";
-if(! session_id()) {
+if(!session_id()) {
     session_start();
 }
-
-/*$temp_prod = new temp_prod();
-$temp_prod = $temp_prod->findBySessionKey(session_id(), $_POST["idn_key"]);
-
-if($temp_prod == 'false') {
-    $temp_prod = new temp_prod();
-}*/
 $temp_prod = new temp_prod();
 chromePHP::log($_POST['modified']);
 chromePHP::log($_POST["idn_key"]);

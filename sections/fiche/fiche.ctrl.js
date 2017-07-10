@@ -1851,9 +1851,9 @@ angular
                     };
 
                     vm.fnGetFraisLivr = function () {
-                        /*$('#modalPanier').modal('hide');
+                        $('#modalPanier').modal('hide');
                         $location.path('/checkout');
-                        return;*/
+                        return;
                         console.log(vm.arrProduits);
                         var arrKeysDL = [];
                         angular.forEach(vm.arrProduits, function (value) {
@@ -1918,7 +1918,7 @@ angular
                                 url: 'api/v1/save_img.php',
                                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                             }).then(function successCallback(response) {
-                                console.clear();
+                               // console.clear();
                                 console.log(response.data);
                                 var countProduit = 0;
                                 var arrProds = [];
@@ -1947,7 +1947,7 @@ angular
                                 obj.arrDims = vm.arrCurrentDims;
                                 obj.arrQtes = vm.arrCurrentQtes;
                                 obj.idProduit = vm.productList[0].id;
-console.clear();
+
                                 console.log(obj);
                                 if (typeof vm.produit.commentaire == 'undefined') {
                                     vm.produit.commentaire = " ";

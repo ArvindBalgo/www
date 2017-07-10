@@ -455,7 +455,6 @@ if ($mode == 0) {
     print json_encode(array('frais_livraison' => $arrFrais, 'tax' => $tva->getValue(), 'pays' => $tva->getPays()));
 } else if ($mode == 20) {
     $arrListKeys = json_decode($_GET["list"]);
-    //chromePHP::log($arrListKeys);
     $id_user = $_SESSION['uid'];
     $tva = new tva();
     $tva = $tva->findByPays($_SESSION['pays']);
@@ -463,7 +462,6 @@ if ($mode == 0) {
     $totalPrixHT = 0;
     foreach ($arrListKeys as $val) {
         foreach ($val as $key=>$item){
-            //chromePHP::log(($item));
             $tempProd = new temp_prod();
             $tempProd = $tempProd->findByComboKeyRandom($key, $item);
             chromePHP::log($tempProd->getIdProduit() . "   :::");
