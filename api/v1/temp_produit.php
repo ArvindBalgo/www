@@ -5,13 +5,11 @@ if(!session_id()) {
     session_start();
 }
 $temp_prod = new temp_prod();
-chromePHP::log($_POST['modified']);
-chromePHP::log($_POST["idn_key"]);
 if($_POST["modified"] || $_POST["modified"] == 'true') {
     $temp_prod = $temp_prod->findByComboKeyRandom($_POST["idn_key"], $_POST["random_str"]);
 }
 $temp_prod->setSessionId(session_id());
-$temp_prod->setbase64Image($_POST["base64_image"]);
+$temp_prod->setbase64Image($_POST["base64_image"].".png");
 $temp_prod->setTitle($_POST["title"]);
 $temp_prod->setCommentaire($_POST["comm"]);
 $temp_prod->setOpt($_POST["opt"]);
@@ -36,5 +34,5 @@ $temp_prod->setIdQte($_POST["id_qte"]);
 
 $temp_prod->save();
 
-print_r("done");
-
+print json_encode("done");
+?>

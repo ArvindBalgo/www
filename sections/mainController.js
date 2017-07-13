@@ -27,7 +27,7 @@ angular
                 $scope.utilisateur = results.name;
             }
             $scope.sessionInfo = results;
-            $location.path('home');
+            //$location.path('home');
 
 
         });
@@ -203,7 +203,7 @@ angular
         };
 
         $(window).unload(function () {
-            localStorage.removeItem("LANG");
+          //  localStorage.removeItem("LANG");
         });
 
     });
