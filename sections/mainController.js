@@ -3,7 +3,7 @@ angular
     .controller('mainController', function($scope, $rootScope, $routeParams, $location, $http, Data, $timeout, $translate) {
         //Setup view model object
         $scope.isLogged = false;
-        var modeLang = localStorage.getItem("LANG");
+        var modeLang = sessionStorage.getItem("LANG");
         $scope.isActualLang = "FRANCAIS";
         if(modeLang == "EN") {
             $scope.isActualLang = "ENGLISH";
@@ -123,7 +123,7 @@ angular
         };
 
         $scope.fnClickTest = function() {
-            var langSel = localStorage.getItem('LANG');
+            var langSel = sessionStorage.getItem('LANG');
 
             if(langSel == "EN") {
                 $scope.isActualLang = "ENGLISH";
@@ -145,7 +145,7 @@ angular
 
         $scope.fnClickLang = function() {
           $('#modalLanguage').modal();
-            var langSel = localStorage.getItem('LANG');
+            var langSel = sessionStorage.getItem('LANG');
                 if(langSel == "EN") {
                     $scope.isActualLang = "ENGLISH";
                     $("#en").prop("checked", true)
@@ -174,30 +174,30 @@ angular
 
         $scope.fnValidLang = function() {
             if($('#fr').prop('checked')) {
-                localStorage.setItem('LANG', 'FR');
+                sessionStorage.setItem('LANG', 'FR');
                 $scope.isActualLang = "FRANCAIS";
             }
             if($('#en').prop('checked')) {
 
-                localStorage.setItem('LANG', 'EN');
+                sessionStorage.setItem('LANG', 'EN');
                 $scope.isActualLang = "ENGLISH";
             }
             if($('#es').prop('checked')) {
 
-                localStorage.setItem('LANG', 'ES');
+                sessionStorage.setItem('LANG', 'ES');
                 $scope.isActualLang = "ESPAÑOL";
             }
             if($('#al').prop('checked')) {
 
-                localStorage.setItem('LANG', 'AL');
+                sessionStorage.setItem('LANG', 'AL');
                 $scope.isActualLang = "DEUTSCH";
             }
             if($('#it').prop('checked')) {
 
-                localStorage.setItem('LANG', 'IT');
+                sessionStorage.setItem('LANG', 'IT');
                 $scope.isActualLang = "ITALIANO";
             }
-            $translate.use(localStorage.getItem('LANG'));
+            $translate.use(sessionStorage.getItem('LANG'));
             $('#modalLanguage').modal('hide');
 
         };

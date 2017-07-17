@@ -8,8 +8,26 @@ angular
         vm.id=0;
         vm.arrContents = [];
         vm.isFrance = false;
-        
+
+        $scope.setLang = function(langKey) {
+            // You can change the language during runtime
+            $translate.use(langKey);
+        };
+
+        $scope.$watch('isActualLang', function(ov, nv) {
+            $scope.setLang(sessionStorage.getItem("LANG"));
+        });
+
         vm.fnInit = function() {
+            vm.arrProduits = [];
+            var count = Number(sessionStorage.getItem("produitCount"));
+            var arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
+            if (arrProds != null) {
+                angular.forEach(arrProds, function (value) {
+                    vm.arrProduits.push(JSON.parse(sessionStorage.getItem(value)));
+                });
+            }
+
             var arrListCheckoutProds = new Array();
             angular.forEach(vm.arrProduits, function (value, key) {
                 arrListCheckoutProds[key] = {};
@@ -31,6 +49,8 @@ angular
                 });
         };
 
+        vm.fnInit();
+
        /* var lang = 'FR';
         $http({
             method: 'GET',
@@ -46,6 +66,6 @@ angular
             vm.isFrance = true;
         }*/
        // $scope.$watch('isActualLang', function(ov, nv) {
-            vm.fnInit();
+
       //  });
     });

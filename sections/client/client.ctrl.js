@@ -4,7 +4,7 @@ angular
     .controller('clientController', function($scope, $location, $timeout, messages, $http, Data) {
         var vm = this;
         $scope.isFiche = true;
-        var lang = localStorage.getItem("LANG");
+        var lang = sessionStorage.getItem("LANG");
         vm.isDiv = false;
         vm.isFrance= false;
         $http({

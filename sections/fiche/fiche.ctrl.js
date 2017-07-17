@@ -209,7 +209,7 @@ angular
                         }
                     })
                 }
-                var lang = localStorage.getItem("LANG");
+                var lang = sessionStorage.getItem("LANG");
                 var urlLang = "";
                 if (lang == 'FR') {
                     urlLang = "lang/fr.json";
@@ -2862,7 +2862,7 @@ angular
             console.log(vm.login);
         };
 
-        var lang = localStorage.getItem("LANG");
+        var lang = sessionStorage.getItem("LANG");
         /*
          set imgs Mon panier and ajouter au panier
          */
@@ -2893,7 +2893,7 @@ angular
         }
         console.log(lang, " this is the lang")
 
-        $translate.use(localStorage.getItem('LANG'));
+        $translate.use(sessionStorage.getItem('LANG'));
         $http({
             method: 'GET',
             params: {mode: 3, lang: lang},
@@ -2909,8 +2909,8 @@ angular
 
         $scope.$watch('isActualLang', function (ov, nv) {
             console.log(ov, nv, " module fichier");
-            vm.setLang(localStorage.getItem("LANG"));
-            var lang = localStorage.getItem("LANG");
+            vm.setLang(sessionStorage.getItem("LANG"));
+            var lang = sessionStorage.getItem("LANG");
 
             vm.linkMonPanier = "../assets/carts/mon_panier.png";
             vm.linkAjoutPanier = "../assets/carts/ajouter_panier.png";

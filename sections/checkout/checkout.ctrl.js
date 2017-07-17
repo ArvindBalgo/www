@@ -11,7 +11,7 @@ angular
         vm.montants = {frais_livr: 0, prix_total_ht: 0, tax: 0, prix_ttc: 0, montant_net: 0};
         vm.arrProduits = [];
         vm.userDetails = [];
-        vm.lang = localStorage.getItem("LANG");
+        vm.lang = sessionStorage.getItem("LANG");
         if (vm.lang == "" || vm.lang == null) {
             vm.lang = "FR";
         }
@@ -21,7 +21,7 @@ angular
 console.clear();
         console.log(vm.lang);
         vm.fnInit = function() {
-            var param = localStorage.getItem('LANG');
+            var param = sessionStorage.getItem('LANG');
             if(param == "") {
                 param = "FR";
             }
@@ -101,7 +101,7 @@ console.clear();
         }
 
         vm.fnPay = function () {
-            vm.lang = localStorage.getItem("LANG");
+            vm.lang = sessionStorage.getItem("LANG");
             if (vm.lang == "" || vm.lang == null) {
                 vm.lang = "FR";
             }
@@ -112,7 +112,7 @@ console.clear();
           //  document.getElementById("knp-form").submit();
         };
 
-        var lang = localStorage.getItem("LANG");
+        var lang = sessionStorage.getItem("LANG");
         $http({
             method: 'GET',
             params: {mode:3, lang:lang},

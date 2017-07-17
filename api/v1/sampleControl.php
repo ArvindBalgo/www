@@ -2,6 +2,7 @@
 session_start();
 include_once 'include_all.php';
 require('../fpdf.php');
+require '../PHPMailerAutoload.php';
 include_once "../chromePHP.php";
 
 $mode = $_GET['mode'];
@@ -622,6 +623,75 @@ if ($mode == 0) {
             }
         }
     }
+
+    $mail = new PHPMailer;
+    $mailAdmin = new PHPMailer;
+
+//$mail->SMTPDebug = 3;                               // Enable verbose debug output
+
+    $idUser = $_SESSION['uid'];
+    $user = new users();
+    $user = $user->findByPrimaryKey($idUser);
+    $mail->isSMTP();                                      // Set mailer to use SMTP
+    $mail->Host = 'mail.exakom.fr';  // Specify main and backup SMTP servers
+    $mail->SMTPAuth = true;                               // Enable SMTP authentication
+    $mail->Username = 'contact@exakom.fr';                 // SMTP username
+    $mail->Password = '95961b98';                           // SMTP password
+    $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+    $mail->Port = 25;                                    // TCP port to connect to
+
+    $mail->setFrom('contact@exakom.fr', 'Exakom');
+    $mail->addAddress($user->getEmail(), strtoupper($user->getName() ). " " . strtoupper($user->getSurname()));     // Add a recipient
+//$mail->addAddress('ellen@example.com');               // Name is optional
+    $mail->addReplyTo('contact@exakom.fr', 'Information');
+//$mail->addCC('cc@example.com');
+//$mail->addBCC('bcc@example.com');
+
+//$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
+//$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+    $mail->isHTML(true);                                  // Set email format to HTML
+
+    $mail->Subject = utf8_decode('Réception de commande');
+    $mail->Body    = utf8_decode('Bonjour '. strtoupper($user->getName() ). " " . strtoupper($user->getSurname()) ." <br> Votre commande a bien été réceptioné. Vous receverai bientot votre facture depuis Exakom. <br> Bien à vous, <br> Exakom.");
+
+    if(!$mail->send()) {
+        //echo 'Message could not be sent.';
+       // echo 'Mailer Error: ' . $mail->ErrorInfo;
+    } else {
+       // echo 'Message has been sent';
+    }
+
+
+
+    $mailAdmin->isSMTP();                                      // Set mailer to use SMTP
+    $mailAdmin->Host = 'mail.exakom.fr';  // Specify main and backup SMTP servers
+    $mailAdmin->SMTPAuth = true;                               // Enable SMTP authentication
+    $mailAdmin->Username = 'contact@exakom.fr';                 // SMTP username
+    $mailAdmin->Password = '95961b98';                           // SMTP password
+    $mailAdmin->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+    $mailAdmin->Port = 25;                                    // TCP port to connect to
+
+    $mailAdmin->setFrom('contact@exakom.fr', 'Exakom');
+    $mailAdmin->addAddress('contact@exakom.fr', "Admin");     // Add a recipient     // Name is optional
+    $mailAdmin->addAddress('balgo_arvind@hotmail.com');               // Name is optional
+    $mailAdmin->addReplyTo('contact@exakom.fr', 'Information');
+//$mail->addCC('cc@example.com');
+//$mail->addBCC('bcc@example.com');
+
+//$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
+//$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+    $mailAdmin->isHTML(true);                                  // Set email format to HTML
+
+    $mailAdmin->Subject = utf8_decode('Réception de commande');
+    $mailAdmin->Body    = utf8_decode('Bonjour Exakom'. " <br> Une nouvelle commande a été fait par le client ".$user->getName() ." " .$user->getSurname()." <br> No Commande: ".$orders_details['id']." <br> Bien à vous, <br> Exakom.");
+
+    if(!$mailAdmin->send()) {
+        //echo 'Message could not be sent.';
+        // echo 'Mailer Error: ' . $mail->ErrorInfo;
+    } else {
+        // echo 'Message has been sent';
+    }
+
 
     print_r( "done");
 } else if($mode == 21) {

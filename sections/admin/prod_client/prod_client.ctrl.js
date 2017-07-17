@@ -26,7 +26,7 @@ angular
             console.log(vm.currentProd);
             console.log(idprod);
             console.log("**************************************");
-            var lang = localStorage.getItem("LANG");
+            var lang = sessionStorage.getItem("LANG");
             var urlLang = "";
             if (lang == 'FR') {
                 urlLang = "lang/fr.json";

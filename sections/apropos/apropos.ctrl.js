@@ -10,7 +10,7 @@ angular
         vm.isFrance = false;
         
         vm.fnInit = function() {
-            var param = localStorage.getItem('LANG');
+            var param = sessionStorage.getItem('LANG');
             if(param == "") {
                 param = "FR";
             }
@@ -30,7 +30,7 @@ angular
             });
         };
 
-        var lang = localStorage.getItem("LANG");
+        var lang = sessionStorage.getItem("LANG");
         $http({
             method: 'GET',
             params: {mode:3, lang:lang},

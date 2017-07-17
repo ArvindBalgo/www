@@ -45,7 +45,7 @@ Data.get('session.php').then(function (results) {
             $scope.sessionInfo = results;
             console.log(results, 'results from admin');
 
-            if(localStorage.getItem('LANG') == "" || localStorage.getItem('LANG') == null) {
+            if(sessionStorage.getItem('LANG') == "" || sessionStorage.getItem('LANG') == null) {
                 document.getElementById("myNav").style.width = "100%";
 
                 $timeout(function(){
@@ -73,14 +73,14 @@ Data.get('session.php').then(function (results) {
             }
             else {
 
-                $translate.use(localStorage.getItem('LANG'));
-                if(localStorage.getItem('LANG') == 'FR') {
+                $translate.use(sessionStorage.getItem('LANG'));
+                if(sessionStorage.getItem('LANG') == 'FR') {
                     vm.isFrance= true;
                     console.log("this has been triggered");
                 }
                 $http({
                     method: 'GET',
-                    params: {mode:3, lang:localStorage.getItem('LANG')},
+                    params: {mode:3, lang:sessionStorage.getItem('LANG')},
                     url: 'api/v1/langueCRUD.php'
                 }).then(function successCallback(response) {
                     console.log(response.data);
@@ -279,9 +279,9 @@ Data.get('session.php').then(function (results) {
         vm.fnModelClick  = function($id, $id_modelMetier, $id_cata, $id_metier) {
             //$('#myModel').modal('hide');
             vm.fnRemoveModal();
-            localStorage.setItem("id_model", $id_cata);
-            localStorage.setItem("idModelMetier", $id_modelMetier);
-            localStorage.setItem("idMetier",$id_metier);
+            sessionStorage.setItem("id_model", $id_cata);
+            sessionStorage.setItem("idModelMetier", $id_modelMetier);
+            sessionStorage.setItem("idMetier",$id_metier);
             $location.path('fichetech/'+$id_cata);
         };
 
@@ -306,7 +306,7 @@ Data.get('session.php').then(function (results) {
         };
 
         vm.fnInstructions = function(){
-            var param = localStorage.getItem('LANG');
+            var param = sessionStorage.getItem('LANG');
             if(param == "") {
                 param = "FR";
             }
@@ -329,7 +329,7 @@ Data.get('session.php').then(function (results) {
 
         vm.fnClickLang = function($lang) {
             console.log($lang);
-            localStorage.setItem("LANG", $lang);
+            sessionStorage.setItem("LANG", $lang);
             $translate.use($lang);
             $http({
                 method: 'GET',
@@ -354,7 +354,7 @@ Data.get('session.php').then(function (results) {
         };
 
         vm.fnLoadPub = function() {
-            var langSel = localStorage.getItem('LANG');
+            var langSel = sessionStorage.getItem('LANG');
             $http({
                 method: 'GET',
                 params: {mode:3, pays:langSel},
@@ -372,7 +372,7 @@ Data.get('session.php').then(function (results) {
         };
 
         vm.fnSetBtnMetiers = function() {
-            var lang_sel = localStorage.getItem('LANG');
+            var lang_sel = sessionStorage.getItem('LANG');
             vm.btnMetier = angular.copy(vm.btnMetierOrig);
             if(lang_sel == "FR") {
                 vm.isFrance = true;
@@ -463,35 +463,35 @@ Data.get('session.php').then(function (results) {
         };
 
         $scope.$watch('isActualLang', function(ov, nv) {
-            $scope.setLang(localStorage.getItem("LANG"));
+            $scope.setLang(sessionStorage.getItem("LANG"));
         });
 
         $scope.fnValidLang = function() {
             if($('#fr').prop('checked')) {
-                localStorage.setItem('LANG', 'FR');
+                sessionStorage.setItem('LANG', 'FR');
                 $scope.isActualLang = "FRANCAIS";
             }
             if($('#en').prop('checked')) {
 
-                localStorage.setItem('LANG', 'EN');
+                sessionStorage.setItem('LANG', 'EN');
                 $scope.isActualLang = "ENGLISH";
             }
             if($('#es').prop('checked')) {
 
-                localStorage.setItem('LANG', 'ES');
+                sessionStorage.setItem('LANG', 'ES');
                 $scope.isActualLang = "ESPAÑOL";
             }
             if($('#al').prop('checked')) {
 
-                localStorage.setItem('LANG', 'AL');
+                sessionStorage.setItem('LANG', 'AL');
                 $scope.isActualLang = "DEUTSCH";
             }
             if($('#it').prop('checked')) {
 
-                localStorage.setItem('LANG', 'IT');
+                sessionStorage.setItem('LANG', 'IT');
                 $scope.isActualLang = "ITALIANO";
             }
-            $translate.use(localStorage.getItem('LANG'));
+            $translate.use(sessionStorage.getItem('LANG'));
             $('#modalLanguage').modal('hide');
             vm.fnInstructions();
             vm.fnSetBtnMetiers();
