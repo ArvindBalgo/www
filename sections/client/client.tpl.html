@@ -1,12 +1,12 @@
 <header ng-include="'sections/header.html'"></header>
 <div class="row">
-    <div class="col-sm-3 col-md-3">
+    <div class="col-sm-3 col-md-3" style="cursor: pointer;">
         <div class="panel-group" id="accordion">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" ng-click="client.fnToggleTab(1)"><span class="glyphicon glyphicon-folder-close">
-                            </span>Commandes</a>
+                            </span>{{'commandes' | translate}}</a>
                     </h4>
                 </div>
                 <div id="collapseOne" class="panel-collapse collapse in">
@@ -14,24 +14,14 @@
                         <table class="table">
                             <tr>
                                 <td>
-                                    <span class="glyphicon glyphicon-flash text-primary"></span><a ng-click='client.fnChangeDiv()'>Commande en cours</a>
+                                    <span class="glyphicon glyphicon-flash text-primary"></span><a ng-click='client.fnChangeDiv()'>{{'commandes_list' | translate}}</a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <span class="glyphicon glyphicon-file text-success"></span><a ng-click='client.fnChangeDiv()'>Historique des commandes</a>
-                                </td>
-                            </tr>
-                            <!--tr>
-                                <td>
-                                    <span class="glyphicon glyphicon-file text-info"></span><a ng-click='client.fnChangeDiv()'>Newsletters</a>
-                                </td>
-                            </tr-->
                         </table>
                     </div>
                 </div>
             </div>
-            <div class="panel panel-default">
+            <!--<div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" ng-click="client.fnToggleTab(2)"><span class="glyphicon glyphicon-th">
@@ -59,12 +49,12 @@
                         </table>
                     </div>
                 </div>
-            </div>
+            </div>-->
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
                         <a data-toggle="collapse" data-parent="#accordion" ng-click="client.fnToggleTab(3)"><span class="glyphicon glyphicon-user">
-                            </span>Compte</a>
+                            </span>{{'compte' | translate}}</a>
                     </h4>
                 </div>
                 <div id="collapseThree" class="panel-collapse collapse">
@@ -72,17 +62,12 @@
                         <table class="table">
                             <tr>
                                 <td>
-                                    <span class="glyphicon glyphicon-random text-danger"></span><a ng-click='client.fnChangeDiv()'>Changer le Mot de passe</a>
+                                    <span class="glyphicon glyphicon-random text-danger"></span><a ng-click='client.fnChangeDiv()'>{{'change_password' | translate}}</a>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <span class="glyphicon glyphicon-info-sign text-info"></span><a ng-click='client.fnChangeDiv()'>Notifications</a> <span class="label label-info">5</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <span class="glyphicon glyphicon-cog text-warning"></span><a ng-click='client.fnChangeDiv()'>Parametres</a>
+                                    <span class="glyphicon glyphicon-cog text-warning"></span><a ng-click='client.fnChangeDiv()'>Parametres{{'params' | translate}}</a>
                                 </td>
                             </tr>
                         </table>
@@ -92,10 +77,13 @@
         </div>
     </div>
     <div class="col-sm-9 col-md-9" id="espaceClient">
-        <div class="well">
-            <h1>Client</h1>
-            Espace client
-        </div>
+        <ap-mesa
+                options="options"
+                columns="columns"
+                rows="rows"
+                table-class="table"
+                selected="array_of_selected">
+        </ap-mesa>
     </div>
 
     <div class="col-sm-9 col-md-9" id="divClient" style="display: none">
@@ -107,15 +95,17 @@
 </div>
 
 <footer>
-    <div class="signature">
-        <div class="col-md-4">
-            <span class='block-image' ng-show="client.isFrance"><img style="width: 60px; height: 60px;" src="images/Logo_fabrique_en_france.png"></span>
-            <span class='block-image'><img style="width: 60px; height: 60px;" src="images/logo_Imprim_vert_vert.png"></span>
-            <span class='block-image'><img style="width: 80px; height: 80px;" src="images/moton71.png"></span>
-            <span class='block-image'><img style="width: 80px; height: 80px;" src="images/moton73.png"></span>
-        </div>
-        <div class="col-md-offset-4" style="padding-top: 50px">
-            <a href="#/apropos" style="color: white">Qui sommes nous?</a> / <a style="color: white " href="#/conditionvente">Conditions de vente</a> / <a style="color: white " href="#/utilisation">Mentions d'utilisation</a> / <a style="color: white " href="#/legale">Mentions Légales</a>
+    <div>
+        <div class="signature">
+            <div class="col-md-4">
+                <span class='block-image' ng-show="client.isFrance"><img style="width: 80px; height: 80px;" src="images/Logo_fabrique_en_france.png"></span>
+                <span class='block-image'><img style="width: 80px; height: 80px;" src="images/logo_Imprim_vert_vert.png"></span>
+                <span class='block-image'><img style="width: 80px; height: 80px;" src="images/moton71.png"></span>
+                <span class='block-image'><img style="width: 80px; height: 80px;" src="images/moton73.png"></span>
+            </div>
+            <div class="col-md-offset-4" style="padding-top: 50px">
+                <a href="#/apropos" style="color: white">{{'whois' | translate}}</a> / <a style="color: white " href="#/conditionvente">{{'vente_conditions' | translate}}</a> / <a style="color: white " href="#/utilisation">{{'usage_utils' | translate}}</a> / <a style="color: white " href="#/legale">{{'usage_legal' | translate}}</a>
+            </div>
         </div>
     </div>
 </footer>

@@ -139,3 +139,20 @@ else if($mode == 5) {
 
     print json_encode($rows);
 }
+else if($mode == 6) {
+    $idClient = $_SESSION['uid'];
+    $orderMain = new orders_main();
+    $orderMain = $orderMain->findByUser($idClient);
+
+    $rows = [];
+    foreach ($orderMain as $item) {
+        $ordersDetails = new orders_details();
+        $ordersDetails = $ordersDetails->getCountProds($item["id"]);
+        $item["num_prods"] = $ordersDetails["prods"];
+        $item["displayDetails"] = false;
+        $rows[] = $item;
+    }
+
+    print json_encode($rows);
+
+}

@@ -632,6 +632,8 @@ if ($mode == 0) {
     $idUser = $_SESSION['uid'];
     $user = new users();
     $user = $user->findByPrimaryKey($idUser);
+    $paysClient  = $user->getPays();
+
     $mail->isSMTP();                                      // Set mailer to use SMTP
     $mail->Host = 'mail.exakom.fr';  // Specify main and backup SMTP servers
     $mail->SMTPAuth = true;                               // Enable SMTP authentication
@@ -651,8 +653,27 @@ if ($mode == 0) {
 //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
     $mail->isHTML(true);                                  // Set email format to HTML
 
-    $mail->Subject = utf8_decode('Réception de commande');
-    $mail->Body    = utf8_decode('Bonjour '. strtoupper($user->getName() ). " " . strtoupper($user->getSurname()) ." <br> Votre commande a bien été réceptioné. Vous receverai bientot votre facture depuis Exakom. <br> Bien à vous, <br> Exakom.");
+    if($pays == 'FR') {
+        $mail->Subject = utf8_decode('Réception de commande Exakom');
+        $mail->Body    = utf8_decode('Bonjour '. strtoupper($user->getName() ). " " . strtoupper($user->getSurname()) .", <br> Votre commande N° ".$orders_details['id']." a bien été enregistré, vous recevrez bientôt votre facture. <br> Cordialment <br> Exakom");
+
+    }
+    else if($pays == "EN") {
+        $mail->Subject = utf8_decode('Exakom order receipt');
+        $mail->Body    = utf8_decode('Hello '. strtoupper($user->getName() ). " " . strtoupper($user->getSurname()) .", <br> Your order N° ".$orders_details['id']." has been registered, you will soon receive your invoice. <br> Regards <br> Exakom");
+    }
+    else if($pays == "AL") {
+        $mail->Subject = utf8_decode('Exakom bestellen quittung');
+        $mail->Body    = utf8_decode('Hallo '. strtoupper($user->getName() ). " " . strtoupper($user->getSurname()) .", <br> Ihre Bestellung Nr ".$orders_details['id']." registriert worden ist, werden Sie bald Ihre Rechnung. <br> Grüße <br> Exakom");
+    }
+    else if($pays == "ES") {
+        $mail->Subject = utf8_decode('Recibo de pedido de Exakom');
+        $mail->Body    = utf8_decode('Holla '. strtoupper($user->getName() ). " " . strtoupper($user->getSurname()) .", <br> Su orden N ° ".$orders_details['id']." haya sido registrada, pronto recibirá su factura. <br> Saludos <br> Exakom");
+    }
+    else if($pays == "IT") {
+        $mail->Subject = utf8_decode('Ricevuta di ordine Exakom');
+        $mail->Body    = utf8_decode('Ciao '. strtoupper($user->getName() ). " " . strtoupper($user->getSurname()) .", <br> Il tuo ordine N °  ".$orders_details['id']." è stato registrato, riceverai presto la tua fattura.<br> Saluti <br> Exakom");
+    }
 
     if(!$mail->send()) {
         //echo 'Message could not be sent.';
@@ -660,8 +681,6 @@ if ($mode == 0) {
     } else {
        // echo 'Message has been sent';
     }
-
-
 
     $mailAdmin->isSMTP();                                      // Set mailer to use SMTP
     $mailAdmin->Host = 'mail.exakom.fr';  // Specify main and backup SMTP servers

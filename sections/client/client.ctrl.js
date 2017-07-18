@@ -1,7 +1,7 @@
 
 angular
     .module('myApp')
-    .controller('clientController', function($scope, $location, $timeout, messages, $http, Data) {
+    .controller('clientController', function($scope, $location, $timeout, messages, $http, Data, $translate) {
         var vm = this;
         $scope.isFiche = true;
         var lang = sessionStorage.getItem("LANG");
@@ -15,13 +15,37 @@ angular
             console.log(response.data);
             $scope.langue = angular.copy(response.data);
         });
-console.log(lang , " lanuge")
+
+        $http({
+            method: 'POST',
+            data: $.param({mode:6}),
+            url: 'api/v1/commande.php',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function successCallback(response) {
+            console.log(response.data);
+            vm.myOrders = response.data;
+        });
+
         if(lang == "" || lang == null) {
             vm.isFrance = false;
         }
         else if(lang == 'FR') {
             vm.isFrance  = true;
         }
+
+        vm.people = [
+            { name: 'Janet Perkins', img: 'img/100-0.jpeg', newMessage: true },
+            { name: 'Mary Johnson', img: 'img/100-1.jpeg', newMessage: false },
+            { name: 'Peter Carlsson', img: 'img/100-2.jpeg', newMessage: false }
+        ];
+
+        $scope.setLang = function(langKey) {
+            $translate.use(langKey);
+        };
+
+        $scope.$watch('isActualLang', function(ov, nv) {
+            $scope.setLang(sessionStorage.getItem("LANG"));
+        });
 
         vm.fnToggleTab = function(val) {
             if(Number(val) == 1) {

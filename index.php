@@ -19,6 +19,7 @@ Exakom, bolduc, étiquette fleuriste">
     <!-- build:css assets/css/styles.css -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/angular-material.min.css"/>
+    <link rel="stylesheet" href="css/ap-mesa.css"/>
     <link rel="stylesheet" href="sections/home/home.css"/>
     <link href="css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="sections/fiche/fiche.css"/>
@@ -103,6 +104,7 @@ window.smartsupp||(function(d) {
 <script src="js/angular-translate-loader-url.min.js"></script>
 <script src="js/angular-aria.min.js"></script>
 <script src="js/angular-material.min.js"></script>
+<script src="js/ap-mesa.js"></script>
 <!-- / -->
 <!-- endbuild -->
 <!-- CONTROLLERS -->

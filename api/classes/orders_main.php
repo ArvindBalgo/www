@@ -292,4 +292,14 @@ class orders_main
         }
         return $rows;
     }
+
+    public function findByUser($idUser) {
+        $requete= self::$SELECT." where id_user =".$idUser ." order by date_created desc";
+        $rs = $this->conn->query($requete) or die($this->conn->error . __LINE__);
+        $rows = [];
+        while ($row = mysqli_fetch_array($rs)) {
+            $rows[] = $row;
+        }
+        return $rows;
+    }
 } 
