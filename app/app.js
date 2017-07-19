@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ngRoute', 'ngAnimate', 'toaster', 'angularFileUpload', 'ngSanitize', 'pascalprecht.translate', 'ngCookies', 'ngMaterial']);
+var app = angular.module('myApp', ['ngRoute', 'ngAnimate', 'toaster', 'angularFileUpload', 'ngSanitize', 'pascalprecht.translate', 'ngCookies', 'ngMaterial', 'ngTable']);
 
 app.config(['$routeProvider',
     function ($routeProvider) {

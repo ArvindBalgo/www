@@ -546,7 +546,7 @@ class orders_details
 
     public function getProds($id)
     {
-        $requete = "select * from orders_details WHERE id_order=" . $id;
+        $requete = "select * from orders_details WHERE id_order=" . $id ." order by date_created desc";
         $rs = $this->conn->query($requete);
         $rows = [];
         while ($row = mysqli_fetch_array($rs)) {

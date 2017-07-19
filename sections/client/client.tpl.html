@@ -14,7 +14,7 @@
                         <table class="table">
                             <tr>
                                 <td>
-                                    <span class="glyphicon glyphicon-flash text-primary"></span><a ng-click='client.fnChangeDiv()'>{{'commandes_list' | translate}}</a>
+                                    <span class="glyphicon glyphicon-flash text-primary"></span><a ng-click="client.fnChangeDiv('commandes')">{{'commandes_list' | translate}}</a>
                                 </td>
                             </tr>
                         </table>
@@ -62,12 +62,12 @@
                         <table class="table">
                             <tr>
                                 <td>
-                                    <span class="glyphicon glyphicon-random text-danger"></span><a ng-click='client.fnChangeDiv()'>{{'change_password' | translate}}</a>
+                                    <span class="glyphicon glyphicon-random text-danger"></span><a ng-click="client.fnChangeDiv('password')">{{'change_password' | translate}}</a>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <span class="glyphicon glyphicon-cog text-warning"></span><a ng-click='client.fnChangeDiv()'>Parametres{{'params' | translate}}</a>
+                                    <span class="glyphicon glyphicon-cog text-warning"></span><a ng-click="client.fnChangeDiv('params')">Parametres{{'params' | translate}}</a>
                                 </td>
                             </tr>
                         </table>
@@ -77,19 +77,73 @@
         </div>
     </div>
     <div class="col-sm-9 col-md-9" id="espaceClient">
-        <ap-mesa
-                options="options"
-                columns="columns"
-                rows="rows"
-                table-class="table"
-                selected="array_of_selected">
-        </ap-mesa>
+        <table ng-table="client.tableParams" class="table table-condensed table-bordered table-striped">
+            <tr ng-repeat="row in $data">
+                <td data-title="langue.client_no_commande" filter="{id: 'number'}" sortable="'id'">{{row.id}}</td>
+                <td data-title="langue.client_nb_prod" filter="{num_prods: 'number'}" sortable="'num_prods'">{{row.num_prods}}</td>
+                <td data-title="langue.client_tax" filter="{tax: 'number'}" sortable="'tax'"><b>{{row.tax | currency : "€ "}}</b></td>
+                <td data-title="langue.client_prix_ttc" filter="{total_prix_ttc: 'number'}" sortable="'total_prix_ttc'"><b>{{row.total_prix_ttc | currency : "€ "}}</b></td>
+                <td data-title="langue.client_date_commande" filter="{date_created: 'date'}" sortable="'date_created'">{{row.date_commande}}</td>
+                <td data-title="langue.client_status" filter="{status: 'string'}" sortable="'status'">{{row.status | translate}}</td>
+                <td data-title="">
+                    <button class="btn btn-info btn-circle" ng-click="client.fnLoadModal(row.id)">i</button>
+                </td>
+            </tr>
+        </table>
     </div>
 
-    <div class="col-sm-9 col-md-9" id="divClient" style="display: none">
+    <div class="col-sm-9 col-md-9" id="divPass" style="display: none">
         <div class="well">
-            <h1>Client</h1>
-           Pas de données
+            <md-input-container style="width: 50%">
+                <label>{{'password' | translate}}</label>
+                <input type="password" ng-model="client.password" required>
+            </md-input-container>
+            <md-input-container style="width: 50%">
+                <label>{{'client_new_password' | translate}}</label>
+                <input type="password" ng-model="client.password1" required>
+            </md-input-container>
+            <md-input-container style="width: 50%">
+                <label>{{'client_new_password' | translate}}</label>
+                <input type="password" ng-model="client.password2" required>
+            </md-input-container>
+        </div>
+        <md-button class="md-raised md-primary" ng-click="client.fnVerifPass()">{{'valider' | translate}}</md-button>
+    </div>
+    <div class="col-sm-9 col-md-9" id="divParams" style="display: none">
+        <div class="well">
+            <md-input-container style="width: 50%">
+                <label>{{'mail' | translate}}</label>
+                <input type="email" ng-model="client.infoClient.email" disabled>
+            </md-input-container>
+            <md-input-container style="width: 50%">
+                <label>{{'surname' | translate}}</label>
+                <input type="text" ng-model="client.infoClient.surname" required>
+            </md-input-container>
+            <md-input-container style="width: 50%">
+                <label>{{'name' | translate}}</label>
+                <input type="text" ng-model="client.infoClient.name" required>
+            </md-input-container>
+            <md-input-container style="width: 50%">
+                <label>{{'no_tel' | translate}}</label>
+                <input type="tel" ng-model="client.infoClient.phone" required>
+            </md-input-container>
+            <md-input-container style="width: 50%">
+                <label>{{'adresse' | translate}}</label>
+                <input type="text" ng-model="client.infoClient.address" required>
+            </md-input-container>
+            <md-input-container style="width: 50%">
+                <label>{{'ville' | translate}}</label>
+                <input type="text" ng-model="client.infoClient.city" required>
+            </md-input-container>
+            <md-input-container style="width: 50%">
+                <label>{{'code_postal' | translate}}</label>
+                <input type="text" ng-model="client.infoClient.postalcode" required>
+            </md-input-container>
+            <md-input-container style="width: 50%">
+                <label>{{'pays' | translate}}</label>
+                <input type="text" ng-model="client.infoClient.pays" disabled>
+            </md-input-container>
+            <md-button class="md-raised md-primary" ng-click="">{{'valider' | translate}}</md-button>
         </div>
     </div>
 </div>
@@ -109,3 +163,32 @@
         </div>
     </div>
 </footer>
+
+
+<div id="detailsCommande" class="modal fade" data-backdrop="static" style="overflow: hidden">
+    <div class="modal-dialog" style="width: 75%;height: 510px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="client.fnRemoveModal()" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> {{'client_description' | translate}}</h4>
+            </div>
+            <div class="modal-body" style="height: 450px;overflow: auto">
+                <table ng-table="client.infoCommandes" class="table table-condensed table-bordered table-striped">
+                    <tr ng-repeat="row in $data">
+                        <td data-title="langue.client_titre" filter="{title: 'string'}" sortable="'title'">{{row.title}}</td>
+                        <td data-title="langue.client_dimension" filter="{dimension: 'string'}" sortable="'dimension'">{{row.dimension}}</td>
+                        <td data-title="langue.client_attach_escargot" filter="{attach_escargot: 'number'}" sortable="'attach_escargot'">{{row. attach_escargot}}</td>
+                        <td data-title="langue.client_contours" filter="{contours: 'number'}" sortable="'contours'">{{row.contours}}</td>
+                        <td data-title="langue.client_liserai" filter="{liserai: 'number'}" sortable="'liserai'">{{row.liserai}}</td>
+                        <td data-title="langue.client_prix_unitaire" filter="{prix_unitaire: 'number'}" sortable="'prix_unitaire'">{{row.prix_unitaire | currency : "€ "}}</td>
+                        <td data-title="langue.client_prix_ttc" filter="{prix_ttc: 'number'}" sortable="'prix_ttc'">{{row.prix_ttc | currency : "€ "}}</td>
+                        <td data-title="langue.client_commentaire" filter="{commentaire: 'string'}" sortable="'commentaire'">{{row.commentaire}}</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" ng-click="client.fnRemoveModal()">{{'quit' | translate}}</button>
+            </div>
+        </div>
+    </div>
+</div>

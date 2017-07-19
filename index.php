@@ -19,7 +19,6 @@ Exakom, bolduc, étiquette fleuriste">
     <!-- build:css assets/css/styles.css -->
     <link rel="stylesheet" href="assets/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="css/angular-material.min.css"/>
-    <link rel="stylesheet" href="css/ap-mesa.css"/>
     <link rel="stylesheet" href="sections/home/home.css"/>
     <link href="css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="sections/fiche/fiche.css"/>
@@ -34,6 +33,7 @@ Exakom, bolduc, étiquette fleuriste">
     <link rel="stylesheet" type="text/css" href="css/jquery.fancyProductDesigner-fonts.css" />
     <link rel="stylesheet" type="text/css" href="css/toastr.min.css" />
     <!-- CSSMap STYLESHEET - EUROPE -->
+    <link rel="stylesheet"; href="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.css">
     <link rel="stylesheet" type="text/css" href="cssmap-europe/cssmap-europe.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="css/custom.css" media="screen" />
 
@@ -104,7 +104,7 @@ window.smartsupp||(function(d) {
 <script src="js/angular-translate-loader-url.min.js"></script>
 <script src="js/angular-aria.min.js"></script>
 <script src="js/angular-material.min.js"></script>
-<script src="js/ap-mesa.js"></script>
+<script src="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.js"></script>
 <!-- / -->
 <!-- endbuild -->
 <!-- CONTROLLERS -->
