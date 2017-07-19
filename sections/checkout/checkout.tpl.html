@@ -80,7 +80,7 @@
     </div>
     <div class="col-md-3">
         <div class="col-md-12">
-            <label class="label label-info">Billing</label>
+            <label class="label label-info">{{'billing' | translate}}</label>
         </div>
         <div class="col-md-12">
             <form method="POST" action="https://www.klikandpay.com/paiement/order1.pl" accept-charset="UTF8" id="knp-form" target="_top">
@@ -157,7 +157,7 @@
                     <input name="MONTANT" type="hidden" value="{{checkout.montants.montant_net}}">
                     <tr>
                         <td width="100%" colspan="2">
-                            <p align="center"><button class="btn btn-lg btn-success" value="Facturation" ng-click="checkout.fnPay()">Facturation</button></p></td>
+                            <p align="center"><button class="btn btn-lg btn-success" value="Facturation" ng-click="checkout.fnPay()">{{'paiement' | translate}}</button></p></td>
                     </tr>
                 </table>
             </form>
