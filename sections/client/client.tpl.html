@@ -21,35 +21,6 @@
                     </div>
                 </div>
             </div>
-            <!--<div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" ng-click="client.fnToggleTab(2)"><span class="glyphicon glyphicon-th">
-                            </span>Factures</a>
-                    </h4>
-                </div>
-                <div id="collapseTwo" class="panel-collapse collapse">
-                    <div class="panel-body">
-                        <table class="table">
-                            <tr>
-                                <td>
-                                    <a ng-click='client.fnChangeDiv()'>Commandes</a> <span class="label label-success">0</span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a ng-click='client.fnChangeDiv()'>Livraison</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <a ng-click='client.fnChangeDiv()'>Outre-mers</a>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>-->
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
@@ -67,7 +38,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <span class="glyphicon glyphicon-cog text-warning"></span><a ng-click="client.fnChangeDiv('params')">Parametres{{'params' | translate}}</a>
+                                    <span class="glyphicon glyphicon-cog text-warning"></span><a ng-click="client.fnChangeDiv('params')">{{'params' | translate}}</a>
                                 </td>
                             </tr>
                         </table>
@@ -77,14 +48,15 @@
         </div>
     </div>
     <div class="col-sm-9 col-md-9" id="espaceClient">
+        <img style="display: block; margin: auto" src="../../images/bande_suivi_commande.jpeg">
         <table ng-table="client.tableParams" class="table table-condensed table-bordered table-striped">
             <tr ng-repeat="row in $data">
                 <td data-title="langue.client_no_commande" filter="{id: 'number'}" sortable="'id'">{{row.id}}</td>
-                <td data-title="langue.client_nb_prod" filter="{num_prods: 'number'}" sortable="'num_prods'">{{row.num_prods}}</td>
-                <td data-title="langue.client_tax" filter="{tax: 'number'}" sortable="'tax'"><b>{{row.tax | currency : "€ "}}</b></td>
+                <td data-title="langue.client_nb_prod"  sortable="'num_prods'">{{row.num_prods}}</td>
+                <td data-title="langue.client_tax" sortable="'tax'"><b>{{row.tax | currency : "€ "}}</b></td>
                 <td data-title="langue.client_prix_ttc" filter="{total_prix_ttc: 'number'}" sortable="'total_prix_ttc'"><b>{{row.total_prix_ttc | currency : "€ "}}</b></td>
-                <td data-title="langue.client_date_commande" filter="{date_created: 'date'}" sortable="'date_created'">{{row.date_commande}}</td>
-                <td data-title="langue.client_status" filter="{status: 'string'}" sortable="'status'">{{row.status | translate}}</td>
+                <td data-title="langue.client_date_commande" sortable="'date_created'">{{row.date_commande}}</td>
+                <td data-title="langue.client_status"  sortable="'status'"><span class="badge">{{row.status_val}}</span></td>
                 <td data-title="">
                     <button class="btn btn-info btn-circle" ng-click="client.fnLoadModal(row.id)">i</button>
                 </td>

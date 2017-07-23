@@ -307,6 +307,7 @@ Data.get('session.php').then(function (results) {
 
         vm.fnInstructions = function(){
             var param = sessionStorage.getItem('LANG');
+            console.log('param: ', param);
             if(param == "") {
                 param = "FR";
             }
@@ -497,7 +498,7 @@ Data.get('session.php').then(function (results) {
             vm.fnSetBtnMetiers();
             vm.fnLoadPub();
         };
-      //  vm.fnInstructions();
+        vm.fnInstructions();
         vm.fnRecupMetier();
         vm.fnModelMetierAll();
 

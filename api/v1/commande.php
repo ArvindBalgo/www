@@ -147,7 +147,35 @@ if ($mode == 1) {
         $item["displayDetails"] = false;
         $dateTime = new DateTime($item["date_created"]);
         $item["date_commande"] = $dateTime->format("h:m d/m/Y");
-        $item["status"] = strtolower($item["status"]);
+        $item["status_val"] = "-";
+        if($item["status"] == 'NEW') {
+            $item["status_val"] = "-";
+        }
+        else if($item["status"] == 'BON_TIRER') {
+            $item["status_val"] = 1;
+        }
+        else if($item["status"] == 'MONTAGE_MAQUETTE') {
+            $item["status_val"] = 2;
+        }
+        else if($item["status"] == 'IMPRESSION') {
+            $item["status_val"] = 3;
+        }
+        else if($item["status"] == 'PELLICULAGE_VERNISSAGE') {
+            $item["status_val"] = 4;
+        }
+        else if($item["status"] == 'COUPDE_DECOUPE') {
+            $item["status_val"] = 5;
+        }
+        else if($item["status"] == 'FACONNAGE') {
+            $item["status_val"] = 6;
+        }
+        else if($item["status"] == 'LIVRAISON') {
+            $item["status_val"] = 7;
+        }
+        else {
+            $item["status_val"] = "-";
+        }
+
         $rows[] = $item;
     }
 
