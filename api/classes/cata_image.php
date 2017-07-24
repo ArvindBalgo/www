@@ -11,10 +11,10 @@ class cata_image
     //**** Variables declarations ****
     private $_id = null;
     private $_id_category = null;
-    private $_libelle = null;
-    private $_src = null;
-    private $_display_src = null;
-    private $_reference = null;
+    private $_libelle = '';
+    private $_src = '';
+    private $_display_src = '';
+    private $_reference = '';
     private $_active = null;
 
     private static $SELECT = "SELECT * FROM cata_image";
