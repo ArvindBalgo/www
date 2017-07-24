@@ -172,7 +172,7 @@
                                                 <label class="col-sm-5 control-label no-padding-right" for="email">{{'mail' | translate}}</label>
                                                 <div class="col-sm-7">
                                                     <span class="block input-icon input-icon-right">
-                                                        <input type="text" class="form-control" placeholder="Email" name="email" ng-model="signup.email" focus/>
+                                                        <input type="text" class="form-control" placeholder="Email" name="email" ng-model="signup.email" focus required/>
                                                         <span ng-show="signupForm.email.$error.email" class="help-inline">{{'mail_msg' | translate}}</span>
                                                     </span>
                                                 </div>
@@ -202,7 +202,7 @@
                                                 <label class="col-sm-5 control-label no-padding-right" for="name">{{'name' | translate}}</label>
                                                 <div class="col-sm-7">
                                                     <span class="block input-icon input-icon-right">
-                                                        <input type="text" class="form-control" placeholder="Nom" ng-model="signup.name" />
+                                                        <input type="text" class="form-control" placeholder="Nom" ng-model="signup.name" required/>
                                                     </span>
                                                 </div>
                                             </div>
@@ -210,7 +210,7 @@
                                                 <label class="col-sm-5 control-label no-padding-right" for="surname">{{'surname' | translate}}</label>
                                                 <div class="col-sm-7">
                                                     <span class="block input-icon input-icon-right">
-                                                        <input type="text" class="form-control" placeholder="Prénom" ng-model="signup.surname" />
+                                                        <input type="text" class="form-control" placeholder="Prénom" ng-model="signup.surname" required/>
                                                     </span>
                                                 </div>
                                             </div>
@@ -218,7 +218,7 @@
                                                 <label class="col-sm-5 control-label no-padding-right" for="phone">{{'no_tel' | translate}}</label>
                                                 <div class="col-sm-7">
                                                     <span class="block input-icon input-icon-right">
-                                                        <input type="text" class="form-control" placeholder="Phone" name="phone" ng-model="signup.phone"/>
+                                                        <input type="text" class="form-control" placeholder="Phone" name="phone" ng-model="signup.phone" required/>
                                                     </span>
                                                 </div>
                                             </div>
@@ -226,7 +226,7 @@
                                                 <label class="col-sm-5 control-label no-padding-right" for="address">{{'adresse' | translate}}</label>
                                                 <div class="col-sm-7">
                                                     <span class="block input-icon input-icon-right">
-                                                        <input type="text" class="form-control" placeholder="Adresse" ng-model="signup.address" />
+                                                        <input type="text" class="form-control" placeholder="Adresse" ng-model="signup.address" required/>
                                                     </span>
                                                 </div>
                                             </div>
@@ -234,7 +234,7 @@
                                                 <label class="col-sm-5 control-label no-padding-right" for="ville">{{'ville' | translate}}</label>
                                                 <div class="col-sm-7">
                                                     <span class="block input-icon input-icon-right">
-                                                        <input type="text" class="form-control" placeholder="Ville" ng-model="signup.ville" />
+                                                        <input type="text" class="form-control" placeholder="Ville" ng-model="signup.ville" required/>
                                                     </span>
                                                 </div>
                                             </div>
@@ -242,7 +242,7 @@
                                                 <label class="col-sm-5 control-label no-padding-right" for="codepostal">{{'code_postal' | translate}}</label>
                                                 <div class="col-sm-7">
                                                      <span class="block input-icon input-icon-right">
-                                                        <input type="text" class="form-control" placeholder="Code Postal" ng-model="signup.codepostal" />
+                                                        <input type="text" class="form-control" placeholder="Code Postal" ng-model="signup.codepostal" required/>
                                                     </span>
                                                 </div>
                                             </div>

@@ -26,7 +26,6 @@ app.controller('authCtrl', function ($scope, $rootScope, $routeParams, $location
         });
     };
     $scope.logout = function () {
-        console.log("lkfdnlsdnflksdklfnsdlknfklsd");
         return;
         Data.get('logout').then(function (results) {
             Data.toast(results);

@@ -8,7 +8,7 @@ angular
         vm.active       =  false;
         vm.isRowModif   =  false;
         vm.isImgModif   =  false;
-        vm.isDisplayImgModif =  false;
+        vm.isDisplayImgModif =  0;
         vm.optCategory  = 0;
         vm.id           = 0;
         vm.objCategory  = {};
@@ -62,6 +62,7 @@ angular
             if(vm.isImgModif){
                 id = vm.id;
             }
+            console.log(vm.isDisplayImgModif, " ===> image dislay");
             item.formData = [{id:id,libelle:vm.libelle, reference:vm.reference, active:act, id_category:vm.objSel.id, category_name:vm.objSel.libelle, displaySrc:vm.isDisplayImgModif}];
         };
         uploader.onSuccessItem = function(fileItem, response, status, headers) {
@@ -273,12 +274,13 @@ angular
         vm.fnModifImg = function(){
             vm.isRowModif   =  false;
             vm.isImgModif   =  true;
+            vm.isDisplayImgModif = 0;
         }
 
         vm.fnModifDisplayImg = function(){
             vm.isRowModif   =  false;
             vm.isImgModif   =  true;
-            vm.isDisplayImgModif   =  true;
+            vm.isDisplayImgModif   =  1;
         }
         //valider category
         vm.fnValider = function(){

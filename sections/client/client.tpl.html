@@ -147,14 +147,14 @@
             <div class="modal-body" style="height: 450px;overflow: auto">
                 <table ng-table="client.infoCommandes" class="table table-condensed table-bordered table-striped">
                     <tr ng-repeat="row in $data">
-                        <td data-title="langue.client_titre" filter="{title: 'string'}" sortable="'title'">{{row.title}}</td>
-                        <td data-title="langue.client_dimension" filter="{dimension: 'string'}" sortable="'dimension'">{{row.dimension}}</td>
-                        <td data-title="langue.client_attach_escargot" filter="{attach_escargot: 'number'}" sortable="'attach_escargot'">{{row. attach_escargot}}</td>
-                        <td data-title="langue.client_contours" filter="{contours: 'number'}" sortable="'contours'">{{row.contours}}</td>
-                        <td data-title="langue.client_liserai" filter="{liserai: 'number'}" sortable="'liserai'">{{row.liserai}}</td>
-                        <td data-title="langue.client_prix_unitaire" filter="{prix_unitaire: 'number'}" sortable="'prix_unitaire'">{{row.prix_unitaire | currency : "€ "}}</td>
-                        <td data-title="langue.client_prix_ttc" filter="{prix_ttc: 'number'}" sortable="'prix_ttc'">{{row.prix_ttc | currency : "€ "}}</td>
-                        <td data-title="langue.client_commentaire" filter="{commentaire: 'string'}" sortable="'commentaire'">{{row.commentaire}}</td>
+                        <td data-title="langue.client_titre" sortable="'title'">{{row.title}}</td>
+                        <td data-title="langue.client_dimension" sortable="'dimension'">{{row.dimension}}</td>
+                        <td data-title="langue.client_attach_escargot" sortable="'attach_escargot'">{{row. attach_escargot}}</td>
+                        <td data-title="langue.client_contours" sortable="'contours'">{{row.contours}}</td>
+                        <td data-title="langue.client_liserai" sortable="'liserai'">{{row.liserai}}</td>
+                        <td data-title="langue.client_prix_unitaire" sortable="'prix_unitaire'">{{row.prix_unitaire | currency : "€ "}}</td>
+                        <td data-title="langue.client_prix_ttc" sortable="'prix_ttc'">{{row.prix_ttc | currency : "€ "}}</td>
+                        <td data-title="langue.client_commentaire" sortable="'commentaire'">{{row.commentaire}}</td>
                     </tr>
                 </table>
             </div>

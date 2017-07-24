@@ -26,7 +26,8 @@ $pathCategory = "groupe";
         $cata_image->setLibelle($_POST["libelle"]);
         $cata_image->setActive($_POST["active"]);
         $cata_image->setIdCategory($_POST["id_category"]);
-        if($_POST["displaySrc"] == true) {
+
+        if($_POST["displaySrc"] == 1) {
             $cata_image->setDisplaySrc("images/gallery/".$pathCategory."/".$_FILES['file']['name']);
         }
         else {

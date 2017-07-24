@@ -87,6 +87,7 @@ angular
             Data.post('signupClient.php', {
                 customer: customer
             }).then(function (results) {
+                console.log("registration...", results);
                 Data.toast(results);
                 if (results.status == "success") {
                     $location.path('home');

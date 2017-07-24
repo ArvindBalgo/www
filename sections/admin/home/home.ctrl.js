@@ -110,6 +110,7 @@ angular
 
         vm.fnFilter = function() {
             if(vm.rechKey == '' ) {
+                vm.listOrders = vm.listOrdersOrig;
                 return;
             }
             var arrOrders = [];

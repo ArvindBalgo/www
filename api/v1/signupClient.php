@@ -27,12 +27,13 @@ $email = $r->customer->email;
 $address = $r->customer->address;
 $password = $r->customer->password;
 $postalcode = $r->customer->codepostal;
+$siret = $r->customer->nosiret;
 
 $isUserExists = $db->getOneRecord("select 1 from customers_auth where (phone='$phone' or email='$email') and admin=0");
 if(!$isUserExists){
     $r->customer->password = passwordHash::hash($password);
     $table_name = "customers_auth";
-    $column_names = array('phone', 'name','surname', 'email', 'password', 'city', 'address', 'pays', 'postalcode');
+    $column_names = array('phone', 'name','surname', 'email', 'password', 'city', 'address', 'pays', 'postalcode', 'siret');
     $result = $db->insertIntoTable($r->customer, $column_names, $table_name);
     if ($result != NULL) {
         $response["status"] = "success";

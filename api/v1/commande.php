@@ -11,6 +11,10 @@ if ($mode == 1) {
     foreach ($orders as $item) {
         $user = new users();
         $user = $user->findByPrimaryKey($item["id_user"]);
+
+        if (!$user) {
+            break;
+        }
         $item["name"] = $user->getName();
         $item["surname"] = $user->getSurname();
         $item["codepostale"] = $user->getPostalCode();
@@ -26,8 +30,8 @@ if ($mode == 1) {
         $item["displayDetails"] = false;
         $rows[] = $item;
     }
-
     print json_encode($rows);
+
 } elseif ($mode == 2) {
     $idOrder = $_POST["idOrder"];
     $ordersDetails = new orders_details();
@@ -148,31 +152,23 @@ if ($mode == 1) {
         $dateTime = new DateTime($item["date_created"]);
         $item["date_commande"] = $dateTime->format("h:m d/m/Y");
         $item["status_val"] = "-";
-        if($item["status"] == 'NEW') {
+        if ($item["status"] == 'NEW') {
             $item["status_val"] = "-";
-        }
-        else if($item["status"] == 'BON_TIRER') {
+        } else if ($item["status"] == 'BON_TIRER') {
             $item["status_val"] = 1;
-        }
-        else if($item["status"] == 'MONTAGE_MAQUETTE') {
+        } else if ($item["status"] == 'MONTAGE_MAQUETTE') {
             $item["status_val"] = 2;
-        }
-        else if($item["status"] == 'IMPRESSION') {
+        } else if ($item["status"] == 'IMPRESSION') {
             $item["status_val"] = 3;
-        }
-        else if($item["status"] == 'PELLICULAGE_VERNISSAGE') {
+        } else if ($item["status"] == 'PELLICULAGE_VERNISSAGE') {
             $item["status_val"] = 4;
-        }
-        else if($item["status"] == 'COUPDE_DECOUPE') {
+        } else if ($item["status"] == 'COUPDE_DECOUPE') {
             $item["status_val"] = 5;
-        }
-        else if($item["status"] == 'FACONNAGE') {
+        } else if ($item["status"] == 'FACONNAGE') {
             $item["status_val"] = 6;
-        }
-        else if($item["status"] == 'LIVRAISON') {
+        } else if ($item["status"] == 'LIVRAISON') {
             $item["status_val"] = 7;
-        }
-        else {
+        } else {
             $item["status_val"] = "-";
         }
 
@@ -205,8 +201,7 @@ if ($mode == 1) {
 
     print json_encode($rows);
 
-}
-else if ($mode == 8) {
+} else if ($mode == 8) {
     $idClient = $_SESSION["uid"];
     $user = new users();
     $user = $user->findByPrimaryKey($idClient);

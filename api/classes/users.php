@@ -48,6 +48,7 @@ class users {
     private $_created = null;
     private $_postalcode = null;
     private $_admintype = 0;
+    private $_nosiret = "";
 
     private static $SELECT = "SELECT * FROM customers_auth ";
 
@@ -108,6 +109,10 @@ class users {
         $this->_admintype = $type;
     }
 
+     public function setSiret($val) {
+        $this->_nosiret = $val;
+    }
+
     //**** Getters *****
 
     public function getUid() {
@@ -158,6 +163,9 @@ class users {
     public function getAdmintype(){
         return $this->_admintype;
     }
+ public function getSiret(){
+        return $this->_nosiret;
+    }
 
     public function delete($uid) {
         $requete = "delete from customers_auth where uid=" . $uid ;
@@ -182,6 +190,7 @@ class users {
             $requete .= ",pays='" . $this->_pays . "',";
             $requete .= ",created='" . $this->_created . "',";
             $requete .= ",admintype='" . $this->_admintype. "',";
+            $requete .= ",nosiret='" . $this->_nosiret. "',";
             $requete .= ",postalcode='" . $this->_created . "'";
             $requete .= " where uid=" . $this->_uid;
 
@@ -198,6 +207,7 @@ class users {
             $requete .= "pays,";
             $requete .= "postalcode,";
             $requete .= "admintype,";
+            $requete .= "nosiret,";
             $requete .= "created";
             $requete .= ") VALUES (";
             $requete .= "'" . $this->_uid . "',";
@@ -211,6 +221,7 @@ class users {
             $requete .= "'" . $this->_pays . "',";
             $requete .= "'" . $this->_postalcode . "',";
             $requete .= "'" . $this->_admintype. "',";
+            $requete .= "'" . $this->_nosiret. "',";
             $requete .= "'" . $this->_created . "')";
         }
 
@@ -238,6 +249,7 @@ class users {
         $user->_pays = $rs["pays"];
         $user->_postalcode = $rs["postalcode"];
         $user->_admintype = $rs["admintype"];
+        $user->_nosiret = $rs["nosiret"];
         $user->_created = $rs["created"];
         return $user;
     }
