@@ -89,7 +89,7 @@ angular
             }).then(function (results) {
                 console.log("registration...", results);
                 Data.toast(results);
-                if (results.status == "success") {
+                if (results.status == 1) {
                     $location.path('home');
                 }
             });
