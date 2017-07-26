@@ -2277,7 +2277,7 @@ angular
                             url: 'api/v1/recupTempProd.php',
                             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                         }).then(function successCallback(response) {
-                                bootbox.alert("<img style='width: 400px;height: 400px' src='" + response.data + "'>");
+                                bootbox.alert("<img style='width: 400px;height: 400px' src='../../api/imgs_temp/" + response.data + "'>");
 
                                 $('body').removeClass("spinner");
                                 vm.arrProduits = response.data;
