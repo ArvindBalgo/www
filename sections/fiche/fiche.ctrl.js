@@ -100,28 +100,26 @@ angular
 
 
             /*$.ajax({
-                url: 'https://www.klikandpay.com/paiementtest/check.pl',
-                type: 'post',
-                dataType: 'json',
-                success: function (data) {
-                    console.log("data");
-                },
-                data: {
-                    NOM: 'arvind',
-                    PRENOM:'BALGO',
-                    ADDRESSE: 'LE GRAND ROAD',
-                    CODEPOSTAL:'65065',
-                    VILLE:'GRAND BOIS',
-                    PAYS:'FR',
-                    TEL:'6175942',
-                    ID:'1234567890',
-                    MONTANT:'1200'                }
-            }).done(function (data) {});*/
+             url: 'https://www.klikandpay.com/paiementtest/check.pl',
+             type: 'post',
+             dataType: 'json',
+             success: function (data) {
+             console.log("data");
+             },
+             data: {
+             NOM: 'arvind',
+             PRENOM:'BALGO',
+             ADDRESSE: 'LE GRAND ROAD',
+             CODEPOSTAL:'65065',
+             VILLE:'GRAND BOIS',
+             PAYS:'FR',
+             TEL:'6175942',
+             ID:'1234567890',
+             MONTANT:'1200'                }
+             }).done(function (data) {});*/
 
 
-
-
-                console.log("**************************************");
+            console.log("**************************************");
             console.log(localStorage.idModelMetier);
             console.log(vm.currentProd);
             console.log(idprod);
@@ -1911,119 +1909,7 @@ angular
                             bootbox.alert("<div style='text-align: center'><b>Veuillez renseigner le titre s'il-vous-plait.</b></div>");
                             return;
                         }
-                        yourDesigner.getProductDataURL(function (dataURL) {
-                            var randomStr = Math.random().toString(36);
-
-                            $http({
-                                method: 'POST',
-                                data: $.param({base64_image: dataURL, randomStr: randomStr}),
-                                url: 'api/v1/save_img.php',
-                                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                            }).then(function successCallback(response) {
-                               // console.clear();
-                                console.log(response.data);
-                            }, function errorCallback(error) {
-                                console.log(error);
-                            });
-
-                            var countProduit = 0;
-                            var arrProds = [];
-                            if (sessionStorage.produitCount) {
-                                countProduit = Number(sessionStorage.produitCount) + 1;
-                            }
-                            var obj = {};
-                            obj.title = vm.produit.titre;
-                            obj.commentaire = vm.produit.commentaire;
-                            obj.opt = $('input[name="optradio"]:checked').val();
-                            obj.contours = vm.productList[0].contours;
-                            obj.liserai = vm.productList[0].liserai;
-                            obj.escargot = vm.productList[0].escargot;
-                            obj.escargot_val = $('input[name="optescargot"]:checked').val();
-                            obj.id_dimension = $('.sel_dimensions').select2('data')[0].id;
-                            obj.dimension = $('.sel_dimensions').select2('data')[0].text;
-                            obj.id_qte = $('.sel_qte').select2('data')[0].id;
-                            obj.qte = $('.sel_qte').select2('data')[0].text;
-                            obj.bonrepli = $('input[name="optcommande"]:checked').val();
-                            obj.prix = vm.prixvente;
-                            obj.idsupport = $('.sel_papier').select2('data')[0].id;
-                            obj.support = $('.sel_papier').select2('data')[0].text;
-                            obj.unitprix = vm.unitprix;
-                            obj.idn_key = "produit" + countProduit;
-                            obj.random_str = Math.random().toString(36).substring(7);
-                            obj.arrDims = vm.arrCurrentDims;
-                            obj.arrQtes = vm.arrCurrentQtes;
-                            obj.idProduit = vm.productList[0].id;
-
-                            console.log(obj);
-                            if (typeof vm.produit.commentaire == 'undefined') {
-                                vm.produit.commentaire = " ";
-                            }
-
-                            $http({
-                                method: 'POST',
-                                data: $.param({
-                                    modified: false,
-                                    base64_image: randomStr,
-                                    title: vm.produit.titre,
-                                    comm: vm.produit.commentaire,
-                                    opt: $('input[name="optradio"]:checked').val(),
-                                    contours: vm.productList[0].contours,
-                                    liserai: vm.productList[0].liserai,
-                                    escargot: vm.productList[0].escargot,
-                                    escargot_val: $('input[name="optescargot"]:checked').val(),
-                                    dimension: $('.sel_dimensions').select2('data')[0].text,
-                                    id_dimension: $('.sel_dimensions').select2('data')[0].id,
-                                    idmodelmetier: vm.productList[0].idmodelmetier,
-                                    idproduit: vm.productList[0].id,
-                                    qte: $('.sel_qte').select2('data')[0].text,
-                                    id_qte: $('.sel_qte').select2('data')[0].id,
-                                    bonrepli: $('input[name="optcommande"]:checked').val(),
-                                    prix: vm.prixvente,
-                                    idsupport: $('.sel_papier').select2('data')[0].id,
-                                    support: $('.sel_papier').select2('data')[0].text,
-                                    unitprix: vm.unitprix,
-                                    random_str: obj.random_str,
-                                    idn_key: "produit" + countProduit,
-                                    data: yourDesigner.getProduct()
-                                }),
-                                url: 'api/v1/temp_produit.php',
-                                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                            }).then(function successCallback(response) {
-                                sessionStorage.setItem("produitCount", countProduit);
-                                arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
-                                if (arrProds == null) {
-                                    arrProds = [];
-                                }
-                                arrProds.push("produit" + countProduit);
-                                vm.prodEnCours = obj;
-                                sessionStorage.setItem("arrProds", JSON.stringify(arrProds));
-                                sessionStorage.setItem("produit" + countProduit, JSON.stringify(obj));
-                                vm.arrProduits = [];
-                                toastr.options.positionClass = 'toast-top-right';
-                                toastr.success('Produit rajouté');
-                            }, function errorCallback(error) {
-                                sessionStorage.setItem("produitCount", countProduit);
-                                arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
-                                if (arrProds == null) {
-                                    arrProds = [];
-                                }
-                                arrProds.push("produit" + countProduit);
-                                vm.prodEnCours = obj;
-                                sessionStorage.setItem("arrProds", JSON.stringify(arrProds));
-                                sessionStorage.setItem("produit" + countProduit, JSON.stringify(obj));
-                                vm.arrProduits = [];
-                                toastr.options.positionClass = 'toast-top-right';
-                                toastr.success('Produit rajouté');
-                                console.log(error);
-                            });
-
-                        });
-
-                        return;
-                        // console.clear();
-                        console.log("vois si produit en cour de modifs", vm.prodEnCours);
-                        /*if (vm.prodEnCours.length != 0) {
-
+                        if (vm.prodEnCours.length != 0) {
                             bootbox.dialog({
                                 message: "Cette produit est issue d'une produit déjà dans le panier. Souhaitez-vouz modifier l'existant ou le rajouter comme nouveau",
                                 title: "Modification/Ajout Produit",
@@ -2210,8 +2096,126 @@ angular
                                     }
                                 }
                             });
-                            return;
-                        }*/
+                        }
+                        else {
+                            yourDesigner.getProductDataURL(function (dataURL) {
+                                var randomStr = Math.random().toString(36);
+
+                                $http({
+                                    method: 'POST',
+                                    data: $.param({base64_image: dataURL, randomStr: randomStr}),
+                                    url: 'api/v1/save_img.php',
+                                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                                }).then(function successCallback(response) {
+                                    // console.clear();
+                                    console.log(response.data);
+                                }, function errorCallback(error) {
+                                    console.log(error);
+                                });
+
+                                var countProduit = 0;
+                                var arrProds = [];
+                                if (sessionStorage.produitCount) {
+                                    countProduit = Number(sessionStorage.produitCount) + 1;
+                                }
+                                var obj = {};
+                                obj.title = vm.produit.titre;
+                                obj.commentaire = vm.produit.commentaire;
+                                obj.opt = $('input[name="optradio"]:checked').val();
+                                obj.contours = vm.productList[0].contours;
+                                obj.liserai = vm.productList[0].liserai;
+                                obj.escargot = vm.productList[0].escargot;
+                                obj.escargot_val = $('input[name="optescargot"]:checked').val();
+                                obj.id_dimension = $('.sel_dimensions').select2('data')[0].id;
+                                obj.dimension = $('.sel_dimensions').select2('data')[0].text;
+                                obj.id_qte = $('.sel_qte').select2('data')[0].id;
+                                obj.qte = $('.sel_qte').select2('data')[0].text;
+                                obj.bonrepli = $('input[name="optcommande"]:checked').val();
+                                obj.prix = vm.prixvente;
+                                obj.idsupport = $('.sel_papier').select2('data')[0].id;
+                                obj.support = $('.sel_papier').select2('data')[0].text;
+                                obj.unitprix = vm.unitprix;
+                                obj.idn_key = "produit" + countProduit;
+                                obj.random_str = Math.random().toString(36).substring(7);
+                                obj.arrDims = vm.arrCurrentDims;
+                                obj.arrQtes = vm.arrCurrentQtes;
+                                obj.idProduit = vm.productList[0].id;
+
+                                console.log(obj);
+                                if (typeof vm.produit.commentaire == 'undefined') {
+                                    vm.produit.commentaire = " ";
+                                }
+
+                                $http({
+                                    method: 'POST',
+                                    data: $.param({
+                                        modified: false,
+                                        base64_image: randomStr,
+                                        title: vm.produit.titre,
+                                        comm: vm.produit.commentaire,
+                                        opt: $('input[name="optradio"]:checked').val(),
+                                        contours: vm.productList[0].contours,
+                                        liserai: vm.productList[0].liserai,
+                                        escargot: vm.productList[0].escargot,
+                                        escargot_val: $('input[name="optescargot"]:checked').val(),
+                                        dimension: $('.sel_dimensions').select2('data')[0].text,
+                                        id_dimension: $('.sel_dimensions').select2('data')[0].id,
+                                        idmodelmetier: vm.productList[0].idmodelmetier,
+                                        idproduit: vm.productList[0].id,
+                                        qte: $('.sel_qte').select2('data')[0].text,
+                                        id_qte: $('.sel_qte').select2('data')[0].id,
+                                        bonrepli: $('input[name="optcommande"]:checked').val(),
+                                        prix: vm.prixvente,
+                                        idsupport: $('.sel_papier').select2('data')[0].id,
+                                        support: $('.sel_papier').select2('data')[0].text,
+                                        unitprix: vm.unitprix,
+                                        random_str: obj.random_str,
+                                        idn_key: "produit" + countProduit,
+                                        data: yourDesigner.getProduct()
+                                    }),
+                                    url: 'api/v1/temp_produit.php',
+                                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                                }).then(function successCallback(response) {
+                                    sessionStorage.setItem("produitCount", countProduit);
+                                    arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
+                                    if (arrProds == null) {
+                                        arrProds = [];
+                                    }
+                                    arrProds.push("produit" + countProduit);
+                                    vm.prodEnCours = obj;
+                                    sessionStorage.setItem("arrProds", JSON.stringify(arrProds));
+                                    sessionStorage.setItem("produit" + countProduit, JSON.stringify(obj));
+                                    vm.arrProduits = [];
+                                    toastr.options.positionClass = 'toast-top-right';
+                                    toastr.success('Produit rajouté');
+                                }, function errorCallback(error) {
+                                    sessionStorage.setItem("produitCount", countProduit);
+                                    arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
+                                    if (arrProds == null) {
+                                        arrProds = [];
+                                    }
+                                    arrProds.push("produit" + countProduit);
+                                    vm.prodEnCours = obj;
+                                    sessionStorage.setItem("arrProds", JSON.stringify(arrProds));
+                                    sessionStorage.setItem("produit" + countProduit, JSON.stringify(obj));
+                                    vm.arrProduits = [];
+                                    toastr.options.positionClass = 'toast-top-right';
+                                    toastr.success('Produit rajouté');
+                                    console.log(error);
+                                });
+
+                            });
+                        }
+
+
+                        return;
+                        // console.clear();
+                        console.log("vois si produit en cour de modifs", vm.prodEnCours);
+                        /*if (vm.prodEnCours.length != 0) {
+
+
+                         return;
+                         }*/
 
                         yourDesigner.getProductDataURL(function (dataURL) {
 
@@ -2273,7 +2277,7 @@ angular
                             url: 'api/v1/recupTempProd.php',
                             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                         }).then(function successCallback(response) {
-                                bootbox.alert("<img style='width: 400px;height: 400px' src='" + response.data + "'>");
+                                bootbox.alert("<img style='width: 400px;height: 400px' src='../../api/imgs_temp/" + response.data + "'>");
 
                                 $('body').removeClass("spinner");
                                 vm.arrProduits = response.data;
@@ -2298,7 +2302,7 @@ angular
                         }).then(function successCallback(response) {
 
                                 $('body').removeClass("spinner");
-                                z=response.data;
+                                z = response.data;
                                 var ligne = response.data;
                                 console.log(ligne);
                                 ligne.data = JSON.parse(ligne.data);
@@ -2325,8 +2329,6 @@ angular
                                 console.log(ligne, " current prod selected");
                                 vm.produit.titre = produit.title;
                                 vm.produit.commentaire = ligne.commentaire;
-                                ligne.data = ligne.data.slice(1, -1);
-                                console.log(ligne.data)
                                 angular.forEach(ligne.data, function (value) {
                                     angular.forEach(value.elements, function (value1) {
                                         var flag = false;
