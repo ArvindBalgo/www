@@ -27,16 +27,16 @@ $email = $r->customer->email;
 $address = $r->customer->address;
 $password = $r->customer->password;
 $postalcode = $r->customer->codepostal;
-$siret = $r->customer->nosiret;
+$nosiret = $r->customer->nosiret;
 
 $isUserExists = $db->getOneRecord("select 1 from customers_auth where (phone='$phone' or email='$email') and admin=0");
 if(!$isUserExists){
     $r->customer->password = passwordHash::hash($password);
     $table_name = "customers_auth";
-    $column_names = array('phone', 'name','surname', 'email', 'password', 'city', 'address', 'pays', 'postalcode', 'siret');
+    $column_names = array('phone', 'name','surname', 'email', 'password', 'city', 'address', 'pays', 'postalcode', 'nosiret');
     $result = $db->insertIntoTable($r->customer, $column_names, $table_name);
     if ($result != NULL) {
-        $response["status"] = "success";
+        $response["status"] = 1;
         $response["message"] = "User account created successfully";
         $response["uid"] = $result;
         if (!isset($_SESSION)) {
@@ -50,7 +50,7 @@ if(!$isUserExists){
         $_SESSION['admin'] = 0;
         echoResponse(200, $response);
     } else {
-        $response["status"] = "error";
+        $response["status"] = 0;
         $response["message"] = "Failed to create customer. Please try again";
         echoResponse(201, $response);
     }
