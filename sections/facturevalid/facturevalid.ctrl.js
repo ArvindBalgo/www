@@ -1,7 +1,7 @@
 
 angular
     .module('myApp')
-    .controller('factureValidController', function($scope, $location, $timeout, messages, $http, Data) {
+    .controller('factureValidController', function($scope, $location, $timeout, messages, $http, Data, $translate) {
         var vm = this;
         vm.title = "";
         vm.contenu = "";

@@ -356,6 +356,9 @@ Data.get('session.php').then(function (results) {
 
         vm.fnLoadPub = function() {
             var langSel = sessionStorage.getItem('LANG');
+            if(langSel == "" || langSel == null) {
+                return;
+            }
             $http({
                 method: 'GET',
                 params: {mode:3, pays:langSel},
@@ -498,8 +501,10 @@ Data.get('session.php').then(function (results) {
             vm.fnSetBtnMetiers();
             vm.fnLoadPub();
         };
+
         vm.fnInstructions();
         vm.fnRecupMetier();
         vm.fnModelMetierAll();
+        vm.fnLoadPub();
 
     });
