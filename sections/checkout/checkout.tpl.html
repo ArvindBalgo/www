@@ -87,51 +87,51 @@
                 <table border="0" cellpadding="2" cellspacing="0" width="20%">
                     <meta charset="UTF-8">
                     <tr>
-                        <td width="50%"><label>Surname</label></td>
+                        <td width="50%"><label>{{'chk_surname' | translate}}</label></td>
                         <td width="50%"><label>{{checkout.userDetails.surname}}</label></td>
                     </tr>
                     <tr>
-                        <td width="50%"><label>First Name</label></td>
+                        <td width="50%"><label>{{'chk_name' | translate}}</label></td>
                         <td width="50%"><label>{{checkout.userDetails.name}}</label></td>
                     </tr>
                     <tr>
-                        <td width="50%"><label>Téléphone</label></td>
+                        <td width="50%"><label>{{'chk_tel' | translate}}</label></td>
                         <td width="50%"><label>{{checkout.userDetails.tel}}</label></td>
                     </tr>
                     <tr>
-                        <td width="50%"><label>Address</label></td>
+                        <td width="50%"><label>{{'chk_address' | translate}}</label></td>
                         <td width="50%"><label>{{checkout.userDetails.address}}</label></td>
                     </tr>
                     <tr>
-                        <td><label>Postal Code</label></td>
+                        <td><label>{{'chk_codepostal' | translate}}</label></td>
                         <td width="50%"><label>{{checkout.userDetails.postalcode}}</label></td>
                     </tr>
                     <tr>
-                        <td width="50%"><label>Ville</label></td>
+                        <td width="50%"><label>{{'chk_city' | translate}}</label></td>
                         <td width="50%"><label>{{checkout.userDetails.city}}</label></td>
                     </tr>
                     <tr>
-                        <td width="50%"><label>Pays</label></td>
+                        <td width="50%"><label>{{'chk_pays' | translate}}</label></td>
                         <td width="50%"><label>{{checkout.userDetails.pays}}</label></td>
                     </tr>
                     <tr style="display: none;">
-                        <td width="50%">Surname:</td>
+                        <td width="50%">{{'chk_surname' | translate}}:</td>
                         <td width="50%"><input type="text" name="NOM" size="24" ng-model="checkout.userDetails.surname"></td>
                     </tr>
                     <tr style="display: none;">
-                        <td width="50%">First name:</td>
+                        <td width="50%">{{'chk_name' | translate}}:</td>
                         <td width="50%"><input type="text" name="PRENOM" size="24" ng-model="checkout.userDetails.name"></td>
                     </tr>
                     <tr style="display: none;">
-                        <td width="50%">Address:</td>
+                        <td width="50%">{{'chk_address' | translate}}:</td>
                         <td width="50%"><input type="text" name="ADDRESSE" size="24" ng-model="checkout.userDetails.address"></td>
                     </tr>
                     <tr style="display: none">
-                        <td width="50%">Postcode:</td>
+                        <td width="50%">{{'chk_codepostal' | translate}}:</td>
                         <td width="50%"><input type="text" name="CODEPOSTAL" size="24" ng-model="checkout.userDetails.postalcode"></td>
                     </tr>
                     <tr style="display: none;">
-                        <td width="50%">Town:</td>
+                        <td width="50%">{{'chk_city' | translate}}:</td>
                         <td width="50%"><input type="text" name="VILLE" size="24" ng-model="checkout.userDetails.city"></td>
                     </tr>
                     <!--<tr style="display: none;">
@@ -141,16 +141,16 @@
                         </td>
                     </tr>-->
                     <input type="hidden" name="L" value="checkout.lang" ng-model="FR"/>
-                    <td width="50%"><select size="1" name="PAYS">
+                    <!--<td width="50%"><select size="1" name="PAYS">
                         <option value="FR" selected="selected">France</option>
                     </select>
-                    </td>
+                    </td>-->
                     <tr style="display: none">
-                        <td width="50%">Tel:</font></td>
+                        <td width="50%">{{'chk_tel' | translate}}:</font></td>
                         <td width="50%"><input type="text" name="TEL" size="24" ng-model="checkout.userDetails.tel"></td>
                     </tr>
                     <tr style="display: none">
-                        <td width="50%">E-mail:</font></td>
+                        <td width="50%">{{'chk_email' | translate}}:</font></td>
                         <td width="50%"><input type="text" name="EMAIL" size="24" ng-model="checkout.userDetails.email"></td>
                     </tr>
                     <input type="hidden" name="ID" value="1494249383">
