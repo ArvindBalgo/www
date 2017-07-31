@@ -59,3 +59,5 @@ include_once '../classes/orders_details.php';
 include_once '../classes/tva.php';
 include_once '../classes/users.php';
 include_once '../classes/polices.php';
+include_once '../classes/coupon_main.php';
+include_once '../classes/coupon_detail.php';

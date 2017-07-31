@@ -1,0 +1,105 @@
+<header ng-include="'sections/admin/header.html'"></header>
+<style>
+    .myGrid {
+        width: 70%;
+        height: 100%;
+
+    }
+    .myGridColumns {
+        width: 60%;
+        height: 100%;
+
+    }
+     .md-datepicker-calendar-pane{
+         z-index: 1200}
+</style>
+<div class="row">
+    <div  ui-grid="gridOptions"  ui-grid-resize-columns ui-grid-selection class="myGrid"></div>
+</div>
+
+
+<div id="modalDetails" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 80%;height: 300px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> Nouveau Coupon</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-5">
+
+                            <md-input-container>
+                                <label>Code coupon</label>
+                                <input type="text" ng-model="coupon.codeCoupon">
+                            </md-input-container>
+                        </div>
+                        <div class="col-md-5">
+
+                            <md-input-container>
+                                <label>% discount</label>
+                                <input type="text" ng-model="coupon.discountCoupon">
+                            </md-input-container>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">
+                            <md-datepicker ng-model="coupon.dateDebut" md-placeholder="Enter date"></md-datepicker>
+                        </div>
+                        <div class="col-md-5">
+                            <md-datepicker ng-model="coupon.dateFin" md-placeholder="Enter date"></md-datepicker>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div  ui-grid="gridDetailsOptions"  ui-grid-resize-columns ui-grid-selection class="myGridColumns"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger pull-left" ng-click="coupon.fnQuitter()">Annuler</button>
+                <button class="btn btn-success pull-right" ng-click="coupon.fnValid()">Valider</button>
+                <!--button type="button" class="btn btn-success" ng-click="item.upload()"><span class="glyphicon glyphicon-upload"></span> Valider</button-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="modalCoupons" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 80%;height: 500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"> Info Coupon</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-2">
+                            Code coupon: <span class="label label-default ">{{coupon.arrCoupon.codeCoupon}}</span>
+                        </div>
+                        <div class="col-md-2">
+
+                            Discount : <span class="label label-default">{{coupon.arrCoupon.discountCoupon}} %</span>
+                        </div>
+                        <div class="col-md-4">
+                            Date debut: <span class="label label-default">{{coupon.arrCoupon.dateDebut}}</span>
+                            Date Fin <span class="label label-default">{{coupon.arrCoupon.dateFin}}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div  ui-grid="gridInfoOptions"  ui-grid-resize-columns ui-grid-selection class="myGridColumns"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger pull-left" ng-click="coupon.fnQuitter()">Annuler</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="sig">
+    <button class="btn btn-large btn-primary pull-right" style="margin-top:5px;margin-right: 10px" ng-click="coupon.fnNew()">Nouveau</button>
+</footer>

@@ -181,17 +181,17 @@ class users {
         }
         if ($this->_uid > 0) {
             $requete = "update customers_auth set name='" . ($this->_name) . "'";
-            $requete .= ",surname='" . $this->_surname . "',";
-            $requete .= ",email='" . $this->_email . "',";
-            $requete .= ",phone='" . $this->_phone . "',";
-            $requete .= ",password='" . $this->_password . "',";
-            $requete .= ",address='" . $this->_address . "',";
-            $requete .= ",city='" . $this->_city . "',";
-            $requete .= ",pays='" . $this->_pays . "',";
-            $requete .= ",created='" . $this->_created . "',";
-            $requete .= ",admintype='" . $this->_admintype. "',";
-            $requete .= ",nosiret='" . $this->_nosiret. "',";
-            $requete .= ",postalcode='" . $this->_created . "'";
+            $requete .= ",surname='" . $this->_surname . "'";
+            $requete .= ",email='" . $this->_email . "'";
+            $requete .= ",phone='" . $this->_phone . "'";
+            $requete .= ",password='" . $this->_password . "'";
+            $requete .= ",address='" . $this->_address . "'";
+            $requete .= ",city='" . $this->_city . "'";
+            $requete .= ",pays='" . $this->_pays . "'";
+            $requete .= ",created='" . $this->_created . "'";
+            $requete .= ",admintype='" . $this->_admintype. "'";
+            $requete .= ",nosiret='" . $this->_nosiret. "'";
+            $requete .= ",postalcode='" . $this->_postalcode . "'";
             $requete .= " where uid=" . $this->_uid;
 
         } else {

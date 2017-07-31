@@ -134,6 +134,11 @@ app.config(['$routeProvider',
             templateUrl:'sections/admin/polices/polices.tpl.html',
             controller: 'policesController as polices'
         })
+        .when('/coupon', {
+            title:      'Coupon',
+            templateUrl:'sections/admin/coupon/coupon.tpl.html',
+            controller: 'couponController as coupon'
+        })
         .when('/', {
             title: 'Login',
             templateUrl: 'sections/login/login.tpl.html',

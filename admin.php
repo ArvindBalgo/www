@@ -36,6 +36,7 @@
     <link rel="stylesheet" type="text/css" href="sections/admin/config_divers/config_divers.css" />
     <link rel="stylesheet" type="text/css" href="sections/admin/prod_client/prod_client.css" />
     <link rel="stylesheet" type="text/css" href="sections/admin/polices/polices.css" />
+    <link rel="stylesheet" type="text/css" href="sections/admin/coupon/coupon.css" />
     <link rel="stylesheet" type="text/css" href="css/custom.css" />
     <!-- endbuild -->
 </head>
@@ -65,6 +66,7 @@
 <script src="js/angular-sanitize.min.js"></script>
 <script src="js/angular-aria.min.js"></script>
 <script src="js/angular-material.min.js"></script>
+<script src="js/moment.min.js"></script>
 
 <!-- Latest compiled and minified JavaScript -->
 <!--script src="js/bootstrap.min.js"></script-->
@@ -117,5 +119,6 @@
 <script src="sections/admin/prod_client/prod_client.ctrl.js"></script>
 <script src="sections/admin/polices/polices.ctrl.js"></script>
 <script src="sections/admin/operateurs/operateurs.ctrl.js"></script>
+<script src="sections/admin/coupon/coupon.ctrl.js"></script>
 </body>
 </html>

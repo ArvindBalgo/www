@@ -112,10 +112,14 @@
                 <input type="text" ng-model="client.infoClient.postalcode" required>
             </md-input-container>
             <md-input-container style="width: 50%">
+                <label>{{'no_siret' | translate}}</label>
+                <input type="text" ng-model="client.infoClient.siret" required>
+            </md-input-container>
+            <md-input-container style="width: 50%">
                 <label>{{'pays' | translate}}</label>
                 <input type="text" ng-model="client.infoClient.pays" disabled>
             </md-input-container>
-            <md-button class="md-raised md-primary" ng-click="">{{'valider' | translate}}</md-button>
+            <md-button class="md-raised md-primary" ng-click="client.fnValidInfo()">{{'valider' | translate}}</md-button>
         </div>
     </div>
 </div>

@@ -2,6 +2,7 @@
 session_start();
 include_once 'include_all.php';
 include_once '../chromePHP.php';
+require '../PHPMailerAutoload.php';
 $mode = $_POST['mode'];
 if ($mode == 1) {
     $orders = new orders_main();
@@ -215,5 +216,74 @@ if ($mode == 1) {
     $row["city"] = $user->getCity();
     $row["pays"] = $user->getPays();
     $row["postalcode"] = $user->getPostalCode();
+    $row["siret"] = $user->getSiret();
     print json_encode($row);
+} else if ($mode == 9) {
+    $idClient = $_SESSION["uid"];
+
+    if ($idClient <= 0) {
+        print "NO SESSION";
+    } else {
+        $user = new users();
+        $user = $user->findByPrimaryKey($idClient);
+        $clientOrig = array(
+            "surname"=>$user->getSurname(),
+            "name"=>$user->getName(),
+            "address"=>$user->getAddress(),
+            "postalCode"=>$user->getPostalCode(),
+            "phone"=>$user->getPhone(),
+            "city"=>$user->getCity(),
+            "pays"=>$user->getPays(),
+            "siret"=>$user->getSiret()
+        );
+
+        $user->setSurname($_POST["surname"]);
+        $user->setName($_POST["name"]);
+        $user->setAddress($_POST["address"]);
+        $user->setPostalCode($_POST["postalcode"]);
+        $user->setPhone($_POST["phone"]);
+        $user->setCity($_POST["city"]);
+        $user->setPays($_POST["pays"]);
+        $user->setSiret($_POST["siret"]);
+        $user->save();
+
+
+        $mailAdmin = new PHPMailer;
+        $mailAdmin->isSMTP();                                      // Set mailer to use SMTP
+        $mailAdmin->Host = 'mail.exakom.fr';  // Specify main and backup SMTP servers
+        $mailAdmin->SMTPAuth = true;                               // Enable SMTP authentication
+        $mailAdmin->Username = 'contact@exakom.fr';                 // SMTP username
+        $mailAdmin->Password = '95961b98';                           // SMTP password
+        $mailAdmin->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+        $mailAdmin->Port = 25;                                    // TCP port to connect to
+
+        $mailAdmin->setFrom('contact@exakom.fr', 'Exakom');
+        $mailAdmin->addAddress('contact@exakom.fr', "Admin");     // Add a recipient     // Name is optional
+        $mailAdmin->addAddress('balgo_arvind@hotmail.com');               // Name is optional
+        $mailAdmin->addReplyTo('contact@exakom.fr', 'Information Client');
+
+        $mailAdmin->isHTML(true);                                  // Set email format to HTML
+
+        $mailAdmin->Subject = utf8_decode('Info client');
+        $mailAdmin->Body    = utf8_decode('Bonjour Exakom'. " <br> Une mise-à-jour des info a été fait par le client ".$clientOrig["surname"]
+            . " ". $clientOrig["name"]
+            ." <br> Nom : ".$clientOrig["surname"]." ==> " . $_POST["surname"]
+            ." <br> Prénom : ".$clientOrig["name"]." ==> " . $_POST["name"]
+            ." <br> Address : ".$clientOrig["address"]." ==> " . $_POST["address"]
+            ." <br> Code Postal : ".$clientOrig["postalCode"]." ==> " . $_POST["postalcode"]
+            ." <br> Phone: ".$clientOrig["phone"]." ==> " . $_POST["phone"]
+            ." <br> Phone: ".$clientOrig["city"]." ==> " . $_POST["city"]
+            ." <br> Phone: ".$clientOrig["pays"]." ==> " . $_POST["pays"]
+            ." <br> Phone: ".$clientOrig["siret"]." ==> " . $_POST["siret"]
+            ." <br> Bien à vous, <br> Exakom.");
+
+        if(!$mailAdmin->send()) {
+            //echo 'Message could not be sent.';
+            // echo 'Mailer Error: ' . $mail->ErrorInfo;
+        } else {
+            // echo 'Message has been sent';
+        }
+
+        print json_encode("DONE");
+    }
 }
