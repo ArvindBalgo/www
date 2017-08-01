@@ -11,6 +11,9 @@ angular
         vm.montants = {frais_livr: 0, prix_total_ht: 0, tax: 0, prix_ttc: 0, montant_net: 0};
         vm.arrProduits = [];
         vm.userDetails = [];
+        vm.discountCode = "";
+        vm.strMsgCode = "Verification Code";
+
         vm.lang = sessionStorage.getItem("LANG");
         if (vm.lang == "" || vm.lang == null) {
             vm.lang = "FR";
@@ -89,6 +92,33 @@ console.clear();
             });
         }
 
+        vm.fnCheckCode = function() {
+            console.log(vm.discountCode);
+            if(vm.discountCode == "") {
+                vm.isDiscountChecked = true;
+                vm.strMsgCode = "Code Invalid";
+                return;
+            }
+            vm.isDiscountChecked = true;
+            vm.strMsgCode = "Verification Code";
+            $http({
+                method: 'GET',
+                params: {mode:17, code:vm.discountCode},
+                url: 'api/v1/metierCRUD.php'
+            }).then(function successCallback(response) {
+                console.log(response);
+                if(response.data.authentificate == 'NOTVALID') {
+                    vm.strMsgCode = "Code Invalid";
+                }
+                else{
+                    vm.strMsgCode = "Remise: " + response.data.montant + " %";
+                    vm.montants.montant_net = (vm.montants.montant_net * (1- (response.data.montant / 100))).toFixed(2);
+                }
+            }, function errorCallback(error) {
+                console.log(error);
+            });
+
+        }
         vm.getInfoUser = function() {
             Data.get('session.php').then(function (results) {
                 console.log(results, "  DATA results");

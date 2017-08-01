@@ -139,6 +139,9 @@ class coupon_details
     //***** Fonction de passege sql->objet *****
     private function mapSqlToObject($rs)
     {
+        if(!$rs){
+            return false;
+        }
         $couponDetail = new coupon_details();
         $couponDetail->_id = $rs["id"];
         $couponDetail->_id_coupon = $rs["id_coupon"];
@@ -191,5 +194,15 @@ class coupon_details
         $requete = "select count(*) as usedCnt from coupon_details where flag='USED' and id_coupon=".$id;
         $rs = $this->conn->query($requete);
         return mysqli_fetch_array($rs);
+    }
+
+    public function getCouponUserInfo($coupon, $id_user) {
+        $requete = "SELECT * FROM coupon_details cd inner join coupon_main cm on (cd.id_coupon = cm.id) where id_user=$id_user and flag='UNUSED' and cm.coupon_code='".$coupon."'";
+        $rs = $this->conn->query($requete);
+
+        if(!$rs) {
+            return false;
+        }
+        return (mysqli_fetch_array($rs));
     }
 }

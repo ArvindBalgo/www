@@ -66,7 +66,8 @@
                 <label class="label label-default"
                        style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">Coupon
                     Discount : </label>
-                <input type="text" style="width: 165px;" ng-model="checkout.discountCode">
+                <input type="text" style="width: 165px;" ng-blur="checkout.fnCheckCode()" ng-model="checkout.discountCode">
+                <label class="label label-default" ng-show="checkout.isDiscountChecked">{{checkout.strMsgCode}}</label>
             </div>
             <div class="col-md-12" style="margin-bottom: 25px;">
                 <label class="label label-default"

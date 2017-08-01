@@ -209,6 +209,7 @@ if ($mode == 1) {
     $row = [];
     $row["id"] = $user->getUid();
     $row["name"] = $user->getName();
+    $row["company_name"] = $user->getCompanyName();
     $row["surname"] = $user->getSurname();
     $row["email"] = $user->getEmail();
     $row["phone"] = $user->getPhone();
@@ -229,6 +230,7 @@ if ($mode == 1) {
         $clientOrig = array(
             "surname"=>$user->getSurname(),
             "name"=>$user->getName(),
+            "company_name"=>$user->getCompanyName(),
             "address"=>$user->getAddress(),
             "postalCode"=>$user->getPostalCode(),
             "phone"=>$user->getPhone(),
@@ -239,6 +241,7 @@ if ($mode == 1) {
 
         $user->setSurname($_POST["surname"]);
         $user->setName($_POST["name"]);
+        $user->setCompanyName($_POST["company_name"]);
         $user->setAddress($_POST["address"]);
         $user->setPostalCode($_POST["postalcode"]);
         $user->setPhone($_POST["phone"]);
@@ -269,6 +272,7 @@ if ($mode == 1) {
             . " ". $clientOrig["name"]
             ." <br> Nom : ".$clientOrig["surname"]." ==> " . $_POST["surname"]
             ." <br> Prénom : ".$clientOrig["name"]." ==> " . $_POST["name"]
+            ." <br> Societé : ".$clientOrig["company_name"]." ==> " . $_POST["company_name"]
             ." <br> Address : ".$clientOrig["address"]." ==> " . $_POST["address"]
             ." <br> Code Postal : ".$clientOrig["postalCode"]." ==> " . $_POST["postalcode"]
             ." <br> Phone: ".$clientOrig["phone"]." ==> " . $_POST["phone"]

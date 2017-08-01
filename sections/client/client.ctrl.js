@@ -65,13 +65,13 @@ angular
         vm.fnValidInfo = function() {
             console.clear();
             console.log(vm.infoClient);
-            if(vm.infoClient.email == "" || vm.infoClient.surname == "" || vm.infoClient.name == "" | vm.infoClient.phone == "" | vm.infoClient.address == "" || vm.infoClient.city == "" || vm.infoClient.postalcode == "" || vm.infoClient.pays == "") {
+            if(vm.infoClient.company_name == "" ||vm.infoClient.email == "" || vm.infoClient.surname == "" || vm.infoClient.name == "" | vm.infoClient.phone == "" | vm.infoClient.address == "" || vm.infoClient.city == "" || vm.infoClient.postalcode == "" || vm.infoClient.pays == "") {
                 bootbox.alert("Error");
             }
             else{
                 $http({
                     method: 'POST',
-                    data: $.param({mode: 9,surname:vm.infoClient.surname, name:vm.infoClient.name, address:vm.infoClient.address, phone:vm.infoClient.phone, city:vm.infoClient.city, postalcode:vm.infoClient.postalcode, pays:vm.infoClient.pays, siret:vm.infoClient.siret}),
+                    data: $.param({mode: 9,company_name:vm.infoClient.company_name,surname:vm.infoClient.surname, name:vm.infoClient.name, address:vm.infoClient.address, phone:vm.infoClient.phone, city:vm.infoClient.city, postalcode:vm.infoClient.postalcode, pays:vm.infoClient.pays, siret:vm.infoClient.siret}),
                     url: 'api/v1/commande.php',
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(function successCallback(response) {

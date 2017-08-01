@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once 'include_all.php';
 include_once '../chromePHP.php';
 $mode = $_GET['mode'];
@@ -413,4 +414,23 @@ if ($mode == 0) {
     $tva = new tva();
     $tva = $tva->rechercher();
     print json_encode($tva);
+} else if ($mode == 17) {
+    $coupon_detail = new coupon_details();
+    $coupon_detail = $coupon_detail->getCouponUserInfo($_GET["code"], $_SESSION["uid"]);
+
+    if ($coupon_detail) {
+        $couponMain = new coupon_main();
+        $couponMain = $couponMain->findByPrimaryKey($coupon_detail["id_coupon"]);
+        if ($couponMain) {
+            $row["authentificate"] = "VERIFIED";
+            $row["montant"] = $couponMain->getVal();
+        } else {
+            $row["authentificate"] = "NOTVALID";
+            $row["montant"] = "0";
+        }
+    } else {
+        $row["authentificate"] = "NOTVALID";
+        $row["montant"] = "0";
+    }
+    print json_encode($row);
 }
