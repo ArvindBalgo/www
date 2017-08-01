@@ -130,7 +130,6 @@ class coupon_details
             $requete .= "'" . $this->_flag . "',";
             $requete .= "'" . $this->_date_used . "')";
         }
-        chromePHP::log($requete);
         $r = $this->conn->query($requete) or die($this->conn->error . __LINE__);
         return $r;
     }
@@ -204,5 +203,10 @@ class coupon_details
             return false;
         }
         return (mysqli_fetch_array($rs));
+    }
+
+    public function delByIdCoupon($id){
+        $requete = "DELETE FROM coupon_details WHERE id_coupon=" . $id;
+        $r = $this->conn->query($requete) or die($this->conn->error . __LINE__);
     }
 }

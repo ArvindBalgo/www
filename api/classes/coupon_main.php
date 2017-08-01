@@ -8,6 +8,7 @@ class coupon_main
     private $_date_end = "";
     private $_coupon_code = "";
     private $_val= 0;
+    private $_emailing_flag= 0;
 
     private static $SELECT = "SELECT * FROM coupon_main";
 
@@ -45,6 +46,10 @@ class coupon_main
     {
         $this->_val = $val;
     }
+    public function setEmailingFlag($val)
+    {
+        $this->_emailing_flag = $val;
+    }
 
     //**** Getters *****
 
@@ -71,6 +76,10 @@ class coupon_main
     {
         return $this->_val;
     }
+    public function getEmailingFlag()
+    {
+        return $this->_emailing_flag;
+    }
 
     public function delete($id)
     {
@@ -87,6 +96,7 @@ class coupon_main
             $requete .= ", date_end='".($this->_date_end)."'";
             $requete .= ", coupon_code='".($this->_coupon_code)."'";
             $requete .= ", val='".($this->_val)."'";
+            $requete .= ", emailing_flag='".($this->_emailing_flag)."'";
             $requete .= " WHERE id=" . $this->_id;
 
         } else {
@@ -94,12 +104,14 @@ class coupon_main
             $requete .= "date_start,";
             $requete .= "date_end,";
             $requete .= "coupon_code,";
-            $requete .= "val";
+            $requete .= "val,";
+            $requete .= "emailing_flag";
             $requete .= ") VALUES (";
             $requete .= "'" . $this->_date_start. "',";
             $requete .= "'" . $this->_date_end. "',";
             $requete .= "'" . $this->_coupon_code. "',";
-            $requete .= "'" . $this->_val. "')";
+            $requete .= "'" . $this->_val. "',";
+            $requete .= "'" . $this->_emailing_flag. "')";
         }
         $r = $this->conn->query($requete) or die($this->conn->error . __LINE__);
         return $r;
@@ -115,6 +127,7 @@ class coupon_main
         $couponMain->_date_end= $rs["date_end"];
         $couponMain->_coupon_code= $rs["coupon_code"];
         $couponMain->_val= $rs["val"];
+        $couponMain->_emailing_flag= $rs["emailing_flag"];
         return $couponMain;
     }
 

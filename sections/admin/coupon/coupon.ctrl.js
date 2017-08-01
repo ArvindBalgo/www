@@ -21,10 +21,53 @@ angular
         vm.arrCoupon = [];
         vm.dateFin = "";
 
-        vm.formatCell = function () {
+        vm.formatCell = function (grid, row, col, rowRenderIndex, colRenderIndex) {
             var content = "<button id='row.entity.id' data-ng-model='row.entity.id' type='button' class='btn btn-default btn-circle' style='margin-left: 5px;margin-top: 5px;' ng-click='grid.appScope.edit(grid, row.entity, 1)'><i class='glyphicon glyphicon-blackboard'></i></button>";
-            return content;
+            var del = "<button type='button' class='btn btn-default btn-circle' style='margin-left: 5px;margin-top: 5px;' ng-show='grid.appScope.show(grid, row.entity, 1)' ng-click='grid.appScope.del(grid, row.entity, 1)'><i class='glyphicon glyphicon-trash'></i></button>";
+
+            var mailList = "<button type='button' class='btn btn-default btn-circle' style='margin-left: 5px;margin-top: 5px;' ng-show='grid.appScope.show(grid, row.entity, 1)' ng-click='grid.appScope.mail(grid, row.entity, 1)'><i class='glyphicon glyphicon-inbox'></i></button>";
+
+            return content + del + mailList;
         };
+
+        $scope.show = function (grid, row, opt) {
+            if (row.emailing_flag == 0) {
+                return true;
+            }
+            return false;
+        };
+
+        $scope.del = function (grid, row, opt) {
+            $http({
+                method: "POST",
+                url: "/api/v1/coupon.php",
+                data: $.param({mode: 5, id: row.id}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'}
+            })
+                .success(function (data, status, headers, config) {
+                    vm.fnGetCoupons();
+                })
+                .error(function (data, status, headers, config) {
+                });
+
+        };
+
+        $scope.mail = function (grid, row, opt) {
+            $('body').addClass("spinner");
+            $http({
+                method: "POST",
+                url: "/api/v1/coupon.php",
+                data: $.param({mode: 6, id: row.id}),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'}
+            })
+                .success(function (data, status, headers, config) {
+                    vm.fnGetCoupons();
+                    $('body').removeClass("spinner");
+                })
+                .error(function (data, status, headers, config) {
+                });
+        };
+
         $scope.edit = function (grid, row, opt) {
             console.log(row);
             vm.arrCoupon.codeCoupon = row.coupon_code;
@@ -34,7 +77,7 @@ angular
             $http({
                 method: "POST",
                 url: "/api/v1/coupon.php",
-                data: $.param({mode: 4, id:row.id}),
+                data: $.param({mode: 4, id: row.id}),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'}
             })
                 .success(function (data, status, headers, config) {
@@ -137,7 +180,7 @@ angular
         };
 
         $scope.gridInfoOptions.onRegisterApi = function (gridApi) {
-            $interval( function() {
+            $interval(function () {
                 $scope.gridApi.core.handleWindowResize();
             }, 500, 10);
         }
@@ -215,13 +258,13 @@ angular
         };
 
 
-        vm.fnQuitter = function() {
+        vm.fnQuitter = function () {
             $('#modalDetails').modal('hide');
             $('#modalCoupons').modal('hide');
         };
 
-        vm.fnValid = function() {
-            if(vm.codeCoupon == "" || vm.discountCoupon == "" || vm.dateDebut == "" || vm.dateFin == "" || vm.arrSubscribers.length<=0) {
+        vm.fnValid = function () {
+            if (vm.codeCoupon == "" || vm.discountCoupon == "" || vm.dateDebut == "" || vm.dateFin == "" || vm.arrSubscribers.length <= 0) {
                 bootbox.alert("Toutes les champs doivente etre rensigné");
                 return;
             }
@@ -229,7 +272,14 @@ angular
             $http({
                 method: "POST",
                 url: "/api/v1/coupon.php",
-                data: $.param({mode: 3, code:vm.codeCoupon, discount:vm.discountCoupon, dateDebut:moment(vm.dateDebut).format("YYYY-MM-DD"), dateFin:moment(vm.dateFin).format("YYYY-MM-DD"), arrUsers: JSON.stringify(vm.arrSubscribers)}),
+                data: $.param({
+                    mode: 3,
+                    code: vm.codeCoupon,
+                    discount: vm.discountCoupon,
+                    dateDebut: moment(vm.dateDebut).format("YYYY-MM-DD"),
+                    dateFin: moment(vm.dateFin).format("YYYY-MM-DD"),
+                    arrUsers: JSON.stringify(vm.arrSubscribers)
+                }),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'}
             })
                 .success(function (data, status, headers, config) {
