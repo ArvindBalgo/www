@@ -50,6 +50,7 @@ public function getSession(){
         session_start();
     }
     $sess = array();
+
     if(isset($_SESSION['uid']))
     {
         $sess["uid"] = $_SESSION['uid'];

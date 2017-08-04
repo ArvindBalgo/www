@@ -1,59 +1,54 @@
-
 <?php
 include_once 'include_all.php';
 include_once '../chromePHP.php';
 
 $mode = $_GET['mode'];
-if($mode == 0) {
-    $metier = new listmetier();
-    $metier = $metier->rechercher();
+if ($mode == 0) {
 
+    $metier = new listmetier();
+
+    $metier = $metier->rechercher();
     print json_encode($metier);
     return;
-}
-else if($mode == 1) {
+} else if ($mode == 1) {
     $metier = new listmetier();
     $metier->setLibelle($_GET["desig"]);
     $metier->setSubLibelle($_GET["sub_desig"]);
     $metier->setActive(1);
-    $re= $metier->save();
+    $re = $metier->save();
     print $re;
     return;
-}
-else if($mode == 2) {
+} else if ($mode == 2) {
     $metier = new modelmetier();
     $metier = $metier->rechercher();
     print json_encode($metier);
     return;
-}
-else if($mode == 3) {
+} else if ($mode == 3) {
     $cata = new cata();
     $cata = $cata->findAllByMetier($_GET["metier"]);
-    $row =[];
-    foreach($cata as $ligcata){
+    $row = [];
+    foreach ($cata as $ligcata) {
         $cata_ligne = new cata_ligne();
 
         $cata_ligne = $cata_ligne->findByPrimaryKey($ligcata["id_front"]);
         $cata_ligne_params = new cata_ligne_params();
         $cata_ligne_params = $cata_ligne_params->findByIdCata($ligcata["id_front"]);
 
-        $arrFront = ["src"=>$cata_ligne->getSrc(),"title"=>$cata_ligne->getTitle(), "elements"=>$cata_ligne_params ];
+        $arrFront = ["src" => $cata_ligne->getSrc(), "title" => $cata_ligne->getTitle(), "elements" => $cata_ligne_params];
         $ligcata["front"] = $arrFront;
-
 
 
         $cata_ligne = $cata_ligne->findByPrimaryKey($ligcata["id_back"]);
         $cata_ligne_params = new cata_ligne_params();
         $cata_ligne_params = $cata_ligne_params->findByIdCata($ligcata["id_front"]);
-        $arrBack = ["src"=>$cata_ligne->getSrc(),"title"=>$cata_ligne->getTitle(), "elements"=>$cata_ligne_params ];
+        $arrBack = ["src" => $cata_ligne->getSrc(), "title" => $cata_ligne->getTitle(), "elements" => $cata_ligne_params];
         $ligcata["back"] = $arrBack;
 
         $row[] = $ligcata;
     }
-print json_encode($row);
+    print json_encode($row);
     return;
-}
-else if($mode == 4) {
+} else if ($mode == 4) {
     $listmetier = new listmetier();
     $listmetier->setLibelle(trim($_GET["libelle"]));
     $listmetier->setSubLibelle(trim($_GET["sub_libelle"]));
@@ -62,10 +57,8 @@ else if($mode == 4) {
     $listmetier->setKeyLibelle($_GET["key_libelle"]);
     $listmetier->setKeySubLibelle($_GET["key_sub_libelle"]);
     $listmetier->save();
-}
-
-else if($mode == 5){
-    $listmetier  = new listmetier();
+} else if ($mode == 5) {
+    $listmetier = new listmetier();
     $listmetier = $listmetier->findByPrimaryKey(trim($_GET["id"]));
 
     $listmetier->setId($listmetier->getId());
@@ -76,9 +69,7 @@ else if($mode == 5){
     $listmetier->setKeyLibelle($_GET["key_libelle"]);
     $listmetier->setKeySubLibelle($_GET["key_sub_libelle"]);
     $listmetier->save();
-}
-
-else if($mode == 6){
+} else if ($mode == 6) {
     $model = new modelmetier();
     $model = $model->findByPrimaryKey(trim($_GET["id"]));
     $model->setDescription(trim($_GET["name"]));
@@ -88,13 +79,11 @@ else if($mode == 6){
 
     $model->save();
     print "done";
-}
-else if($mode == 7) {
+} else if ($mode == 7) {
     $model = new modelmetier_category();
     $model = $model->findByModel($_GET['id']);
     print json_encode($model);
-}
-else if($mode == 8) {
+} else if ($mode == 8) {
     $model = new modelmetier_category();
     $model->setDescription($_GET["description"]);
     $model->setKeyDescription($_GET["key_description"]);
@@ -107,72 +96,59 @@ else if($mode == 8) {
     $model = new modelmetier_category();
     $model = $model->findByModel($_GET['id_modelmetier']);
     print json_encode($model);
-}
-else if($mode == 9) {
+} else if ($mode == 9) {
     $metier = new modelmetier();
     $metier = $metier->rechModelCategory();
     print json_encode($metier);
     return;
-}
-else if($mode == 10){
+} else if ($mode == 10) {
     $instruction = new instructions();
     $instruction->setInstruction($_GET["text"]);
     $instruction->save();
-}
-else if($mode == 11) {
+} else if ($mode == 11) {
     $pays = $_GET["param"];
-    if($pays == "FR") {
+    if ($pays == "FR") {
         $instruction = new instructions();
         $instruction = $instruction->rechercher();
         print json_encode($instruction);
-    }
-    else if($pays == "EN") {
+    } else if ($pays == "EN") {
         $instruction = new instructions_en();
         $instruction = $instruction->rechercher();
         print json_encode($instruction);
-    }
-    else if($pays == "AL"){
+    } else if ($pays == "AL") {
         $instruction = new instructions_al();
         $instruction = $instruction->rechercher();
         print json_encode($instruction);
-    }
-    else if($pays == "IT"){
+    } else if ($pays == "IT") {
         $instruction = new instructions_it();
         $instruction = $instruction->rechercher();
         print json_encode($instruction);
-    }
-    else if($pays == "ES"){
+    } else if ($pays == "ES") {
         $instruction = new instructions_es();
         $instruction = $instruction->rechercher();
         print json_encode($instruction);
     }
 
-}
-else if($mode == 12) {
+} else if ($mode == 12) {
     $pays = $_GET["param"];
-    if($pays == "FR") {
+    if ($pays == "FR") {
         $instruction = new instructions();
-    }
-    else if($pays == "EN") {
+    } else if ($pays == "EN") {
         $instruction = new instructions_en();
-    }
-    else if($pays == "AL"){
+    } else if ($pays == "AL") {
         $instruction = new instructions_al();
 
-    }
-    else if($pays == "IT"){
+    } else if ($pays == "IT") {
         $instruction = new instructions_it();
 
-    }
-    else if($pays == "ES"){
+    } else if ($pays == "ES") {
         $instruction = new instructions_es();
 
     }
     $instruction = $instruction->findByPrimaryKey($_GET["id"]);
     $instruction->setInstruction($_GET["instruction"]);
     $instruction->save();
-}
-else if($mode == 13){
+} else if ($mode == 13) {
     $id_metier = $_GET["id"];
     $arrInfo = array();
     $modelmetier = new modelmetier();
@@ -182,8 +158,7 @@ else if($mode == 13){
 
     $arrInfo = array("qte" => $modelmetier->getQte());
     print json_encode($arrInfo);
-}
-else if($mode == 14) {
+} else if ($mode == 14) {
     $cataPapier = new cata_papier();
     $cataPapier->setDescription($_GET["description"]);
     $cataPapier->setDescriptionEN($_GET["description_en"]);
@@ -196,14 +171,12 @@ else if($mode == 14) {
     $cataPapier1 = $cataPapier1->rechercher();
 
     print json_encode($cataPapier1);
-}
-else if($mode == 15){
+} else if ($mode == 15) {
     //recup tous les type de support
     $cataPapier = new cata_papier();
     $cataPapier = $cataPapier->rechercher();
     print json_encode($cataPapier);
-}
-else if ($mode == 16) {
+} else if ($mode == 16) {
     $cataPapier = new cata_papier();
     $cataPapier = $cataPapier->findByPrimaryKey($_GET["id"]);
     $cataPapier->setDescription($_GET["description"]);
@@ -217,8 +190,7 @@ else if ($mode == 16) {
     $cataPapier1 = $cataPapier1->rechercher();
 
     print json_encode($cataPapier1);
-}
-else if($mode == 17) {
+} else if ($mode == 17) {
     $cataPapier = new cata_papier();
     $cataPapier->delete($_GET["id"]);
 
@@ -226,8 +198,7 @@ else if($mode == 17) {
     $cataPapier1 = $cataPapier1->rechercher();
 
     print json_encode($cataPapier1);
-}
-else if($mode == 18) {
+} else if ($mode == 18) {
     $subCategory = new modelmetier_category();
     $subCategory = $subCategory->findByPrimaryKey($_GET["id"]);
     $subCategory->setActive($_GET["active"]);
@@ -237,16 +208,15 @@ else if($mode == 18) {
     $subCategory->setKeyMessage($_GET["key_message"]);
     $subCategory->save();
     return 'done';
-}
-else if($mode == 19) {
+} else if ($mode == 19) {
     $modelmetier = new modelmetier();
     $modelmetier = $modelmetier->findByPrimaryKey($_GET["id"]);
-    $arrQte = explode(",",$modelmetier->getQte());
+    $arrQte = explode(",", $modelmetier->getQte());
     foreach ($arrQte as $ligne) {
         $frais_livr = new frais_livraison();
         $frais_livr = $frais_livr->findByIdParentModelMetierQte($_GET["id"], intval($ligne), 0);
 
-        if(!$frais_livr) {
+        if (!$frais_livr) {
             $frais_livr = new frais_livraison();
             $frais_livr->setIdModelMetier($_GET["id"]);
             $frais_livr->setWeight(0);
@@ -263,7 +233,7 @@ else if($mode == 19) {
         foreach ($arrListProds as $ligne1) {
             $frais_livr3 = new frais_livraison();
             $frais_livr3 = $frais_livr3->findByIdParentModelMetierQte($_GET["id"], intval($ligne), $ligne1["id_cata"]);
-            if(!$frais_livr3){
+            if (!$frais_livr3) {
                 $frais_livr3 = new frais_livraison();
                 $frais_livr3->setIdModelMetier($_GET["id"]);
                 $frais_livr3->setWeight($frais_livr1->getWeight());
@@ -279,17 +249,15 @@ else if($mode == 19) {
     //recup de toutes les lignes pour cette modelmetier
     $frais_livraison = new frais_livraison();
     $frais_livraison = $frais_livraison->findByIdModelMetier($_GET["id"], 0);
-    echo json_encode(array("livraison"=>$frais_livraison, "libelle"=>$modelmetier->getDescription(), "id"=>$_GET["id"]));
-}
-else if($mode == 20) {
+    echo json_encode(array("livraison" => $frais_livraison, "libelle" => $modelmetier->getDescription(), "id" => $_GET["id"]));
+} else if ($mode == 20) {
     $arrLivr = json_decode($_GET["data"]);
     foreach ($arrLivr as $ligne) {
         $livraison = new frais_livraison();
         $livraison->updateByBulk($_GET["id"], $ligne->qte, $ligne->weight, $ligne->price);
     }
     echo "success";
-}
-else if($mode == 21){
+} else if ($mode == 21) {
     $id_modelmetier = $_GET["id_modelmetier"];
     $id_produit = $_GET["id_produit"];
     $modelmetier = new modelmetier();
@@ -305,19 +273,16 @@ else if($mode == 21){
     foreach ($livraison as $item) {
         $isManuel = intval($item["manuel"]);
     }
-    echo json_encode(array("parentLivraison"=>$livraison1,"livraison"=>$livraison, "isManuel"=>$isManuel, "libelle"=>$modelmetier->getDescription(), "id"=>$_GET["id_modelmetier"]));
-}
-
-else if($mode == 22) {
+    echo json_encode(array("parentLivraison" => $livraison1, "livraison" => $livraison, "isManuel" => $isManuel, "libelle" => $modelmetier->getDescription(), "id" => $_GET["id_modelmetier"]));
+} else if ($mode == 22) {
     $arrLivr = json_decode($_GET["data"]);
 
     foreach ($arrLivr as $item) {
-        foreach ($item as $ligne){
+        foreach ($item as $ligne) {
         }
     }
     echo "success";
-}
-else if($mode == 23) {
+} else if ($mode == 23) {
     $frais_livr = new frais_livraison();
     $frais_livr = $frais_livr->deleleDuplicates();
 

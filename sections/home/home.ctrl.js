@@ -214,7 +214,7 @@ Data.get('session.php').then(function (results) {
                 vm.btnMetierOrig = angular.copy(response.data);
                     vm.btnMetier = response.data;
                     vm.activeId = response.data[0].id;
-
+                    vm.fnModelMetierAll();
                 }, function errorCallback(error) {
                     //console.log(error);
                 $('body').removeClass("spinner");
@@ -260,6 +260,7 @@ Data.get('session.php').then(function (results) {
                 params: {mode:2},
                 url: 'api/v1/info.php'
             }).then(function successCallback(response) {
+                vm.fnLoadPub();
                 $('body').removeClass("spinner");
                     vm.origModels = angular.copy(response.data);
                    // vm.metier = response.data;
@@ -317,6 +318,7 @@ Data.get('session.php').then(function (results) {
                 url: 'api/v1/info.php'
             }).then(function successCallback(response) {
                     vm.instructions = response.data;
+                    vm.fnRecupMetier();
                 }, function errorCallback(error) {
                     console.log(error);
                 });
@@ -434,6 +436,24 @@ Data.get('session.php').then(function (results) {
 
             $("#modalPanier").modal();
         };
+
+        vm.fnInfoAll = function() {
+            var param = sessionStorage.getItem('LANG');
+            if(param == "") {
+                param = "FR";
+            }
+            $http({
+                method: 'POST',
+                data: $.param({mode:16, param:param}),
+                url: 'api/v1/metierCRUDPOST.php',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function successCallback(response) {
+                console.clear();
+                console.log(response.data, " TESTTT");
+            }, function errorCallback(error) {
+                console.log(error);
+            });
+        }
         vm.fnAlertCommentaire = function(text) {
             if(text != "" && typeof text !== 'undefined'){
                 bootbox.alert("<div style='text-align: center'>"+text+"</div>");
@@ -503,8 +523,9 @@ Data.get('session.php').then(function (results) {
         };
 
         vm.fnInstructions();
-        vm.fnRecupMetier();
+        /*vm.fnRecupMetier();
         vm.fnModelMetierAll();
-        vm.fnLoadPub();
+        vm.fnLoadPub();*/
+          //  vm.fnInfoAll();
 
     });

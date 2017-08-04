@@ -189,3 +189,60 @@ else if($mode == 15) {
     $temp_prod->delBySessionKey(session_id());
     echo "done";
 }
+else if($mode == 16) {
+    //add instructions
+    $pays = $_POST["param"];
+    $arrData = [];
+    if ($pays == "FR") {
+        $instruction = new instructions();
+        $instruction = $instruction->rechercher();
+        //print json_encode($instruction);
+    } else if ($pays == "EN") {
+        $instruction = new instructions_en();
+        $instruction = $instruction->rechercher();
+        //print json_encode($instruction);
+    } else if ($pays == "AL") {
+        $instruction = new instructions_al();
+        $instruction = $instruction->rechercher();
+        //print json_encode($instruction);
+    } else if ($pays == "IT") {
+        $instruction = new instructions_it();
+        $instruction = $instruction->rechercher();
+        //print json_encode($instruction);
+    } else if ($pays == "ES") {
+        $instruction = new instructions_es();
+        $instruction = $instruction->rechercher();
+        //print json_encode($instruction);
+    }
+    $arrData["instruction"]=$instruction;
+
+
+    //list des metiers
+    $metier = new listmetier();
+    $metier = $metier->rechercher();
+    $arrData["metier"] = $metier;
+
+    //listes des modelmetiers
+    $metier = new modelmetier();
+    $metier = $metier->rechercher();
+    $arrData["modelmetier"] = $metier;
+
+    //load pub
+    $pub = new pub();
+    $pub = $pub->findByPays($pays);
+
+    if($pub == null) {
+        $arrData["pub"] = null;
+    }
+    else{
+        $arrPub = array(
+            "id"    =>  $pub->getId(),
+            "actif" =>  $pub->getActif(),
+            "link"  =>  $pub->getLink(),
+            "pays"  =>  $pub->getPays()
+        );
+        $arrData["pub"] = $arrPub;
+    }
+
+    print json_encode($arrData);
+}

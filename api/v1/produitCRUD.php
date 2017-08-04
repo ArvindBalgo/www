@@ -33,6 +33,7 @@ else if($mode == 3) {
 
     if($pub == null) {
         print 'null';
+        return;
     }
     $arrPub = array(
         "id"    =>  $pub->getId(),

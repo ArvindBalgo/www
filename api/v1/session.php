@@ -1,9 +1,13 @@
 <?php
-
+include_once "../chromePHP.php";
+if (!isset($_SESSION)) {
+            session_start();
+        }
 require 'authFN.php';
 
 
 $db = new DbHandler();
+
 $session = $db->getSession();
 
 $response["uid"] = $session['uid'];
@@ -18,5 +22,4 @@ $response["address"] = $session['address'];
 $response["city"] = $session['city'];
 $response["postalcode"] = $session['postalcode'];
 $response["tel"] = $session['tel'];
-echoResponse(200, $session);
-?>
+echoResponse(200, $response);
