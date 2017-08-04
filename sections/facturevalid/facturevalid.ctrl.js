@@ -34,10 +34,15 @@ angular
                 arrListCheckoutProds[key][value.idn_key] = value.random_str;
                 // arrListCheckoutProds.push(value.random_str);
             });
+
+            var valCoupon = sessionStorage.getItem("coupon");
+            if(!valCoupon) {
+                valCoupon = "";
+            }
             console.log(JSON.stringify(arrListCheckoutProds));
             $http({
                 method: 'GET',
-                params: {mode: 20, list: JSON.stringify(arrListCheckoutProds)},
+                params: {mode: 20, list: JSON.stringify(arrListCheckoutProds), coupon:valCoupon},
                 url: 'api/v1/sampleControl.php'
             }).then(function successCallback(response) {
                     vm.arrProduits = [];

@@ -462,7 +462,7 @@ if ($mode == 0) {
     $frais_livraison = 0;
     $totalPrixHT = 0;
     foreach ($arrListKeys as $val) {
-        foreach ($val as $key=>$item){
+        foreach ($val as $key => $item) {
             $tempProd = new temp_prod();
             $tempProd = $tempProd->findByComboKeyRandom($key, $item);
             chromePHP::log($tempProd->getIdProduit() . "   :::");
@@ -478,10 +478,10 @@ if ($mode == 0) {
     $orders = new orders_main();
     $orders->setIdUser($id_user);
     $orders->setTotalLivraisonHT($frais_livraison);
-    $orders->setTotalLivraisonTTC(number_format(($frais_livraison * $tva->getValue())/100 + $frais_livraison, 2,  '.', ''));
-    $orders->setTotalPrixHT(number_format($totalPrixHT, 2,  '.', ''));
-    $orders->setTotalPrixTTC(number_format((($totalPrixHT * $tva->getValue()) / 100) + $totalPrixHT, 2,  '.', ''));
-    $orders->setTax(number_format((($totalPrixHT * $tva->getValue()) / 100), 2,  '.', ''));
+    $orders->setTotalLivraisonTTC(number_format(($frais_livraison * $tva->getValue()) / 100 + $frais_livraison, 2, '.', ''));
+    $orders->setTotalPrixHT(number_format($totalPrixHT, 2, '.', ''));
+    $orders->setTotalPrixTTC(number_format((($totalPrixHT * $tva->getValue()) / 100) + $totalPrixHT, 2, '.', ''));
+    $orders->setTax(number_format((($totalPrixHT * $tva->getValue()) / 100), 2, '.', ''));
     $orders->setStatus("NEW");
     $orders->setCreatedBy($id_user);
     $orders->setModifiedBy($id_user);
@@ -490,9 +490,20 @@ if ($mode == 0) {
     $orders->save();
     $lastID = $orders->fnGetLastId();
 
+    $couponMain = new coupon_main();
+    $couponMain = $couponMain->findByPrimaryKey($_GET["coupon"]);
+    if($couponMain){
+        $couponDetail = new coupon_details();
+        $couponDetail = $couponDetail->findByCouponUser($_GET["coupon"], $_SESSION["uid"]);
+        $couponDetail->setFlag("USED");
+        $couponDetail->setDateUsed(date("Y-m-d"));
+        $couponDetail->setIdOrder($lastID);
+        $couponDetail->save();
+    }
+
     foreach ($arrListKeys as $val1) {
         //chromePHP::log($val1);
-        foreach ($val1 as $key=>$item){
+        foreach ($val1 as $key => $item) {
             //chromePHP::log(">>>  ".$key." :: ".$item);
             $tempProd = new temp_prod();
             $tempProd = $tempProd->findByComboKeyRandom($key, $item);
@@ -515,11 +526,11 @@ if ($mode == 0) {
                 $orders_details->setContours($tempProd->getContours());
                 $orders_details->setLiserai($tempProd->getLiserai());
                 $orders_details->setOpt($tempProd->getOpt());
-                $orders_details->setPrixHT(number_format(($tempProd->getUnitPrix() * $tempProd->getQte()), 2,  '.', ''));
-                $orders_details->setPrixTTC(number_format(((($tempProd->getUnitPrix() * $tempProd->getQte()) * $tva->getValue()) / 100) + ($tempProd->getUnitPrix() * $tempProd->getQte()), 2,  '.', ''));
+                $orders_details->setPrixHT(number_format(($tempProd->getUnitPrix() * $tempProd->getQte()), 2, '.', ''));
+                $orders_details->setPrixTTC(number_format(((($tempProd->getUnitPrix() * $tempProd->getQte()) * $tva->getValue()) / 100) + ($tempProd->getUnitPrix() * $tempProd->getQte()), 2, '.', ''));
                 $orders_details->setUnitPrix($tempProd->getUnitPrix());
-                $orders_details->setPrixLivraisonHT(number_format($fraisLivraison["price"], 2,  '.', ''));
-                $orders_details->setPrixLivraisonTTC(number_format(($fraisLivraison["price"]*$tva->getValue())/100 + $fraisLivraison["price"], 2,  '.', ''));
+                $orders_details->setPrixLivraisonHT(number_format($fraisLivraison["price"], 2, '.', ''));
+                $orders_details->setPrixLivraisonTTC(number_format(($fraisLivraison["price"] * $tva->getValue()) / 100 + $fraisLivraison["price"], 2, '.', ''));
                 $orders_details->setIdSupport($tempProd->getIdSupport());
                 $orders_details->setSupport($tempProd->getSupport());
                 $orders_details->setQte($tempProd->getQte());
@@ -538,10 +549,10 @@ if ($mode == 0) {
 
                 $TEMPIMGLOC = 'tempimg.png';
 
-                $dataURI    = $tempProd->getbase64Image();
-               /* $dataPieces = explode(',',$dataURI);
-                $encodedImg = $dataPieces[1];
-                $decodedImg = base64_decode($encodedImg);*/
+                $dataURI = $tempProd->getbase64Image();
+                /* $dataPieces = explode(',',$dataURI);
+                 $encodedImg = $dataPieces[1];
+                 $decodedImg = base64_decode($encodedImg);*/
 
 //  Check if image was properly decoded
                 //if( $decodedImg!==false )
@@ -553,71 +564,69 @@ if ($mode == 0) {
                         $facture = new FPDF();
                         $facture->AddPage();
                         $facture->SetFont('Arial', 'B', 16);
-                        $facture->Cell(40,10,'EXAKOM');
-                        $facture->Cell(0,10,'Facture No. '.$lastID["id"], 0, 0, 'R');
+                        $facture->Cell(40, 10, 'EXAKOM');
+                        $facture->Cell(0, 10, 'Facture No. ' . $lastID["id"], 0, 0, 'R');
                         $facture->Ln(5);
-                        $facture->SetTextColor(105,105,105);
+                        $facture->SetTextColor(105, 105, 105);
                         $facture->SetFont('Arial', 'I', 12);
-                        $facture->Cell(40,10,'7, Rue de Castellane');
+                        $facture->Cell(40, 10, '7, Rue de Castellane');
                         $facture->Ln(5);
-                        $facture->Cell(40,10,'75008 PARIS');
+                        $facture->Cell(40, 10, '75008 PARIS');
                         $facture->Ln(5);
-                        $facture->Cell(40,10,'FR81 822624334 00014');
+                        $facture->Cell(40, 10, 'FR81 822624334 00014');
                         $facture->Ln(15);
 
                         $facture->SetFont('Arial', '', 12);
-                        $facture->Cell(40,10,'Date: ');
-                        $facture->Cell(65,10,'04/27/2017');
+                        $facture->Cell(40, 10, 'Date: ');
+                        $facture->Cell(65, 10, '04/27/2017');
                         $facture->Ln(5);
 
-                        $facture->Cell(40,10,'Code de client ');
-                        $facture->Cell(65,10,'123F001');
+                        $facture->Cell(40, 10, 'Code de client ');
+                        $facture->Cell(65, 10, '123F001');
                         $facture->Ln(5);
 
-                        $facture->Cell(40,10,'No Siret ');
-                        $facture->Cell(65,10,'8226244334 00014');
+                        $facture->Cell(40, 10, 'No Siret ');
+                        $facture->Cell(65, 10, '8226244334 00014');
                         $facture->Ln(10);
 
-                        $facture->Cell(40,10,'Pour la communaute Europeenne  ');
+                        $facture->Cell(40, 10, 'Pour la communaute Europeenne  ');
                         $facture->Ln(5);
-                        $facture->Cell(40,10,'numero de TVA intracomuautaire obligatoire');
+                        $facture->Cell(40, 10, 'numero de TVA intracomuautaire obligatoire');
                         $facture->Ln(5);
-                        $facture->Cell(40,10,'FR81 82262443334 00014 ');
+                        $facture->Cell(40, 10, 'FR81 82262443334 00014 ');
                         $facture->Ln(5);
-
 
 
                         $pdf = new FPDF();
                         $pdf->AddPage();
-                        $pdf->SetFont('Arial','B',16);
-                        $pdf->Cell(40,10,'No COMMANDE:'.$lastID["id"]);
+                        $pdf->SetFont('Arial', 'B', 16);
+                        $pdf->Cell(40, 10, 'No COMMANDE:' . $lastID["id"]);
                         //$pdf->Image($TEMPIMGLOC, 10,30, 200);
-                        $pdf->Image("../imgs_temp/".$dataURI, 10,30,150, 250);
-                        $filename="../pdf/".$orders_details['id'].'.pdf';
-                        $fileNameFacture="../pdf/factures/".$lastID["id"].'.pdf';
+                        $pdf->Image("../imgs_temp/" . $dataURI, 10, 30, 150, 250);
+                        $filename = "../pdf/" . $orders_details['id'] . '.pdf';
+                        $fileNameFacture = "../pdf/factures/" . $lastID["id"] . '.pdf';
                         foreach ($tempProd->getData() as $ligne) {
                             foreach ($ligne->elements as $elem) {
-                               // chromePHP::log($elem);
+                                // chromePHP::log($elem);
                                 $pdf->AddPage();
-                                $pdf->Cell(40,10,'Composants: ' . $ligne->title);
+                                $pdf->Cell(40, 10, 'Composants: ' . $ligne->title);
                                 $pdf->Ln(5);
-                                if($elem->type == 'image') {
-                                    $pdf->Cell(0, 25, $elem->title.' : '. $elem->type);
+                                if ($elem->type == 'image') {
+                                    $pdf->Cell(0, 25, $elem->title . ' : ' . $elem->type);
                                     $pdf->Ln(2);
-                                    $pdf->Image("../../".$elem->source, 10,30,150, 250);
-                                }
-                                else if($elem->type=='text') {
-                                    $pdf->Cell(0, 25, $elem->title.' : '. $elem->type);
+                                    $pdf->Image("../../" . $elem->source, 10, 30, 150, 250);
+                                } else if ($elem->type == 'text') {
+                                    $pdf->Cell(0, 25, $elem->title . ' : ' . $elem->type);
                                     $pdf->Ln(2);
-                                    $pdf->Cell(0, 50, 'Police: '.$elem->parameters->fontFamily);
+                                    $pdf->Cell(0, 50, 'Police: ' . $elem->parameters->fontFamily);
                                 }
                             }
                         }
-                        $pdf->Output($filename,'F');
-                        $facture->Output($fileNameFacture,'F');
+                        $pdf->Output($filename, 'F');
+                        $facture->Output($fileNameFacture, 'F');
 
                         //  Delete image from server
-                      //  unlink($TEMPIMGLOC);
+                        //  unlink($TEMPIMGLOC);
                     }
                 }
             }
@@ -632,7 +641,7 @@ if ($mode == 0) {
     $idUser = $_SESSION['uid'];
     $user = new users();
     $user = $user->findByPrimaryKey($idUser);
-    $paysClient  = $user->getPays();
+    $paysClient = $user->getPays();
 
     $mail->isSMTP();                                      // Set mailer to use SMTP
     $mail->Host = 'mail.exakom.fr';  // Specify main and backup SMTP servers
@@ -643,7 +652,7 @@ if ($mode == 0) {
     $mail->Port = 25;                                    // TCP port to connect to
 
     $mail->setFrom('contact@exakom.fr', 'Exakom');
-    $mail->addAddress($user->getEmail(), strtoupper($user->getName() ). " " . strtoupper($user->getSurname()));     // Add a recipient
+    $mail->addAddress($user->getEmail(), strtoupper($user->getName()) . " " . strtoupper($user->getSurname()));     // Add a recipient
 //$mail->addAddress('ellen@example.com');               // Name is optional
     $mail->addReplyTo('contact@exakom.fr', 'Information');
 //$mail->addCC('cc@example.com');
@@ -653,33 +662,29 @@ if ($mode == 0) {
 //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
     $mail->isHTML(true);                                  // Set email format to HTML
 
-    if($pays == 'FR') {
+    if ($pays == 'FR') {
         $mail->Subject = utf8_decode('Réception de commande Exakom');
-        $mail->Body    = utf8_decode('Bonjour '. strtoupper($user->getName() ). " " . strtoupper($user->getSurname()) .", <br> Votre commande N° ".$orders_details['id']." a bien été enregistré, vous recevrez bientôt votre facture. <br> Cordialment <br> Exakom");
+        $mail->Body = utf8_decode('Bonjour ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Votre commande N° " . $orders_details['id'] . " a bien été enregistré, vous recevrez bientôt votre facture. <br> Cordialment <br> Exakom");
 
-    }
-    else if($pays == "EN") {
+    } else if ($pays == "EN") {
         $mail->Subject = utf8_decode('Exakom order receipt');
-        $mail->Body    = utf8_decode('Hello '. strtoupper($user->getName() ). " " . strtoupper($user->getSurname()) .", <br> Your order N° ".$orders_details['id']." has been registered, you will soon receive your invoice. <br> Regards <br> Exakom");
-    }
-    else if($pays == "AL") {
+        $mail->Body = utf8_decode('Hello ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Your order N° " . $orders_details['id'] . " has been registered, you will soon receive your invoice. <br> Regards <br> Exakom");
+    } else if ($pays == "AL") {
         $mail->Subject = utf8_decode('Exakom bestellen quittung');
-        $mail->Body    = utf8_decode('Hallo '. strtoupper($user->getName() ). " " . strtoupper($user->getSurname()) .", <br> Ihre Bestellung Nr ".$orders_details['id']." registriert worden ist, werden Sie bald Ihre Rechnung. <br> Grüße <br> Exakom");
-    }
-    else if($pays == "ES") {
+        $mail->Body = utf8_decode('Hallo ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Ihre Bestellung Nr " . $orders_details['id'] . " registriert worden ist, werden Sie bald Ihre Rechnung. <br> Grüße <br> Exakom");
+    } else if ($pays == "ES") {
         $mail->Subject = utf8_decode('Recibo de pedido de Exakom');
-        $mail->Body    = utf8_decode('Holla '. strtoupper($user->getName() ). " " . strtoupper($user->getSurname()) .", <br> Su orden N ° ".$orders_details['id']." haya sido registrada, pronto recibirá su factura. <br> Saludos <br> Exakom");
-    }
-    else if($pays == "IT") {
+        $mail->Body = utf8_decode('Holla ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Su orden N ° " . $orders_details['id'] . " haya sido registrada, pronto recibirá su factura. <br> Saludos <br> Exakom");
+    } else if ($pays == "IT") {
         $mail->Subject = utf8_decode('Ricevuta di ordine Exakom');
-        $mail->Body    = utf8_decode('Ciao '. strtoupper($user->getName() ). " " . strtoupper($user->getSurname()) .", <br> Il tuo ordine N °  ".$orders_details['id']." è stato registrato, riceverai presto la tua fattura.<br> Saluti <br> Exakom");
+        $mail->Body = utf8_decode('Ciao ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Il tuo ordine N °  " . $orders_details['id'] . " è stato registrato, riceverai presto la tua fattura.<br> Saluti <br> Exakom");
     }
 
-    if(!$mail->send()) {
+    if (!$mail->send()) {
         //echo 'Message could not be sent.';
-       // echo 'Mailer Error: ' . $mail->ErrorInfo;
+        // echo 'Mailer Error: ' . $mail->ErrorInfo;
     } else {
-       // echo 'Message has been sent';
+        // echo 'Message has been sent';
     }
 
     $mailAdmin->isSMTP();                                      // Set mailer to use SMTP
@@ -702,9 +707,9 @@ if ($mode == 0) {
     $mailAdmin->isHTML(true);                                  // Set email format to HTML
 
     $mailAdmin->Subject = utf8_decode('Réception de commande');
-    $mailAdmin->Body    = utf8_decode('Bonjour Exakom'. " <br> Une nouvelle commande a été fait par le client ".$user->getName() ." " .$user->getSurname()." <br> No Commande: ".$orders_details['id']." <br> Bien à vous, <br> Exakom.");
+    $mailAdmin->Body = utf8_decode('Bonjour Exakom' . " <br> Une nouvelle commande a été fait par le client " . $user->getName() . " " . $user->getSurname() . " <br> No Commande: " . $orders_details['id'] . " <br> Bien à vous, <br> Exakom.");
 
-    if(!$mailAdmin->send()) {
+    if (!$mailAdmin->send()) {
         //echo 'Message could not be sent.';
         // echo 'Mailer Error: ' . $mail->ErrorInfo;
     } else {
@@ -712,7 +717,7 @@ if ($mode == 0) {
     }
 
 
-    print_r( "done");
-} else if($mode == 21) {
+    print_r("done");
+} else if ($mode == 21) {
 
 }

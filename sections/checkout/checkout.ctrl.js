@@ -97,8 +97,10 @@ console.clear();
             if(vm.discountCode == "") {
                 vm.isDiscountChecked = true;
                 vm.strMsgCode = "Code Invalid";
+                sessionStorage.removeItem("coupon");
                 return;
             }
+            sessionStorage.removeItem("coupon");
             vm.isDiscountChecked = true;
             vm.strMsgCode = "Verification Code";
             $http({
@@ -109,10 +111,12 @@ console.clear();
                 console.log(response);
                 if(response.data.authentificate == 'NOTVALID') {
                     vm.strMsgCode = "Code Invalid";
+                    sessionStorage.removeItem("coupon");
                 }
                 else{
                     vm.strMsgCode = "Remise: " + response.data.montant + " %";
                     vm.montants.montant_net = (vm.montants.montant_net * (1- (response.data.montant / 100))).toFixed(2);
+                    sessionStorage.setItem("coupon", response.data.id);
                 }
             }, function errorCallback(error) {
                 console.log(error);

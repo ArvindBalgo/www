@@ -422,15 +422,31 @@ if ($mode == 0) {
         $couponMain = new coupon_main();
         $couponMain = $couponMain->findByPrimaryKey($coupon_detail["id_coupon"]);
         if ($couponMain) {
-            $row["authentificate"] = "VERIFIED";
-            $row["montant"] = $couponMain->getVal();
+            $start_ts = strtotime($couponMain->getDateStart());
+            $end_ts = strtotime($couponMain->getDateEnd());
+            $user_ts = strtotime(date('Y-m-d'));
+
+            // Check that user date is between start & end
+
+            if(($user_ts >= $start_ts) && ($user_ts <= $end_ts)) {
+                $row["authentificate"] = "VERIFIED";
+                $row["montant"] = $couponMain->getVal();
+                $row["id"] = $couponMain->getId();
+            }
+            else {
+                $row["authentificate"] = "NOTVALID";
+                $row["montant"] = "0";
+                $row["id"] = 0;
+            }
         } else {
             $row["authentificate"] = "NOTVALID";
             $row["montant"] = "0";
+            $row["id"] = 0;
         }
     } else {
         $row["authentificate"] = "NOTVALID";
         $row["montant"] = "0";
+        $row["id"] = 0;
     }
     print json_encode($row);
 }

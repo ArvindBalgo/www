@@ -183,6 +183,14 @@ class coupon_details
             return $rows;
         }
 
+    public function findByCouponUser($key, $user)
+    { // Recherche d'une adresse par id
+        $requete = self::$SELECT . " WHERE id_coupon=" . $key." and id_user=".$user;
+        $rs = $this->conn->query($requete);
+
+        return $this->mapSqlToObject(mysqli_fetch_array($rs));
+    }
+
     public function getCountByCoupon($id) {
         $requete = "select count(*) as cnt from coupon_details where id_coupon=".$id;
         $rs = $this->conn->query($requete);
