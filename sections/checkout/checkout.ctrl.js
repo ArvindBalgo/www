@@ -8,7 +8,7 @@ angular
         vm.id=0;
         vm.arrContents = [];
         vm.isFrance = false;
-        vm.montants = {frais_livr: 0, prix_total_ht: 0, tax: 0, prix_ttc: 0, montant_net: 0};
+        vm.montants = {frais_livr: 0, prix_total_ht: 0, tax: 0, prix_ttc: 0, montant_net: 0, montant_net_orig:0};
         vm.arrProduits = [];
         vm.userDetails = [];
         vm.discountCode = "";
@@ -79,6 +79,7 @@ console.clear();
                 vm.montants.prix_ttc = Number(vm.montants.prix_total_ht) + Number(vm.montants.tax);
                 vm.montants.prix_ttc = (vm.montants.prix_ttc).toFixed(2);
                 vm.montants.montant_net = Number((vm.montants.prix_ttc)) + Number((vm.montants.frais_livr)) + Number(vm.montants.taxLivr);
+                vm.montants.montant_net_orig = Number((vm.montants.prix_ttc)) + Number((vm.montants.frais_livr)) + Number(vm.montants.taxLivr);
                 vm.montants.montant_net = vm.montants.montant_net;
 
                 console.log("************************************************");
@@ -115,7 +116,7 @@ console.clear();
                 }
                 else{
                     vm.strMsgCode = "Remise: " + response.data.montant + " %";
-                    vm.montants.montant_net = (vm.montants.montant_net * (1- (response.data.montant / 100))).toFixed(2);
+                    vm.montants.montant_net = (vm.montants.montant_net_orig * (1- (response.data.montant / 100))).toFixed(2);
                     sessionStorage.setItem("coupon", response.data.id);
                 }
             }, function errorCallback(error) {
