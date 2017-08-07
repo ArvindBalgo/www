@@ -1,7 +1,6 @@
 angular
     .module('myApp')
     .controller('ficheController', function ($scope, $location, $timeout, messages, $http, Data, $translate, $routeParams) {
-        console.log('fiche controller');
         $(".modal-backdrop").remove();
         $("body").removeClass("modal-open");
         var vm = this;
@@ -34,7 +33,6 @@ angular
             $('[data-toggle="popover"]').popover()
         });
 
-        //console.log("FACT VALUE:: ", messages.list);
         vm.arrProduits = [];
         var count = Number(sessionStorage.getItem("produitCount"));
         if (count) {
@@ -97,33 +95,6 @@ angular
 
         vm.fnInit = function (idprod) {
 
-
-
-            /*$.ajax({
-             url: 'https://www.klikandpay.com/paiementtest/check.pl',
-             type: 'post',
-             dataType: 'json',
-             success: function (data) {
-             console.log("data");
-             },
-             data: {
-             NOM: 'arvind',
-             PRENOM:'BALGO',
-             ADDRESSE: 'LE GRAND ROAD',
-             CODEPOSTAL:'65065',
-             VILLE:'GRAND BOIS',
-             PAYS:'FR',
-             TEL:'6175942',
-             ID:'1234567890',
-             MONTANT:'1200'                }
-             }).done(function (data) {});*/
-
-
-            console.log("**************************************");
-            console.log(localStorage.idModelMetier);
-            console.log(vm.currentProd);
-            console.log(idprod);
-            console.log("**************************************");
             $http({
                 method: 'GET',
                 params: {mode: 9, metier: localStorage.idModelMetier, id_model: idprod},
@@ -952,7 +923,6 @@ angular
                     //create an image
                     $('#image-button').click(function () {
                         var image = yourDesigner.createImage();
-                        console.log(image);
                         return false;
                     });
 
@@ -960,14 +930,13 @@ angular
                     //checkout button with getProduct()
                     $('#checkout-button').click(function () {
                         var product = yourDesigner.getProduct();
-                        console.log(product);
                         return;
                         $http({
                             method: 'GET',
                             params: {mode: 2, data: product},
                             url: 'api/v1/sampleControl.php'
                         }).then(function successCallback(response) {
-                            console.log(response.data, "  ::data");
+
                         }, function errorCallback(error) {
                             console.log(error);
                         });
@@ -1001,13 +970,12 @@ angular
 
                     });
                     vm.fnNouveau = function () {
-                        console.log("NOUVEAU");
                         $http({
                             method: 'GET',
                             params: {mode: 1, type: 0},
                             url: 'api/v1/sampleControl.php'
                         }).then(function successCallback(response) {
-                            console.log(response);
+
                         }, function errorCallback(error) {
                             console.log(error);
                         });
@@ -1015,24 +983,16 @@ angular
 
                     vm.fnOpenModal = function () {
                         $scope.product = yourDesigner.getProduct();
-                        console.log($scope.product);
                         $('#myModel').modal();
                     }
 
                     vm.fnQuitter = function () {
-                        console.log("annuler");
                         $('#myModel').modal('hide');
                     };
 
                     vm.fnValider = function () {
 
                         yourDesigner.getProductDataURL(function (dataURL) {
-                            console.log("LIBELLE:: ", vm.libelle);
-                            console.log("DEscription:: ", vm.description);
-                            console.log("Reference:: ", vm.reference);
-                            console.log("selected: ", $(".selObj").select2().val());
-                            console.log("valider", yourDesigner.getProduct());
-
                             if (vm.libelle == '' || vm.description == '' || $(".selObj").select2().val() == '' || $(".selObj").select2().val() == null) {
                                 bootbox.alert("Toutes les informations sont obligatoire");
                                 return;
@@ -1054,34 +1014,25 @@ angular
 
                     vm.fnSauvegarde = function () {
                         var product = yourDesigner.getProduct();
-                        console.log("SAUVEGARDE");
                         $http({
                             method: 'GET',
                             params: {mode: 2, data: product},
                             url: 'api/v1/sampleControl.php'
                         }).then(function successCallback(response) {
-                            console.log(response.data, "  ::data");
                         }, function errorCallback(error) {
                             console.log(error);
                         });
-                        console.log(product);
-                        console.log("*******************");
                     };
 
                     vm.fnImage = function () {
                         yourDesigner.getProductDataURL(function (dataURL) {
                             $.post("api/save_image.php", {base64_image: dataURL}).success(function (data) {
-                                // console.log(data);
-                                console.log("TESTING ISSUE ");
+
                             })
                         });
                     };
 
                     vm.fnModelClick = function (id, id_model_metier) {
-                        //console.clear();
-                        console.log("***********************************");
-                        console.log(id, id_model_metier);
-                        console.log("************************************");
                         vm.prodEnCours = [];
                         vm.produit.titre = "";
                         vm.produit.commentaire = "";
@@ -1115,7 +1066,6 @@ angular
 
                             // clear and add new option
                             $(".sel_dimensions").html('').select2({data: arrDataDims});
-                            console.log(arrDimensions, "  array of dimensions");
 
                             $('.sel_qte').html('').select2({data: [{id: '', text: ''}]});
 
@@ -1795,11 +1745,9 @@ angular
 
                     vm.fnValidMaquette = function () {
                         Data.get('session.php').then(function (results) {
-                            console.log(results, "  DATA results");
                             if (results.uid) {
                                 $scope.isLogged = true;
                                 $scope.utilisateur = results.name;
-                                console.log(vm.arrProduits, " array produits");
                                 vm.fnGetFraisLivr();
                             }
                             else if (!results.uid) {
@@ -1813,15 +1761,13 @@ angular
                     }
 
                     vm.fnSaveProduit = function () {
-                        //  console.clear();
-                        console.log(vm.arrProduits);
                         var arrListCheckoutProds = new Array();
                         angular.forEach(vm.arrProduits, function (value, key) {
                             arrListCheckoutProds[key] = {};
                             arrListCheckoutProds[key][value.idn_key] = value.random_str;
                             // arrListCheckoutProds.push(value.random_str);
                         });
-                        console.log(JSON.stringify(arrListCheckoutProds));
+
                         $http({
                             method: 'GET',
                             params: {mode: 20, list: JSON.stringify(arrListCheckoutProds)},
@@ -1836,37 +1782,22 @@ angular
                             , function errorCallback(error) {
                                 console.log(error);
                             });
-
-
-                        /* bootbox.alert('Votre Schèma a été enregistré.');
-                         toastr.options.positionClass = 'toast-top-right';
-                         toastr.success("Enregistrement terminé");
-                         //localStorage.setItem("id_model", $id_cata);
-
-
-
-                         $("#modalMaquette").modal('hide');*/
                     };
 
                     vm.fnGetFraisLivr = function () {
                         $('#modalPanier').modal('hide');
                         $location.path('/checkout');
                         return;
-                        console.log(vm.arrProduits);
                         var arrKeysDL = [];
                         angular.forEach(vm.arrProduits, function (value) {
                             arrKeysDL.push({'idprod': value.idProduit, 'qte': value.qte, 'dimension': value.dimension});
                         });
-                        console.log(arrKeysDL);
 
                         $http({
                             method: 'GET',
                             params: {mode: 19, data: JSON.stringify(arrKeysDL)},
                             url: 'api/v1/sampleControl.php'
                         }).then(function successCallback(response) {
-                            //console.clear();
-                            console.log(vm.arrProduits);
-                            console.log(response.data);
                             var arrFraisLivr = response.data;
 
                             vm.montants.frais_livr = 0;
@@ -1889,7 +1820,6 @@ angular
                             vm.montants.tax = ((Number(arrFraisLivr.tax) / 100) * vm.montants.prix_total_ht).toFixed(2);
                             vm.montants.taxLivr = ((Number(arrFraisLivr.tax) / 100) * vm.montants.frais_livr).toFixed(2);
                             vm.montants.valTax = (1 + (Number(arrFraisLivr.tax) / 100));
-                            console.log(vm.montants.valTax, " tax value");
                             vm.montants.prix_ttc = Number(vm.montants.prix_total_ht) + Number(vm.montants.tax);
                             vm.montants.prix_ttc = (vm.montants.prix_ttc).toFixed(2);
                             vm.montants.montant_net = Number((vm.montants.prix_ttc)) + Number((vm.montants.frais_livr)) + Number(vm.montants.taxLivr);
@@ -1902,7 +1832,7 @@ angular
                         });
 
 
-                    }
+                    };
 
                     vm.fnAddBasket = function () {
                         if (typeof vm.produit.titre == 'undefined' || (vm.produit.titre).trim() == "") {
@@ -1920,8 +1850,6 @@ angular
                                         callback: function () {
                                             var countProduit = 0;
                                             var arrProds = [];
-
-                                            console.log(vm.arrCurrentQtes, vm.arrCurrentDims, " -----");
                                             if (sessionStorage.produitCount) {
                                                 countProduit = Number(sessionStorage.produitCount) + 1;
                                             }
@@ -1959,7 +1887,6 @@ angular
                                                     type: 'post',
                                                     dataType: 'json',
                                                     success: function (data) {
-                                                        console.log("data");
                                                     },
                                                     data: {
                                                         modified: false,
@@ -2012,7 +1939,6 @@ angular
                                             var countProduit = 0;
                                             var arrProds = [];
 
-                                            console.log(vm.arrCurrentQtes, vm.arrCurrentDims, " -----");
                                             if (sessionStorage.produitCount) {
                                                 countProduit = Number(sessionStorage.produitCount) + 1;
                                             }
@@ -2051,7 +1977,7 @@ angular
                                                     type: 'post',
                                                     dataType: 'json',
                                                     success: function (data) {
-                                                        console.log("data");
+
                                                     },
                                                     data: {
                                                         modified: true,
@@ -2107,8 +2033,7 @@ angular
                                     url: 'api/v1/save_img.php',
                                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                                 }).then(function successCallback(response) {
-                                    // console.clear();
-                                    console.log(response.data);
+
                                 }, function errorCallback(error) {
                                     console.log(error);
                                 });
@@ -2141,7 +2066,7 @@ angular
                                 obj.arrQtes = vm.arrCurrentQtes;
                                 obj.idProduit = vm.productList[0].id;
 
-                                console.log(obj);
+
                                 if (typeof vm.produit.commentaire == 'undefined') {
                                     vm.produit.commentaire = " ";
                                 }
@@ -2201,7 +2126,6 @@ angular
                                     vm.arrProduits = [];
                                     toastr.options.positionClass = 'toast-top-right';
                                     toastr.success('Produit rajouté');
-                                    console.log(error);
                                 });
 
                             });
@@ -2209,20 +2133,6 @@ angular
 
 
                         return;
-                        // console.clear();
-                        console.log("vois si produit en cour de modifs", vm.prodEnCours);
-                        /*if (vm.prodEnCours.length != 0) {
-
-
-                         return;
-                         }*/
-
-                        yourDesigner.getProductDataURL(function (dataURL) {
-
-                            //obj.base64_image    = dataURL;
-
-                        });
-
 
                     };
 
@@ -2236,21 +2146,6 @@ angular
                             });
                         }
 
-                        console.log(vm.arrProduits, " arrr produits local");
-                        //POST data http
-
-                        /*$http({
-                         method: 'POST',
-                         data: $.param({mode:1}),
-                         url: 'api/v1/recupTempProd.php',
-                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                         }).then(function successCallback(response) {
-                         console.log(response.data);
-                         vm.arrProduits = response.data;
-                         }, function errorCallback(error) {
-                         console.log(error);
-                         });
-                         */
                         $("#modalPanier").modal();
                     };
 
@@ -2292,7 +2187,6 @@ angular
                     vm.fnEditClient = function (produit) {
                         $("#modalPanier").modal('hide');
                         $('body').addClass("spinner");
-                        console.log(produit, " produit par fn");
                         vm.prodEnCours = produit;
                         $http({
                             method: 'POST',
@@ -2304,7 +2198,6 @@ angular
                                 $('body').removeClass("spinner");
                                 z = response.data;
                                 var ligne = response.data;
-                                console.log(ligne);
                                 ligne.data = JSON.parse(ligne.data);
                                 vm.productList[0] = ligne;
                                 $('input[name="optescargot"]').val([vm.productList[0].escargot_val]);
@@ -2316,7 +2209,6 @@ angular
 
                                 // clear and add new option
                                 $(".sel_dimensions").html('').select2({data: produit.arrDims});
-                                console.log(arrDimensions, "  array of dimensions");
 
                                 $('.sel_qte').html('').select2({data: [{id: '', text: ''}]});
 
@@ -2326,7 +2218,6 @@ angular
                                 $(".sel_dimensions").val(vm.productList[0].id_dimension).change();
                                 $(".sel_qte").val(vm.productList[0].id_qte).change();
 
-                                console.log(ligne, " current prod selected");
                                 vm.produit.titre = produit.title;
                                 vm.produit.commentaire = ligne.commentaire;
                                 angular.forEach(ligne.data, function (value) {
@@ -2576,7 +2467,7 @@ angular
                                     label: "Non",
                                     className: "btn-secondary",
                                     callback: function () {
-                                        console.log("Annulation");
+
                                     }
                                 },
                                 valider: {
@@ -2630,7 +2521,6 @@ angular
                                 }
                             })
                         }
-                        console.log(vm.unitprix, " :: ", vm.prixvente);
                         if (flag != 1) {
                             $scope.$apply();
                         }
@@ -2638,7 +2528,6 @@ angular
                     }
 
                     vm.loadCustomImg = function () {
-                        console.log("adkj");
                         yourDesigner.addCustomImage('images/gallery/TEST/Picture2.png', ' Arvind');
                     };
 
@@ -2648,7 +2537,6 @@ angular
 
                     vm.fnImagesLoad = function (ligne) {
                         vm.imagesList = ligne.data;
-                        console.log(vm.imagesList, "  images list care");
                         $('#imagesListModal').modal();
                     }
 
@@ -2668,7 +2556,6 @@ angular
             params: {mode: 2},
             url: 'api/v1/policesCRUD.php'
         }).then(function successCallback(response) {
-            console.log(response.data, " liste of images");
             vm.fonts = response.data;
 
             $http({
@@ -2676,7 +2563,6 @@ angular
                 params: {mode: 6},
                 url: 'api/v1/imageInfo.php'
             }).then(function successCallback(response) {
-                console.log(response.data, " liste of images");
                 vm.productsDesign = response.data;
                 vm.fnInit(vm.currentProd);
             }, function errorCallback(error) {
@@ -2694,9 +2580,6 @@ angular
                 params: {mode: 0, id: localStorage.idMetier},
                 url: 'api/v1/sampleControl.php'
             }).then(function successCallback(response) {
-                //console.log(response.data);
-                //vm.models = response.data;
-                // console.log(vm.models);
                 vm.models = [];
                 vm.gabarits = [];
 
@@ -2714,8 +2597,6 @@ angular
                     $('.modal-body').css('height', $(window).height() * 0.75);
                 });
                 $('#galleryModal').modal();
-                //$("#galleryModal").modal();
-                console.log(vm.listMetier);
                 $(".sel_metier").select2({
                     theme: "classic",
                     data: vm.listMetier.metier
@@ -2750,8 +2631,6 @@ angular
                 params: {mode: 14, id: id_model},
                 url: 'api/v1/sampleControl.php'
             }).then(function successCallback(response) {
-                //console.log(response.data);
-                // vm.models = response.data;
                 vm.modelsTous = response.data;
                 vm.models = [];
                 vm.gabarits = [];
@@ -2763,8 +2642,6 @@ angular
                         vm.gabarits.push(value);
                     }
                 })
-
-                console.log(vm.models);
             }, function errorCallback(error) {
                 console.log(error);
             });
@@ -2776,11 +2653,7 @@ angular
                 params: {mode: 8},
                 url: 'api/v1/sampleControl.php'
             }).then(function successCallback(response) {
-                //console.log(response.data);
-                //console.clear();
-                console.log(response.data);
                 var id_metier = localStorage.idMetier;
-                console.log(id_metier, " metier ");
                 vm.listMetier = response.data;
 
                 vm.fnGallery();
@@ -2801,13 +2674,11 @@ angular
         };
 
         $scope.doLogin = function (customer) {
-            console.log("FICHE CONTROL");
             Data.post('loginClient.php', {
                 customer: customer
             }).then(function (results) {
                 Data.toast(results);
                 if (results.status == "success") {
-                    console.log($location.path(), " lcoation path");
                     if (results.uid) {
                         if ($location.path().indexOf('fichetech') == -1) {
                             $location.path('home');
@@ -2820,8 +2691,6 @@ angular
                             $scope.isLogged = true;
                             $scope.utilisateur = results.name;
                         }, 0);
-
-                        console.log($scope.isLogged, " logging dunction");
                     }
 
                     toastr.options.positionClass = 'toast-top-right';
@@ -2843,25 +2712,17 @@ angular
             }).then(function (results) {
                 Data.toast(results);
                 if (results.status == "success") {
-                    //$location.path('home');
-                    console.log("REGISTRATION SUCCESFULL : ", results);
                     $('#myModal').modal('hide');
                     $('#signupFiche').modal('hide');
-                    //vm.fnValidMaquette();
                 }
             });
         };
 
         vm.fnCheckOut = function () {
-            //console.clear();
-            console.log($scope.sessionInfo);
             vm.fnValidMaquette();
         }
 
         vm.doLogin = function (login) {
-            //console.clear();
-            console.log(login);
-            console.log(vm.login);
         };
 
         var lang = sessionStorage.getItem("LANG");
@@ -2893,7 +2754,6 @@ angular
         if (lang == "" || lang == null) {
             lang = "FR";
         }
-        console.log(lang, " this is the lang")
 
         $translate.use(sessionStorage.getItem('LANG'));
         $http({
@@ -2901,7 +2761,6 @@ angular
             params: {mode: 3, lang: lang},
             url: 'api/v1/langueCRUD.php'
         }).then(function successCallback(response) {
-            console.log(response.data);
             $scope.langue = angular.copy(response.data);
         });
         vm.setLang = function (langKey) {
@@ -2910,7 +2769,6 @@ angular
         };
 
         $scope.$watch('isActualLang', function (ov, nv) {
-            console.log(ov, nv, " module fichier");
             vm.setLang(sessionStorage.getItem("LANG"));
             var lang = sessionStorage.getItem("LANG");
 

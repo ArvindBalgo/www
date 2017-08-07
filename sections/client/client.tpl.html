@@ -5,7 +5,8 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" ng-click="client.fnToggleTab(1)"><span class="glyphicon glyphicon-folder-close">
+                        <a data-toggle="collapse" data-parent="#accordion" ng-click="client.fnToggleTab(1)"><span
+                                class="glyphicon glyphicon-folder-close">
                             </span>{{'commandes' | translate}}</a>
                     </h4>
                 </div>
@@ -14,7 +15,8 @@
                         <table class="table">
                             <tr>
                                 <td>
-                                    <span class="glyphicon glyphicon-flash text-primary"></span><a ng-click="client.fnChangeDiv('commandes')">{{'commandes_list' | translate}}</a>
+                                    <span class="glyphicon glyphicon-flash text-primary"></span><a
+                                        ng-click="client.fnChangeDiv('commandes')">{{'commandes_list' | translate}}</a>
                                 </td>
                             </tr>
                         </table>
@@ -24,7 +26,8 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
-                        <a data-toggle="collapse" data-parent="#accordion" ng-click="client.fnToggleTab(3)"><span class="glyphicon glyphicon-user">
+                        <a data-toggle="collapse" data-parent="#accordion" ng-click="client.fnToggleTab(3)"><span
+                                class="glyphicon glyphicon-user">
                             </span>{{'compte' | translate}}</a>
                     </h4>
                 </div>
@@ -33,12 +36,14 @@
                         <table class="table">
                             <tr>
                                 <td>
-                                    <span class="glyphicon glyphicon-random text-danger"></span><a ng-click="client.fnChangeDiv('password')">{{'change_password' | translate}}</a>
+                                    <span class="glyphicon glyphicon-random text-danger"></span><a
+                                        ng-click="client.fnChangeDiv('password')">{{'change_password' | translate}}</a>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <span class="glyphicon glyphicon-cog text-warning"></span><a ng-click="client.fnChangeDiv('params')">{{'params' | translate}}</a>
+                                    <span class="glyphicon glyphicon-cog text-warning"></span><a
+                                        ng-click="client.fnChangeDiv('params')">{{'params' | translate}}</a>
                                 </td>
                             </tr>
                         </table>
@@ -52,11 +57,13 @@
         <table ng-table="client.tableParams" class="table table-condensed table-bordered table-striped">
             <tr ng-repeat="row in $data">
                 <td data-title="langue.client_no_commande" filter="{id: 'number'}" sortable="'id'">{{row.id}}</td>
-                <td data-title="langue.client_nb_prod"  sortable="'num_prods'">{{row.num_prods}}</td>
+                <td data-title="langue.client_nb_prod" sortable="'num_prods'">{{row.num_prods}}</td>
                 <td data-title="langue.client_tax" sortable="'tax'"><b>{{row.tax | currency : "€ "}}</b></td>
-                <td data-title="langue.client_prix_ttc" filter="{total_prix_ttc: 'number'}" sortable="'total_prix_ttc'"><b>{{row.total_prix_ttc | currency : "€ "}}</b></td>
+                <td data-title="langue.client_prix_ttc" filter="{total_prix_ttc: 'number'}" sortable="'total_prix_ttc'">
+                    <b>{{row.total_prix_ttc | currency : "€ "}}</b></td>
                 <td data-title="langue.client_date_commande" sortable="'date_created'">{{row.date_commande}}</td>
-                <td data-title="langue.client_status"  sortable="'status'"><span class="badge">{{row.status_val}}</span></td>
+                <td data-title="langue.client_status" sortable="'status'"><span class="badge">{{row.status_val}}</span>
+                </td>
                 <td data-title="">
                     <button class="btn btn-info btn-circle" ng-click="client.fnLoadModal(row.id)">i</button>
                 </td>
@@ -123,7 +130,8 @@
                 <label>{{'pays' | translate}}</label>
                 <input type="text" ng-model="client.infoClient.pays" disabled>
             </md-input-container>
-            <md-button class="md-raised md-primary" ng-click="client.fnValidInfo()">{{'valider' | translate}}</md-button>
+            <md-button class="md-raised md-primary" ng-click="client.fnValidInfo()">{{'valider' | translate}}
+            </md-button>
         </div>
     </div>
 </div>
@@ -132,13 +140,18 @@
     <div>
         <div class="signature">
             <div class="col-md-4">
-                <span class='block-image' ng-show="client.isFrance"><img style="width: 80px; height: 80px;" src="images/Logo_fabrique_en_france.png"></span>
-                <span class='block-image'><img style="width: 80px; height: 80px;" src="images/logo_Imprim_vert_vert.png"></span>
+                <span class='block-image' ng-show="client.isFrance"><img style="width: 80px; height: 80px;"
+                                                                         src="images/Logo_fabrique_en_france.png"></span>
+                <span class='block-image'><img style="width: 80px; height: 80px;"
+                                               src="images/logo_Imprim_vert_vert.png"></span>
                 <span class='block-image'><img style="width: 80px; height: 80px;" src="images/moton71.png"></span>
                 <span class='block-image'><img style="width: 80px; height: 80px;" src="images/moton73.png"></span>
             </div>
             <div class="col-md-offset-4" style="padding-top: 50px">
-                <a href="#/apropos" style="color: white">{{'whois' | translate}}</a> / <a style="color: white " href="#/conditionvente">{{'vente_conditions' | translate}}</a> / <a style="color: white " href="#/utilisation">{{'usage_utils' | translate}}</a> / <a style="color: white " href="#/legale">{{'usage_legal' | translate}}</a>
+                <a href="#/apropos" style="color: white">{{'whois' | translate}}</a> / <a style="color: white "
+                                                                                          href="#/conditionvente">{{'vente_conditions'
+                | translate}}</a> / <a style="color: white " href="#/utilisation">{{'usage_utils' | translate}}</a> / <a
+                    style="color: white " href="#/legale">{{'usage_legal' | translate}}</a>
             </div>
         </div>
     </div>
@@ -149,7 +162,8 @@
     <div class="modal-dialog" style="width: 75%;height: 510px;">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" ng-click="client.fnRemoveModal()" aria-hidden="true">&times;</button>
+                <button type="button" class="close" ng-click="client.fnRemoveModal()" aria-hidden="true">&times;
+                </button>
                 <h4 class="modal-title"> {{'client_description' | translate}}</h4>
             </div>
             <div class="modal-body" style="height: 450px;overflow: auto">
@@ -157,17 +171,25 @@
                     <tr ng-repeat="row in $data">
                         <td data-title="langue.client_titre" sortable="'title'">{{row.title}}</td>
                         <td data-title="langue.client_dimension" sortable="'dimension'">{{row.dimension}}</td>
-                        <td data-title="langue.client_attach_escargot" sortable="'attach_escargot'">{{row. attach_escargot}}</td>
+                        <td data-title="langue.client_attach_escargot" sortable="'attach_escargot'">{{row.
+                            attach_escargot}}
+                        </td>
                         <td data-title="langue.client_contours" sortable="'contours'">{{row.contours}}</td>
                         <td data-title="langue.client_liserai" sortable="'liserai'">{{row.liserai}}</td>
-                        <td data-title="langue.client_prix_unitaire" sortable="'prix_unitaire'">{{row.prix_unitaire | currency : "€ "}}</td>
-                        <td data-title="langue.client_prix_ttc" sortable="'prix_ttc'">{{row.prix_ttc | currency : "€ "}}</td>
+                        <td data-title="langue.client_prix_unitaire" sortable="'prix_unitaire'">{{row.prix_unitaire |
+                            currency : "€ "}}
+                        </td>
+                        <td data-title="langue.client_prix_ttc" sortable="'prix_ttc'">{{row.prix_ttc | currency : "€
+                            "}}
+                        </td>
                         <td data-title="langue.client_commentaire" sortable="'commentaire'">{{row.commentaire}}</td>
                     </tr>
                 </table>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" ng-click="client.fnRemoveModal()">{{'quit' | translate}}</button>
+                <button type="button" class="btn btn-default pull-left" ng-click="client.fnRemoveModal()">{{'quit' |
+                    translate}}
+                </button>
             </div>
         </div>
     </div>

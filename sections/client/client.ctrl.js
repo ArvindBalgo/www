@@ -9,14 +9,13 @@ angular
         vm.password = "";
         vm.password1 = "";
         vm.password2 = "";
-        vm.infoClient  = [];
+        vm.infoClient = [];
 
         $http({
             method: 'GET',
             params: {mode: 3, lang: lang},
             url: 'api/v1/langueCRUD.php'
         }).then(function successCallback(response) {
-            console.log(response.data);
             $scope.langue = angular.copy(response.data);
         });
 
@@ -26,8 +25,6 @@ angular
             url: 'api/v1/commande.php',
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function successCallback(response) {
-            console.log(response.data);
-
             vm.myOrders = response.data;
 
             vm.tableParams = new NgTableParams({}, {
@@ -53,29 +50,36 @@ angular
                 params: {mode: 3, lang: sessionStorage.getItem("LANG")},
                 url: 'api/v1/langueCRUD.php'
             }).then(function successCallback(response) {
-                console.log(response.data);
                 $scope.langue = angular.copy(response.data);
             });
         });
 
-        vm.fnRemoveModal = function() {
+        vm.fnRemoveModal = function () {
             $('#detailsCommande').modal('hide');
         };
 
-        vm.fnValidInfo = function() {
-            console.clear();
-            console.log(vm.infoClient);
-            if(vm.infoClient.company_name == "" ||vm.infoClient.email == "" || vm.infoClient.surname == "" || vm.infoClient.name == "" | vm.infoClient.phone == "" | vm.infoClient.address == "" || vm.infoClient.city == "" || vm.infoClient.postalcode == "" || vm.infoClient.pays == "") {
+        vm.fnValidInfo = function () {
+            if (vm.infoClient.company_name == "" || vm.infoClient.email == "" || vm.infoClient.surname == "" || vm.infoClient.name == "" | vm.infoClient.phone == "" | vm.infoClient.address == "" || vm.infoClient.city == "" || vm.infoClient.postalcode == "" || vm.infoClient.pays == "") {
                 bootbox.alert("Error");
             }
-            else{
+            else {
                 $http({
                     method: 'POST',
-                    data: $.param({mode: 9,company_name:vm.infoClient.company_name,surname:vm.infoClient.surname, name:vm.infoClient.name, address:vm.infoClient.address, phone:vm.infoClient.phone, city:vm.infoClient.city, postalcode:vm.infoClient.postalcode, pays:vm.infoClient.pays, siret:vm.infoClient.siret}),
+                    data: $.param({
+                        mode: 9,
+                        company_name: vm.infoClient.company_name,
+                        surname: vm.infoClient.surname,
+                        name: vm.infoClient.name,
+                        address: vm.infoClient.address,
+                        phone: vm.infoClient.phone,
+                        city: vm.infoClient.city,
+                        postalcode: vm.infoClient.postalcode,
+                        pays: vm.infoClient.pays,
+                        siret: vm.infoClient.siret
+                    }),
                     url: 'api/v1/commande.php',
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(function successCallback(response) {
-                    console.log(response.data);
                     toastr.options.positionClass = 'toast-top-right';
                     bootbox.alert("Info sauvegarder");
                     vm.fnChangeDiv("params");
@@ -85,14 +89,13 @@ angular
 
         };
 
-        vm.fnLoadModal = function(id) {
+        vm.fnLoadModal = function (id) {
             $http({
                 method: 'POST',
-                data: $.param({mode: 7, id:id}),
+                data: $.param({mode: 7, id: id}),
                 url: 'api/v1/commande.php',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function successCallback(response) {
-                console.log(response.data);
                 $('#detailsCommande').modal('show');
                 vm.infoCommandes = new NgTableParams({}, {
                     dataset: response.data
@@ -148,27 +151,24 @@ angular
         };
 
         vm.fnChangeDiv = function (flag) {
-            console.log("div cliekd")
-            console.log(vm.isDiv);
-            if(flag == 'commandes') {
+            if (flag == 'commandes') {
                 $("#espaceClient").show();
                 $("#divPass").hide();
                 $("#divParams").hide();
             }
-            else if(flag == 'password') {
+            else if (flag == 'password') {
                 $("#espaceClient").hide();
                 $("#divPass").show();
                 $("#divParams").hide();
             }
-            else if(flag == 'params') {
+            else if (flag == 'params') {
 
                 $http({
                     method: 'POST',
-                    data: $.param({mode:8}),
+                    data: $.param({mode: 8}),
                     url: 'api/v1/commande.php',
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(function successCallback(response) {
-                    console.log(response.data);
                     vm.infoClient = response.data;
                     $("#espaceClient").hide();
                     $("#divPass").hide();
@@ -177,35 +177,29 @@ angular
             }
         };
 
-        vm.fnVerifPass = function() {
-            console.log(vm.password);
-            console.log(vm.password1);
-            console.log(vm.password2);
-            if(vm.password == "" || vm.password1 == "" || vm.password2 == "") {
+        vm.fnVerifPass = function () {
+            if (vm.password == "" || vm.password1 == "" || vm.password2 == "") {
                 bootbox.alert($scope.langue.msg_error);
                 return;
             }
-            else if(vm.password2 !== vm.password1) {
+            else if (vm.password2 !== vm.password1) {
                 bootbox.alert($scope.langue.msg_error1);
                 return;
             }
             $http({
                 method: 'POST',
-                data: $.param({password:vm.password, password1:vm.password1, password2:vm.password2}),
+                data: $.param({password: vm.password, password1: vm.password1, password2: vm.password2}),
                 url: 'api/v1/updatePass.php',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function successCallback(response) {
-                if(response.data == 0) {
-                    console.log(response.data);
+                if (response.data == 0) {
                     bootbox.alert($scope.langue.msg_error);
                     return;
                 }
-                else{
+                else {
                     bootbox.alert($scope.langue.save_success);
                     return;
                 }
             });
-
         }
-
     });

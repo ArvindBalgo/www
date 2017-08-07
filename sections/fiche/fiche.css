@@ -1,10 +1,12 @@
-.imgScroll{
+.imgScroll {
     cursor: pointer;
-    height:250px;
+    height: 250px;
 }
-.paddingTable{
+
+.paddingTable {
     padding: 3px
 }
+
 .btn-circle1 {
     width: 30px;
     height: 30px;
@@ -14,18 +16,22 @@
     line-height: 1.428571429;
     border-radius: 15px;
 }
-#tab1.active > a{
+
+#tab1.active > a {
     background-color: purple;
     color: white;
 }
-#tab2.active > a{
+
+#tab2.active > a {
     background-color: purple;
     color: white;
 }
-#tab1 > a{
+
+#tab1 > a {
 
 }
-#tab2 > a{
+
+#tab2 > a {
 
 }
 

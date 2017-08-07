@@ -18,7 +18,6 @@ angular
                 params: {mode:3, type:4, param:param},
                 url: 'api/v1/metierCRUD.php'
             }).then(function successCallback(response) {
-                console.log(response.data);
                 vm.id=response.data.id;
                 vm.title = response.data.title;
                 vm.contenu = response.data.description;
@@ -33,7 +32,6 @@ angular
             params: {mode:3, lang:lang},
             url: 'api/v1/langueCRUD.php'
         }).then(function successCallback(response) {
-            console.log(response.data);
             $scope.langue = angular.copy(response.data);
             vm.fnInit();
         });

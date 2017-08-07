@@ -8,16 +8,24 @@
             <table border="1">
                 <th class="paddingTable">{{'titre' | translate}}</th>
                 <th class="paddingTable">{{'qte' | translate}}</th>
-                <th class="paddingTable">{{'unit_price' | translate}} <small>(Euro)</small></th>
-                <th class="paddingTable">Prix HT <small>(Euro)</small></th>
-                <th class="paddingTable">Prix TTC <small>(Euro)</small></th>
+                <th class="paddingTable">{{'unit_price' | translate}}
+                    <small>(Euro)</small>
+                </th>
+                <th class="paddingTable">Prix HT
+                    <small>(Euro)</small>
+                </th>
+                <th class="paddingTable">Prix TTC
+                    <small>(Euro)</small>
+                </th>
                 <tr ng-repeat="(key, ligne) in checkout.arrProduits">
                     <td class="paddingTable">{{ligne.title}}</td>
                     <td class="paddingTable">{{ligne.qte}}</td>
                     <td class="paddingTable" style="font-weight: bold; font-size: smaller"> {{ligne.unitprix}}</td>
                     <td class="paddingTable" style="font-weight: bold; font-size: smaller"> {{(ligne.unitprix *
-                        ligne.qte).toFixed(2)}} </td>
-                    <td class="paddingTable" style="font-weight: bold; font-size: smaller"> {{(ligne.unitprix * ligne.qte *
+                        ligne.qte).toFixed(2)}}
+                    </td>
+                    <td class="paddingTable" style="font-weight: bold; font-size: smaller"> {{(ligne.unitprix *
+                        ligne.qte *
                         checkout.montants.valTax).toFixed(2)}}
                     </td>
                 </tr>
@@ -44,7 +52,8 @@
                     totale HT : </label>
                 <label class="label label-primary"
                        style="font-size: large; width: 165px;display: inline-block;text-align: right;">{{checkout.montants.prix_total_ht}}
-                    <small> Euro</small></label>
+                    <small> Euro</small>
+                </label>
             </div>
             <div class="col-md-12" style="margin-bottom: 25px;">
                 <label class="label label-default"
@@ -52,7 +61,8 @@
                     : </label>
                 <label class="label label-primary"
                        style="font-size: large; width: 165px;display: inline-block;text-align: right;">{{checkout.montants.tax}}
-                    <small> Euro</small></label>
+                    <small> Euro</small>
+                </label>
             </div>
             <div class="col-md-12" style="margin-bottom: 25px;">
                 <label class="label label-default"
@@ -60,13 +70,15 @@
                     totale TTC : </label>
                 <label class="label label-primary"
                        style="font-size: large; width: 165px;display: inline-block;text-align: right;">{{checkout.montants.prix_ttc}}
-                    <small> Euro</small></label>
+                    <small> Euro</small>
+                </label>
             </div>
             <div class="col-md-12" style="margin-bottom: 25px;">
                 <label class="label label-default"
                        style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">Coupon
                     Discount : </label>
-                <input type="text" style="width: 165px;" ng-blur="checkout.fnCheckCode()" ng-model="checkout.discountCode">
+                <input type="text" style="width: 165px;" ng-blur="checkout.fnCheckCode()"
+                       ng-model="checkout.discountCode">
                 <label class="label label-default" ng-show="checkout.isDiscountChecked">{{checkout.strMsgCode}}</label>
             </div>
             <div class="col-md-12" style="margin-bottom: 25px;">
@@ -75,7 +87,8 @@
                     Net : </label>
                 <label class="label label-primary"
                        style="font-size: large; width: 165px;display: inline-block;text-align: right;">{{checkout.montants.montant_net}}
-                    <small> Euro</small></label>
+                    <small> Euro</small>
+                </label>
             </div>
         </div>
     </div>
@@ -84,7 +97,8 @@
             <label class="label label-info">{{'billing' | translate}}</label>
         </div>
         <div class="col-md-12">
-            <form method="POST" action="https://www.klikandpay.com/paiement/order1.pl" accept-charset="UTF8" id="knp-form" target="_top">
+            <form method="POST" action="https://www.klikandpay.com/paiement/order1.pl" accept-charset="UTF8"
+                  id="knp-form" target="_top">
                 <table border="0" cellpadding="2" cellspacing="0" width="20%">
                     <meta charset="UTF-8">
                     <tr>
@@ -117,23 +131,28 @@
                     </tr>
                     <tr style="display: none;">
                         <td width="50%">{{'chk_surname' | translate}}:</td>
-                        <td width="50%"><input type="text" name="NOM" size="24" ng-model="checkout.userDetails.surname"></td>
+                        <td width="50%"><input type="text" name="NOM" size="24" ng-model="checkout.userDetails.surname">
+                        </td>
                     </tr>
                     <tr style="display: none;">
                         <td width="50%">{{'chk_name' | translate}}:</td>
-                        <td width="50%"><input type="text" name="PRENOM" size="24" ng-model="checkout.userDetails.name"></td>
+                        <td width="50%"><input type="text" name="PRENOM" size="24" ng-model="checkout.userDetails.name">
+                        </td>
                     </tr>
                     <tr style="display: none;">
                         <td width="50%">{{'chk_address' | translate}}:</td>
-                        <td width="50%"><input type="text" name="ADDRESSE" size="24" ng-model="checkout.userDetails.address"></td>
+                        <td width="50%"><input type="text" name="ADDRESSE" size="24"
+                                               ng-model="checkout.userDetails.address"></td>
                     </tr>
                     <tr style="display: none">
                         <td width="50%">{{'chk_codepostal' | translate}}:</td>
-                        <td width="50%"><input type="text" name="CODEPOSTAL" size="24" ng-model="checkout.userDetails.postalcode"></td>
+                        <td width="50%"><input type="text" name="CODEPOSTAL" size="24"
+                                               ng-model="checkout.userDetails.postalcode"></td>
                     </tr>
                     <tr style="display: none;">
                         <td width="50%">{{'chk_city' | translate}}:</td>
-                        <td width="50%"><input type="text" name="VILLE" size="24" ng-model="checkout.userDetails.city"></td>
+                        <td width="50%"><input type="text" name="VILLE" size="24" ng-model="checkout.userDetails.city">
+                        </td>
                     </tr>
                     <!--<tr style="display: none;">
                         <td width="50%">Country:</td>
@@ -148,17 +167,24 @@
                     </td>-->
                     <tr style="display: none">
                         <td width="50%">{{'chk_tel' | translate}}:</font></td>
-                        <td width="50%"><input type="text" name="TEL" size="24" ng-model="checkout.userDetails.tel"></td>
+                        <td width="50%"><input type="text" name="TEL" size="24" ng-model="checkout.userDetails.tel">
+                        </td>
                     </tr>
                     <tr style="display: none">
                         <td width="50%">{{'chk_email' | translate}}:</font></td>
-                        <td width="50%"><input type="text" name="EMAIL" size="24" ng-model="checkout.userDetails.email"></td>
+                        <td width="50%"><input type="text" name="EMAIL" size="24" ng-model="checkout.userDetails.email">
+                        </td>
                     </tr>
                     <input type="hidden" name="ID" value="1494249383">
                     <input name="MONTANT" type="hidden" value="{{checkout.montants.montant_net}}">
                     <tr>
                         <td width="100%" colspan="2">
-                            <p align="center"><button class="btn btn-lg btn-success" value="Facturation" ng-click="checkout.fnPay()">{{'paiement' | translate}}</button></p></td>
+                            <p align="center">
+                                <button class="btn btn-lg btn-success" value="Facturation" ng-click="checkout.fnPay()">
+                                    {{'paiement' | translate}}
+                                </button>
+                            </p>
+                        </td>
                     </tr>
                 </table>
             </form>
@@ -169,13 +195,18 @@
 <footer>
     <div class="signature">
         <div class="col-md-4">
-            <span class='block-image' ng-show="apropos.isFrance"><img style="width: 60px; height: 60px;" src="images/Logo_fabrique_en_france.png"></span>
-            <span class='block-image'><img style="width: 60px; height: 60px;" src="images/logo_Imprim_vert_vert.png"></span>
+            <span class='block-image' ng-show="apropos.isFrance"><img style="width: 60px; height: 60px;"
+                                                                      src="images/Logo_fabrique_en_france.png"></span>
+            <span class='block-image'><img style="width: 60px; height: 60px;"
+                                           src="images/logo_Imprim_vert_vert.png"></span>
             <span class='block-image'><img style="width: 60px; height: 60px;" src="images/moton71.gif"></span>
             <span class='block-image'><img style="width: 60px; height: 60px;" src="images/moton73.gif"></span>
         </div>
         <div class="col-md-offset-4" style="padding-top: 50px">
-            <a href="#/apropos" style="color: white">{{'whois' | translate}}</a> / <a style="color: white " href="#/conditionvente">{{'vente_conditions' | translate}}</a> / <a style="color: white " href="#/utilisation">{{'usage_utils' | translate}}</a> / <a style="color: white " href="#/legale">{{'usage_legal' | translate}}</a>
+            <a href="#/apropos" style="color: white">{{'whois' | translate}}</a> / <a style="color: white "
+                                                                                      href="#/conditionvente">{{'vente_conditions'
+            | translate}}</a> / <a style="color: white " href="#/utilisation">{{'usage_utils' | translate}}</a> / <a
+                style="color: white " href="#/legale">{{'usage_legal' | translate}}</a>
         </div>
     </div>
 </footer>

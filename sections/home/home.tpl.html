@@ -1,25 +1,19 @@
 <header ng-include="'sections/header.html'"></header>
 
-<div id="panier_btn" class="a2a_kit a2a_kit_size_52 a2a_floating_style a2a_vertical_style" style="right:0px; top:200px;background-color: transparent;">
-    <!--button class="btn btn-warning"><div class="glyphicon glyphicon-shopping-cart"></div><div>{{langue.panier}}</div></button-->
-    <img ng-src="{{home.linkmonpanier}}" style="width:120px; height:65px;cursor:pointer;" ng-click="home.fnClickPanier()">
+<div id="panier_btn" class="a2a_kit a2a_kit_size_52 a2a_floating_style a2a_vertical_style"
+     style="right:0px; top:200px;background-color: transparent;">
+    <img ng-src="{{home.linkmonpanier}}" style="width:120px; height:65px;cursor:pointer;"
+         ng-click="home.fnClickPanier()">
 </div>
-<!--p>
-    <a ng-click="setLang('EN')">English</a>
-
-    <a  ng-click="setLang('FR')">FRENCH</a>
-</p>
-
-<h1>{{'contact' | translate}}</h1-->
-
-
-<!--script async src="https://static.addtoany.com/menu/page.js"></script-->
 <script src="js/page.js" type="application/javascript"></script>
-
-<!--div-- id="fixed-div"><button class="btn btn-danger" >TEST</button></div-->
 <div class="row" style="margin-left: 0px;margin-right: 0px;">
     <div class="col-md-12">
-        <div class="col-md-2 metierPadding" ng-repeat="boulot in home.btnMetier"><button  id="{{boulot.id}}" type="button" class="btn btn-default  btn3d" ng-class="{ active: boulot.id == home.activeId }" ng-click="home.fnClickBtn(boulot)"><b >{{boulot.key_libelle | translate}}<br><span style="font-size: 10px">{{boulot.key_sub_libelle | translate}}</span></b></button></div>
+        <div class="col-md-2 metierPadding" ng-repeat="boulot in home.btnMetier">
+            <button id="{{boulot.id}}" type="button" class="btn btn-default  btn3d"
+                    ng-class="{ active: boulot.id == home.activeId }" ng-click="home.fnClickBtn(boulot)"><b>{{boulot.key_libelle
+                | translate}}<br><span style="font-size: 10px">{{boulot.key_sub_libelle | translate}}</span></b>
+            </button>
+        </div>
     </div>
 </div>
 <div class="row" style="margin-left: 0px;margin-right: 0px;">
@@ -28,23 +22,30 @@
             <div class="tileImg" ng-click="home.fnImgClick(metier)">
                 <img style="width: 200px; height: 200px" src="{{metier.src}}">
                 <span><p>{{metier.key_libelle | translate}}</p></span>
-                <!--span><p>{{metier.description}}</p></span-->
             </div>
         </div>
     </div>
     <div class="col-md-3">
         <div class="encart-droite">
-            <ul >
+            <ul>
                 <li ng-repeat="instruction in home.instructions">{{instruction.instruction}}</li>
             </ul>
         </div>
         <div style="margin-top: 15px; padding-top: 10px">
-            <iframe width="90%" height="100%" src="https://www.youtube.com/embed/iU9EH1JzvXI" frameborder="0" allowfullscreen></iframe>
+            <iframe width="90%" height="100%" src="https://www.youtube.com/embed/iU9EH1JzvXI" frameborder="0"
+                    allowfullscreen></iframe>
             <div class="row col-md-2">
-                <div class="fb-like" data-href="http://exakom.fr/#/home" data-width="50" data-layout="button_count" data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
+                <div class="fb-like" data-href="http://exakom.fr/#/home" data-width="50" data-layout="button_count"
+                     data-action="like" data-size="small" data-show-faces="true" data-share="true"></div>
             </div>
-            <div class="fb-comments" data-href="http://exakom.fr/#/home" data-width="50" data-numposts="5" style="padding-top:25px; display:block"></div>
-            <div class="fb-page" data-href="https://www.facebook.com/Exakom-363970297318409/" data-tabs="timeline" data-small-header="true" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/Exakom-363970297318409/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/Exakom-363970297318409/">Exakom</a></blockquote></div>
+            <div class="fb-comments" data-href="http://exakom.fr/#/home" data-width="50" data-numposts="5"
+                 style="padding-top:25px; display:block"></div>
+            <div class="fb-page" data-href="https://www.facebook.com/Exakom-363970297318409/" data-tabs="timeline"
+                 data-small-header="true" data-adapt-container-width="true" data-hide-cover="false"
+                 data-show-facepile="true">
+                <blockquote cite="https://www.facebook.com/Exakom-363970297318409/" class="fb-xfbml-parse-ignore"><a
+                        href="https://www.facebook.com/Exakom-363970297318409/">Exakom</a></blockquote>
+            </div>
         </div>
     </div>
     <div class="col-md-1"></div>
@@ -81,7 +82,8 @@
                 <li class="eu25"><a href="javascript: void(0)">Liechtenstein</a></li>
                 <li class="eu26"><a href="javascript: void(0)">Lithuania</a></li>
                 <li class="eu27"><a href="javascript: void(0)">Luxembourg</a></li>
-                <li class="eu28"><a href="javascript: void(0)">Macedonia <abbr title="The Former Yugoslav Republic of Macedonia">(F.Y.R.O.M.)</abbr></a></li>
+                <li class="eu28"><a href="javascript: void(0)">Macedonia <abbr
+                        title="The Former Yugoslav Republic of Macedonia">(F.Y.R.O.M.)</abbr></a></li>
                 <li class="eu29"><a href="javascript: void(0)">Malta</a></li>
                 <li class="eu30"><a href="javascript: void(0)">Moldova</a></li>
                 <li class="eu31"><a href="javascript: void(0)">Monaco</a></li>
@@ -126,13 +128,18 @@
     <div>
         <div class="signature">
             <div class="col-md-4">
-                <span class='block-image' ng-show="home.isFrance"><img style="width: 80px; height: 80px;" src="images/Logo_fabrique_en_france.png"></span>
-                <span class='block-image'><img style="width: 80px; height: 80px;" src="images/logo_Imprim_vert_vert.png"></span>
+                <span class='block-image' ng-show="home.isFrance"><img style="width: 80px; height: 80px;"
+                                                                       src="images/Logo_fabrique_en_france.png"></span>
+                <span class='block-image'><img style="width: 80px; height: 80px;"
+                                               src="images/logo_Imprim_vert_vert.png"></span>
                 <span class='block-image'><img style="width: 80px; height: 80px;" src="images/moton71.png"></span>
                 <span class='block-image'><img style="width: 80px; height: 80px;" src="images/moton73.png"></span>
             </div>
             <div class="col-md-offset-4" style="padding-top: 50px">
-                <a href="#/apropos" style="color: white">{{'whois' | translate}}</a> / <a style="color: white " href="#/conditionvente">{{'vente_conditions' | translate}}</a> / <a style="color: white " href="#/utilisation">{{'usage_utils' | translate}}</a> / <a style="color: white " href="#/legale">{{'usage_legal' | translate}}</a>
+                <a href="#/apropos" style="color: white">{{'whois' | translate}}</a> / <a style="color: white "
+                                                                                          href="#/conditionvente">{{'vente_conditions'
+                | translate}}</a> / <a style="color: white " href="#/utilisation">{{'usage_utils' | translate}}</a> / <a
+                    style="color: white " href="#/legale">{{'usage_legal' | translate}}</a>
             </div>
         </div>
     </div>
@@ -143,11 +150,13 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" ng-click="home.fnRemoveModal()" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><img style="height: 20px;width: 20px;text-align: center;align-content: center" src="{{home.src}}"> {{home.description}} </h4>
+                <h4 class="modal-title"><img style="height: 20px;width: 20px;text-align: center;align-content: center"
+                                             src="{{home.src}}"> {{home.description}} </h4>
             </div>
             <div class="modal-body" style="height: 450px;overflow: auto">
-                <div class="col-md-3" style="margin-bottom: 5px; margin-top: 5px;" ng-repeat="sample in home.sampleMetier">
-                    <div class="tileImg" style="height: 250px" ng-click="home.fnImgClick2(sample)" >
+                <div class="col-md-3" style="margin-bottom: 5px; margin-top: 5px;"
+                     ng-repeat="sample in home.sampleMetier">
+                    <div class="tileImg" style="height: 250px" ng-click="home.fnImgClick2(sample)">
                         <img style="width: 200px; height: 200px" src="{{sample.src}}">
                         <span><p style="height: 50px">{{sample.key_description | translate}} </p></span>
                         <!--span><p style="height: 50px">{{sample.description}} </p></span-->
@@ -155,7 +164,9 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" ng-click="home.fnRemoveModal()">{{'quit' | translate}}</button>
+                <button type="button" class="btn btn-default pull-left" ng-click="home.fnRemoveModal()">{{'quit' |
+                    translate}}
+                </button>
             </div>
         </div>
     </div>
@@ -166,7 +177,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" ng-click="home.fnRemoveModal()" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><img style="height: 20px;width: 20px;text-align: center;align-content: center" src="{{home.src}}"> {{home.scat.key_description | translate}} </h4>
+                <h4 class="modal-title"><img style="height: 20px;width: 20px;text-align: center;align-content: center"
+                                             src="{{home.src}}"> {{home.scat.key_description | translate}} </h4>
             </div>
             <div class="modal-body" style="height: 450px;overflow: auto">
                 <div class="row">
@@ -175,27 +187,35 @@
                     </div>
                 </div>
                 <ul class="nav nav-tabs">
-                    <li id="tab1" ng-class="{ active: home.activeTabId == 1 }" style="cursor: pointer" ng-click="home.fnClickTabs(1)"><a>{{'maquette_avec' | translate}}</a></li>
-                    <li id="tab2" ng-class="{ active: home.activeTabId == 2 }" style="cursor: pointer" ng-click="home.fnClickTabs(2)"><a>{{'maquette_sans' | translate}}</a></li>
+                    <li id="tab1" ng-class="{ active: home.activeTabId == 1 }" style="cursor: pointer"
+                        ng-click="home.fnClickTabs(1)"><a>{{'maquette_avec' | translate}}</a></li>
+                    <li id="tab2" ng-class="{ active: home.activeTabId == 2 }" style="cursor: pointer"
+                        ng-click="home.fnClickTabs(2)"><a>{{'maquette_sans' | translate}}</a></li>
                 </ul>
-                <div ng-show="home.activeTabId == 1" class="col-md-3" style="margin-bottom: 5px; margin-top: 5px;" ng-repeat="sample in home.arrProds">
-                    <div class="tileImg" style="height: 250px" ng-click="home.fnModelClick(sample.id, sample.id_modelmetier, sample.id_cata, sample.id_metier)" >
+                <div ng-show="home.activeTabId == 1" class="col-md-3" style="margin-bottom: 5px; margin-top: 5px;"
+                     ng-repeat="sample in home.arrProds">
+                    <div class="tileImg" style="height: 250px"
+                         ng-click="home.fnModelClick(sample.id, sample.id_modelmetier, sample.id_cata, sample.id_metier)">
                         <img style="width: 200px; height: 200px" src="{{sample.src}}">
-                        <!--span><p>{{sample.description}} </p></span-->
                         <span><p style="height: 50px">{{sample.key_description | translate}} </p></span>
                     </div>
                 </div>
-                <div ng-show="home.activeTabId == 2" class="col-md-3" style="margin-bottom: 5px; margin-top: 5px;" ng-repeat="sample in home.arrGabarits">
-                    <div class="tileImg" style="height:250px" ng-click="home.fnModelClick(sample.id, sample.id_modelmetier, sample.id_cata, sample.id_metier)" >
+                <div ng-show="home.activeTabId == 2" class="col-md-3" style="margin-bottom: 5px; margin-top: 5px;"
+                     ng-repeat="sample in home.arrGabarits">
+                    <div class="tileImg" style="height:250px"
+                         ng-click="home.fnModelClick(sample.id, sample.id_modelmetier, sample.id_cata, sample.id_metier)">
                         <img style="width: 200px; height: 200px" src="{{sample.src}}">
-                        <!--span><p>{{sample.description}} </p></span-->
                         <span><p style="height: 50px">{{sample.key_description | translate}} </p></span>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" ng-click="home.fnRemoveModal()">{{'quit' | translate}}</button>
-                <button type="button" class="btn btn-danger pull-right" ng-click="home.fnRetourCategory()">{{'return' | translate}}</button>
+                <button type="button" class="btn btn-default pull-left" ng-click="home.fnRemoveModal()">{{'quit' |
+                    translate}}
+                </button>
+                <button type="button" class="btn btn-danger pull-right" ng-click="home.fnRetourCategory()">{{'return' |
+                    translate}}
+                </button>
             </div>
         </div>
     </div>
@@ -208,7 +228,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><span class="glyphicon glyphicon-shopping-cart"></span><span> {{'panier_produit' | translate}}</span></h4>
+                <h4 class="modal-title"><span class="glyphicon glyphicon-shopping-cart"></span><span> {{'panier_produit' | translate}}</span>
+                </h4>
             </div>
             <div class="modal-body" style="overflow: hidden">
                 <div class="row">
@@ -226,7 +247,8 @@
                             <td class="paddingTable">{{ligne.title}}</td>
                             <!--Escargot-->
                             <td class="paddingTable" ng-show="ligne.escargot == 0">{{'aucun' | translate}}</td>
-                            <td class="paddingTable" ng-show="ligne.escargot == 1">{{'attache_escargot' | translate}}</td>
+                            <td class="paddingTable" ng-show="ligne.escargot == 1">{{'attache_escargot' | translate}}
+                            </td>
                             <td class="paddingTable" ng-show="ligne.escargot == 2">{{'avec_trou' | translate}}</td>
                             <!--Caractéristiques Optionnel-->
                             <td class="paddingTable" ng-show="ligne.opt==0">{{'aucun' | translate}}</td>
@@ -239,7 +261,11 @@
                             <td class="paddingTable">{{ligne.qte}}</td>
                             <!--td class="paddingTable">{{ligne.commentaire}}</td-->
                             <td class="paddingTable">{{ligne.prix}}</td>
-                            <td class="paddingTable" style="text-align: center"><button ng-show="home.fnShowButtonComm(ligne.commentaire)" type="button" class="btn btn-primary btn-circle1" ng-click="home.fnAlertCommentaire(ligne.commentaire)"><b>i</b></button></td>
+                            <td class="paddingTable" style="text-align: center">
+                                <button ng-show="home.fnShowButtonComm(ligne.commentaire)" type="button"
+                                        class="btn btn-primary btn-circle1"
+                                        ng-click="home.fnAlertCommentaire(ligne.commentaire)"><b>i</b></button>
+                            </td>
                             <td>
                                 <button type='button'
                                         class='btn btn-success btn-circle'
@@ -266,8 +292,11 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">{{'quit' | translate}}</button>
-                <button type="button" class="btn btn-success pull-right" ng-click="home.fnCheckout()">{{'valider' | translate}}</button>
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">{{'quit' | translate}}
+                </button>
+                <button type="button" class="btn btn-success pull-right" ng-click="home.fnCheckout()">{{'valider' |
+                    translate}}
+                </button>
             </div>
         </div>
     </div>

@@ -1,14 +1,13 @@
-
 angular
     .module('myApp')
-    .controller('checkoutController', function($scope, $location, $timeout, messages, $http, Data) {
+    .controller('checkoutController', function ($scope, $location, $timeout, messages, $http, Data) {
         var vm = this;
         vm.title = "";
         vm.contenu = "";
-        vm.id=0;
+        vm.id = 0;
         vm.arrContents = [];
         vm.isFrance = false;
-        vm.montants = {frais_livr: 0, prix_total_ht: 0, tax: 0, prix_ttc: 0, montant_net: 0, montant_net_orig:0};
+        vm.montants = {frais_livr: 0, prix_total_ht: 0, tax: 0, prix_ttc: 0, montant_net: 0, montant_net_orig: 0};
         vm.arrProduits = [];
         vm.userDetails = [];
         vm.discountCode = "";
@@ -18,20 +17,18 @@ angular
         if (vm.lang == "" || vm.lang == null) {
             vm.lang = "FR";
         }
-        if(vm.lang == 'AL') {
+        if (vm.lang == 'AL') {
             vm.lang = 'DE'
         }
-console.clear();
-        console.log(vm.lang);
-        vm.fnInit = function() {
+        vm.fnInit = function () {
             var param = sessionStorage.getItem('LANG');
-            if(param == "") {
+            if (param == "") {
                 param = "FR";
             }
         };
 
 
-        vm.fnGetInfo = function() {
+        vm.fnGetInfo = function () {
             vm.arrProduits = [];
             var count = Number(sessionStorage.getItem("produitCount"));
             var arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
@@ -51,9 +48,6 @@ console.clear();
                 params: {mode: 19, data: JSON.stringify(arrKeysDL)},
                 url: 'api/v1/sampleControl.php'
             }).then(function successCallback(response) {
-                //console.clear();
-                console.log(vm.arrProduits);
-                console.log(response.data);
                 var arrFraisLivr = response.data;
 
                 vm.montants.frais_livr = 0;
@@ -82,20 +76,13 @@ console.clear();
                 vm.montants.montant_net_orig = Number((vm.montants.prix_ttc)) + Number((vm.montants.frais_livr)) + Number(vm.montants.taxLivr);
                 vm.montants.montant_net = vm.montants.montant_net;
 
-                console.log("************************************************");
-                console.log(vm.montants);
-                console.log(vm.arrProduits);
-                console.log(arrFraisLivr);
-                console.log("************************************************");
-
             }, function errorCallback(error) {
                 console.log(error);
             });
         }
 
-        vm.fnCheckCode = function() {
-            console.log(vm.discountCode);
-            if(vm.discountCode == "") {
+        vm.fnCheckCode = function () {
+            if (vm.discountCode == "") {
                 vm.isDiscountChecked = true;
                 vm.strMsgCode = "Code Invalid";
                 sessionStorage.removeItem("coupon");
@@ -106,68 +93,101 @@ console.clear();
             vm.strMsgCode = "Verification Code";
             $http({
                 method: 'GET',
-                params: {mode:17, code:vm.discountCode},
+                params: {mode: 17, code: vm.discountCode},
                 url: 'api/v1/metierCRUD.php'
             }).then(function successCallback(response) {
-                console.log(response);
-                if(response.data.authentificate == 'NOTVALID') {
+                if (response.data.authentificate == 'NOTVALID') {
                     vm.strMsgCode = "Code Invalid";
                     sessionStorage.removeItem("coupon");
                 }
-                else{
+                else {
                     vm.strMsgCode = "Remise: " + response.data.montant + " %";
-                    vm.montants.montant_net = (vm.montants.montant_net_orig * (1- (response.data.montant / 100))).toFixed(2);
+                    vm.montants.montant_net = (vm.montants.montant_net_orig * (1 - (response.data.montant / 100))).toFixed(2);
                     sessionStorage.setItem("coupon", response.data.id);
                 }
             }, function errorCallback(error) {
                 console.log(error);
             });
 
-        }
-        vm.getInfoUser = function() {
+        };
+
+        vm.getInfoUser = function () {
             Data.get('session.php').then(function (results) {
-                console.log(results, "  DATA results");
                 if (results.uid) {
-                    console.log(results, "info results");
                     vm.userDetails = results;
                 }
                 $scope.sessionInfo = results;
-                });
-        }
+            });
+        };
 
         vm.fnPay = function () {
             vm.lang = sessionStorage.getItem("LANG");
             if (vm.lang == "" || vm.lang == null) {
                 vm.lang = "FR";
             }
-            if(vm.lang == 'AL') {
+            if (vm.lang == 'AL') {
                 vm.lang = 'DE'
             }
-            console.log(vm.lang , " ======");
-          //  document.getElementById("knp-form").submit();
+
+            vm.arrProduits = [];
+            var count = Number(sessionStorage.getItem("produitCount"));
+            var arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
+            if (arrProds != null) {
+                angular.forEach(arrProds, function (value) {
+                    vm.arrProduits.push(JSON.parse(sessionStorage.getItem(value)));
+                });
+            }
+
+            var arrListCheckoutProds = new Array();
+            angular.forEach(vm.arrProduits, function (value, key) {
+                arrListCheckoutProds[key] = {};
+                arrListCheckoutProds[key][value.idn_key] = value.random_str;
+                // arrListCheckoutProds.push(value.random_str);
+            });
+
+            var valCoupon = sessionStorage.getItem("coupon");
+            if (!valCoupon) {
+                valCoupon = "";
+            }
+            $http({
+                method: 'GET',
+                params: {mode: 20, list: JSON.stringify(arrListCheckoutProds), coupon: valCoupon},
+                url: 'api/v1/sampleControl.php'
+            }).then(function successCallback(response) {
+                    vm.arrProduits = [];
+                    //sessionStorage.clear();
+                    toastr.success("Order Confirmed");
+                }
+                , function errorCallback(error) {
+                    console.log(error);
+                });
+
+            /*
+             To submit to kliknpay
+             document.getElementById("knp-form").submit();
+             */
         };
 
         var lang = sessionStorage.getItem("LANG");
         $http({
             method: 'GET',
-            params: {mode:3, lang:lang},
+            params: {mode: 3, lang: lang},
             url: 'api/v1/langueCRUD.php'
         }).then(function successCallback(response) {
-            console.log(response.data);
             $scope.langue = angular.copy(response.data);
             vm.fnInit();
         });
 
-        if(lang =='FR') {
+        if (lang == 'FR') {
             vm.isFrance = true;
         }
 
-        $scope.$watch('isActualLang', function(ov, nv) {
+        $scope.$watch('isActualLang', function (ov, nv) {
             vm.fnInit();
         });
 
 
-        $(document).ready(function(){
+        $(document).ready(function () {
             $('.modal-backdrop').remove();
             vm.getInfoUser();
             vm.fnGetInfo();
