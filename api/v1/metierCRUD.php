@@ -415,6 +415,7 @@ if ($mode == 0) {
     $tva = $tva->rechercher();
     print json_encode($tva);
 } else if ($mode == 17) {
+    date_default_timezone_set('America/Los_Angeles');
     $coupon_detail = new coupon_details();
     $coupon_detail = $coupon_detail->getCouponUserInfo($_GET["code"], $_SESSION["uid"]);
 

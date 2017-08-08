@@ -74,7 +74,7 @@ angular
                 vm.montants.prix_ttc = (vm.montants.prix_ttc).toFixed(2);
                 vm.montants.montant_net = Number((vm.montants.prix_ttc)) + Number((vm.montants.frais_livr)) + Number(vm.montants.taxLivr);
                 vm.montants.montant_net_orig = Number((vm.montants.prix_ttc)) + Number((vm.montants.frais_livr)) + Number(vm.montants.taxLivr);
-                vm.montants.montant_net = vm.montants.montant_net;
+                vm.montants.montant_net = vm.montants.montant_net.toFixed(2);
 
             }, function errorCallback(error) {
                 console.log(error);
@@ -86,6 +86,7 @@ angular
                 vm.isDiscountChecked = true;
                 vm.strMsgCode = "Code Invalid";
                 sessionStorage.removeItem("coupon");
+                vm.montants.montant_net = vm.montants.montant_net_orig.toFixed(2);
                 return;
             }
             sessionStorage.removeItem("coupon");
@@ -103,6 +104,7 @@ angular
                 else {
                     vm.strMsgCode = "Remise: " + response.data.montant + " %";
                     vm.montants.montant_net = (vm.montants.montant_net_orig * (1 - (response.data.montant / 100))).toFixed(2);
+                    vm.montants.montant_net_orig = vm.montants.montant_net.toFixed(2);
                     sessionStorage.setItem("coupon", response.data.id);
                 }
             }, function errorCallback(error) {
