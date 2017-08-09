@@ -2,6 +2,7 @@
 
 require 'authFN.php';
 require_once '../classes/passwordHash.php';
+include_once '../classes/users.php';
 $response = array();
 $r = json_decode($app->request->getBody());
 verifyRequiredParams(array('email', 'password'), $r->customer);
@@ -9,7 +10,7 @@ $response = array();
 $db = new DbHandler();
 $password = $r->customer->password;
 $email = $r->customer->email;
-$user = $db->getOneRecord("select uid,name,password,email,created,admin, pays, surname, city, postalcode,phone, address, admintype  from customers_auth where (phone='$email' or email='$email') and admin=0");
+$user = $db->getOneRecord("select uid,name,password,email,created,admin, pays, surname, city, postalcode,phone, address, admintype, token  from customers_auth where (phone='$email' or email='$email') and admin=0");
 
 if ($user != NULL) {
     if (passwordHash::check_password($user['password'], $password)) {
@@ -28,6 +29,13 @@ if ($user != NULL) {
         $response['city'] = $user['city'];
         $response['postalcode'] = $user['postalcode'];
 
+        $token =  substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil(25/strlen($x)) )),1,25);
+        $user1 = new users();
+        $user1 = $user1->findByPrimaryKey($user['uid']);
+        $user1->setToken($token);
+        $user1->save();
+        $response['token'] = $token;
+
         if (!isset($_SESSION)) {
             session_start();
         }
@@ -42,6 +50,7 @@ if ($user != NULL) {
         $_SESSION['city'] = $user['city'];
         $_SESSION['postalcode'] = $user['postalcode'];
         $_SESSION['address'] = $user['address'];
+        $_SESSION['token'] = $token;
     } else {
         $response['status'] = "error";
         $response['message'] = 'Login failed. Incorrect credentials';

@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-md-5">
         <div class="col-md-12" style="margin-bottom: 10px;">
-            <label class="label label-info">Détails</label>
+            <label class="label label-info">{{'checkout_details' | translate}}</label>
         </div>
         <div>
             <table border="1">
@@ -11,10 +11,10 @@
                 <th class="paddingTable">{{'unit_price' | translate}}
                     <small>(Euro)</small>
                 </th>
-                <th class="paddingTable">Prix HT
+                <th class="paddingTable">{{'checkout_prix_ht' | translate}}
                     <small>(Euro)</small>
                 </th>
-                <th class="paddingTable">Prix TTC
+                <th class="paddingTable">{{'checkout_prix_ttc' | translate}}
                     <small>(Euro)</small>
                 </th>
                 <tr ng-repeat="(key, ligne) in checkout.arrProduits">
@@ -34,13 +34,12 @@
     </div>
     <div class="col-md-4">
         <div class="col-md-12" style="margin-bottom: 10px;">
-            <label class="label label-info">Resumé</label>
+            <label class="label label-info">{{'checkout_resume' | translate}}</label>
         </div>
         <div>
             <div class="col-md-12" style="margin-bottom: 25px;">
                 <label class="label label-default label-sm"
-                       style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">Frais
-                    Livraison : </label>
+                       style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">{{'checkout_frais_livraison' | translate}} : </label>
                 <label class="label label-primary label-sm"
                        style="font-size: large; width: 165px;display: inline-block;text-align: right;">{{checkout.montants.frais_livr}}
                     <small> Euro</small>
@@ -48,8 +47,7 @@
             </div>
             <div class="col-md-12" style="margin-bottom: 25px;">
                 <label class="label label-default"
-                       style="font-size: large; width: 165px ; margin-right: 10px;display: inline-block;text-align: right;">Prix
-                    totale HT : </label>
+                       style="font-size: large; width: 165px ; margin-right: 10px;display: inline-block;text-align: right;">{{'checkout_prix_totale_ht' | translate}}: </label>
                 <label class="label label-primary"
                        style="font-size: large; width: 165px;display: inline-block;text-align: right;">{{checkout.montants.prix_total_ht}}
                     <small> Euro</small>
@@ -57,7 +55,7 @@
             </div>
             <div class="col-md-12" style="margin-bottom: 25px;">
                 <label class="label label-default"
-                       style="font-size: large; width: 165px ; margin-right: 10px;display: inline-block;text-align: right;">TVA
+                       style="font-size: large; width: 165px ; margin-right: 10px;display: inline-block;text-align: right;">{{'checkout_tva' | translate}}
                     : </label>
                 <label class="label label-primary"
                        style="font-size: large; width: 165px;display: inline-block;text-align: right;">{{checkout.montants.tax}}
@@ -66,8 +64,7 @@
             </div>
             <div class="col-md-12" style="margin-bottom: 25px;">
                 <label class="label label-default"
-                       style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">Prix
-                    totale TTC : </label>
+                       style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">{{'checkout_prix_totale_ttc' | translate}}: </label>
                 <label class="label label-primary"
                        style="font-size: large; width: 165px;display: inline-block;text-align: right;">{{checkout.montants.prix_ttc}}
                     <small> Euro</small>
@@ -75,16 +72,14 @@
             </div>
             <div class="col-md-12" style="margin-bottom: 25px;">
                 <label class="label label-default"
-                       style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">Coupon
-                    Discount : </label>
+                       style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">{{'checkout_coupon_discount' | translate}}: </label>
                 <input type="text" style="width: 165px;" ng-blur="checkout.fnCheckCode()"
                        ng-model="checkout.discountCode">
                 <label class="label label-default" ng-show="checkout.isDiscountChecked">{{checkout.strMsgCode}}</label>
             </div>
             <div class="col-md-12" style="margin-bottom: 25px;">
                 <label class="label label-default"
-                       style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">Montant
-                    Net : </label>
+                       style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">{{'checkout_montant_net' | translate}}: </label>
                 <label class="label label-primary"
                        style="font-size: large; width: 165px;display: inline-block;text-align: right;">{{checkout.montants.montant_net}}
                     <small> Euro</small>
@@ -180,14 +175,15 @@
                     <tr>
                         <td width="100%" colspan="2">
                             <p align="center">
-                                <button class="btn btn-lg btn-success" value="Facturation" ng-click="checkout.fnPay()">
-                                    {{'paiement' | translate}}
-                                </button>
+
                             </p>
                         </td>
                     </tr>
                 </table>
             </form>
+            <button class="btn btn-lg btn-success" value="Facturation" ng-click="checkout.fnPay()">
+                {{'paiement' | translate}}
+            </button>
         </div>
 
     </div>

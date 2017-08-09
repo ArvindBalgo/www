@@ -126,23 +126,30 @@
 			this.__skipDimension=true;
 			this.setOptions(options);
 			this.__skipDimension=false;
-//			this.callSuper('initialize', options);
+
+			if(parseFloat(fabric.version) >= 2) {
+				this.callSuper('initialize', text, options);
+			}
+
 			this.setText(text);
+			this._render();
 		},
 		setText: function (text){
 			if(this.letters){
-				while(this.letters.size()>0){
+				while(text.length!==0&&this.letters.size()>=text.length){
 					this.letters.remove(this.letters.item(this.letters.size()-1));
 				}
 				for(var i=0; i<text.length; i++){
+					//I need to pass the options from the main options
+					if(this.letters.item(i)===undefined){
 						this.letters.add(new fabric.Text(text[i]));
+					}else{
+						this.letters.item(i).setText(text[i]);
+					}
 				}
 			}
-			this.letters.add(new fabric.Text(''));
-			this.letters.add(new fabric.Text(''));
-			this.letters.add(new fabric.Text(''));
-			this.letters.add(new fabric.Text(''));
 			this.callSuper('setText', text);
+			this._render();
 		},
 		_initDimensions: function (ctx){
 			// from fabric.Text.prototype._initDimensions
@@ -158,9 +165,9 @@
 			this._clearCache();
 			var currentTextAlign=this.textAlign;
 			this.textAlign='left';
-			this.width=this._getTextWidth(ctx);
+			this.width=this.getWidth();
 			this.textAlign=currentTextAlign;
-			this.height=this._getTextHeight(ctx);
+			this.height=this.getHeight();
 			// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 			this._render(ctx);
 		},
@@ -217,12 +224,11 @@
 
 					if(this.effect==='curved'){
 						thisLetterAngle=((this.letters.item(i).width+space)/this.radius)/(Math.PI/180);
-						curAngleRotation=multiplier*((multiplier*curAngle)+lastLetterAngle+(thisLetterAngle/4));	//4 is better than 2 for some reason
 						curAngle=multiplier*((multiplier*curAngle)+lastLetterAngle);
 						angleRadians=curAngle*(Math.PI/180);
 						lastLetterAngle=thisLetterAngle;
 
-						this.letters.item(i).setAngle(curAngleRotation);
+						this.letters.item(i).setAngle(curAngle);
 						this.letters.item(i).set('top', multiplier*-1*(Math.cos(angleRadians)*this.radius));
 						this.letters.item(i).set('left', multiplier*(Math.sin(angleRadians)*this.radius));
 						this.letters.item(i).set('padding', 0);
@@ -353,45 +359,6 @@
 					}
 				}
 
-				//start fpd-custom
-				if(this.effect==='curved'){
-					var l1 = this.letters.item(this.letters.size()-4);
-					var l2 = this.letters.item(this.letters.size()-3);
-					var l3 = this.letters.item(this.letters.size()-2);
-					var l4 = this.letters.item(this.letters.size()-1);
-					for(var key in this.delegatedProperties){
-						l1.set(key, this.get(key));
-						l2.set(key, this.get(key));
-						l3.set(key, this.get(key));
-						l4.set(key, this.get(key));
-					}
-					var multiplier=this.reverse?-1:1
-					l1.setAngle(0);
-					l1.set('top', multiplier*-1*(Math.cos(0)*this.radius));
-					l1.set('left', multiplier*(Math.sin(0)*this.radius));
-					l1.set('padding', 0);
-					l1.set('selectable', false);
-
-					l2.setAngle(90);
-					l2.set('top', multiplier*-1*(Math.cos(90*Math.PI/180)*this.radius));
-					l2.set('left', multiplier*(Math.sin(90*Math.PI/180)*this.radius));
-					l2.set('padding', 0);
-					l2.set('selectable', false);
-
-					l3.setAngle(180);
-					l3.set('top', multiplier*-1*(Math.cos(180*Math.PI/180)*this.radius));
-					l3.set('left', multiplier*(Math.sin(180*Math.PI/180)*this.radius));
-					l3.set('padding', 0);
-					l3.set('selectable', false);
-
-					l4.setAngle(270);
-					l4.set('top', multiplier*-1*(Math.cos(270*Math.PI/180)*this.radius));
-					l4.set('left', multiplier*(Math.sin(270*Math.PI/180)*this.radius));
-					l4.set('padding', 0);
-					l4.set('selectable', false);
-				}
-				//end fpd-custom
-
 				var scaleX=this.letters.get('scaleX');
 				var scaleY=this.letters.get('scaleY');
 				var angle=this.letters.get('angle');
@@ -403,7 +370,7 @@
 				// Update group coords
 				this.letters._calcBounds();
 				this.letters._updateObjectsCoords();
-				this.letters.saveCoords();
+				//this.letters.saveCoords();
 				// this.letters.render(ctx);
 
 				this.letters.set('scaleX', scaleX);
@@ -526,7 +493,7 @@
 			}
 		},
 		toObject: function (propertiesToInclude){
-			var object=extend(this.callSuper('toObject', propertiesToInclude), {
+			var object = extend(this.callSuper('toObject', propertiesToInclude), {
 				radius: this.radius,
 				spacing: this.spacing,
 				reverse: this.reverse,
@@ -534,8 +501,9 @@
 				range: this.range,
 				smallFont: this.smallFont,
 				largeFont: this.largeFont
-						//				letters: this.letters	//No need to pass this, the letters are recreated on the fly every time when initiated
+				//letters: this.letters	//No need to pass this, the letters are recreated on the fly every time when initiated
 			});
+
 			if(!this.includeDefaultValues){
 				this._removeDefaultValues(object);
 			}
@@ -1044,6 +1012,10 @@ var FPDUtil =  {
 
 		if(this.getType(element.type) === 'text') {
 			return 'text';
+		}
+
+		if(!element.source) {
+			return false;
 		}
 
 		//check if url is a png or base64 encoded
@@ -1611,6 +1583,50 @@ var FPDUtil =  {
 
 	},
 
+	condition: function(oper, prop, value) {
+
+		//check if prop is an object that contains more props to compare
+		if(typeof prop === 'object') {
+
+			var keys = Object.keys(prop),
+				tempReturn = null;
+
+			//as soon as if one is false in the prop object, the whole condition becomes false
+			keys.forEach(function(key){
+
+				if(tempReturn !== false) {
+					tempReturn = FPDUtil.operator(oper, prop[key], value[key]);
+				}
+
+			});
+			return tempReturn;
+		}
+		else { //just single to compare
+			return FPDUtil.operator(oper, prop, value);
+		}
+
+	},
+
+	operator: function(oper, prop, value) {
+
+		if(oper === '=') {
+			return prop === value;
+		}
+		else if(oper === '>') {
+			return prop > value;
+		}
+		else if(oper === '<') {
+			return prop < value;
+		}
+		else if(oper === '>=') {
+			return prop >= value;
+		}
+		else if(oper === '<=') {
+			return prop <= value;
+		}
+
+	}
+
 };
 
 /**
@@ -2155,6 +2171,51 @@ var FancyProductDesignerOptions = function() {
 		*/
 		maxPrice: -1,
 		/**
+		* The text can be edited in the canvas by double click/tap.
+		*
+		* @property inCanvasTextEditing
+		* @for Options.defaults
+		* @type {Boolean}
+		* @default true
+		*/
+		inCanvasTextEditing: true,
+		/**
+		* The text input in the toolbar when be opened when an editable text is selected.
+		*
+		* @property openTextInputOnSelect
+		* @for Options.defaults
+		* @type {Boolean}
+		* @default false
+		*/
+		openTextInputOnSelect: false,
+		/**
+		* An array of design category titles (only top-level categories) to enable particular design categories for an upload zone or for the view. An empty array will enable all design categories.
+		*
+		* @property designCategories
+		* @type {Array}
+		* @for Options.defaults
+		* @default []
+		*/
+		designCategories: [],
+		/**
+		* Will make the view(s) optional, so the user have to unlock it. The price for the elements in the view will be added to the total product price as soon as the view is unlocked.
+		*
+		* @property optionalView
+		* @for Options.defaults
+		* @type {Boolean}
+		* @default false
+		*/
+		optionalView: false,
+		/**
+		* When using the save/load actions, store the product in user's browser storage.
+		*
+		* @property saveActionBrowserStorage
+		* @for Options.defaults
+		* @type {Boolean}
+		* @default true
+		*/
+		saveActionBrowserStorage: true,
+		/**
 		* An object containing the default element parameters in addition to the <a href="http://fabricjs.com/docs/fabric.Object.html" target="_blank">default Fabric Object properties</a>. See <a href="./Options.defaults.elementParameters.html">Options.defaults.elementParameters</a>.
 		*
 		* @property elementParameters
@@ -2547,7 +2608,7 @@ var FancyProductDesignerOptions = function() {
 			/**
 			* Set the scale mode when image is added in upload zone. Possible values: 'fit', 'cover'
 			*
-			* @property uploadZoneScaleMode
+			* @property scaleMode
 			* @type {String}
 			* @for Options.defaults.imageParameters
 			* @default 'fit'
@@ -2704,7 +2765,7 @@ var FancyProductDesignerOptions = function() {
 			draggable: true,
 			removable: true,
 			resizable: true
-		}
+		},
 	};
 
 	/**
@@ -2913,6 +2974,14 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 		 * @default null
 		 */
 		instance.maskObject = null;
+		/**
+		 * The locked state of the view.
+		 *
+		 * @property locked
+		 * @type Boolean
+		 * @default false
+		 */
+		instance.locked = view.locked !== undefined ? view.locked : view.options.optionalView;
 		instance.dragStage = false;
 
 		//PLUS
@@ -3544,31 +3613,30 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 			},
 			fontactive: function(familyName, fvd) {
 
-				//$('body').mouseup();
 				instance.stage.renderAll();
 
-				if(element) {
+				FontFaceOnload(familyName, {
+				    success: function() {
 
-					//fix: reset font size, otherwise custom font is not displaying
-					if(element._tempFontSize !== null) {
-						element.setFontSize(element._tempFontSize);
-					}
-					else {
-						var correctFontSize = element.fontSize;
-						element.setFontSize(correctFontSize - 1);
-						element.setFontSize(correctFontSize);
-					}
+						if(element) {
+							//fix: reset font size, otherwise custom font is not displaying
+							if(element._tempFontSize !== null) {
+								element.setFontSize(element._tempFontSize);
+							}
+							else {
+								var correctFontSize = element.fontSize;
+								element.setFontSize(correctFontSize - 1);
+								element.setFontSize(correctFontSize);
+							}
 
-					element.setCoords();
-					instance.stage.renderAll();
+							element._tempFontSize = null;
+							element.setCoords();
+						}
 
-					element._tempFontSize = null;
-
-					//render again after timeout to fix issue with some fonts
-					setTimeout(function() {
 						instance.stage.renderAll();
-					}, 300);
-				}
+
+				    }
+				});
 
 			}
 		});
@@ -4032,6 +4100,10 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 				originParams: $.extend({}, params)
 			});
 
+			if(instance.options.editorMode) {
+				fabricParams.editable = true;
+			}
+
 			//ensure origin text is always the initial text, even when action:save
 			if(params.originParams && params.originParams.text) {
 				fabricParams.originParams.text = params.originParams.text;
@@ -4056,6 +4128,13 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 			//just interactive text
 			else {
 				fabricText = new fabric.IText(source, fabricParams);
+
+				if(!instance.options.inCanvasTextEditing) {
+					fabricText.on({'editing:entered': function() {
+						this.exitEditing();
+					}});
+				}
+
 			}
 
 			if(fabricParams.textPlaceholder || fabricParams.numberPlaceholder) {
@@ -5206,6 +5285,25 @@ var FancyProductDesignerView = function($productStage, view, callback, fabricCan
 	};
 
 	/**
+	 * Toggles the lockment of view. If the view is locked, the price of the view will not be added to the total product price.
+	 *
+	 * @method toggleLock
+	 * @param {Boolean} toggle The toggle state.
+	 * @return {Boolean} The toggle state.
+	 */
+	this.toggleLock = function(toggle) {
+
+		toggle = toggle === undefined ? true : toggle;
+
+		instance.locked = toggle;
+
+		$this.trigger('priceChange', [0, instance.truePrice]);
+
+		return toggle;
+
+	};
+
+	/**
 	 * This method needs to be called after the instance of {{#crossLink "FancyProductDesignerView"}}{{/crossLink}} is set.
 	 *
 	 * @method setup
@@ -5629,7 +5727,6 @@ var FPDToolbar = function($uiElementToolbar, fpdInstance) {
 			$uiElementToolbar.find('.tooltipstered').tooltipster('destroy');
 		    fpdInstance.currentViewInstance.setElementParameters( fpdInstance.currentElement.originParams );
 		    fpdInstance.currentViewInstance.deselectElement();
-			//instance.update(fpdInstance.currentElement);
 
 			FPDUtil.updateTooltip();
 
@@ -6286,6 +6383,7 @@ var FPDMainBar = function(fpdInstance, $mainBar, $modules, $draggableDialog) {
 		    }
 		});
 
+		//nav in upload zones (text, images, designs)
 		$content.on('click', '.fpd-bottom-nav > div', function() {
 
 			var $this = $(this);
@@ -6491,9 +6589,7 @@ var FPDMainBar = function(fpdInstance, $mainBar, $modules, $draggableDialog) {
 		}
 
 		if(toggle) {
-
 			instance.callSecondary('fpd-upload-zone-adds-panel');
-
 		}
 		else {
 
@@ -6523,6 +6619,9 @@ var FPDMainBar = function(fpdInstance, $mainBar, $modules, $draggableDialog) {
 			$uploadZoneAddsPanel.find('[data-module="text"] .fpd-btn > .fpd-price').html('');
 		}
 
+		if(fpdInstance.moduleInstance_designs) {
+			fpdInstance.UZmoduleInstance_designs.toggleCategories();
+		}
 
 		//select first visible add panel
 		$uploadZoneAddsPanel.find('.fpd-off-canvas-nav > :not(.fpd-hidden)').first().click();
@@ -6554,26 +6653,31 @@ var FPDMainBar = function(fpdInstance, $mainBar, $modules, $draggableDialog) {
 				$module = $modules.children('[data-module="'+module+'"]'),
 				$moduleClone = $module.clone(),
 				navItemClass = fpdInstance.$container.hasClass('fpd-sidebar') ? 'class="fpd-tooltip"' : '',
-				navItemTitle = fpdInstance.$container.hasClass('fpd-sidebar') ? 'title="'+$module.data('title')+'"' : '';
+				navItemTitle = fpdInstance.$container.hasClass('fpd-sidebar') ? 'title="'+$module.data('title')+'"' : '',
+				moduleInstance;
 
 			$nav.append('<div data-module="'+module+'" '+navItemClass+' '+navItemTitle+'><span class="'+$module.data('moduleicon')+'"></span><span class="fpd-label">'+$module.data('title')+'</span></div>');
 			$content.append($moduleClone);
 
 			if(module === 'products') {
-				new ProductsModule(fpdInstance, $moduleClone);
+				moduleInstance = new ProductsModule(fpdInstance, $moduleClone);
 			}
 			else if(module === 'text') {
-				new TextModule(fpdInstance, $moduleClone);
+				moduleInstance = new TextModule(fpdInstance, $moduleClone);
 			}
 			else if(module === 'designs') {
-				new DesignsModule(fpdInstance, $moduleClone);
+				moduleInstance = new DesignsModule(fpdInstance, $moduleClone);
 			}
 			else if(module === 'images') {
-				new ImagesModule(fpdInstance, $moduleClone);
+				moduleInstance = new ImagesModule(fpdInstance, $moduleClone);
 			}
 			//PLUS
 			else if(typeof FPDDrawingModule !== 'undefined' && module === 'drawing') {
-				new FPDDrawingModule(fpdInstance, $moduleClone);
+				moduleInstance = new FPDDrawingModule(fpdInstance, $moduleClone);
+			}
+
+			if(moduleInstance) {
+				fpdInstance['moduleInstance_'+module] = moduleInstance;
 			}
 
 		}
@@ -6590,18 +6694,23 @@ var FPDMainBar = function(fpdInstance, $mainBar, $modules, $draggableDialog) {
 
 			var module = uploadZoneModules[i],
 				$module = $modules.children('[data-module="'+module+'"]'),
-				$moduleClone = $module.clone();
+				$moduleClone = $module.clone(),
+				moduleInstance;
 
 			$content.find('.fpd-upload-zone-content').append($moduleClone);
 
 			if(module === 'text') {
-				new TextModule(fpdInstance, $moduleClone);
+				moduleInstance = new TextModule(fpdInstance, $moduleClone);
 			}
 			else if(module === 'designs') {
-				new DesignsModule(fpdInstance, $moduleClone);
+				moduleInstance = new DesignsModule(fpdInstance, $moduleClone);
 			}
 			else if(module === 'images') {
-				new ImagesModule(fpdInstance, $moduleClone);
+				moduleInstance = new ImagesModule(fpdInstance, $moduleClone);
+			}
+
+			if(moduleInstance) {
+				fpdInstance['UZmoduleInstance_'+module] = moduleInstance;
 			}
 
 		}
@@ -6686,40 +6795,6 @@ var FPDActions = function(fpdInstance, $actions){
 	var _getSavedProducts = function() {
 
 		return  FPDUtil.localStorageAvailable() ? JSON.parse(window.localStorage.getItem(fpdInstance.$container.attr('id'))) : false;
-
-	};
-
-	//add a saved product to the load dialog
-	var _addSavedProduct = function(thumbnail, product, title) {
-
-		title = title ? title : '';
-
-		//create new list item
-		var $gridWrapper = fpdInstance.mainBar.$content.find('.fpd-saved-designs-panel .fpd-grid'),
-			htmlTitle = title !== '' ? 'title="'+title+'"' : '';
-
-		$gridWrapper.append('<div class="fpd-item fpd-tooltip" '+htmlTitle+'><picture style="background-image: url('+thumbnail+')" ></picture><div class="fpd-remove-design"><span class="fpd-icon-remove"></span></div></div>')
-		.children('.fpd-item:last').click(function(evt) {
-
-			fpdInstance.loadProduct($(this).data('product'));
-			fpdInstance.currentProductIndex = -1;
-
-		}).data('product', product)
-		.children('.fpd-remove-design').click(function(evt) {
-
-			evt.stopPropagation();
-
-			var $item = $(this).parent('.fpd-item'),
-				index = $item.parent('.fpd-grid').children('.fpd-item').index($item.remove()),
-				savedProducts = _getSavedProducts();
-
-				savedProducts.splice(index, 1);
-
-			window.localStorage.setItem(fpdInstance.$container.attr('id'), JSON.stringify(savedProducts));
-
-		});
-
-		FPDUtil.updateTooltip($gridWrapper);
 
 	};
 
@@ -6869,18 +6944,24 @@ var FPDActions = function(fpdInstance, $actions){
 					scaling = FPDUtil.getScalingByDimesions(fpdInstance.currentViewInstance.options.stageWidth, fpdInstance.currentViewInstance.options.stageHeight, 200, 200),
 					thumbnail = fpdInstance.currentViewInstance.stage.toDataURL({multiplier: scaling, format: 'png'});
 
-				//check if there is an existing products array
-				var savedProducts = _getSavedProducts();
-				if(!savedProducts) {
-					//create new
-					savedProducts = new Array();
+				if(fpdInstance.mainOptions.saveActionBrowserStorage) {
+
+					//check if there is an existing products array
+					var savedProducts = _getSavedProducts();
+					if(!savedProducts) {
+						//create new
+						savedProducts = new Array();
+					}
+
+					savedProducts.push({thumbnail: thumbnail, product: product, title: title});
+					window.localStorage.setItem(fpdInstance.$container.attr('id'), JSON.stringify(savedProducts));
+
+					FPDUtil.showMessage(fpdInstance.getTranslation('misc', 'product_saved'));
+
 				}
 
-				savedProducts.push({thumbnail: thumbnail, product: product, title: title});
-				window.localStorage.setItem(fpdInstance.$container.attr('id'), JSON.stringify(savedProducts));
-
-				FPDUtil.showMessage(fpdInstance.getTranslation('misc', 'product_saved'));
 				$prompt.find('.fpd-modal-close').click();
+				fpdInstance.$container.trigger('actionSave', [title, thumbnail, product]);
 
 			});
 
@@ -6889,23 +6970,28 @@ var FPDActions = function(fpdInstance, $actions){
 		}
 		else if(action === 'load') {
 
-			//load all saved products into list
-			var savedProducts = _getSavedProducts();
-
 			fpdInstance.mainBar.$content.find('.fpd-saved-designs-panel .fpd-grid').empty();
 
-			if(savedProducts) {
+			//load all saved products into list
+			if(fpdInstance.mainOptions.saveActionBrowserStorage) {
 
-				for(var i=0; i < savedProducts.length; ++i) {
+				var savedProducts = _getSavedProducts();
+				if(savedProducts) {
 
-					var savedProduct = savedProducts[i];
-					_addSavedProduct(savedProduct.thumbnail, savedProduct.product, savedProduct.title);
+					for(var i=0; i < savedProducts.length; ++i) {
+
+						var savedProduct = savedProducts[i];
+						instance.addSavedProduct(savedProduct.thumbnail, savedProduct.product, savedProduct.title);
+
+					}
+
+					FPDUtil.createScrollbar(fpdInstance.mainBar.$content.find('.fpd-saved-designs-panel .fpd-scroll-area'));
 
 				}
 
-				FPDUtil.createScrollbar(fpdInstance.mainBar.$content.find('.fpd-saved-designs-panel .fpd-scroll-area'));
-
 			}
+
+			fpdInstance.$container.trigger('actionLoad');
 
 			fpdInstance.mainBar.callSecondary('fpd-saved-designs-panel');
 
@@ -7042,7 +7128,8 @@ var FPDActions = function(fpdInstance, $actions){
 
 						var startVal = fpdInstance.currentViewInstance.stage.getZoom() / fpdInstance.currentViewInstance.responsiveScale;
 
-						tooltip.find('.fpd-zoom-slider').attr('step', fpdInstance.mainOptions.zoomStep).attr('max', fpdInstance.mainOptions.maxZoom)
+						tooltip.find('.fpd-zoom-slider')
+						.attr('step', fpdInstance.mainOptions.zoomStep).attr('max', fpdInstance.mainOptions.maxZoom)
 						.val(startVal).rangeslider({
 							polyfill: false,
 							rangeClass: 'fpd-range-slider',
@@ -7054,6 +7141,11 @@ var FPDActions = function(fpdInstance, $actions){
 						    onSlide: function(pos, value) {
 								fpdInstance.setZoom(value);
 						    }
+						});
+
+						//check for maybe better solution
+						tooltip.on('touchmove', function(evt){
+							evt.preventDefault();
 						});
 
 						tooltip.find('.fpd-stage-pan').click(function() {
@@ -7293,6 +7385,46 @@ var FPDActions = function(fpdInstance, $actions){
 
 	};
 
+	//add a saved product to the load dialog
+	this.addSavedProduct = function(thumbnail, product, title) {
+
+		title = title ? title : '';
+
+		//create new list item
+		var $gridWrapper = fpdInstance.mainBar.$content.find('.fpd-saved-designs-panel .fpd-grid'),
+			htmlTitle = title !== '' ? 'title="'+title+'"' : '';
+
+		$gridWrapper.append('<div class="fpd-item fpd-tooltip" '+htmlTitle+'><picture style="background-image: url('+thumbnail+')" ></picture><div class="fpd-remove-design"><span class="fpd-icon-remove"></span></div></div>')
+		.children('.fpd-item:last').click(function(evt) {
+
+			fpdInstance.loadProduct($(this).data('product'));
+			fpdInstance.currentProductIndex = -1;
+
+		}).data('product', product)
+		.children('.fpd-remove-design').click(function(evt) {
+
+			evt.stopPropagation();
+
+			var $item = $(this).parent('.fpd-item'),
+				index = $item.parent('.fpd-grid').children('.fpd-item').index($item.remove());
+
+			if(fpdInstance.mainOptions.saveActionBrowserStorage) {
+
+					var savedProducts = _getSavedProducts();
+					savedProducts.splice(index, 1);
+
+				window.localStorage.setItem(fpdInstance.$container.attr('id'), JSON.stringify(savedProducts));
+
+			}
+
+			fpdInstance.$container.trigger('actionLoad:Remove', [index, $item]);
+
+		});
+
+		FPDUtil.updateTooltip($gridWrapper);
+
+	};
+
 	_initialize();
 
 };
@@ -7324,12 +7456,14 @@ FPDActions.rulerVerImg = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAABk
 
 var DesignsModule = function(fpdInstance, $module) {
 
-	var $head = $module.find('.fpd-head'),
+	var instance = this,
+		$head = $module.find('.fpd-head'),
 		$scrollArea = $module.find('.fpd-scroll-area'),
 		$designsGrid = $module.find('.fpd-grid'),
 		lazyClass = fpdInstance.mainOptions.lazyLoad ? 'fpd-hidden' : '',
 		$currentCategory = null,
-		$lastCategory = null;
+		$lastCategory = null,
+		categoriesUsed = false;
 
 	var _initialize = function() {
 
@@ -7338,6 +7472,7 @@ var DesignsModule = function(fpdInstance, $module) {
 			//check if categories are used or first category also includes sub-cats
 			if(fpdInstance.$designs.filter('.fpd-category').length > 1 || fpdInstance.$designs.filter('.fpd-category:first').children('.fpd-category').length > 0) {
 
+				categoriesUsed = true;
 				$currentCategory = fpdInstance.$designs;
 				_displayCategories($currentCategory.filter('.fpd-category'));
 
@@ -7399,11 +7534,13 @@ var DesignsModule = function(fpdInstance, $module) {
 
 			$head.find('.fpd-category-title-search').removeClass('fpd-search-active');
 
+			var topLevelReached = false;
 			if($lastCategory.parent('.fpd-category').length == 0) { //display first level categories
 
 				$currentCategory = fpdInstance.$designs;
 				$lastCategory = $currentCategory;
 				$module.removeClass('fpd-head-visible');
+				topLevelReached = true;
 
 			}
 			else { //display parent categories
@@ -7414,6 +7551,11 @@ var DesignsModule = function(fpdInstance, $module) {
 			}
 
 			_displayCategories($currentCategory);
+
+			//only toggle categories for top level
+			if(topLevelReached) {
+				instance.toggleCategories();
+			}
 
 		});
 
@@ -7581,14 +7723,36 @@ var DesignsModule = function(fpdInstance, $module) {
 
 	};
 
-	this.selectCategory = function(index) {
+	this.toggleCategories = function() {
 
-		$categoriesDropdown.children('input').val(fpdInstance.products[index].name);
+		if(!categoriesUsed) {
+			return;
+		}
 
-		var obj = fpdInstance.products[index];
-		for(var i=0; i <obj.products.length; ++i) {
-			var views = obj.products[i];
-			_addGridProduct(views);
+		_displayCategories(fpdInstance.$designs.filter('.fpd-category'));
+
+		var catTitles = [];
+		//element (upload zone) has design categories
+		var element = fpdInstance.currentViewInstance.currentElement;
+		if(element && element.uploadZone && element.designCategories) {
+			catTitles = fpdInstance.currentViewInstance.currentElement.designCategories;
+		}
+		else {
+			catTitles = fpdInstance.currentViewInstance.options.designCategories;
+		}
+
+		//check for particular design categories
+		var $allCats = $designsGrid.find('.fpd-category');
+		if(catTitles.length > 0) {
+
+			$allCats.hide().filter(function() {
+				var title = $(this).children('span').text();
+				return $.inArray(title, catTitles) > -1;
+			}).show();
+
+		}
+		else {
+			$allCats.show();
 		}
 
 	};
@@ -7801,7 +7965,14 @@ var LayersModule = {
 
 			}
 
-			$container.find('.fpd-list').append('<div class="fpd-list-row" id="'+element.id+'"><div class="fpd-cell-0">'+colorHtml+'</div><div class="fpd-cell-1">'+element.title+'</div><div class="fpd-cell-2"></div></div>');
+			var sourceContent = element.title;
+			if(FPDUtil.getType(element.type) === 'text' && element.editable) {
+
+				sourceContent = '<textarea>'+element.text+'</textarea>';
+
+			}
+
+			$container.find('.fpd-list').append('<div class="fpd-list-row" id="'+element.id+'"><div class="fpd-cell-0">'+colorHtml+'</div><div class="fpd-cell-1">'+sourceContent+'</div><div class="fpd-cell-2"></div></div>');
 
 			var $lastItem = $container.find('.fpd-list-row:last')
 				.data('element', element)
@@ -7832,16 +8003,13 @@ var LayersModule = {
 		$container.find('.fpd-current-color').spectrum('destroy');
 		$container.find('.fpd-list').empty();
 
-		var viewElements = fpdInstance.getElements(fpdInstance.currentViewIndex);
-		for(var i=0; i < viewElements.length; ++i) {
-
-			var element = viewElements[i];
+		fpdInstance.getElements(fpdInstance.currentViewIndex).forEach(function(element) {
 
 			if(element.isEditable) {
 				_appendLayerItem(element);
 			}
 
-		}
+		});
 
 		FPDUtil.createScrollbar($container.find('.fpd-scroll-area'));
 
@@ -8100,7 +8268,34 @@ var LayersModule = {
 
 		});
 
+		//text is changed via textarea
+		$container.on('keyup', 'textarea',function(evt) {
+
+			evt.stopPropagation();
+
+			var $this = $(this),
+				element = $this.parents('.fpd-list-row').data('element');
+
+			fpdInstance.currentViewInstance.setElementParameters({text: this.value}, element);
+			this.value = element.text;
+
+		});
+
+		//text is changed in canvas
+		fpdInstance.$container.off('elementModify', this.textChanged);
+		fpdInstance.$container.on('elementModify', this.textChanged);
+
 	},
+
+	textChanged: function(evt, element, parameters) {
+
+		var fpdInstance = $(evt.target).data('instance');
+		if(fpdInstance && fpdInstance.mainBar && parameters.text) {
+			fpdInstance.mainBar.$container.find('.fpd-manage-layers-panel .fpd-list')
+			.find('[id="'+element.id+'"] textarea').val(parameters.text);
+		}
+
+	}
 
 };
 
@@ -8773,13 +8968,21 @@ var FancyProductDesigner = function(elem, opts) {
 	 */
 	this.currentViewIndex = 0;
 	/**
-	 * The current price.
+	 * The price considering the elements price in all views with order quantity.
 	 *
 	 * @property currentPrice
 	 * @type Number
 	 * @default 0
 	 */
 	this.currentPrice = 0;
+	/**
+	 * The price considering the elements price in all views without order quantity.
+	 *
+	 * @property singleProductPrice
+	 * @type Number
+	 * @default 0
+	 */
+	this.singleProductPrice = 0;
 	/**
 	 * The current views.
 	 *
@@ -8874,14 +9077,6 @@ var FancyProductDesigner = function(elem, opts) {
 	 */
 	this.colorLinkGroups = {};
 	/**
-	 * The price for a single product without quantity.
-	 *
-	 * @property singleProductPrice
-	 * @type Number
-	 * @default 0
-	 */
-	this.singleProductPrice = 0;
-	/**
 	 * The order quantity.
 	 *
 	 * @property orderQuantity
@@ -8897,6 +9092,14 @@ var FancyProductDesigner = function(elem, opts) {
 	 * @default null
 	 */
 	this.bulkVariations = null;
+	/**
+	 * The calculated price for the pricing rules.
+	 *
+	 * @property pricingRulesPrice
+	 * @type Number
+	 * @default 0
+	 */
+	this.pricingRulesPrice = 0;
 
 	this.languageJSON = {
 		"toolbar": {},
@@ -9060,6 +9263,10 @@ var FancyProductDesigner = function(elem, opts) {
 			FancyProductDesignerPlus.setup($elem, instance);
 		}
 
+		//PRICING RULES
+		if(typeof FPDPricingRules !== 'undefined') {
+			new FPDPricingRules($elem, instance);
+		}
 
 		//load language JSON
 		if(options.langJSON !== false) {
@@ -9120,6 +9327,8 @@ var FancyProductDesigner = function(elem, opts) {
 
 		$elem.after('<div class="fpd-device-info">'+instance.getTranslation('misc', 'not_supported_device_info')+'</div>');
 
+
+		instance.$mainWrapper.prepend('<div class="fpd-modal-lock"><div class="fpd-toggle-lock"><span class="fpd-icon-unlocked"></span><span class="fpd-icon-locked"></span><div>'+instance.getTranslation('misc', 'view_optional_unlock')+'</div></div></div>');
 
 		instance.$productStage  = instance.$mainWrapper.children('.fpd-product-stage')
 		instance.$elementTooltip = instance.$mainWrapper.children('.fpd-element-tooltip');
@@ -9285,7 +9494,8 @@ var FancyProductDesigner = function(elem, opts) {
 			}
 
 			//init Toolbar
-			instance.toolbar = new FPDToolbar($uiElements.children('.fpd-element-toolbar'), instance);
+			var $elementToolbar = $uiElements.children('.fpd-element-toolbar');
+			instance.toolbar = new FPDToolbar($elementToolbar, instance);
 
 			$elem.on('elementSelect', function(evt, element) {
 
@@ -9313,6 +9523,12 @@ var FancyProductDesigner = function(elem, opts) {
 					}
 
 					instance.toolbar.update(element);
+
+					if(instance.mainOptions.openTextInputOnSelect && FPDUtil.getType(element.type) === 'text' && element.editable) {
+
+						$elementToolbar.find('.fpd-tool-edit-text').click();
+					}
+
 					_updateEditorBox(element);
 
 				}
@@ -9331,27 +9547,33 @@ var FancyProductDesigner = function(elem, opts) {
 			})
 			.on('elementModify', function(evt, element, parameters) {
 
-				if(instance.productCreated && !instance.toolbar.isTransforming) {
+				if(instance.productCreated) {
 
-					if(parameters.fontSize !== undefined) {
+					if(!instance.toolbar.isTransforming) {
+
+						if(parameters.fontSize !== undefined) {
 						instance.toolbar.updateUIValue('fontSize', Number(parameters.fontSize));
-					}
-					if(parameters.scaleX !== undefined) {
-						instance.toolbar.updateUIValue('scaleX', parseFloat(Number(parameters.scaleX).toFixed(2)));
-					}
-					if(parameters.scaleY !== undefined) {
-						instance.toolbar.updateUIValue('scaleY', parseFloat(Number(parameters.scaleY).toFixed(2)));
-					}
-					if(parameters.angle !== undefined) {
-						instance.toolbar.updateUIValue('angle', parseInt(parameters.angle));
-					}
-					if(parameters.text !== undefined) {
-						instance.toolbar.updateUIValue('text', parameters.text);
+						}
+						if(parameters.scaleX !== undefined) {
+							instance.toolbar.updateUIValue('scaleX', parseFloat(Number(parameters.scaleX).toFixed(2)));
+						}
+						if(parameters.scaleY !== undefined) {
+							instance.toolbar.updateUIValue('scaleY', parseFloat(Number(parameters.scaleY).toFixed(2)));
+						}
+						if(parameters.angle !== undefined) {
+							instance.toolbar.updateUIValue('angle', parseInt(parameters.angle));
+						}
+						if(parameters.text !== undefined) {
+							instance.toolbar.updateUIValue('text', parameters.text);
+						}
+
+						if(instance.currentElement && !instance.currentElement.uploadZone) {
+							instance.toolbar.updatePosition(instance.currentElement);
+						}
+
 					}
 
-					if(instance.currentElement && !instance.currentElement.uploadZone) {
-						instance.toolbar.updatePosition(instance.currentElement);
-					}
+
 
 				}
 
@@ -9583,6 +9805,14 @@ var FancyProductDesigner = function(elem, opts) {
 		else {
 			instance.toggleSpinner(false);
 		}
+
+		//view lock handler
+		instance.$mainWrapper.on('click', '.fpd-modal-lock > .fpd-toggle-lock', function() {
+
+			$(this).parents('.fpd-modal-lock:first').toggleClass('fpd-unlocked');
+			instance.currentViewInstance.toggleLock(!instance.currentViewInstance.locked);
+
+		});
 
 		/**
 	     * Gets fired as soon as the product designer is ready to receive API calls.
@@ -9912,19 +10142,6 @@ var FancyProductDesigner = function(elem, opts) {
 
 	};
 
-	var _priceHandler = function() {
-
-		var truePrice = instance.currentPrice;
-
-		//price has decimals, set max. decimals to 2
-		if(truePrice % 1 != 0) {
-			truePrice = Number(truePrice.toFixed(2));
-		}
-
-		return truePrice;
-
-	};
-
 	/**
 	 * Adds a new product to the product designer.
 	 *
@@ -9960,12 +10177,12 @@ var FancyProductDesigner = function(elem, opts) {
 	 *
 	 * @method selectProduct
 	 * @param {number} index The requested product by an index value. 0 will load the first product.
-	 * @param {number} categoryIndex The requested category by an index value. 0 will load the first category.
+	 * @param {number} [categoryIndex] The requested category by an index value. 0 will load the first category.
 	 * @example fpd.selectProduct( 1, 2 ); //will load the second product from the third category
 	 */
 	this.selectProduct = function(index, categoryIndex) {
 
-		instance.currentCategoryIndex = typeof categoryIndex === 'undefined' ? instance.currentCategoryIndex : categoryIndex;
+		instance.currentCategoryIndex = categoryIndex === undefined ? instance.currentCategoryIndex : categoryIndex;
 
 		var category = instance.products[instance.currentCategoryIndex];
 
@@ -10000,8 +10217,8 @@ var FancyProductDesigner = function(elem, opts) {
 	 */
 	this.loadProduct = function(views, replaceInitialElements, mergeMainOptions) {
 
-		replaceInitialElements = typeof replaceInitialElements !== 'undefined' ? replaceInitialElements : false;
-		mergeMainOptions = typeof mergeMainOptions !== 'undefined' ? mergeMainOptions : false;
+		replaceInitialElements = replaceInitialElements === undefined ? false : replaceInitialElements;
+		mergeMainOptions = mergeMainOptions === undefined ? false : mergeMainOptions;
 
 		if($stageLoader.is(':hidden')) {
 			instance.toggleSpinner(true);
@@ -10073,6 +10290,7 @@ var FancyProductDesigner = function(elem, opts) {
 		});
 
 		view.options = $.extend({}, instance.mainOptions, view.options);
+
 		var viewInstance = new FancyProductDesignerView(instance.$productStage, view, function(viewInstance) {
 
 			//remove view instance if not added to product container
@@ -10291,12 +10509,13 @@ var FancyProductDesigner = function(elem, opts) {
 			//calulate total price of all views
 			for(var i=0; i < _viewInstances.length; ++i) {
 
-				instance.singleProductPrice += _viewInstances[i].truePrice;
+				if(!_viewInstances[i].locked) {
+					instance.singleProductPrice += _viewInstances[i].truePrice;
+				}
 
 			}
 
-			instance.currentPrice = instance.singleProductPrice * instance.orderQuantity;
-			var truePrice = _priceHandler();
+			var truePrice = instance.calculatePrice();
 
 			/**
 		     * Gets fired as soon as the price changes in a view.
@@ -10383,6 +10602,8 @@ var FancyProductDesigner = function(elem, opts) {
 
 		if(instance.currentViews === null) {return;}
 
+		instance.resetZoom();
+
 		instance.currentViewIndex = index;
 		if(index < 0) { instance.currentViewIndex = 0; }
 		else if(index > instance.currentViews.length-1) { instance.currentViewIndex = instance.currentViews.length-1; }
@@ -10448,11 +10669,25 @@ var FancyProductDesigner = function(elem, opts) {
 		instance.$productStage.width(instance.currentViewInstance.options.stageWidth);
 		instance.currentViewInstance.resetCanvasSize();
 
-		if(instance.$container.filter('[class*="fpd-off-canvas-"]').length > 0) {
+		if(instance.mainBar && instance.$container.filter('[class*="fpd-off-canvas-"]').length > 0) {
 			instance.mainBar.$content.height(instance.$mainWrapper.height());
 		}
 
 		_toggleUndoRedoBtn(instance.currentViewInstance.undos, instance.currentViewInstance.redos);
+
+		if(instance.moduleInstance_designs) {
+			instance.moduleInstance_designs.toggleCategories();
+		}
+
+		//toggle view locker
+		instance.$mainWrapper.children('.fpd-modal-lock')
+		.removeClass('fpd-animated')
+		.toggleClass('fpd-active', instance.currentViewInstance.options.optionalView)
+		.toggleClass('fpd-unlocked', !instance.currentViewInstance.locked);
+		setTimeout(function() {
+			instance.$mainWrapper.children('.fpd-modal-lock').addClass('fpd-animated');
+		}, 1);
+
 
 		/**
 	     * Gets fired as soon as a view has been selected.
@@ -10473,13 +10708,13 @@ var FancyProductDesigner = function(elem, opts) {
 	 * @param {string} type The type of an element you would like to add, 'image' or 'text'.
 	 * @param {string} source For image the URL to the image and for text elements the default text.
 	 * @param {string} title Only required for image elements.
-	 * @param {object} [parameters] An object with the parameters, you would like to apply on the element.
+	 * @param {object} [parameters={}] An object with the parameters, you would like to apply on the element.
 	 * @param {number} [viewIndex] The index of the view where the element needs to be added to. If no index is set, it will be added to current showing view.
 	 */
 	this.addElement = function(type, source, title, parameters, viewIndex) {
 
-		viewIndex = typeof viewIndex !== 'undefined' ? viewIndex : instance.currentViewIndex;
-		parameters = typeof parameters !== 'undefined' ? parameters : {};
+		parameters = parameters === undefined ? {} : parameters;
+		viewIndex = viewIndex === undefined ? instance.currentViewIndex : viewIndex;
 
 		instance.viewInstances[viewIndex].addElement(type, source, title, parameters);
 
@@ -10505,18 +10740,17 @@ var FancyProductDesigner = function(elem, opts) {
 	 *
 	 * @method setElementParameters
 	 * @param {object} parameters An object with the parameters that should be applied to the element.
-	 * @param {fabric.Object | string} element A fabric object or the title of an element.
-	 * @param {Number} viewIndex The index of the view you would like target. If not set, the current showing view will be used.
+	 * @param {fabric.Object | string} [element] A fabric object or the title of an element. If not set, the current selected element is used.
+	 * @param {Number} [viewIndex] The index of the view you would like target. If not set, the current showing view will be used.
 	 */
 	this.setElementParameters = function(parameters, element, viewIndex) {
 
-		element = typeof element === 'undefined' ? instance.stage.getActiveObject() : element;
+		element = element === undefined ? instance.stage.getActiveObject() : element;
+		viewIndex = viewIndex === undefined ? instance.currentViewIndex : viewIndex;
 
 		if(!element || parameters === undefined) {
 			return false;
 		}
-
-		viewIndex = typeof viewIndex === 'undefined' ? instance.currentViewIndex : viewIndex;
 
 		instance.viewInstances[viewIndex].setElementParameters(parameters, element);
 
@@ -10577,16 +10811,16 @@ var FancyProductDesigner = function(elem, opts) {
 	 * @method getProductDataURL
 	 * @param {Function} callback A function that will be called when the data URL is created. The function receives the data URL.
 	 * @param {String} [backgroundColor=transparent] The background color as hexadecimal value. For 'png' you can also use 'transparent'.
-	 * @param {Object} [options] See fabricjs documentation http://fabricjs.com/docs/fabric.Canvas.html#toDataURL.
+	 * @param {Object} [options={}] See fabricjs documentation http://fabricjs.com/docs/fabric.Canvas.html#toDataURL.
 	 * @param {Boolean} [options.onlyExportable=false] If true elements with excludeFromExport=true are not exported in the image.
 	 * @example fpd.getProductDataURL( function(dataURL){} );
 	 */
 	this.getProductDataURL = function(callback, backgroundColor, options) {
 
-		callback = typeof callback !== 'undefined' ? callback : function() {};
-		backgroundColor = typeof backgroundColor !== 'undefined' ? backgroundColor : 'transparent';
-		options = typeof options !== 'undefined' ? options : {};
-		options.onlyExportable = typeof options.onlyExportable !== 'undefined' ? options.onlyExportable : false;
+		callback = callback === undefined ? function() {} : callback ;
+		backgroundColor = backgroundColor === undefined ? 'transparent' : backgroundColor;
+		options = options === undefined ? {}: options;
+		options.onlyExportable = options.onlyExportable === undefined ? false : options.onlyExportable;
 
 		//check
 		if(instance.viewInstances.length === 0) { callback('') }
@@ -10622,12 +10856,12 @@ var FancyProductDesigner = function(elem, opts) {
 					}
 					else {
 						callback(printCanvas.toDataURL(options));
-						/*printCanvas.dispose();
-						$body.children('.fpd-hidden-canvas, #fpd-hidden-canvas').remove();
+						printCanvas.dispose();
+						$body.children('#fpd-hidden-canvas').remove();
 
 						if(instance.currentViewInstance) {
 							instance.currentViewInstance.resetCanvasSize();
-						}*/
+						}
 
 					}
 
@@ -10649,15 +10883,15 @@ var FancyProductDesigner = function(elem, opts) {
 	 * @method getViewsDataURL
 	 * @param {Function} callback A function that will be called when the data URL is created. The function receives the data URL.
 	 * @param {string} [backgroundColor=transparent] The background color as hexadecimal value. For 'png' you can also use 'transparent'.
-	 * @param {string} [options] See fabricjs documentation http://fabricjs.com/docs/fabric.Canvas.html#toDataURL.
+	 * @param {string} [options={}] See fabricjs documentation http://fabricjs.com/docs/fabric.Canvas.html#toDataURL.
 	 * @param {Boolean} [options.onlyExportable=false] If true elements with excludeFromExport=true are not exported in the image.
 	 * @return {array} An array with all views as data URLs.
 	 */
 	this.getViewsDataURL = function(callback, backgroundColor, options) {
 
-		callback = typeof callback !== 'undefined' ? callback : function() {};
-		backgroundColor = typeof backgroundColor !== 'undefined' ? backgroundColor : 'transparent';
-		options = typeof options !== 'undefined' ? options : {};
+		callback = callback === undefined ? function() {} : callback;
+		backgroundColor = backgroundColor === undefined ? 'transparent' : backgroundColor;
+		options = options === 'undefined' ? {} : options;
 
 		var dataURLs = [];
 
@@ -10706,8 +10940,8 @@ var FancyProductDesigner = function(elem, opts) {
 	 */
 	this.toggleSpinner = function(state, msg) {
 
-		state = typeof state === 'undefined' ? true : state;
-		msg = typeof msg === 'undefined' ? '' : msg;
+		state = state === undefined ? true : state;
+		msg = msg === undefined ? '' : msg;
 
 		if(state) {
 
@@ -10727,65 +10961,88 @@ var FancyProductDesigner = function(elem, opts) {
 	 *
 	 * @method getElementByTitle
 	 * @param {String} title The title of an element.
-	 * @param {Number} viewIndex The index of the target view.
+	 * @param {Number} [viewIndex=-1] The index of the target view. By default all views are scanned.
 	 * @return {fabric.Object} FabricJS Object.
 	 */
 	this.getElementByTitle = function(title, viewIndex) {
 
-		if(typeof viewIndex === 'undefined') {
-			//scans all view instances
-			for(var i=0; i < instance.viewInstances.length; ++i) {
-				var objects = instance.viewInstances[i].stage.getObjects();
-				for(var j = 0; j < objects.length; ++j) {
-					if(objects[j].title == title) {
-						return objects[j];
-						break;
-					}
-				}
+		viewIndex === undefined ? -1 : viewIndex;
+
+		var searchedElement = false;
+		this.getElements(viewIndex, 'all', false).some(function(element) {
+
+			if(element.title == title) {
+				searchedElement = element;
+				return true;
 			}
 
-		}
-		else {
-			//scans the view instance by index
-			var objects = instance.viewInstances[viewIndex].stage.getObjects();
-			for(var i = 0; i < objects.length; ++i) {
-				if(objects[i].title == title) {
-					return objects[i];
-					break;
-				}
-			}
+		});
 
-		}
+		return searchedElement;
 
 	};
 
 	/**
-	 * Returns an array view all elements or only the elements of a specific view.
+	 * Returns an array with fabricjs objects.
 	 *
 	 * @method getElements
-	 * @param {Number} viewIndex The index of the target view.
+	 * @param {Number} [viewIndex=-1] The index of the target view. By default all views are target.
+	 * @param {String} [elementType='all'] The type of elements to return. By default all types are returned. Possible values: text, image.
+	 * @param {String} [deselectElement=true] Deselect current selected element.
 	 * @return {Array} An array containg the elements.
 	 */
-	this.getElements = function(viewIndex) {
+	this.getElements = function(viewIndex, elementType, deselectElement) {
 
-		this.deselectElement();
+		viewIndex = viewIndex === undefined || isNaN(viewIndex) ? -1 : viewIndex;
+		elementType = elementType === undefined ? 'all' : elementType;
+		deselectElement = deselectElement === undefined ? true : deselectElement;
 
-		if(typeof viewIndex === 'undefined') {
+		if(deselectElement) {
+			this.deselectElement();
+		}
 
-			var allElements = [];
+		var allElements = [];
+		if(viewIndex === -1) {
 
 			for(var i=0; i < instance.viewInstances.length; ++i) {
-				allElements.push(instance.viewInstances[i].stage.getObjects());
+				allElements = allElements.concat(instance.viewInstances[i].stage.getObjects());
 			}
-
-			return allElements;
 
 		}
 		else {
+			allElements = instance.viewInstances[viewIndex].stage.getObjects();
+		}
 
-			return instance.viewInstances[viewIndex].stage.getObjects();
+		if(elementType === 'text') {
+
+			var textElements = [];
+			allElements.forEach(function(elem) {
+
+				if(FPDUtil.getType(elem.type) === 'text') {
+					textElements.push(elem);
+				}
+
+			});
+
+			return textElements;
 
 		}
+		else if(elementType === 'image') {
+
+			var imageElements = [];
+			allElements.forEach(function(elem) {
+
+				if(FPDUtil.getType(elem.type) === 'image') {
+					imageElements.push(elem);
+				}
+
+			});
+
+			return imageElements;
+
+		}
+
+		return allElements;
 
 	};
 
@@ -10849,10 +11106,10 @@ var FancyProductDesigner = function(elem, opts) {
 	 */
 	this.createImage = function(openInBlankPage, forceDownload, backgroundColor, options) {
 
-		if(typeof(openInBlankPage)==='undefined') openInBlankPage = true;
-		if(typeof(forceDownload)==='undefined') forceDownload = false;
-		backgroundColor = typeof backgroundColor !== 'undefined' ? backgroundColor : 'transparent';
-		options = typeof options !== 'undefined' ? options : {};
+		openInBlankPage = openInBlankPage === undefined ? true : openInBlankPage;
+		openInBlankPage = forceDownload === undefined ? false : forceDownload;
+		backgroundColor = backgroundColor === undefined ? 'transparent' : backgroundColor;
+		options = options === undefined ? {} : options;
 		format = options.format === undefined ? 'png' : options.format;
 
 		instance.getProductDataURL(function(dataURL) {
@@ -10940,7 +11197,7 @@ var FancyProductDesigner = function(elem, opts) {
 	 */
 	this.getElementByID = function(id, viewIndex) {
 
-		viewIndex = typeof viewIndex === 'undefined' ? instance.currentViewIndex : viewIndex;
+		viewIndex = viewIndex === undefined ? instance.currentViewIndex : viewIndex;
 
 		return instance.viewInstances[viewIndex].getElementByID(id);
 
@@ -10956,8 +11213,8 @@ var FancyProductDesigner = function(elem, opts) {
 	 */
 	this.getProduct = function(onlyEditableElements, customizationRequired) {
 
-		onlyEditableElements = typeof onlyEditableElements !== 'undefined' ? onlyEditableElements : false;
-		customizationRequired = typeof customizationRequired !== 'undefined' ? customizationRequired : false;
+		onlyEditableElements = onlyEditableElements === undefined ? false : onlyEditableElements;
+		customizationRequired = customizationRequired === undefined ? false : customizationRequired;
 
 		if(customizationRequired && !productIsCustomized) {
 			FPDUtil.showModal(instance.getTranslation('misc', 'customization_required_info'));
@@ -10971,41 +11228,35 @@ var FancyProductDesigner = function(elem, opts) {
 
 		//check if an element is out of his containment
 		var viewElements = this.getElements();
-		for(var i=0; i < viewElements.length; ++i) {
+		viewElements.forEach(function(element) {
 
-			for(var j=0; j < viewElements[i].length; ++j) {
-
-				var element = viewElements[i][j];
-				if(element.isOut && element.boundingBoxMode === 'inside') {
-					FPDUtil.showModal(element.title+': '+instance.getTranslation('misc', 'out_of_bounding_box'));
-					return false;
-				}
-
+			if(element.isOut && element.boundingBoxMode === 'inside') {
+				FPDUtil.showModal(element.title+': '+instance.getTranslation('misc', 'out_of_bounding_box'));
+				return false;
 			}
 
-		}
+		});
 
 		var product = [];
 		//add views
 		for(var i=0; i < instance.viewInstances.length; ++i) {
 
-			var viewInstance = instance.viewInstances[i];
-			product.push({
-				title: viewInstance.title,
-				thumbnail: viewInstance.thumbnail,
-				elements: [],
-				options: instance.viewInstances[i].options,
-				names_numbers: viewInstance.names_numbers,
-				mainElement: viewInstance.mainElement,
-				mask: viewInstance.mask
-			});
+			var viewInstance = instance.viewInstances[i],
+				relevantViewOpts = {
+					stageWidth: viewInstance.options.stageWidth,
+					stageHeight: viewInstance.options.stageHeight,
+					customAdds: viewInstance.options.customAdds,
+					customImageParameters: viewInstance.options.customImageParameters,
+					customTextParameters: viewInstance.options.customTextParameters,
+					maxPrice: viewInstance.options.maxPrice,
+					optionalView: viewInstance.options.optionalView
+				};
 
-		}
+			var viewElements = instance.viewInstances[i].stage.getObjects(),
+				jsonViewElements = [];
 
-		for(var i=0; i < viewElements.length; ++i) {
-
-			for(var j=0; j < viewElements[i].length; ++j) {
-				var element = viewElements[i][j];
+			for(var j=0; j < viewElements.length; ++j) {
+				var element = viewElements[j];
 
 				if(element.title !== undefined && element.source !== undefined) {
 					var jsonItem = {
@@ -11017,14 +11268,26 @@ var FancyProductDesigner = function(elem, opts) {
 
 					if(onlyEditableElements) {
 						if(element.isEditable) {
-							product[i].elements.push(jsonItem);
+							jsonViewElements.push(jsonItem);
 						}
 					}
 					else {
-						product[i].elements.push(jsonItem);
+						jsonViewElements.push(jsonItem);
 					}
 				}
 			}
+
+			product.push({
+				title: viewInstance.title,
+				thumbnail: viewInstance.thumbnail,
+				elements: jsonViewElements,
+				options: relevantViewOpts,
+				names_numbers: viewInstance.names_numbers,
+				mainElement: viewInstance.mainElement,
+				mask: viewInstance.mask,
+				locked: viewInstance.locked
+			});
+
 		}
 
 		//returns an array with all views
@@ -11059,42 +11322,26 @@ var FancyProductDesigner = function(elem, opts) {
 	 * Returns an array with all custom added elements.
 	 *
 	 * @method getCustomElements
-	 * @param {string} [type='all'] The type of elements. Possible values: 'all', 'image', 'text'
+	 * @param {string} [type='all'] The type of elements. Possible values: 'all', 'image', 'text'.
+	 * @param {Number} [viewIndex=-1] The index of the target view. By default all views are target.
+	 * @param {String} [deselectElement=true] Deselect current selected element.
 	 * @return {array} An array with objects with the fabric object and the view index.
 	 */
-	this.getCustomElements = function(type) {
+	this.getCustomElements = function(type, viewIndex, deselectElement) {
 
-		type = typeof type === 'undefined' ? 'all' : type;
-
-		var views = this.getElements(),
+		var elements = this.getElements(viewIndex, type, deselectElement),
 			customElements = [];
 
-		for(var i=0; i< views.length; ++i) {
-			var elements = views[i];
+		elements.forEach(function(element) {
 
-			for(var j=0; j < elements.length; ++j) {
-				var element = elements[j],
-					fpdElement = null;
+			if(element.isCustom) {
 
-				if(element.isCustom) {
-
-					if(type === 'image' || type === 'text') { //only image or text elements
-
-						if(FPDUtil.getType(element.type) === type) {
-							customElements.push({element: element, viewIndex: i});
-						}
-
-					}
-					else { //get all custom added elements
-						customElements.push({element: element, viewIndex: i});
-					}
-
-				}
+				var viewIndex = instance.$productStage.children('.fpd-view-stage').index(element.canvas.wrapperEl);
+				customElements.push({element: element, viewIndex: viewIndex});
 
 			}
 
-
-		}
+		});
 
 		return customElements;
 
@@ -11222,9 +11469,8 @@ var FancyProductDesigner = function(elem, opts) {
 
 		quantity = quantity == '' || quantity < 0 ? 1 : quantity;
 		instance.orderQuantity = quantity;
-		instance.currentPrice = instance.singleProductPrice * instance.orderQuantity;
 
-		var truePrice = _priceHandler();
+		var truePrice = instance.calculatePrice();
 
 		$elem.trigger('priceChange', [null, truePrice, instance.singleProductPrice]);
 
@@ -11234,7 +11480,7 @@ var FancyProductDesigner = function(elem, opts) {
 	 * Returns an order object containing the product from the getProduct() method. If using plus add-on and bulk variations, the variations will be added into the object.
 	 *
 	 * @method getOrder
-	 * @param {Object} options Options for the methods that are called inside this mehtod, e.g. getProduct() can receive two parameters.
+	 * @param {Object} [options={}] Options for the methods that are called inside this mehtod, e.g. getProduct() can receive two parameters.
 	 * @return {object} An object containing different objects representing important order data.
 	 * @example
 	 * // includes only editable elements and the user needs to customize the initial product
@@ -11242,7 +11488,7 @@ var FancyProductDesigner = function(elem, opts) {
 	 */
 	this.getOrder = function(options) {
 
-		options = typeof options === 'undefined' ? {} : options;
+		options = options === undefined ? {} : options;
 
 		instance._order.product = instance.getProduct(
 			options.onlyEditableElements || false,
@@ -11265,52 +11511,322 @@ var FancyProductDesigner = function(elem, opts) {
 	 */
 	this.getUsedFonts = function() {
 
-		var views = this.getElements(),
-			_usedFonts = [], //temp to check if already included
+		var _usedFonts = [], //temp to check if already included
 			usedFonts = [];
 
-		for(var i=0; i< views.length; ++i) {
-			var elements = views[i];
+		this.getElements(-1, 'all', false).forEach(function(element) {
 
-			for(var j=0; j < elements.length; ++j) {
-				var element = elements[j];
+			if(FPDUtil.getType(element.type) === 'text') {
 
-				if(FPDUtil.getType(element.type) === 'text') {
+				if(_usedFonts.indexOf(element.fontFamily) === -1) {
 
-					if(_usedFonts.indexOf(element.fontFamily) === -1) {
+					var fontObj = {name: element.fontFamily},
+						//grep font entry
+						result = $.grep(instance.mainOptions.fonts, function(e){
+							return e.name == element.fontFamily;
+						});
 
-						var fontObj = {name: element.fontFamily},
-							//grep font entry
-							result = $.grep(instance.mainOptions.fonts, function(e){
-								return e.name == element.fontFamily;
-							});
-
-						//check if result contains props and url prop
-						if(result.length > 0 && result[0].url) {
-							fontObj.url = result[0].url;
-						}
-
-						_usedFonts.push(element.fontFamily);
-						usedFonts.push(fontObj);
-
-
+					//check if result contains props and url prop
+					if(result.length > 0 && result[0].url) {
+						fontObj.url = result[0].url;
 					}
+
+					_usedFonts.push(element.fontFamily);
+					usedFonts.push(fontObj);
+
 
 				}
 
 			}
 
-
-		}
+		});
 
 		return usedFonts;
 
 	};
 
+	/**
+	 * Get all used colors from a single or all views.
+	 *
+	 * @method getUsedColors
+	 * @param {Number} [viewIndex=-1] The index of the target view. By default all views are target.
+	 * @return {array} An array with hexdecimal color values.
+	 */
+	this.getUsedColors = function(viewIndex) {
+
+		var usedColors = [];
+		this.getElements(viewIndex, 'all', false).forEach(function(element) {
+
+			var type = FPDUtil.elementIsColorizable(element);
+			if(type) {
+
+				if(type === 'svg' && $.isArray(element.paths)) {
+
+					element.paths.forEach(function(path) {
+						if(FPDUtil.isHex(path.fill)) {
+							usedColors.push(path.fill);
+						}
+					});
+
+				}
+				else {
+					if(FPDUtil.isHex(element.fill)) {
+						usedColors.push(element.fill);
+					}
+				}
+			}
+
+		});
+
+		return FPDUtil.arrayUnique(usedColors);
+
+	};
+
+	/**
+	 * Calculates the total price considering the elements price in all views, the order quantity and pricing rules.
+	 *
+	 * @method calculatePrice
+	 * @return {Number} The total price.
+	 */
+	this.calculatePrice = function() {
+
+		instance.currentPrice = instance.singleProductPrice * instance.orderQuantity;
+		var calculatedPrice = instance.currentPrice;
+
+		calculatedPrice += instance.pricingRulesPrice * instance.orderQuantity;
+
+		//price has decimals, set max. decimals to 2
+		if(calculatedPrice % 1 != 0) {
+			calculatedPrice = Number(calculatedPrice.toFixed(2));
+		}
+
+		return calculatedPrice;
+
+	}
+
 	_initialize();
 
 };
 
+
+
+/*! fontfaceonload - v1.0.2 - 2017-06-28
+ * https://github.com/zachleat/fontfaceonload
+ * Copyright (c) 2017 Zach Leatherman (@zachleat)
+ * MIT License */
+
+(function (root, factory) {
+	'use strict';
+	if (typeof define === 'function' && define.amd) {
+		// AMD. Register as an anonymous module.
+		define([], factory);
+	} else if (typeof exports === 'object') {
+		// Node. Does not work with strict CommonJS, but
+		// only CommonJS-like environments that support module.exports,
+		// like Node.
+		module.exports = factory();
+	} else {
+		// Browser globals (root is window)
+		root.FontFaceOnload = factory();
+	}
+}(this, function () {
+	'use strict';
+
+	var TEST_STRING = 'AxmTYklsjo190QW',
+		SANS_SERIF_FONTS = 'sans-serif',
+		SERIF_FONTS = 'serif',
+
+		defaultOptions = {
+			tolerance: 2, // px
+			delay: 100,
+			glyphs: '',
+			success: function() {},
+			error: function() {},
+			timeout: 5000,
+			weight: '400', // normal
+			style: 'normal',
+			window: window
+		},
+
+		// See https://github.com/typekit/webfontloader/blob/master/src/core/fontruler.js#L41
+		style = [
+			'display:block',
+			'position:absolute',
+			'top:-999px',
+			'left:-999px',
+			'font-size:48px',
+			'width:auto',
+			'height:auto',
+			'line-height:normal',
+			'margin:0',
+			'padding:0',
+			'font-variant:normal',
+			'white-space:nowrap'
+		],
+		html = '<div style="%s" aria-hidden="true">' + TEST_STRING + '</div>';
+
+	var FontFaceOnloadInstance = function() {
+		this.fontFamily = '';
+		this.appended = false;
+		this.serif = undefined;
+		this.sansSerif = undefined;
+		this.parent = undefined;
+		this.options = {};
+	};
+
+	FontFaceOnloadInstance.prototype.getMeasurements = function () {
+		return {
+			sansSerif: {
+				width: this.sansSerif.offsetWidth,
+				height: this.sansSerif.offsetHeight
+			},
+			serif: {
+				width: this.serif.offsetWidth,
+				height: this.serif.offsetHeight
+			}
+		};
+	};
+
+	FontFaceOnloadInstance.prototype.load = function () {
+		var startTime = new Date(),
+			that = this,
+			serif = that.serif,
+			sansSerif = that.sansSerif,
+			parent = that.parent,
+			appended = that.appended,
+			dimensions,
+			options = that.options,
+			ref = options.reference;
+
+		function getStyle( family ) {
+			return style
+				.concat( [ 'font-weight:' + options.weight, 'font-style:' + options.style ] )
+				.concat( "font-family:" + family )
+				.join( ";" );
+		}
+
+		var sansSerifHtml = html.replace( /\%s/, getStyle( SANS_SERIF_FONTS ) ),
+			serifHtml = html.replace( /\%s/, getStyle(  SERIF_FONTS ) );
+
+		if( !parent ) {
+			parent = that.parent = options.window.document.createElement( "div" );
+		}
+
+		parent.innerHTML = sansSerifHtml + serifHtml;
+		sansSerif = that.sansSerif = parent.firstChild;
+		serif = that.serif = sansSerif.nextSibling;
+
+		if( options.glyphs ) {
+			sansSerif.innerHTML += options.glyphs;
+			serif.innerHTML += options.glyphs;
+		}
+
+		function hasNewDimensions( dims, el, tolerance ) {
+			return Math.abs( dims.width - el.offsetWidth ) > tolerance ||
+				Math.abs( dims.height - el.offsetHeight ) > tolerance;
+		}
+
+		function isTimeout() {
+			return ( new Date() ).getTime() - startTime.getTime() > options.timeout;
+		}
+
+		(function checkDimensions() {
+			if( !ref ) {
+				ref = options.window.document.body;
+			}
+			if( !appended && ref ) {
+				ref.appendChild( parent );
+				appended = that.appended = true;
+
+				dimensions = that.getMeasurements();
+
+				// Make sure we set the new font-family after we take our initial dimensions:
+				// handles the case where FontFaceOnload is called after the font has already
+				// loaded.
+				sansSerif.style.fontFamily = that.fontFamily + ', ' + SANS_SERIF_FONTS;
+				serif.style.fontFamily = that.fontFamily + ', ' + SERIF_FONTS;
+			}
+
+			if( appended && dimensions &&
+				( hasNewDimensions( dimensions.sansSerif, sansSerif, options.tolerance ) ||
+				hasNewDimensions( dimensions.serif, serif, options.tolerance ) ) ) {
+
+				options.success();
+			} else if( isTimeout() ) {
+				options.error();
+			} else {
+				if( !appended && "requestAnimationFrame" in options.window ) {
+					options.window.requestAnimationFrame( checkDimensions );
+				} else {
+					options.window.setTimeout( checkDimensions, options.delay );
+				}
+			}
+		})();
+	}; // end load()
+
+	FontFaceOnloadInstance.prototype.cleanFamilyName = function( family ) {
+		return family.replace( /[\'\"]/g, '' ).toLowerCase();
+	};
+
+	FontFaceOnloadInstance.prototype.cleanWeight = function( weight ) {
+		// lighter and bolder not supported
+		var weightLookup = {
+			normal: '400',
+			bold: '700'
+		};
+
+		return '' + (weightLookup[ weight ] || weight);
+	};
+
+	FontFaceOnloadInstance.prototype.checkFontFaces = function( timeout ) {
+		var _t = this;
+		_t.options.window.document.fonts.forEach(function( font ) {
+			if( _t.cleanFamilyName( font.family ) === _t.cleanFamilyName( _t.fontFamily ) &&
+				_t.cleanWeight( font.weight ) === _t.cleanWeight( _t.options.weight ) &&
+				font.style === _t.options.style ) {
+				font.load().then(function() {
+					_t.options.success( font );
+					_t.options.window.clearTimeout( timeout );
+				});
+			}
+		});
+	};
+
+	FontFaceOnloadInstance.prototype.init = function( fontFamily, options ) {
+		var timeout;
+
+		for( var j in defaultOptions ) {
+			if( !options.hasOwnProperty( j ) ) {
+				options[ j ] = defaultOptions[ j ];
+			}
+		}
+
+		this.options = options;
+		this.fontFamily = fontFamily;
+
+		// For some reason this was failing on afontgarde + icon fonts.
+		if( !options.glyphs && "fonts" in options.window.document ) {
+			if( options.timeout ) {
+				timeout = options.window.setTimeout(function() {
+					options.error();
+				}, options.timeout );
+			}
+
+			this.checkFontFaces( timeout );
+		} else {
+			this.load();
+		}
+	};
+
+	var FontFaceOnload = function( fontFamily, options ) {
+		var instance = new FontFaceOnloadInstance();
+		instance.init(fontFamily, options);
+
+		return instance;
+	};
+
+	return FontFaceOnload;
+}));
 
 
 /*

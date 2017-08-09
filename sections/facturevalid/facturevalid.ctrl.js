@@ -52,5 +52,5 @@ angular
                 });
         };
 
-        vm.fnInit();
+       // vm.fnInit();
     });

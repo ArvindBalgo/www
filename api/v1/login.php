@@ -8,7 +8,7 @@ $response = array();
 $db = new DbHandler();
 $password = $r->customer->password;
 $email = $r->customer->email;
-$user = $db->getOneRecord("select uid,name,password,email,created,admin, pays, surname, city, postalcode,phone, address, admintype  from customers_auth where (phone='$email' or email='$email') and admin=1");
+$user = $db->getOneRecord("select uid,name,password,email,created,admin, pays, surname, city, postalcode,phone, address, admintype, token  from customers_auth where (phone='$email' or email='$email') and admin=1");
 
 if ($user != NULL) {
     if(passwordHash::check_password($user['password'],$password)){
@@ -26,6 +26,7 @@ if ($user != NULL) {
         $response['tel'] = $user['phone'];
         $response['city'] = $user['city'];
         $response['postalcode'] = $user['postalcode'];
+        $response['token'] = $user['token'];
 
         if (!isset($_SESSION)) {
             session_start();
@@ -41,6 +42,7 @@ if ($user != NULL) {
         $_SESSION['city'] = $user['city'];
         $_SESSION['postalcode'] = $user['postalcode'];
         $_SESSION['address'] = $user['address'];
+        $_SESSION['token'] = $user['token'];
     } else {
         $response['status'] = "error";
         $response['message'] = 'Login failed. Incorrect credentials';

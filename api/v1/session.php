@@ -22,4 +22,5 @@ $response["address"] = $session['address'];
 $response["city"] = $session['city'];
 $response["postalcode"] = $session['postalcode'];
 $response["tel"] = $session['tel'];
+$response["token"] = $session['token'];
 echoResponse(200, $response);

@@ -7,6 +7,7 @@
  */
 include_once 'include_all.php';
 $mode = $_GET['mode'];
+date_default_timezone_set('America/Los_Angeles');
 
 if($mode == 0) {
     $langue = new langue();

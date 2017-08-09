@@ -45,6 +45,7 @@ angular
 
                         $scope.isLogged = true;
                         $scope.utilisateur = results.name;
+                        sessionStorage.setItem("token", results.token);
 
                         $timeout(function () {
                             $scope.isLogged = true;

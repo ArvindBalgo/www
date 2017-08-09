@@ -38,6 +38,7 @@
                                     <span><button class="btn btn-sm btn-danger" style="font-size: 12px;" ng-click="home.fnReject(order)">Rejeter</button></span>-->
                                     <span class="glyphicon glyphicon-eye-open pull-right" style="cursor:pointer;" ng-click="home.fnToggleEye(order)"></span>
                                     <span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/factures/{{order.id}}.pdf" ></a></span>
+                                    <span><button class="btn btn-circle btn-sm" ng-click="home.fnGeneratePdf(order.id)"><span class="glyphicon glyphicon-book"></span></button></span>
                                 </div>
                             </div>
                         </td>

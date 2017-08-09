@@ -128,27 +128,28 @@ else if ($mode == 6) {
         $mail->addReplyTo('contact@exakom.fr', 'Information');
         $mail->isHTML(true);                                  // Set email format to HTML
 
-        //if($pays == 'FR') {
-            $mail->Subject = utf8_decode('Coupon remise');
-            $mail->Body    = utf8_decode('Bonjour '. strtoupper($user->getName() ). " " . strtoupper($user->getSurname()) .", <br> Félicitation,  vous avez reçu un coupon remise de ".$couponMain->getVal()."%. Veuillez utiliser le code suivant pour avoir votre remise sur votre prochaine commande. <b>CODE:</b>.".$couponMain->getCouponCode()."<br> Cordialment <br> Exakom");
 
-        //}
-      /*  else if($pays == "EN") {
-            $mail->Subject = utf8_decode('Exakom order receipt');
-            $mail->Body    = utf8_decode('Hello '. strtoupper($user->getName() ). " " . strtoupper($user->getSurname()) .", <br> Your order N° ".$orders_details['id']." has been registered, you will soon receive your invoice. <br> Regards <br> Exakom");
+        if($pays == 'FR') {
+            $mail->Subject = utf8_decode('Coupon remise');
+            $mail->Body    = utf8_decode('Bonjour '. strtoupper($user->getName() ). " " . strtoupper($user->getSurname()) .", <br> Félicitations, vous avez reçu un coupon remise de ".$couponMain->getVal()."%. Veuillez utiliser le code suivant pour avoir votre remise sur votre prochaine commande. <b>CODE:</b>.".$couponMain->getCouponCode()."<br> Cordialment <br> Exakom <br> Tél. 01 83 75 60 43");
+
+        }
+        else if($pays == "EN") {
+            $mail->Subject = utf8_decode('Discount coupon');
+            $mail->Body    = utf8_decode('Hello '. strtoupper($user->getName() ). " " . strtoupper($user->getSurname()) .", <br>Congratulations, you received a ".$couponMain->getVal()."% discount coupon. Please use the following code to get your discount on your next order. <b>CODE:</b>.".$couponMain->getCouponCode()."<br> Best Regards <br> Exakom <br> Tel. 01 83 75 60 43");
         }
         else if($pays == "AL") {
-            $mail->Subject = utf8_decode('Exakom bestellen quittung');
-            $mail->Body    = utf8_decode('Hallo '. strtoupper($user->getName() ). " " . strtoupper($user->getSurname()) .", <br> Ihre Bestellung Nr ".$orders_details['id']." registriert worden ist, werden Sie bald Ihre Rechnung. <br> Grüße <br> Exakom");
+            $mail->Subject = utf8_decode('Discount coupon');
+            $mail->Body    = utf8_decode('Hallo '. strtoupper($user->getName() ). " " . strtoupper($user->getSurname()) .", <br>Herzlichen Glückwunsch, Sie erhielten einen ".$couponMain->getVal()."% Rabatt Gutschein. Bitte verwenden Sie den folgenden Code, um Ihren Rabatt auf Ihre nächste Bestellung zu erhalten. <b>CODE:</b>.".$couponMain->getCouponCode()."<br> Mit freundlichen Grüßen <br> Exakom <br> Tel. 01 83 75 60 43");
         }
         else if($pays == "ES") {
-            $mail->Subject = utf8_decode('Recibo de pedido de Exakom');
-            $mail->Body    = utf8_decode('Holla '. strtoupper($user->getName() ). " " . strtoupper($user->getSurname()) .", <br> Su orden N ° ".$orders_details['id']." haya sido registrada, pronto recibirá su factura. <br> Saludos <br> Exakom");
+            $mail->Subject = utf8_decode('Discount coupon');
+            $mail->Body    = utf8_decode('Holla '. strtoupper($user->getName() ). " " . strtoupper($user->getSurname()) .", <br>Felicitaciones, recibiste un cupón de descuento del ".$couponMain->getVal()."%.Utilice el siguiente código para obtener su descuento en su próxima orden. <b>CÓDIGO:</b>.".$couponMain->getCouponCode()."<br> Saludos cordiales<br> Exakom <br> Tel. 01 83 75 60 43");
         }
         else if($pays == "IT") {
-            $mail->Subject = utf8_decode('Ricevuta di ordine Exakom');
-            $mail->Body    = utf8_decode('Ciao '. strtoupper($user->getName() ). " " . strtoupper($user->getSurname()) .", <br> Il tuo ordine N °  ".$orders_details['id']." è stato registrato, riceverai presto la tua fattura.<br> Saluti <br> Exakom");
-        }*/
+            $mail->Subject = utf8_decode('Discount coupon');
+            $mail->Body    = utf8_decode('Ciao '. strtoupper($user->getName() ). " " . strtoupper($user->getSurname()) .", <br>Complimenti, hai ricevuto una cedola di sconto del ".$couponMain->getVal()."%. Utilizza il seguente codice per ottenere il tuo sconto sul tuo ordine successivo. <b>CODICE:</b>.".$couponMain->getCouponCode()."<br> Cordiali saluti <br> Exakom <br> Tel. 01 83 75 60 43");
+        }
 
         if(!$mail->send()) {
             //echo 'Message could not be sent.';

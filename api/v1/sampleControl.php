@@ -6,6 +6,7 @@ require '../PHPMailerAutoload.php';
 include_once "../chromePHP.php";
 
 $mode = $_GET['mode'];
+
 if ($mode == 0) {
     $id = $_GET["id"];
     $cata = new cata();
@@ -490,19 +491,20 @@ if ($mode == 0) {
     $orders->save();
     $lastID = $orders->fnGetLastId();
 
-    $couponMain = new coupon_main();
-    $couponMain = $couponMain->findByPrimaryKey($_GET["coupon"]);
-    if($couponMain){
-        $couponDetail = new coupon_details();
-        $couponDetail = $couponDetail->findByCouponUser($_GET["coupon"], $_SESSION["uid"]);
-        $couponDetail->setFlag("USED");
-        $couponDetail->setDateUsed(date("Y-m-d"));
-        $couponDetail->setIdOrder($lastID);
-        $couponDetail->save();
+    if($_GET["coupon"] != "") {
+        $couponMain = new coupon_main();
+        $couponMain = $couponMain->findByPrimaryKey($_GET["coupon"]);
+        if($couponMain){
+            $couponDetail = new coupon_details();
+            $couponDetail = $couponDetail->findByCouponUser($_GET["coupon"], $_SESSION["uid"]);
+            $couponDetail->setFlag("USED");
+            $couponDetail->setDateUsed(date("Y-m-d"));
+            $couponDetail->setIdOrder($lastID["id"]);
+            $couponDetail->save();
+        }
     }
 
     foreach ($arrListKeys as $val1) {
-        //chromePHP::log($val1);
         foreach ($val1 as $key => $item) {
             //chromePHP::log(">>>  ".$key." :: ".$item);
             $tempProd = new temp_prod();
@@ -561,11 +563,16 @@ if ($mode == 0) {
                     //if( file_put_contents($TEMPIMGLOC,$decodedImg)!==false )
                     {
 
+                        $orderInfo = new orders_main();
+                        $orderInfo = $orderInfo->findByPrimaryKey($lastID["id"]);
+
+                        $userInfo = new users();
+                        $userInfo = $userInfo->findByPrimaryKey($orderInfo->getIdUser());
                         $facture = new FPDF();
                         $facture->AddPage();
                         $facture->SetFont('Arial', 'B', 16);
                         $facture->Cell(40, 10, 'EXAKOM');
-                        $facture->Cell(0, 10, 'Facture No. ' . $lastID["id"], 0, 0, 'R');
+                        $facture->Cell(0, 10, 'Facture No. ' . $orderInfo->getId(), 0, 0, 'R');
                         $facture->Ln(5);
                         $facture->SetTextColor(105, 105, 105);
                         $facture->SetFont('Arial', 'I', 12);
@@ -578,23 +585,35 @@ if ($mode == 0) {
 
                         $facture->SetFont('Arial', '', 12);
                         $facture->Cell(40, 10, 'Date: ');
-                        $facture->Cell(65, 10, '04/27/2017');
+                        $facture->Cell(65, 10, $orderInfo->getDateCreated());
                         $facture->Ln(5);
 
-                        $facture->Cell(40, 10, 'Code de client ');
-                        $facture->Cell(65, 10, '123F001');
+                        $facture->Cell(40, 10, 'Nom: ');
+                        $facture->Cell(65, 10, $userInfo->getName() ." " . $userInfo->getSurname());
                         $facture->Ln(5);
 
                         $facture->Cell(40, 10, 'No Siret ');
-                        $facture->Cell(65, 10, '8226244334 00014');
+                        $facture->Cell(65, 10, $userInfo->getSiret());
                         $facture->Ln(10);
+                        // Colors, line width and bold font
+                        $facture->SetFillColor(255,0,0);
+                        $facture->SetTextColor(255);
+                        $facture->SetDrawColor(128,0,0);
+                        $facture->SetLineWidth(.3);
+                        $facture->SetFont('','B');
+                        // Header
+                        $header = array("Quantité", 'Description', 'Prix Unitaire HT', 'Total');
+                        $w = array(40, 35, 40, 45);
+                        for($i=0;$i<count($header);$i++)
+                            $facture->Cell($w[$i],7,utf8_encode($header[$i]),1,0,'C',true);
+                        $facture->Ln();
 
-                        $facture->Cell(40, 10, 'Pour la communaute Europeenne  ');
+                        /*$facture->Cell(40, 10, 'Pour la communaute Europeenne  ');
                         $facture->Ln(5);
                         $facture->Cell(40, 10, 'numero de TVA intracomuautaire obligatoire');
                         $facture->Ln(5);
                         $facture->Cell(40, 10, 'FR81 82262443334 00014 ');
-                        $facture->Ln(5);
+                        $facture->Ln(5);*/
 
 
                         $pdf = new FPDF();

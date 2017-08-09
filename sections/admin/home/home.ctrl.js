@@ -58,6 +58,23 @@ angular
                 .error(function (data, status, headers, config) {
                 });
         };
+
+        vm.fnGeneratePdf= function(idOrder) {
+            $http({
+                method  : "POST",
+                url     : "/api/v1/pdf_generation",
+                data: $.param({mode:0, id:idOrder}),
+                headers : {'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'}
+            })
+                .success(function (data, status, headers, config) {
+                    console.log(data);
+                    jQuery('<form target="_blank" action="' + data + '" method="get"></form>').appendTo('body').submit().remove();
+
+                })
+                .error(function (data, status, headers, config) {
+                });
+        };
+
         vm.fnToggleEye = function(item) {
             if(!item.displayDetails) {
                 $http({

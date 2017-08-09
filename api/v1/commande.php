@@ -3,6 +3,7 @@ session_start();
 include_once 'include_all.php';
 include_once '../chromePHP.php';
 require '../PHPMailerAutoload.php';
+date_default_timezone_set('America/Los_Angeles');
 $mode = $_POST['mode'];
 if ($mode == 1) {
     $orders = new orders_main();
@@ -185,10 +186,12 @@ if ($mode == 1) {
     $orderDetails = new orders_details();
     $orderDetails = $orderDetails->getProds($_POST["id"]);
     $rows = [];
+
     foreach ($orderDetails as $item) {
         $row = [];
         $row["id"] = $item["id"];
         $row["title"] = $item["title"];
+        $row["dimension"] = $item["dimension"];
         $row["escargot_val"] = $item["escargot_val"];
         $row["contours"] = $item["contours"];
         $row["liserai"] = $item["liserai"];

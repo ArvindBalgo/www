@@ -104,7 +104,7 @@ angular
                 else {
                     vm.strMsgCode = "Remise: " + response.data.montant + " %";
                     vm.montants.montant_net = (vm.montants.montant_net_orig * (1 - (response.data.montant / 100))).toFixed(2);
-                    vm.montants.montant_net_orig = vm.montants.montant_net.toFixed(2);
+                    vm.montants.montant_net_orig = vm.montants.montant_net;
                     sessionStorage.setItem("coupon", response.data.id);
                 }
             }, function errorCallback(error) {
@@ -158,16 +158,15 @@ angular
             }).then(function successCallback(response) {
                     vm.arrProduits = [];
                     //sessionStorage.clear();
-                    toastr.success("Order Confirmed");
+                   // toastr.success("Order Confirmed");
+                    // To submit to kliknpay
+                    //document.getElementById("knp-form").submit();
                 }
                 , function errorCallback(error) {
                     console.log(error);
                 });
 
-            /*
-             To submit to kliknpay
-             document.getElementById("knp-form").submit();
-             */
+
         };
 
         var lang = sessionStorage.getItem("LANG");

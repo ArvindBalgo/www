@@ -239,6 +239,7 @@ angular
                                 rotatable: true,
                                 colors: '#000',
                                 autoCenter: true,
+                                minDPI    : 10,
                                 boundingBox: "Base"
                             },
                             customAdds: {
@@ -1777,7 +1778,7 @@ angular
                                 sessionStorage.clear();
                                 $('#modalMaquette').modal('hide');
                                 $('#modalPanier').modal('hide');
-                                toastr.success("Order Confirmed");
+                                toastr.success($scope.langue["commande_validee"]);
                             }
                             , function errorCallback(error) {
                                 console.log(error);
@@ -1929,7 +1930,7 @@ angular
                                                 vm.arrProduits = [];
                                             });
                                             toastr.options.positionClass = 'toast-top-right';
-                                            toastr.success('Produit rajouté');
+                                            toastr.success($scope.langue["produit_rajoute"]);
                                         }
                                     },
                                     valider: {
@@ -2017,7 +2018,7 @@ angular
                                                 vm.arrProduits = [];
                                             });
                                             toastr.options.positionClass = 'toast-top-right';
-                                            toastr.success('Produit rajouté');
+                                            toastr.success($scope.langue["produit_rajoute"]);
                                         }
                                     }
                                 }
@@ -2112,7 +2113,7 @@ angular
                                     sessionStorage.setItem("produit" + countProduit, JSON.stringify(obj));
                                     vm.arrProduits = [];
                                     toastr.options.positionClass = 'toast-top-right';
-                                    toastr.success('Produit rajouté');
+                                    toastr.success($scope.langue["produit_rajoute"]);
                                 }, function errorCallback(error) {
                                     sessionStorage.setItem("produitCount", countProduit);
                                     arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
@@ -2125,13 +2126,11 @@ angular
                                     sessionStorage.setItem("produit" + countProduit, JSON.stringify(obj));
                                     vm.arrProduits = [];
                                     toastr.options.positionClass = 'toast-top-right';
-                                    toastr.success('Produit rajouté');
+                                    toastr.success($scope.langue["produit_rajoute"]);
                                 });
 
                             });
                         }
-
-
                         return;
 
                     };

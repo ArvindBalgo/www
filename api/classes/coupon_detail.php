@@ -130,6 +130,7 @@ class coupon_details
             $requete .= "'" . $this->_flag . "',";
             $requete .= "'" . $this->_date_used . "')";
         }
+        chromePHP::log($requete);
         $r = $this->conn->query($requete) or die($this->conn->error . __LINE__);
         return $r;
     }

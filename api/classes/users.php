@@ -23,6 +23,7 @@ class users
     private $_postalcode = null;
     private $_admintype = 0;
     private $_nosiret = "";
+    private $_token = "";
 
     private static $SELECT = "SELECT * FROM customers_auth ";
 
@@ -107,6 +108,11 @@ class users
         $this->_nosiret = $val;
     }
 
+    public function setToken($val)
+    {
+        $this->_token = $val;
+    }
+
     //**** Getters *****
 
     public function getUid()
@@ -181,6 +187,11 @@ class users
         return $this->_nosiret;
     }
 
+    public function getToken()
+    {
+        return $this->_token;
+    }
+
     public function delete($uid)
     {
         $requete = "delete from customers_auth where uid=" . $uid;
@@ -197,7 +208,7 @@ class users
         }
         if ($this->_uid > 0) {
             $requete = "update customers_auth set name='" . ($this->_name) . "'";
-            $requete .= ",company_name='" . $this->_company_name. "'";
+            $requete .= ",company_name='" . $this->_company_name . "'";
             $requete .= ",surname='" . $this->_surname . "'";
             $requete .= ",email='" . $this->_email . "'";
             $requete .= ",phone='" . $this->_phone . "'";
@@ -209,6 +220,7 @@ class users
             $requete .= ",admintype='" . $this->_admintype . "'";
             $requete .= ",nosiret='" . $this->_nosiret . "'";
             $requete .= ",postalcode='" . $this->_postalcode . "'";
+            $requete .= ",token='" . $this->_token . "'";
             $requete .= " where uid=" . $this->_uid;
 
         } else {
@@ -226,10 +238,11 @@ class users
             $requete .= "postalcode,";
             $requete .= "admintype,";
             $requete .= "nosiret,";
+            $requete .= "token,";
             $requete .= "created";
             $requete .= ") VALUES (";
             $requete .= "'" . $this->_uid . "',";
-            $requete .= "'" . $this->_company_name. "',";
+            $requete .= "'" . $this->_company_name . "',";
             $requete .= "'" . $this->_name . "',";
             $requete .= "'" . $this->_surname . "',";
             $requete .= "'" . $this->_email . "',";
@@ -241,6 +254,7 @@ class users
             $requete .= "'" . $this->_postalcode . "',";
             $requete .= "'" . $this->_admintype . "',";
             $requete .= "'" . $this->_nosiret . "',";
+            $requete .= "'" . $this->_token . "',";
             $requete .= "'" . $this->_created . "')";
         }
 
@@ -258,7 +272,7 @@ class users
 
         $user = new users();
         $user->_uid = $rs["uid"];
-        $user->_company_name= $rs["company_name"];
+        $user->_company_name = $rs["company_name"];
         $user->_name = $rs["name"];
         $user->_surname = $rs["surname"];
         $user->_email = $rs["email"];
@@ -271,6 +285,7 @@ class users
         $user->_admintype = $rs["admintype"];
         $user->_nosiret = $rs["nosiret"];
         $user->_created = $rs["created"];
+        $user->_token = $rs["token"];
         return $user;
     }
 
