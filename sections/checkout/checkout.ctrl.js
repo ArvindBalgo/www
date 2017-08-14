@@ -12,6 +12,9 @@ angular
         vm.userDetails = [];
         vm.discountCode = "";
         vm.strMsgCode = "Verification Code";
+        vm.userState = '';
+        vm.states = [];
+        vm.orderNum = 0;
 
         vm.lang = sessionStorage.getItem("LANG");
         if (vm.lang == "" || vm.lang == null) {
@@ -25,6 +28,18 @@ angular
             if (param == "") {
                 param = "FR";
             }
+
+            $http({
+                method: 'GET',
+                params: {mode: 21, lang: param},
+                url: 'api/v1/sampleControl.php'
+            }).then(function successCallback(response) {
+                vm.states = [];
+                angular.forEach(response.data, function(value){
+                    vm.states.push(value);
+                })
+                vm.userState  =0 ;
+            });
         };
 
 
@@ -151,6 +166,7 @@ angular
             if (!valCoupon) {
                 valCoupon = "";
             }
+            $('body').addClass("spinner");
             $http({
                 method: 'GET',
                 params: {mode: 20, list: JSON.stringify(arrListCheckoutProds), coupon: valCoupon},
@@ -160,10 +176,19 @@ angular
                     //sessionStorage.clear();
                    // toastr.success("Order Confirmed");
                     // To submit to kliknpay
+                vm.orderNum = response.data.id;
+                    $('body').removeClass("spinner");
+                    if(vm.userState == 1){
+                        document.getElementById("knp-form_xfois").submit();
+                    }
+                    else{
+                        document.getElementById("knp-form").submit();
+                    }
                     //document.getElementById("knp-form").submit();
                 }
                 , function errorCallback(error) {
                     console.log(error);
+                    $('body').removeClass("spinner");
                 });
 
 

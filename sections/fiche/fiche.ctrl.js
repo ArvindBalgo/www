@@ -1,6 +1,6 @@
 angular
     .module('myApp')
-    .controller('ficheController', function ($scope, $location, $timeout, messages, $http, Data, $translate, $routeParams) {
+    .controller('ficheController', function ($scope, $location, $timeout, messages, $http, Data, $translate, $routeParams, FileUploader) {
         $(".modal-backdrop").remove();
         $("body").removeClass("modal-open");
         var vm = this;
@@ -11,7 +11,9 @@ angular
         vm.listMetier = [];
         vm.libMetier = [];
         vm.arrProduits = [];
+        vm.arrGalleryImagesPerso= [];
         vm.activeId = 1;
+        vm.activeTabId = 1;
         vm.isShow = 1;
         vm.produit = [{titre: "", commentaire: ''}];
         vm.unitprix = 0;
@@ -32,6 +34,40 @@ angular
         $(function () {
             $('[data-toggle="popover"]').popover()
         });
+
+        var uploader = $scope.uploader = new FileUploader({
+            url: 'api/galleryUploadCustom.php'
+        });
+
+// FILTERS
+
+        uploader.filters.push({
+            name: 'customFilter',
+            fn: function(item /*{File|FileLikeObject}*/, options) {
+                return this.queue.length < 10;
+            }
+        });
+        uploader.filters.push({
+            name: 'imageFilter',
+            fn: function(item /*{File|FileLikeObject}*/, options) {
+                var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+            }
+        });
+        uploader.formData.push({
+        });
+        uploader.onBeforeUploadItem = function(item) {
+
+        };
+        uploader.onAfterAddingFile = function(item) {
+            console.log("on after adding all files", item);
+            uploader.uploadAll();
+        }
+        uploader.onSuccessItem = function(fileItem, response, status, headers) {
+            console.info('onSuccessItem', response);
+            vm.arrGalleryImagesPerso.push(response);
+
+        };
 
         vm.arrProduits = [];
         var count = Number(sessionStorage.getItem("produitCount"));
@@ -211,7 +247,7 @@ angular
 
                     var $yourDesigner = $('#model'),
                         pluginOpts = {
-                            mainBarModules: ['images', 'text'],
+                            mainBarModules: ['text'],
                             colorSelectionPlacement: 'inside-br',
                             stageWidth: 2000,
                             stageHeight: 1000,
@@ -239,7 +275,7 @@ angular
                                 rotatable: true,
                                 colors: '#000',
                                 autoCenter: true,
-                                minDPI    : 10,
+                                minDPI: 10,
                                 boundingBox: "Base"
                             },
                             customAdds: {
@@ -2134,7 +2170,9 @@ angular
                         return;
 
                     };
-
+                    vm.fnClickTabs = function (tabVal) {
+                        vm.activeTabId = tabVal;
+                    };
                     vm.fnClickPanier = function () {
                         vm.arrProduits = [];
                         var count = Number(sessionStorage.getItem("produitCount"));
@@ -2542,7 +2580,9 @@ angular
                     vm.fnUploadImg = function (image) {
                         yourDesigner.addCustomImage(image.src, image.libelle);
                     }
-
+                    vm.fnUploadImgCustom = function (image) {
+                        yourDesigner.addCustomImage(image, 'custom');
+                    }
                 }, 0);
                 $('body').removeClass("spinner");
             }, function errorCallback(error) {

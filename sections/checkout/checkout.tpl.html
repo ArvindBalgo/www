@@ -172,6 +172,8 @@
                     </tr>
                     <input type="hidden" name="ID" value="1494249383">
                     <input name="MONTANT" type="hidden" value="{{checkout.montants.montant_net}}">
+                    <input name="RETOURVOK" type="hidden" value="{{checkout.orderNum}}">
+                    <input name="RETOURVHS" type="hidden" value="{{checkout.orderNum}}">
                     <tr>
                         <td width="100%" colspan="2">
                             <p align="center">
@@ -181,6 +183,72 @@
                     </tr>
                 </table>
             </form>
+            <form method="POST" action="https://www.klikandpay.com/paiement/order1.pl" accept-charset="UTF8"
+                  id="knp-form_xfois" target="_top">
+                <table border="0" cellpadding="2" cellspacing="0" width="20%">
+                    <meta charset="UTF-8">
+                    <tr style="display: none;">
+                        <td width="50%">{{'chk_surname' | translate}}:</td>
+                        <td width="50%"><input type="text" name="NOM" size="24" ng-model="checkout.userDetails.surname">
+                        </td>
+                    </tr>
+                    <tr style="display: none;">
+                        <td width="50%">{{'chk_name' | translate}}:</td>
+                        <td width="50%"><input type="text" name="PRENOM" size="24" ng-model="checkout.userDetails.name">
+                        </td>
+                    </tr>
+                    <tr style="display: none;">
+                        <td width="50%">{{'chk_address' | translate}}:</td>
+                        <td width="50%"><input type="text" name="ADDRESSE" size="24"
+                                               ng-model="checkout.userDetails.address"></td>
+                    </tr>
+                    <tr style="display: none">
+                        <td width="50%">{{'chk_codepostal' | translate}}:</td>
+                        <td width="50%"><input type="text" name="CODEPOSTAL" size="24"
+                                               ng-model="checkout.userDetails.postalcode"></td>
+                    </tr>
+                    <tr style="display: none;">
+                        <td width="50%">{{'chk_city' | translate}}:</td>
+                        <td width="50%"><input type="text" name="VILLE" size="24" ng-model="checkout.userDetails.city">
+                        </td>
+                    </tr>
+                    <input type="hidden" name="L" value="checkout.lang" ng-model="FR"/>
+
+                    <tr style="display: none">
+                        <td width="50%">{{'chk_tel' | translate}}:</font></td>
+                        <td width="50%"><input type="text" name="TEL" size="24" ng-model="checkout.userDetails.tel">
+                        </td>
+                    </tr>
+                    <tr style="display: none">
+                        <td width="50%">{{'chk_email' | translate}}:</font></td>
+                        <td width="50%"><input type="text" name="EMAIL" size="24" ng-model="checkout.userDetails.email">
+                        </td>
+                    </tr>
+                    <input type="hidden" name="ID" value="1494249383">
+                    <input name="MONTANT" type="hidden" value="{{checkout.montants.montant_net}}">
+                    <input type="hidden"  name="EXTRA" value="6FOIS">
+                    <input type="hidden" name="RETOURVOK" value="{{checkout.orderNum}}">
+                    <input type="hidden" name="RETOURVHS" value="{{checkout.orderNum}}">
+                    <tr>
+                        <td width="100%" colspan="2">
+                            <p align="center">
+
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <div>
+                <md-input-container>
+                    <label>{{'paiement' | translate}}</label>
+                    <md-select ng-model="checkout.userState">
+                        <md-option ng-repeat="state in checkout.states" ng-value="$index" >
+                            {{state}}
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+
             <button class="btn btn-lg btn-success" value="Facturation" ng-click="checkout.fnPay()">
                 {{'paiement' | translate}}
             </button>

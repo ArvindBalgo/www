@@ -62,7 +62,7 @@ angular
         vm.fnGeneratePdf= function(idOrder) {
             $http({
                 method  : "POST",
-                url     : "/api/v1/pdf_generation",
+                url     : "/api/v1/pdf_generation.php",
                 data: $.param({mode:0, id:idOrder}),
                 headers : {'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'}
             })

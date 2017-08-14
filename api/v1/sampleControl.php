@@ -466,7 +466,6 @@ if ($mode == 0) {
         foreach ($val as $key => $item) {
             $tempProd = new temp_prod();
             $tempProd = $tempProd->findByComboKeyRandom($key, $item);
-            chromePHP::log($tempProd->getIdProduit() . "   :::");
             if ($tempProd) {
                 $fraisLivraison = new frais_livraison();
                 $fraisLivraison = $fraisLivraison->findByIdDimQte($tempProd->getIdProduit(), $tempProd->getDimension(), $tempProd->getQte(), $_SESSION["pays"]);
@@ -506,7 +505,6 @@ if ($mode == 0) {
 
     foreach ($arrListKeys as $val1) {
         foreach ($val1 as $key => $item) {
-            //chromePHP::log(">>>  ".$key." :: ".$item);
             $tempProd = new temp_prod();
             $tempProd = $tempProd->findByComboKeyRandom($key, $item);
 
@@ -558,7 +556,7 @@ if ($mode == 0) {
 
 //  Check if image was properly decoded
                 //if( $decodedImg!==false )
-                {
+                /*{
                     //  Save image to a temporary location
                     //if( file_put_contents($TEMPIMGLOC,$decodedImg)!==false )
                     {
@@ -616,7 +614,7 @@ if ($mode == 0) {
                         $facture->Ln(5);*/
 
 
-                        $pdf = new FPDF();
+                        /*$pdf = new FPDF();
                         $pdf->AddPage();
                         $pdf->SetFont('Arial', 'B', 16);
                         $pdf->Cell(40, 10, 'No COMMANDE:' . $lastID["id"]);
@@ -640,14 +638,14 @@ if ($mode == 0) {
                                     $pdf->Cell(0, 50, 'Police: ' . $elem->parameters->fontFamily);
                                 }
                             }
-                        }
-                        $pdf->Output($filename, 'F');
-                        $facture->Output($fileNameFacture, 'F');
+                       // }
+                       // $pdf->Output($filename, 'F');
+                        //$facture->Output($fileNameFacture, 'F');
 
                         //  Delete image from server
                         //  unlink($TEMPIMGLOC);
                     }
-                }
+                }*/
             }
         }
     }
@@ -661,6 +659,7 @@ if ($mode == 0) {
     $user = new users();
     $user = $user->findByPrimaryKey($idUser);
     $paysClient = $user->getPays();
+    $pays = $paysClient;
 
     $mail->isSMTP();                                      // Set mailer to use SMTP
     $mail->Host = 'mail.exakom.fr';  // Specify main and backup SMTP servers
@@ -736,7 +735,10 @@ if ($mode == 0) {
     }
 
 
-    print_r("done");
+    print_r(json_encode($lastID));
 } else if ($mode == 21) {
 
+    $langue  = new langue();
+    $langue = $langue->rechMultiKeys($_GET['lang']);
+    print json_encode($langue);
 }

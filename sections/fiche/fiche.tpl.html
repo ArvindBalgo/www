@@ -594,14 +594,33 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title"><span>{{'image' | translate}}</span></h4>
+                <p style="line-height: 1; font-size: smaller" class="modal-title"><span>{{'image' | translate}}</span></p>
             </div>
-            <div class="modal-body" style="height: 550px;overflow: auto">
+            <ul class="nav nav-tabs">
+                <li id="tabImage" ng-class="{ active: fiche.activeTabId == 1 }" style="cursor: pointer"
+                    ng-click="fiche.fnClickTabs(1)"><a>{{'image_banque' | translate}}</a></li>
+                <li id="tabUpload" ng-class="{ active: fiche.activeTabId == 2 }" style="cursor: pointer"
+                    ng-click="fiche.fnClickTabs(2)"><a>{{'image_perso' | translate}}</a></li>
+            </ul>
+            <div ng-show="fiche.activeTabId == 1" class="modal-body" style="height: 500px;overflow: auto">
                 <div class="row" style="padding: 3px;">
                     <div class="col-md-4" style="padding: 15px;" ng-repeat="ligne in fiche.productsDesign">
                         <button class="btn btn-lg btn-info" style="background: {{ligne.color_code}}; width: 80%"
                                 ng-click="fiche.fnImagesLoad(ligne)">{{ligne.libelle}}
                         </button>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="fiche.activeTabId == 2" class="modal-body" style="height: 500px;overflow: auto">
+                <div class="row" style="padding: 3px;">
+                    <div class="col-md-4" style="padding: 15px;">
+                        <input class="col-md-5 col-md-offset-2" style="margin-top: 15px" type="file" nv-file-select="" uploader="uploader">
+                    </div>
+                </div>
+                <div class="row" style="padding: 3px;">
+                    <div class="col-md-4" style="padding: 15px;" ng-repeat="ligne in fiche.arrGalleryImagesPerso">
+                        <img src="{{ligne}}" style="width: 200px; height: 200px;"
+                             ng-click="fiche.fnUploadImgCustom(ligne)">
                     </div>
                 </div>
             </div>

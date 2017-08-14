@@ -144,6 +144,33 @@ class langue {
         return $rows;
     }
 
+    public function rechMultiKeys($lang) { // Recherche de toutes les adresses
+        $listLOG =	 array();
+        //$requete = self::$SELECT." where key_identifier IN('payment_direct', 'payment_varier_2fois', 'payment_fix_6fois')";
+        $requete = self::$SELECT." where key_identifier IN('payment_direct', 'payment_fix_6fois')";
+        $rs = $this->conn->query($requete) or die($this->conn->error.__LINE__);
+        $rows = [];
+        while($row = mysqli_fetch_array($rs))
+        {
+            if($lang == 'EN') {
+                $rows[$row["key_identifier"]] = $row["english"];
+            }
+            else if($lang == 'FR') {
+                $rows[$row["key_identifier"]] = $row["french"];
+            }
+            else if($lang == 'ES') {
+                $rows[$row["key_identifier"]] = $row["spanish"];
+            }
+            else if($lang == 'AL') {
+                $rows[$row["key_identifier"]] = $row["german"];
+            }
+            else if($lang == 'IT') {
+                $rows[$row["key_identifier"]] = $row["italien"];
+            }
+        }
+        return $rows;
+    }
+
     public function findByPrimaryKey($key) { // Recherche d'une adresse par id
         $requete = self::$SELECT . " WHERE id=" . $key;
         $rs = $this->conn->query($requete);
