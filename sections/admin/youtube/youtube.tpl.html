@@ -1,0 +1,33 @@
+<header ng-include="'sections/admin/header.html'"></header>
+<div class="row" >
+    <div class="col-md-12" style="overflow: auto">
+        <table>
+            <th>id</th>
+            <th>Titre</th>
+            <th>Description</th>
+            <th>Lien</th>
+            <th>Actions</th>
+            <tr ng-repeat="ligne in youtube.arrData">
+                <td>{{ligne.id}}</td>
+                <td>
+                    <input type="text" class="form-control" ng-model="ligne.title" placeholder="" aria-describedby="basic-addon1">
+                </td>
+                <td>
+                    <textarea rows="4" cols="50" class="form-control" ng-model="ligne.description" placeholder="" aria-describedby="basic-addon1"></textarea>
+                </td>
+                <td>
+                    <input type="text" class="form-control" ng-model="ligne.links" placeholder="" aria-describedby="basic-addon1">
+                </td>
+                <td>
+                    <div>
+                        <button type='button' title="Sauvegarder" class='btn btn-success btn-circle' style='margin-left: 5px;margin-top: 5px;' ng-click="youtube.fnValider(ligne)"><i class='glyphicon glyphicon-ok'></i></button>
+                        <!--<button type='button' title="Annuler les modifs pour cette ligne" class='btn btn-danger btn-circle' style='margin-left: 5px;margin-top: 5px;' ng-click="youtube.fnInitialiser(ligne)"><i class='glyphicon glyphicon-remove'></i></button>
+                    --></div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<footer class="sig">
+    <button title="Création d'une nouvelle ligne" class="btn btn-large btn-primary pull-right" style="margin-top:5px;margin-right: 10px" ng-click="youtube.fnNew()">Nouvelle ligne</button>
+</footer>

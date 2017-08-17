@@ -37,6 +37,7 @@
     <link rel="stylesheet" type="text/css" href="sections/admin/prod_client/prod_client.css" />
     <link rel="stylesheet" type="text/css" href="sections/admin/polices/polices.css" />
     <link rel="stylesheet" type="text/css" href="sections/admin/coupon/coupon.css" />
+    <link rel="stylesheet" type="text/css" href="sections/admin/youtube/youtube.css" />
     <link rel="stylesheet" type="text/css" href="css/custom.css" />
     <!-- endbuild -->
 </head>
@@ -120,5 +121,6 @@
 <script src="sections/admin/polices/polices.ctrl.js"></script>
 <script src="sections/admin/operateurs/operateurs.ctrl.js"></script>
 <script src="sections/admin/coupon/coupon.ctrl.js"></script>
+<script src="sections/admin/youtube/youtube.ctrl.js"></script>
 </body>
 </html>
