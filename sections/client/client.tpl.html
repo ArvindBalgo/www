@@ -59,8 +59,8 @@
                 <td data-title="langue.client_no_commande" filter="{id: 'number'}" sortable="'id'">{{row.id}}</td>
                 <td data-title="langue.client_nb_prod" sortable="'num_prods'">{{row.num_prods}}</td>
                 <td data-title="langue.client_tax" sortable="'tax'"><b>{{row.tax | currency : "€ "}}</b></td>
-                <td data-title="langue.client_prix_ttc" filter="{total_prix_ttc: 'number'}" sortable="'total_prix_ttc'">
-                    <b>{{row.total_prix_ttc | currency : "€ "}}</b></td>
+                <td data-title="langue.client_prix_ttc" filter="{total_prix_net: 'number'}" sortable="'total_prix_ttc'">
+                    <b>{{row.total_prix_net | currency : "€ "}}</b></td>
                 <td data-title="langue.client_date_commande" sortable="'date_created'">{{row.date_commande}}</td>
                 <td data-title="langue.client_status" sortable="'status'"><span class="badge">{{row.status_val}}</span>
                 </td>

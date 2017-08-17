@@ -147,7 +147,7 @@ class langue {
     public function rechMultiKeys($lang) { // Recherche de toutes les adresses
         $listLOG =	 array();
         //$requete = self::$SELECT." where key_identifier IN('payment_direct', 'payment_varier_2fois', 'payment_fix_6fois')";
-        $requete = self::$SELECT." where key_identifier IN('payment_direct', 'payment_fix_6fois')";
+        $requete = self::$SELECT." where key_identifier IN('payment_fix_1fois', 'payment_fix_2fois','payment_fix_3fois','payment_fix_4fois','payment_fix_5fois','payment_fix_6fois')";
         $rs = $this->conn->query($requete) or die($this->conn->error.__LINE__);
         $rows = [];
         while($row = mysqli_fetch_array($rs))

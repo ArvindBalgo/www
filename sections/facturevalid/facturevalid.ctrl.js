@@ -46,11 +46,28 @@ angular
                     vm.arrProduits = [];
                     sessionStorage.clear();
                     toastr.success("Order Confirmed");
+
                 }
                 , function errorCallback(error) {
                     console.log(error);
                 });
         };
 
+        vm.fnLoadPub = function () {
+            var langSel = sessionStorage.getItem('LANG');
+            if (langSel == "" || langSel == null) {
+                return;
+            }
+            $http({
+                method: 'GET',
+                params: {mode: 3, pays: langSel},
+                url: 'api/v1/produitCRUD.php'
+            }).then(function successCallback(response) {
+                $scope.pub_src = response.data.link;
+            }, function errorCallback(error) {
+
+            });
+        }
+        vm.fnLoadPub();
        // vm.fnInit();
     });

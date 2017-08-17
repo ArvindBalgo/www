@@ -15,6 +15,7 @@ angular
         vm.userState = '';
         vm.states = [];
         vm.orderNum = 0;
+        vm.xmois = 1;
 
         vm.lang = sessionStorage.getItem("LANG");
         if (vm.lang == "" || vm.lang == null) {
@@ -35,10 +36,11 @@ angular
                 url: 'api/v1/sampleControl.php'
             }).then(function successCallback(response) {
                 vm.states = [];
-                angular.forEach(response.data, function(value){
+                angular.forEach(response.data, function (value) {
                     vm.states.push(value);
                 })
-                vm.userState  =0 ;
+                vm.userState = 0;
+                vm.fnLoadPub();
             });
         };
 
@@ -88,7 +90,7 @@ angular
                 vm.montants.prix_ttc = Number(vm.montants.prix_total_ht) + Number(vm.montants.tax);
                 vm.montants.prix_ttc = (vm.montants.prix_ttc).toFixed(2);
                 vm.montants.montant_net = Number((vm.montants.prix_ttc)) + Number((vm.montants.frais_livr)) + Number(vm.montants.taxLivr);
-                vm.montants.montant_net_orig = Number((vm.montants.prix_ttc)) + Number((vm.montants.frais_livr)) + Number(vm.montants.taxLivr);
+                vm.montants.montant_net_orig = angular.copy(Number((vm.montants.prix_ttc)) + Number((vm.montants.frais_livr)) + Number(vm.montants.taxLivr));
                 vm.montants.montant_net = vm.montants.montant_net.toFixed(2);
 
             }, function errorCallback(error) {
@@ -119,7 +121,7 @@ angular
                 else {
                     vm.strMsgCode = "Remise: " + response.data.montant + " %";
                     vm.montants.montant_net = (vm.montants.montant_net_orig * (1 - (response.data.montant / 100))).toFixed(2);
-                    vm.montants.montant_net_orig = vm.montants.montant_net;
+                    //vm.montants.montant_net_orig = vm.montants.montant_net;
                     sessionStorage.setItem("coupon", response.data.id);
                 }
             }, function errorCallback(error) {
@@ -127,6 +129,16 @@ angular
             });
 
         };
+
+        vm.fnCheckXmois = function () {
+            console.log(vm.xmois, " setup of xmois ");
+            if(vm.xmois > 6) {
+                vm.xmois = 6;
+            }
+            if(vm.xmois < 1) {
+                vm.xmois = 1;
+            }
+        }
 
         vm.getInfoUser = function () {
             Data.get('session.php').then(function (results) {
@@ -136,6 +148,22 @@ angular
                 $scope.sessionInfo = results;
             });
         };
+
+        vm.fnLoadPub = function () {
+            var langSel = sessionStorage.getItem('LANG');
+            if (langSel == "" || langSel == null) {
+                return;
+            }
+            $http({
+                method: 'GET',
+                params: {mode: 3, pays: langSel},
+                url: 'api/v1/produitCRUD.php'
+            }).then(function successCallback(response) {
+                $scope.pub_src = response.data.link;
+            }, function errorCallback(error) {
+
+            });
+        }
 
         vm.fnPay = function () {
             vm.lang = sessionStorage.getItem("LANG");
@@ -174,14 +202,19 @@ angular
             }).then(function successCallback(response) {
                     vm.arrProduits = [];
                     //sessionStorage.clear();
-                   // toastr.success("Order Confirmed");
+                    // toastr.success("Order Confirmed");
                     // To submit to kliknpay
-                vm.orderNum = response.data.id;
+                    vm.orderNum = response.data.id;
+                    $("#dp_retourvok1").val(response.data.id);
+                    $("#dp_retourvok").val(response.data.id);
+                    $("#dp_retourvhs").val(response.data.id);
+                    $("#dp_retourvhs1").val(response.data.id);
+
                     $('body').removeClass("spinner");
-                    if(vm.userState == 1){
+                    if (vm.userState >= 1) {
                         document.getElementById("knp-form_xfois").submit();
                     }
-                    else{
+                    else {
                         document.getElementById("knp-form").submit();
                     }
                     //document.getElementById("knp-form").submit();

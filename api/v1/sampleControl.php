@@ -482,6 +482,8 @@ if ($mode == 0) {
     $orders->setTotalPrixHT(number_format($totalPrixHT, 2, '.', ''));
     $orders->setTotalPrixTTC(number_format((($totalPrixHT * $tva->getValue()) / 100) + $totalPrixHT, 2, '.', ''));
     $orders->setTax(number_format((($totalPrixHT * $tva->getValue()) / 100), 2, '.', ''));
+    $orders->setTotalPrixNet(number_format((($totalPrixHT * $tva->getValue()) / 100) + $totalPrixHT, 2, '.', ''));
+    $orders->setTax(number_format((($totalPrixHT * $tva->getValue()) / 100), 2, '.', ''));
     $orders->setStatus("NEW");
     $orders->setCreatedBy($id_user);
     $orders->setModifiedBy($id_user);
@@ -494,6 +496,13 @@ if ($mode == 0) {
         $couponMain = new coupon_main();
         $couponMain = $couponMain->findByPrimaryKey($_GET["coupon"]);
         if($couponMain){
+            $ordersMain = new orders_main();
+            $ordersMain = $ordersMain->findByPrimaryKey($lastID["id"]);
+            $discountVal = 1 - ($couponMain->getVal()/100);
+            if($ordersMain){
+                $ordersMain->setTotalPrixNet(number_format((($ordersMain->getTotalPrixTTC() + $ordersMain->getTotalLivraisonTTC()) * ($discountVal)), 2, '.', ''));
+                $ordersMain->save();
+            }
             $couponDetail = new coupon_details();
             $couponDetail = $couponDetail->findByCouponUser($_GET["coupon"], $_SESSION["uid"]);
             $couponDetail->setFlag("USED");

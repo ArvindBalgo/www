@@ -548,6 +548,9 @@ class orders_details
     {
         $requete = "select * from orders_details WHERE id_order=" . $id ." order by date_created desc";
         $rs = $this->conn->query($requete);
+        if(!$rs){
+            return false;
+        }
         $rows = [];
         while ($row = mysqli_fetch_array($rs)) {
             $rows[] = $row;
