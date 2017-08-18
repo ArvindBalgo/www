@@ -78,10 +78,28 @@ app.config(['$routeProvider',
                 templateUrl: 'sections/client/client.tpl.html',
                 controller: 'clientController as client'
             })
+            .when('/tutoriels', {
+                title: 'Tutoriels',
+                templateUrl: 'sections/tutoriels/tutoriels.tpl.html',
+                controller: 'tutorielsController as tutoriels'
+            })
             .otherwise({
                 redirectTo: '/home'
             });
     }])
+    .config(function($sceDelegateProvider) {
+        $sceDelegateProvider.resourceUrlWhitelist([
+            // Allow same origin resource loads.
+            'self',
+            // Allow loading from our assets domain.  Notice the difference between * and **.
+            ' https://www.youtube.com/embed/P2LA6N0kaA0'
+        ]);
+
+        // The blacklist overrides the whitelist so the open redirect here is blocked.
+        $sceDelegateProvider.resourceUrlBlacklist([
+            'http://myapp.example.com/clickThru**'
+        ]);
+    })
     .run(function ($rootScope, $location, Data) {
         console.log('error checkgin');
         $rootScope.$on("$routeChangeStart", function (event, next, current) {
