@@ -24,7 +24,8 @@ angular
                 vm.test = response.data;
                 vm.tableParams = new NgTableParams({
                     // initial grouping
-                    group: "id_order"
+                    group: "id_order",
+                    sorting: { id_order: "desc" }
                 }, {
                     dataset: vm.test
                 });

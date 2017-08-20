@@ -16,10 +16,10 @@
                 </td>
             </tr>
             <tr ng-hide="group.$hideRows" ng-repeat="details in group.data" ng-repeat-end>
-                <td  data-title="'No Commande'" ng-if="false">
+                <td  data-title="'No Commande'" filter="{id_order: 'number'}">
                     {{details.id_order}}
                 </td>
-                <td sortable="'Etape'" data-title="'status'">
+                <td sortable="'Etape'" data-title="'status'" filter="{status: 'text'}">
                     {{details.status}}
                 </td>
                 <td data-title="'Titre'">
