@@ -1,0 +1,60 @@
+<header ng-include="'sections/admin/header.html'"></header>
+<div class="row">
+    <div class="col-md-12">
+        <table ng-table="orders.tableParams" class="table table-condensed table-bordered table-hover">
+            <!--<colgroup>
+                <col width="60%" />
+                <col width="20%" />
+                <col width="20%" />
+            </colgroup>-->
+            <tr class="ng-table-group" ng-repeat-start="group in $groups">
+                <td colspan="3">
+                    <a href="" ng-click="group.$hideRows = !group.$hideRows">
+                        <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
+                        <strong>{{ group.value }}</strong>
+                    </a>
+                </td>
+            </tr>
+            <tr ng-hide="group.$hideRows" ng-repeat="details in group.data" ng-repeat-end>
+                <td  data-title="'No Commande'" ng-if="false">
+                    {{details.id_order}}
+                </td>
+                <td sortable="'Etape'" data-title="'status'">
+                    {{details.status}}
+                </td>
+                <td data-title="'Titre'">
+                    {{details.title}}
+                </td>
+                <td data-title="'Date Commande'">
+                    {{details.date_created}}
+                </td>
+                <td data-title="'Prix Unitaire'">
+                    {{details.unitprix}}
+                </td>
+                <td data-title="'Prix Hors Tax'">
+                    {{details.prix_ht}}
+                </td>
+                <td data-title="'Prix Livraison Hors tax'">
+                    {{details.prix_livraison_ht}}
+                </td>
+                <td data-title="'Prix Livraison Hors tax'">
+                    {{details.prix_livraison_ttc}}
+                </td>
+                <td data-title="'Prix totale'">
+                    {{details.prix_ttc}}
+                </td>
+                <td data-title="'Utilisateur'">
+                    {{details.name}} {{details.surname}}
+                </td>
+                <td data-title="'Actions'">
+                    <span><a class="glyphicon glyphicon-picture" style="cursor:pointer;" target="_blank" href="../../../api/imgs_temp/{{details.base64_image}}" ></a></span>
+                    <span><a class="glyphicon glyphicon-cog" style="cursor:pointer;" href="#/produitclient/{{details.id}}"></a></span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<footer class="sig">
+
+</footer>
+

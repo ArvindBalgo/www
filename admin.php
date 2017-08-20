@@ -38,7 +38,9 @@
     <link rel="stylesheet" type="text/css" href="sections/admin/polices/polices.css" />
     <link rel="stylesheet" type="text/css" href="sections/admin/coupon/coupon.css" />
     <link rel="stylesheet" type="text/css" href="sections/admin/youtube/youtube.css" />
+    <link rel="stylesheet" type="text/css" href="sections/admin/list_orders/list_orders.css" />
     <link rel="stylesheet" type="text/css" href="css/custom.css" />
+    <link rel="stylesheet" type="text/css" href="css/ng-table.min.css">
     <!-- endbuild -->
 </head>
 <body data-ng-app="adminApp" ng-controller="mainController">
@@ -68,6 +70,7 @@
 <script src="js/angular-aria.min.js"></script>
 <script src="js/angular-material.min.js"></script>
 <script src="js/moment.min.js"></script>
+<script src="js/ng-table.min.js"></script>
 
 <!-- Latest compiled and minified JavaScript -->
 <!--script src="js/bootstrap.min.js"></script-->
@@ -122,5 +125,6 @@
 <script src="sections/admin/operateurs/operateurs.ctrl.js"></script>
 <script src="sections/admin/coupon/coupon.ctrl.js"></script>
 <script src="sections/admin/youtube/youtube.ctrl.js"></script>
+<script src="sections/admin/list_orders/list_orders.ctrl.js"></script>
 </body>
 </html>

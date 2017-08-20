@@ -34,7 +34,7 @@ Exakom, bolduc, étiquette fleuriste">
     <link rel="stylesheet" type="text/css" href="css/jquery.fancyProductDesigner-fonts.css" />
     <link rel="stylesheet" type="text/css" href="css/toastr.min.css" />
     <!-- CSSMap STYLESHEET - EUROPE -->
-    <link rel="stylesheet"; href="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.css">
+    <link rel="stylesheet" type="text/css" href="css/ng-table.min.css">
     <link rel="stylesheet" type="text/css" href="cssmap-europe/cssmap-europe.css" media="screen" />
     <link rel="stylesheet" type="text/css" href="css/custom.css" media="screen" />
 
@@ -105,7 +105,7 @@ window.smartsupp||(function(d) {
 <script src="js/angular-translate-loader-url.min.js"></script>
 <script src="js/angular-aria.min.js"></script>
 <script src="js/angular-material.min.js"></script>
-<script src="https://unpkg.com/ng-table@2.0.2/bundles/ng-table.min.js"></script>
+<script src="js/ng-table.min.js"></script>
 <!-- / -->
 <!-- endbuild -->
 <!-- CONTROLLERS -->

@@ -504,7 +504,37 @@ class orders_details
     public function rechercher()
     { // Recherche de toutes les adresses
         $listLOG = array();
-        $requete = self::$SELECT;
+        $requete = self::$SELECT . " order by id_order desc";
+        $rs = $this->conn->query($requete) or die($this->conn->error . __LINE__);
+        $rows = [];
+        while ($row = mysqli_fetch_array($rs)) {
+            $rows[] = $row;
+        }
+        return $rows;
+    }
+
+    public function rechCustom()
+    { // Recherche de toutes les adresses
+        $listLOG = array();
+        $requete = "SELECT 
+                    od.id, 
+                    od.id_order, 
+                    od.prix_ht, 
+                    od.prix_ttc, 
+                    od.unitprix, 
+                    od.prix_livraison_ht, 
+                    od.prix_livraison_ttc, 
+                    od.qte, 
+                    od.title,
+                    od.base64_image, 
+                    om.id_user, 
+                    om.date_created,
+                    om.status, 
+                    ca.name, 
+                    ca.surname 
+                    FROM `orders_details` od 
+                    inner join orders_main om on (od.id_order  = om.id) 
+                    inner join customers_auth ca on (om.id_user = ca.uid)";
         $rs = $this->conn->query($requete) or die($this->conn->error . __LINE__);
         $rows = [];
         while ($row = mysqli_fetch_array($rs)) {
@@ -546,9 +576,9 @@ class orders_details
 
     public function getProds($id)
     {
-        $requete = "select * from orders_details WHERE id_order=" . $id ." order by date_created desc";
+        $requete = "select * from orders_details WHERE id_order=" . $id . " order by date_created desc";
         $rs = $this->conn->query($requete);
-        if(!$rs){
+        if (!$rs) {
             return false;
         }
         $rows = [];
@@ -558,8 +588,9 @@ class orders_details
         return $rows;
     }
 
-    public function updateStatusProds($id, $status) {
-        $requete = "update order_details set status=".$status." where id_order=".$id;
+    public function updateStatusProds($id, $status)
+    {
+        $requete = "update order_details set status=" . $status . " where id_order=" . $id;
         $rs = $this->conn->query($requete);
         return "done";
     }

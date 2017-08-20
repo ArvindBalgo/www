@@ -1,4 +1,4 @@
-var app = angular.module('adminApp', ['ngRoute', 'ngAnimate', 'toaster', 'angularFileUpload', 'ui.grid', 'ui.grid.edit', 'ui.grid.selection', 'ngSanitize', 'ngMaterial']);
+var app = angular.module('adminApp', ['ngRoute', 'ngAnimate', 'toaster', 'angularFileUpload', 'ui.grid', 'ui.grid.edit', 'ui.grid.selection', 'ngSanitize', 'ngMaterial', 'ngTable']);
 
 app.config(['$routeProvider',
     function ($routeProvider) {
@@ -142,6 +142,11 @@ app.config(['$routeProvider',
                 title: 'Youtube',
                 templateUrl: 'sections/admin/youtube/youtube.tpl.html',
                 controller: 'youtubeController as youtube'
+            })
+            .when('/list_orders', {
+                title: 'Liste des commandes',
+                templateUrl: 'sections/admin/list_orders/list_orders.tpl.html',
+                controller: 'listOrdersController as orders'
             })
             .when('/', {
                 title: 'Login',
