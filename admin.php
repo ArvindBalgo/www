@@ -39,6 +39,7 @@
     <link rel="stylesheet" type="text/css" href="sections/admin/coupon/coupon.css" />
     <link rel="stylesheet" type="text/css" href="sections/admin/youtube/youtube.css" />
     <link rel="stylesheet" type="text/css" href="sections/admin/list_orders/list_orders.css" />
+    <link rel="stylesheet" type="text/css" href="sections/admin/list_factures/list_factures.css" />
     <link rel="stylesheet" type="text/css" href="css/custom.css" />
     <link rel="stylesheet" type="text/css" href="css/ng-table.min.css">
     <!-- endbuild -->
@@ -126,5 +127,6 @@
 <script src="sections/admin/coupon/coupon.ctrl.js"></script>
 <script src="sections/admin/youtube/youtube.ctrl.js"></script>
 <script src="sections/admin/list_orders/list_orders.ctrl.js"></script>
+<script src="sections/admin/list_factures/list_factures.ctrl.js"></script>
 </body>
 </html>

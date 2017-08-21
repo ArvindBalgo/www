@@ -62,3 +62,4 @@ include_once '../classes/polices.php';
 include_once '../classes/coupon_main.php';
 include_once '../classes/coupon_detail.php';
 include_once '../classes/youtubeLinks.php';
+include_once '../classes/factures.php';

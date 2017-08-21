@@ -1,9 +1,6 @@
 <?php
 session_start();
 include_once 'include_all.php';
-$mode = $_POST['mode'];
-require('../fpdf.php');
-include_once "../chromePHP.php";
 
 class PDF extends FPDF
 {
@@ -24,7 +21,7 @@ if ($mode == 0) {
 //generate facture
 
 
-    $id = $_POST["id"];
+    $id = $post_id;
     $orderInfo = new orders_main();
     $orderInfo = $orderInfo->findByPrimaryKey($id);
 
@@ -32,6 +29,9 @@ if ($mode == 0) {
     $orderDetailInfo = $orderDetailInfo->getProds($id);
     $userInfo = new users();
     $userInfo = $userInfo->findByPrimaryKey($orderInfo->getIdUser());
+    chromePHP::log($orderDetailInfo);
+    chromePHP::log($orderInfo);
+    chromePHP::log($userInfo);
     $facture = new PDF();
     $facture->AddPage();
     $facture->SetFont('Arial', 'B', 16);
@@ -77,7 +77,7 @@ if ($mode == 0) {
     $facture->SetTextColor(0);
     $facture->SetFont('');
     $fill = false;
-    if($orderDetailInfo) {
+    if ($orderDetailInfo) {
         foreach ($orderDetailInfo as $row) {
             $facture->Cell($w[0], 6, $row['qte'], 'LRB', 0, 'L', $fill);
             $facture->Cell($w[1], 6, $row['title'], 'LRB', 0, 'L', $fill);
@@ -119,7 +119,7 @@ if ($mode == 0) {
     $facture->Output($fileNameFacture, 'F');
 
     $bill = new factures();
-    $bill->setIdOrder($id);
+    $bill->setIdOrder($post_id);
     $bill->setPdfSrc($id . '.pdf');
     $bill->save();
 

@@ -148,6 +148,11 @@ app.config(['$routeProvider',
                 templateUrl: 'sections/admin/list_orders/list_orders.tpl.html',
                 controller: 'listOrdersController as orders'
             })
+            .when('/list_factures', {
+                title: 'Liste des factures',
+                templateUrl: 'sections/admin/list_factures/list_factures.tpl.html',
+                controller: 'listFacturesController as factures'
+            })
             .when('/', {
                 title: 'Login',
                 templateUrl: 'sections/login/login.tpl.html',
