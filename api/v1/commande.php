@@ -147,6 +147,13 @@ if ($mode == 1) {
     $rows = [];
     foreach ($orderMain as $item) {
         $ordersDetails = new orders_details();
+        $facture  = new factures();
+        $facture = $facture->findByIdOrder($item["id"]);
+        if($facture) {
+            $item['pdf_src'] = $facture->getPdfSrc();
+        }else {
+            $item['pdf_src'] = null;
+        }
 
         $ordersDetails = $ordersDetails->getCountProds($item["id"]);
         $item["num_prods"] = $ordersDetails["prods"];

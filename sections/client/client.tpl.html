@@ -62,6 +62,11 @@
                 <td data-title="langue.client_prix_ttc" filter="{total_prix_net: 'number'}" sortable="'total_prix_ttc'">
                     <b>{{row.total_prix_net | currency : "€ "}}</b></td>
                 <td data-title="langue.client_date_commande" sortable="'date_created'">{{row.date_commande}}</td>
+                <td data-title="langue.client_date_commande">
+                    <span ng-show="row.pdf_src != null">
+                        <a class="glyphicon glyphicon-file" style="cursor:pointer;" download href="../../../api/pdf/factures/{{row.pdf_src}}" ></a>
+                    </span>
+                </td>
                 <td data-title="langue.client_status" sortable="'status'"><span class="badge">{{row.status_val}}</span>
                 </td>
                 <td data-title="">
