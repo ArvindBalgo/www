@@ -50,14 +50,20 @@ if ($mode == 0) {
     $facture->SetFont('Arial', '', 12);
     $facture->Cell(40, 10, 'Date: ');
     $facture->Cell(65, 10, $orderInfo->getDateCreated());
+    $facture->Cell(30, 10, 'Address:', 0, 0, 'R');
+    $facture->Cell(15, 10, $userInfo->getPostalCode(), 0, 0, 'R');
     $facture->Ln(5);
 
     $facture->Cell(40, 10, 'Nom: ');
     $facture->Cell(65, 10, $userInfo->getName() . " " . $userInfo->getSurname());
+    $facture->Cell(30, 10, '', 0, 0, 'R');
+    $facture->Cell(15, 10, $userInfo->getAddress(),  0, 0, 'R');
     $facture->Ln(5);
 
     $facture->Cell(40, 10, 'No Siret ');
     $facture->Cell(65, 10, $userInfo->getSiret());
+    $facture->Cell(30, 10, '', 0, 0, 'R');
+    $facture->Cell(15, 10, $userInfo->getCity(),  0, 0, 'R');
     $facture->Ln(10);
     // Colors, line width and bold font
     $facture->SetFillColor(230, 191, 255);
