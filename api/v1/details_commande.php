@@ -15,6 +15,7 @@ if ($mode == 1) {
 
     print json_encode($factures);
 } else if ($mode == 3) {
+    date_default_timezone_set('America/Los_Angeles');
     $mail = new PHPMailer;
     $mailAdmin = new PHPMailer;
 
@@ -45,11 +46,11 @@ if ($mode == 1) {
 
     if ($pays == 'FR') {
         $mail->Subject = utf8_decode('Facture de commande');
-        $mail->Body = utf8_decode('Bonjour ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Votre commande N° " . $orders_details['id'] . " a bien été enregistré, ci-joint est votre facture d'Exakom.<br> Cordialment <br> Exakom");
+        $mail->Body = utf8_decode('Bonjour ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Votre commande N° " . $_GET["id_order"] . " a bien été enregistré, ci-joint est votre facture d'Exakom.<br> Cordialment <br> Exakom");
 
     } else if ($pays == "EN") {
         $mail->Subject = utf8_decode('Exakom order receipt');
-        $mail->Body = utf8_decode('Hello ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Your order N° " . $orders_details['id'] . " has been registered. Please find attached your bill from Exakom. <br> Regards <br> Exakom");
+        $mail->Body = utf8_decode('Hello ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Your order N° " . $_GET["id_order"] . " has been registered. Please find attached your bill from Exakom. <br> Regards <br> Exakom");
     } else if ($pays == "AL") {
         $mail->Subject = utf8_decode('Exakom bestellen quittung');
         /*$mail->Body = utf8_decode('Hallo ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Ihre Bestellung Nr " . $orders_details['id'] . " registriert worden ist, werden Sie bald Ihre Rechnung. <br> Grüße <br> Exakom");*/
