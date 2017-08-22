@@ -90,7 +90,7 @@ class factures {
 
     public function rechByOrder() { // Recherche de toutes les adresses
         $listLOG =	 array();
-        $requete = "SELECT om.id, om.id_user, om.status, om.tax, om.total_livraison_ht, om.total_livraison_ht, om.total_livraison_ttc, om.total_prix_ht, om.total_prix_net, om.total_prix_ttc, f.id as id_facture, f.pdf_src FROM orders_main om LEFT JOIN factures f on (om.id = f.id_order) ORDER by om.id DESC ";
+        $requete = "SELECT om.id, om.id_user, om.status, om.tax, om.total_livraison_ht, om.total_livraison_ht, om.total_livraison_ttc, om.total_prix_ht, om.total_prix_net, om.total_prix_ttc, f.id as id_facture, f.pdf_src, ca.surname, ca.name FROM orders_main om LEFT JOIN factures f on (om.id = f.id_order) inner join customers_auth ca on (om.id_user = ca.uid) ORDER by om.id DESC ";
         $rs = $this->conn->query($requete) or die($this->conn->error.__LINE__);
         $rows = [];
         while($row = mysqli_fetch_array($rs))

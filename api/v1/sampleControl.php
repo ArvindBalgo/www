@@ -603,20 +603,20 @@ if ($mode == 0) {
 
     if ($pays == 'FR') {
         $mail->Subject = utf8_decode('Réception de commande Exakom');
-        $mail->Body = utf8_decode('Bonjour ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Votre commande N° " . $orders_details['id'] . " a bien été enregistré, vous recevrez bientôt votre facture. <br> Cordialment <br> Exakom");
+        $mail->Body = utf8_decode('Bonjour ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Votre commande N° " . $lastID["id"] . " a bien été enregistré, vous recevrez bientôt votre facture. <br> Cordialment <br> Exakom");
 
     } else if ($pays == "EN") {
         $mail->Subject = utf8_decode('Exakom order receipt');
-        $mail->Body = utf8_decode('Hello ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Your order N° " . $orders_details['id'] . " has been registered, you will soon receive your invoice. <br> Regards <br> Exakom");
+        $mail->Body = utf8_decode('Hello ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Your order N° " . $lastID["id"] . " has been registered, you will soon receive your invoice. <br> Regards <br> Exakom");
     } else if ($pays == "AL") {
         $mail->Subject = utf8_decode('Exakom bestellen quittung');
-        $mail->Body = utf8_decode('Hallo ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Ihre Bestellung Nr " . $orders_details['id'] . " registriert worden ist, werden Sie bald Ihre Rechnung. <br> Grüße <br> Exakom");
+        $mail->Body = utf8_decode('Hallo ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Ihre Bestellung Nr " . $lastID["id"] . " registriert worden ist, werden Sie bald Ihre Rechnung. <br> Grüße <br> Exakom");
     } else if ($pays == "ES") {
         $mail->Subject = utf8_decode('Recibo de pedido de Exakom');
-        $mail->Body = utf8_decode('Holla ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Su orden N ° " . $orders_details['id'] . " haya sido registrada, pronto recibirá su factura. <br> Saludos <br> Exakom");
+        $mail->Body = utf8_decode('Holla ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Su orden N ° " . $lastID["id"] . " haya sido registrada, pronto recibirá su factura. <br> Saludos <br> Exakom");
     } else if ($pays == "IT") {
         $mail->Subject = utf8_decode('Ricevuta di ordine Exakom');
-        $mail->Body = utf8_decode('Ciao ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Il tuo ordine N °  " . $orders_details['id'] . " è stato registrato, riceverai presto la tua fattura.<br> Saluti <br> Exakom");
+        $mail->Body = utf8_decode('Ciao ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Il tuo ordine N °  " . $lastID["id"]. " è stato registrato, riceverai presto la tua fattura.<br> Saluti <br> Exakom");
     }
 
     if (!$mail->send()) {

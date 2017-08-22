@@ -50,20 +50,22 @@ if ($mode == 0) {
     $facture->SetFont('Arial', '', 12);
     $facture->Cell(40, 10, 'Date: ');
     $facture->Cell(65, 10, $orderInfo->getDateCreated());
-    $facture->Cell(30, 10, 'Address:', 0, 0, 'R');
-    $facture->Cell(15, 10, $userInfo->getPostalCode(), 0, 0, 'R');
+    $facture->Cell(30, 10, 'Adresse :', 0, 0, 'R');
+    $facture->Cell(45, 10, $userInfo->getAddress(), 0, 0, 'R');
     $facture->Ln(5);
 
-    $facture->Cell(40, 10, 'Nom: ');
-    $facture->Cell(65, 10, $userInfo->getName() . " " . $userInfo->getSurname());
+    $facture->Cell(40, 10, utf8_decode('Societé: '));
+    $facture->Cell(65, 10, $userInfo->getCompanyName());
     $facture->Cell(30, 10, '', 0, 0, 'R');
-    $facture->Cell(15, 10, $userInfo->getAddress(),  0, 0, 'R');
+    $facture->Cell(45, 10, $userInfo->getPostalCode() ." ". $userInfo->getCity(), 0, 0, 'R');
+    $facture->Ln(5);
+
+    $facture->Cell(40, 10, 'Responsable: ');
+    $facture->Cell(65, 10, $userInfo->getName() . " " . $userInfo->getSurname());
     $facture->Ln(5);
 
     $facture->Cell(40, 10, 'No Siret ');
     $facture->Cell(65, 10, $userInfo->getSiret());
-    $facture->Cell(30, 10, '', 0, 0, 'R');
-    $facture->Cell(15, 10, $userInfo->getCity(),  0, 0, 'R');
     $facture->Ln(10);
     // Colors, line width and bold font
     $facture->SetFillColor(230, 191, 255);
@@ -83,7 +85,7 @@ if ($mode == 0) {
     $facture->SetTextColor(0);
     $facture->SetFont('');
     $fill = false;
-    if($orderDetailInfo) {
+    if ($orderDetailInfo) {
         foreach ($orderDetailInfo as $row) {
             $facture->Cell($w[0], 6, $row['qte'], 'LRB', 0, 'L', $fill);
             $facture->Cell($w[1], 6, $row['title'], 'LRB', 0, 'L', $fill);
