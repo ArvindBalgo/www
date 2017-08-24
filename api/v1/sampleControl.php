@@ -603,7 +603,7 @@ if ($mode == 0) {
 
     if ($pays == 'FR') {
         $mail->Subject = utf8_decode('Réception de commande Exakom');
-        $mail->Body = utf8_decode('Bonjour ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Votre commande N° " . $lastID["id"] . " a bien été enregistré, vous recevrez bientôt votre facture. <br> Cordialement <br> Exakom");
+        $mail->Body = utf8_decode('Bonjour ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Votre commande N° " . $lastID["id"] . " a bien été enregistrée, vous recevrez bientôt votre facture. <br> Cordialement <br> Exakom");
 
     } else if ($pays == "EN") {
         $mail->Subject = utf8_decode('Exakom order receipt');

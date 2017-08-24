@@ -94,19 +94,23 @@
         <div class="col-md-12">
             <form method="POST" action="https://www.klikandpay.com/paiement/order1.pl" accept-charset="UTF8"
                   id="knp-form" target="_top">
-                <table border="0" cellpadding="2" cellspacing="0" width="20%">
+                <table border="0" cellpadding="2" cellspacing="0" width="100%">
                     <meta charset="UTF-8">
                     <tr>
-                        <td width="50%"><label>{{'chk_surname' | translate}}</label></td>
-                        <td width="50%"><label>{{checkout.userDetails.surname}}</label></td>
+                        <td width="50%"><label>{{'chk_company' | translate}}</label></td>
+                        <td width="100%"><label>{{checkout.userDetails.company}}</label></td>
                     </tr>
                     <tr>
+                        <td width="50%"><label>{{'chk_nom' | translate}}</label></td>
+                        <td width="50%"><label>{{checkout.userDetails.name}} {{checkout.userDetails.surname}}</label></td>
+                    </tr>
+                   <!-- <tr>
                         <td width="50%"><label>{{'chk_name' | translate}}</label></td>
                         <td width="50%"><label>{{checkout.userDetails.name}}</label></td>
-                    </tr>
+                    </tr>-->
                     <tr>
                         <td width="50%"><label>{{'chk_tel' | translate}}</label></td>
-                        <td width="50%"><label>{{checkout.userDetails.tel}}</label></td>
+                        <td width="50%"><label>{{checkout.userDetails.telephone}}</label></td>
                     </tr>
                     <tr>
                         <td width="50%"><label>{{'chk_address' | translate}}</label></td>
@@ -122,7 +126,7 @@
                     </tr>
                     <tr>
                         <td width="50%"><label>{{'chk_pays' | translate}}</label></td>
-                        <td width="50%"><label>{{checkout.userDetails.pays}}</label></td>
+                        <td width="50%"><label>{{checkout.userDetails.country}}</label></td>
                     </tr>
                     <tr style="display: none;">
                         <td width="50%">{{'chk_surname' | translate}}:</td>
@@ -152,7 +156,7 @@
                     <!--<tr style="display: none;">
                         <td width="50%">Country:</td>
                         <td width="50%">
-                            <input type="text" name="PAYS" size="24" ng-model="checkout.userDetails.pays">
+                            <input type="text" name="PAYS" size="24" ng-model="checkout.userDetails.country">
                         </td>
                     </tr>-->
                     <input type="hidden" name="L" value="checkout.lang" ng-model="FR"/>
@@ -162,7 +166,7 @@
                     </td>-->
                     <tr style="display: none">
                         <td width="50%">{{'chk_tel' | translate}}:</font></td>
-                        <td width="50%"><input type="text" name="TEL" size="24" ng-model="checkout.userDetails.tel">
+                        <td width="50%"><input type="text" name="TEL" size="24" ng-model="checkout.userDetails.telephone">
                         </td>
                     </tr>
                     <tr style="display: none">
@@ -216,7 +220,7 @@
 
                     <tr style="display: none">
                         <td width="50%">{{'chk_tel' | translate}}:</font></td>
-                        <td width="50%"><input type="text" name="TEL" size="24" ng-model="checkout.userDetails.tel">
+                        <td width="50%"><input type="text" name="TEL" size="24" ng-model="checkout.userDetails.telephone">
                         </td>
                     </tr>
                     <tr style="display: none">

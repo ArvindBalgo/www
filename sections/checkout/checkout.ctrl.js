@@ -143,9 +143,22 @@ angular
         vm.getInfoUser = function () {
             Data.get('session.php').then(function (results) {
                 if (results.uid) {
-                    vm.userDetails = results;
+                    //vm.userDetails = results;
+                    vm.getUserDetails();
                 }
                 $scope.sessionInfo = results;
+            });
+        };
+
+        vm.getUserDetails = function () {
+            $http({
+                method: 'GET',
+                params: {mode: 1},
+                url: 'api/v1/user_crud.php'
+            }).then(function successCallback(response) {
+                vm.userDetails = response.data;
+            }, function errorCallback(error) {
+
             });
         };
 
