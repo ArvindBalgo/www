@@ -6,6 +6,10 @@
             <div class="btn-group" role="group" style="margin-bottom: 15px">
                 <button type="button" class="btn btn-warning" ng-click="model.fnOpenModal()">Sauvegarder</button>
                 <button type="button" class="btn btn-warning" ng-click="model.fnGallery()">Gallery</button>
+                <button class="col-md-3 btn btn-lg pull-right"
+                        style="background-color: lightcoral; color: white; text-wrap: normal"
+                        ng-click="model.loadModalImgs()"><span><img src="assets/images/gallery_icon.png"
+                                                                    style="height: 50px;width:50px"></span></button>
             </div>
             <div id="model" class="fpd-container fpd-shadow-2 fpd-topbar fpd-tabs fpd-tabs-side fpd-top-actions-centered fpd-bottom-actions-centered fpd-views-inside-left">
                 <!--div data-ng-repeat="product in model.productList" class="fpd-product" title="{{product.title}}" data-thumbnail="{{product.thumbnail_src}}">
@@ -246,6 +250,66 @@
                 <button class="btn btn-danger pull-left" data-dismiss="modal">Annuler</button>
                 <button class="btn btn-success pull-right" ng-click="model.fnValidDim()">Valider</button>
                 <button class="btn btn-info pull-right" ng-click="model.fnAjoutDim()">Nouveau</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div id="imagesModal" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 75%;height: 500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <p style="line-height: 1; font-size: medium" class="modal-title"><span>Image</span></p>
+            </div>
+            <ul class="nav nav-tabs">
+                <li id="tabImage" ng-class="{ active: model.activeTabId == 1 }" style="cursor: pointer"
+                    ng-click="model.fnClickTabs1(1)"><a>Banque d'image</a></li>
+                <li id="tabUpload" ng-class="{ active: model.activeTabId == 2 }" style="cursor: pointer"
+                    ng-click="model.fnClickTabs1(2)"><a>Image Perso</a></li>
+            </ul>
+            <div ng-show="model.activeTabId == 1" class="modal-body" style="height: 500px;overflow: auto">
+                <div class="row" style="padding: 3px;">
+                    <div class="col-md-4" style="padding: 15px;" ng-repeat="ligne in model.productsDesign">
+                        <button class="btn btn-lg btn-info" style="background: {{ligne.color_code}}; width: 80%"
+                                ng-click="model.fnImagesLoad(ligne)">{{ligne.libelle}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div ng-show="model.activeTabId == 2" class="modal-body" style="height: 500px;overflow: auto">
+                <div class="row" style="padding: 3px;">
+                    <div class="col-md-4" style="padding: 15px;">
+                        <input class="col-md-5 col-md-offset-2" style="margin-top: 15px" type="file" nv-file-select="" uploader="uploader">
+                    </div>
+                </div>
+                <div class="row" style="padding: 3px;">
+                    <div class="col-md-4" style="padding: 15px;" ng-repeat="ligne in model.arrGalleryImagesPerso">
+                        <img src="{{ligne}}" style="width: 200px; height: 200px;"
+                             ng-click="model.fnUploadImgCustom(ligne)">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="imagesListModal" class="modal fade" data-backdrop="static">
+    <div class="modal-dialog" style="width: 75%;height: 500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><span>Image</span></h4>
+            </div>
+            <div class="modal-body" style="height: 550px;overflow: scroll">
+                <div class="row" style="padding: 3px;">
+                    <div class="col-md-4" style="padding: 15px;" ng-repeat="ligne in model.imagesList">
+                        <img src="{{ligne.display_src}}" style="width: 200px; height: 200px;"
+                             ng-click="model.fnUploadImg(ligne)">
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

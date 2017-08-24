@@ -93,7 +93,7 @@ angular
                         label: "Oui",
                         className: "btn-success",
                         callback: function () {
-                            Data.get('logout').then(function (results) {
+                            Data.get('logout.php').then(function (results) {
                                 Data.toast(results);
                                 $scope.isLogged = false;
                                 $scope.utilisateur = "";

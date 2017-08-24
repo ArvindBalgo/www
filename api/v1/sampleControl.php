@@ -6,7 +6,7 @@ require '../PHPMailerAutoload.php';
 include_once "../chromePHP.php";
 
 $mode = $_GET['mode'];
-
+date_default_timezone_set('America/Los_Angeles');
 if ($mode == 0) {
     $id = $_GET["id"];
     $cata = new cata();
@@ -603,7 +603,7 @@ if ($mode == 0) {
 
     if ($pays == 'FR') {
         $mail->Subject = utf8_decode('Réception de commande Exakom');
-        $mail->Body = utf8_decode('Bonjour ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Votre commande N° " . $lastID["id"] . " a bien été enregistré, vous recevrez bientôt votre facture. <br> Cordialment <br> Exakom");
+        $mail->Body = utf8_decode('Bonjour ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Votre commande N° " . $lastID["id"] . " a bien été enregistré, vous recevrez bientôt votre facture. <br> Cordialement <br> Exakom");
 
     } else if ($pays == "EN") {
         $mail->Subject = utf8_decode('Exakom order receipt');
@@ -646,7 +646,7 @@ if ($mode == 0) {
     $mailAdmin->isHTML(true);                                  // Set email format to HTML
 
     $mailAdmin->Subject = utf8_decode('Réception de commande');
-    $mailAdmin->Body = utf8_decode('Bonjour Exakom' . " <br> Une nouvelle commande a été fait par le client " . $user->getName() . " " . $user->getSurname() . " <br> No Commande: " . $orders_details['id'] . " <br> Bien à vous, <br> Exakom.");
+    $mailAdmin->Body = utf8_decode('Bonjour Exakom' . " <br> Une nouvelle commande a été fait par le client " . $user->getName() . " " . $user->getSurname() . " <br> No Commande: " . $lastID["id"] . " <br> Bien à vous, <br> Exakom.");
 
     if (!$mailAdmin->send()) {
         //echo 'Message could not be sent.';
