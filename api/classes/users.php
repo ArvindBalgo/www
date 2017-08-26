@@ -24,6 +24,7 @@ class users
     private $_admintype = 0;
     private $_nosiret = "";
     private $_token = "";
+    private $_salesman = 0;
 
     private static $SELECT = "SELECT * FROM customers_auth ";
 
@@ -113,6 +114,11 @@ class users
         $this->_token = $val;
     }
 
+    public function setSalesman($val)
+    {
+        $this->_salesman = $val;
+    }
+
     //**** Getters *****
 
     public function getUid()
@@ -192,6 +198,11 @@ class users
         return $this->_token;
     }
 
+    public function getSalesman()
+    {
+        return $this->_salesman;
+    }
+
     public function delete($uid)
     {
         $requete = "delete from customers_auth where uid=" . $uid;
@@ -221,12 +232,12 @@ class users
             $requete .= ",nosiret='" . $this->_nosiret . "'";
             $requete .= ",postalcode='" . $this->_postalcode . "'";
             $requete .= ",token='" . $this->_token . "'";
+            $requete .= ",salesman='" . $this->_salesman . "'";
             $requete .= " where uid=" . $this->_uid;
 
         } else {
             $requete = "insert into customers_auth (";
-            $requete .= "uid,";
-            $requete .= "compnay_name,";
+            $requete .= "company_name,";
             $requete .= "name,";
             $requete .= "surname,";
             $requete .= "email,";
@@ -239,9 +250,9 @@ class users
             $requete .= "admintype,";
             $requete .= "nosiret,";
             $requete .= "token,";
-            $requete .= "created";
+            $requete .= "created,";
+            $requete .= "salesman";
             $requete .= ") VALUES (";
-            $requete .= "'" . $this->_uid . "',";
             $requete .= "'" . $this->_company_name . "',";
             $requete .= "'" . $this->_name . "',";
             $requete .= "'" . $this->_surname . "',";
@@ -255,7 +266,8 @@ class users
             $requete .= "'" . $this->_admintype . "',";
             $requete .= "'" . $this->_nosiret . "',";
             $requete .= "'" . $this->_token . "',";
-            $requete .= "'" . $this->_created . "')";
+            $requete .= "'" . $this->_created . "',";
+            $requete .= "'" . $this->_salesman . "')";
         }
 
         $r = $this->conn->query($requete) or die($this->conn->error . __LINE__);
@@ -286,6 +298,7 @@ class users
         $user->_nosiret = $rs["nosiret"];
         $user->_created = $rs["created"];
         $user->_token = $rs["token"];
+        $user->_salesman= $rs["salesman"];
         return $user;
     }
 
@@ -293,6 +306,18 @@ class users
     { // Recherche de toutes les adresses
         $listUSERS = array();
         $requete = self::$SELECT;
+        $rs = $this->conn->query($requete) or die($this->conn->error . __LINE__);
+        $rows = [];
+        while ($row = mysqli_fetch_array($rs)) {
+            $rows[] = $row;
+        }
+        return $rows;
+    }
+
+    public function rechCommercial()
+    { // Recherche de toutes les adresses
+        $listUSERS = array();
+        $requete = self::$SELECT." where salesman=1";
         $rs = $this->conn->query($requete) or die($this->conn->error . __LINE__);
         $rows = [];
         while ($row = mysqli_fetch_array($rs)) {

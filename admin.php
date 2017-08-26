@@ -40,6 +40,7 @@
     <link rel="stylesheet" type="text/css" href="sections/admin/youtube/youtube.css" />
     <link rel="stylesheet" type="text/css" href="sections/admin/list_orders/list_orders.css" />
     <link rel="stylesheet" type="text/css" href="sections/admin/list_factures/list_factures.css" />
+    <link rel="stylesheet" type="text/css" href="sections/admin/commerciaux/commerciaux.css" />
     <link rel="stylesheet" type="text/css" href="css/custom.css" />
     <link rel="stylesheet" type="text/css" href="css/ng-table.min.css">
     <!-- endbuild -->
@@ -73,10 +74,6 @@
 <script src="js/moment.min.js"></script>
 <script src="js/ng-table.min.js"></script>
 
-<!-- Latest compiled and minified JavaScript -->
-<!--script src="js/bootstrap.min.js"></script-->
-<!-- Latest compiled and minified JavaScript -->
-<!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script-->
 <script src="js/bootstrap.min.js"></script>
 <script src="js/bootbox.min.js"></script>
 <script src="js/select2.min.js"></script>
@@ -90,12 +87,7 @@
 <script src="app/admin/data.js"></script>
 <script src="app/admin/directives.js"></script>
 <script src="app/admin/authCtrl.js"></script>
-<!-- / -->
-<!-- endbuild -->
-<!-- build:js app.min.js -->
-<!-- MODULES -->
 
-<!-- / -->
 <!-- CONTROLLERS -->
 <script src="sections/admincontroller.js"></script>
 <script src="sections/login/login.ctrl.js"></script>
@@ -128,5 +120,6 @@
 <script src="sections/admin/youtube/youtube.ctrl.js"></script>
 <script src="sections/admin/list_orders/list_orders.ctrl.js"></script>
 <script src="sections/admin/list_factures/list_factures.ctrl.js"></script>
+<script src="sections/admin/commerciaux/commerciaux.ctrl.js"></script>
 </body>
 </html>

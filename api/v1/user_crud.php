@@ -26,3 +26,9 @@ if ($mode == 1) {
     }
 
 }
+else if($mode == 2) {
+    $user = new users();
+    $user = $user->rechCommercial();
+
+    print json_encode($user);
+}
