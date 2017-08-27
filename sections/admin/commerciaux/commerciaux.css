@@ -1,0 +1,12 @@
+.sig
+{
+    margin:2rem 0;
+    background:rgba(0, 0, 0, 0.2);
+    height:5rem;
+    border-radius: 0.4rem;
+
+}
+
+.md-select-menu-container {
+    z-index: 1080;
+}
