@@ -4,6 +4,7 @@ require 'authFN.php';
 require_once '../classes/passwordHash.php';
 require '../PHPMailerAutoload.php';
 $response = array();
+date_default_timezone_set('America/Los_Angeles');
 //$r = json_decode($app->request->getBody());
 //verifyRequiredParams(array('email', 'name', 'password'),$r->customer);
 //require_once 'passwordHash.php';
