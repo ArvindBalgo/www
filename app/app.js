@@ -83,6 +83,11 @@ app.config(['$routeProvider',
                 templateUrl: 'sections/tutoriels/tutoriels.tpl.html',
                 controller: 'tutorielsController as tutoriels'
             })
+            .when('/commercial', {
+                title: 'Commercial',
+                templateUrl: 'sections/commercial/commercial.tpl.html',
+                controller: 'commercialController as commercial'
+            })
             .otherwise({
                 redirectTo: '/home'
             });

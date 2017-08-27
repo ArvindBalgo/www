@@ -1,0 +1,22 @@
+<header ng-include="'sections/header.html'"></header>
+<div class="row" style="margin: 0px !important;">
+    Espace commerciale
+</div>
+<footer>
+    <div class="signature">
+        <div class="col-md-4">
+            <span class='block-image' ng-show="commercial.isFrance"><img style="width: 60px; height: 60px;"
+                                                                      src="images/Logo_fabrique_en_france.png"></span>
+            <span class='block-image'><img style="width: 60px; height: 60px;"
+                                           src="images/logo_Imprim_vert_vert.png"></span>
+            <span class='block-image'><img style="width: 60px; height: 60px;" src="images/moton71.gif"></span>
+            <span class='block-image'><img style="width: 60px; height: 60px;" src="images/moton73.gif"></span>
+        </div>
+        <div class="col-md-offset-4" style="padding-top: 50px">
+            <a href="#/apropos" style="color: white">{{'whois' | translate}}</a> / <a style="color: white "
+                                                                                      href="#/conditionvente">{{'vente_conditions'
+            | translate}}</a> / <a style="color: white " href="#/utilisation">{{'usage_utils' | translate}}</a> / <a
+                style="color: white " href="#/legale">{{'usage_legal' | translate}}</a>
+        </div>
+    </div>
+</footer>

@@ -2,6 +2,7 @@ angular
     .module('myApp')
     .controller('mainController', function ($scope, $rootScope, $routeParams, $location, $http, Data, $timeout, $translate) {
         $scope.isLogged = false;
+        $scope.isCommercial = false;
         var modeLang = sessionStorage.getItem("LANG");
         $scope.isActualLang = "FRANCAIS";
         if (modeLang == "EN") {
@@ -23,6 +24,11 @@ angular
         Data.get('session.php').then(function (results) {
             if (results.uid) {
                 $scope.isLogged = true;
+                $scope.isCommercial = false;
+                if (results.salesman == 1) {
+                    $scope.isCommercial = true;
+                }
+
                 $scope.utilisateur = results.name;
             }
             $scope.sessionInfo = results;
@@ -44,11 +50,19 @@ angular
                         }
 
                         $scope.isLogged = true;
+                        $scope.isCommercial = false;
+                        if (results.salesman == 1) {
+                            $scope.isCommercial = true;
+                        }
                         $scope.utilisateur = results.name;
                         sessionStorage.setItem("token", results.token);
 
                         $timeout(function () {
                             $scope.isLogged = true;
+                            $scope.isCommercial = false;
+                            if (results.salesman == 1) {
+                                $scope.isCommercial = true;
+                            }
                             $scope.utilisateur = results.name;
                         }, 0);
                     }
@@ -96,6 +110,7 @@ angular
                             Data.get('logout.php').then(function (results) {
                                 Data.toast(results);
                                 $scope.isLogged = false;
+                                $scope.isCommercial = false;
                                 $scope.utilisateur = "";
                                 $location.path('home');
                                 bootbox.alert("Vous êtes déconnecté.");

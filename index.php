@@ -28,6 +28,7 @@ Exakom, bolduc, étiquette fleuriste">
     <link rel="stylesheet" href="sections/facturevalid/facturevalid.css"/>
     <link rel="stylesheet" href="sections/factureinvalid/factureinvalid.css"/>
     <link rel="stylesheet" href="sections/tutoriels/tutoriels.css"/>
+    <link rel="stylesheet" href="sections/commercial/commercial.css"/>
     <!-- The CSS for the plugin itself - required -->
     <link rel="stylesheet" type="text/css" href="css/FancyProductDesigner-all.min.css" />
     <!-- Optional - only when you would like to use custom fonts - optional -->
@@ -122,5 +123,6 @@ window.smartsupp||(function(d) {
 <script src="sections/facturevalid/facturevalid.ctrl.js"></script>
 <script src="sections/factureinvalid/factureinvalid.ctrl.js"></script>
 <script src="sections/tutoriels/tutoriels.ctrl.js"></script>
+<script src="sections/commercial/commercial.ctrl.js"></script>
 </body>
 </html>

@@ -1784,6 +1784,10 @@ angular
                         Data.get('session.php').then(function (results) {
                             if (results.uid) {
                                 $scope.isLogged = true;
+                                $scope.isCommercial = false;
+                                if (results.salesman == 1) {
+                                    $scope.isCommercial = true;
+                                }
                                 $scope.utilisateur = results.name;
                                 vm.fnGetFraisLivr();
                             }
@@ -2724,11 +2728,19 @@ angular
                         }
 
                         $scope.isLogged = true;
+                        $scope.isCommercial = false;
+                        if (results.salesman == 1) {
+                            $scope.isCommercial = true;
+                        }
                         $scope.utilisateur = results.name;
 
                         $timeout(function () {
                             $scope.isLogged = true;
                             $scope.utilisateur = results.name;
+                            $scope.isCommercial = false;
+                            if (results.salesman == 1) {
+                                $scope.isCommercial = true;
+                            }
                         }, 0);
                     }
 

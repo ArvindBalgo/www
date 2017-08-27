@@ -40,6 +40,10 @@ angular
             if (results.uid) {
                 $scope.isLogged = true;
                 $scope.utilisateur = results.name;
+                $scope.isCommercial = false;
+                if (results.salesman == 1) {
+                    $scope.isCommercial = true;
+                }
             }
             $scope.sessionInfo = results;
 
@@ -444,6 +448,10 @@ angular
                 if (results.uid) {
                     $scope.isLogged = true;
                     $scope.utilisateur = results.name;
+                    $scope.isCommercial = false;
+                    if (results.salesman == 1) {
+                        $scope.isCommercial = true;
+                    }
                     $location.path('/checkout');
                 }
                 else if (!results.uid) {
