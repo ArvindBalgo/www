@@ -9,6 +9,8 @@ $response["name"] = $session['name'];
 $response["type"] = $session['admin'];
 $response["pays"] = $session['pays'];
 $response["salesman"] = $session['salesman'];
+$response["min_val"] = $session['min_val'];
+$response["max_val"] = $session['max_val'];
 echoResponse(200, $session);
 
 
@@ -21,6 +23,8 @@ $app->get('/session', function() {
     $response["type"] = $session['admin'];
     $response["pays"] = $session['pays'];
     $response["salesman"] = $session['salesman'];
+    $response["min_val"] = $session['min_val'];
+    $response["max_val"] = $session['max_val'];
     echoResponse(200, $session);
 });
 
@@ -32,7 +36,7 @@ $app->post('/loginadmin', function() use ($app) {
     $db = new DbHandler();
     $password = $r->customer->password;
     $email = $r->customer->email;
-    $user = $db->getOneRecord("select uid,name,password,email,created, salesman from customers_auth where (phone='$email' or email='$email') and admin=1");
+    $user = $db->getOneRecord("select uid,name,password,email,created, salesman, min_val, max_val from customers_auth where (phone='$email' or email='$email') and admin=1");
     if ($user != NULL) {
         if(passwordHash::check_password($user['password'],$password)){
         $response['status'] = "success";
@@ -42,6 +46,8 @@ $app->post('/loginadmin', function() use ($app) {
         $response['email'] = $user['email'];
         $response['createdAt'] = $user['created'];
         $response['salesman'] = $user['salesman'];
+        $response['min_val'] = $user['min_val'];
+        $response['max_val'] = $user['max_val'];
         if (!isset($_SESSION)) {
             session_start();
         }
@@ -49,6 +55,8 @@ $app->post('/loginadmin', function() use ($app) {
         $_SESSION['email'] = $email;
         $_SESSION['name'] = $user['name'];
         $_SESSION['salesman'] = $user['salesman'];
+        $_SESSION['min_val'] = $user['min_val'];
+        $_SESSION['max_val'] = $user['max_val'];
         } else {
             $response['status'] = "error";
             $response['message'] = 'Login failed. Incorrect credentials';
@@ -67,7 +75,7 @@ $app->post('/login', function() use ($app) {
     $db = new DbHandler();
     $password = $r->customer->password;
     $email = $r->customer->email;
-    $user = $db->getOneRecord("select uid,name,password,email,created,admin, token, salesman from customers_auth where phone='$email' or email='$email'");
+    $user = $db->getOneRecord("select uid,name,password,email,created,admin, token, salesman, min_val, max_val from customers_auth where phone='$email' or email='$email'");
     if ($user != NULL) {
         if(passwordHash::check_password($user['password'],$password)){
         $response['status'] = "success";
@@ -80,6 +88,8 @@ $app->post('/login', function() use ($app) {
         $response['pays'] = $user['pays'];
         $response['token'] = $user['token'];
         $response['salesman'] = $user['salesman'];
+        $response['min_val'] = $user['min_val'];
+        $response['max_val'] = $user['max_val'];
 
         if (!isset($_SESSION)) {
             session_start();
@@ -91,6 +101,8 @@ $app->post('/login', function() use ($app) {
         $_SESSION['pays'] = $user['pays'];
         $_SESSION['token'] = $user['token'];
         $_SESSION['salesman'] = $user['salesman'];
+        $_SESSION['min_val'] = $user['min_val'];
+        $_SESSION['max_val'] = $user['max_val'];
         } else {
             $response['status'] = "error";
             $response['message'] = 'Login failed. Incorrect credentials';
@@ -129,6 +141,9 @@ $app->post('/signUp', function() use ($app) {
             $_SESSION['phone'] = $phone;
             $_SESSION['name'] = $name;
             $_SESSION['email'] = $email;
+            $_SESSION['salesman'] = 0;
+            $_SESSION['min_val'] = 0;
+            $_SESSION['max_val'] = 0;
             echoResponse(200, $response);
         } else {
             $response["status"] = "error";

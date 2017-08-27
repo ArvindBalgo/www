@@ -1,0 +1,178 @@
+<header ng-include="'sections/admin/header.html'"></header>
+<div class="row" style="padding: 15px;">
+    <button class="btn btn-primary" ng-click="commerciaux.fnNew()">Nouveau Commerciale</button>
+</div>
+<div>
+    <table ng-table="commerciaux.tableParams" class="table table-condensed table-bordered table-striped">
+        <tr ng-repeat="row in $data">
+            <td data-title="'id'">{{row.uid}}</td>
+            <td data-title="'Nom'">{{row.name}} {{row.surname}}</td>
+            <td data-title="'Email'" >{{row.email}}</td>
+            <td data-title="'Address'" >{{row.address}}</td>
+            <td data-title="'Ville'">{{row.postalcode}} {{row.city}}</td>
+            <td data-title="'Action'">
+                <button class="btn btn-default btn-circle" ng-click="commerciaux.fnEdit(row)"><span class="glyphicon glyphicon-pencil"></span></button>
+              <!--  <button class="btn btn-primary btn-circle" ng-click="commerciaux.fnSupp(row)"><span class="glyphicon glyphicon-trash"></span></button>-->
+            </td>
+        </tr>
+    </table>
+</div>
+<footer class="sig">
+
+</footer>
+
+
+<div id="newCommercial" class="modal fade" data-backdrop="static" style="overflow: hidden">
+    <div class="modal-dialog" style="width: 75%;height: 510px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="commerciaux.fnRemoveModal()" aria-hidden="true">&times;
+                </button>
+                <h4 class="modal-title">Nouveau Commercial</h4>
+            </div>
+            <div class="modal-body" style="height: 450px;overflow: auto">
+                <div style="padding-left: 25%;">
+                    <md-input-container>
+                        <label>Prenom</label>
+                        <input ng-model="commerciaux.arrCommercial.prenom">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Nom</label>
+                        <input ng-model="commerciaux.arrCommercial.nom">
+                    </md-input-container>
+                </div>
+                <div style="padding-left: 25%;">
+                    <md-input-container style="width: 45%;">
+                        <label>Email</label>
+                        <input ng-model="commerciaux.arrCommercial.email">
+                    </md-input-container>
+                </div>
+                <div style="padding-left: 25%;">
+                    <md-input-container>
+                        <label>Code Postal</label>
+                        <input ng-model="commerciaux.arrCommercial.postalCode">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Telephone</label>
+                        <input ng-model="commerciaux.arrCommercial.telephone">
+                    </md-input-container>
+
+                </div>
+                <div style="padding-left: 25%;">
+                    <md-input-container>
+                        <label>Pays</label>
+                        <md-select ng-model="commerciaux.arrCommercial.pays">
+                            <md-option ng-repeat="item in commerciaux.arrPays" ng-value="item">
+                                {{item}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div style="padding-left: 25%;">
+                    <md-input-container>
+                        <label>Address</label>
+                        <input ng-model="commerciaux.arrCommercial.address">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Ville</label>
+                        <input ng-model="commerciaux.arrCommercial.city">
+                    </md-input-container>
+                </div>
+                <div style="padding-left: 25%;">
+                    <md-input-container>
+                        <label>Min Valeur</label>
+                        <input ng-model="commerciaux.arrCommercial.min_val">
+                    </md-input-container>
+                    <md-input-container>
+                    <label>Max Valeur</label>
+                    <input ng-model="commerciaux.arrCommercial.max_val">
+                </md-input-container>
+                </div>
+               <div>
+               </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" ng-click="commerciaux.fnRemoveModal()">Quitter</button>
+                <button type="button" class="btn btn-success pull-right" ng-click="commerciaux.fnSave()">Sauvegarder</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="editCommercial" class="modal fade" data-backdrop="static" style="overflow: hidden">
+    <div class="modal-dialog" style="width: 75%;height: 510px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="commerciaux.fnRemoveModal()" aria-hidden="true">&times;
+                </button>
+                <h4 class="modal-title">Nouveau Commercial</h4>
+            </div>
+            <div class="modal-body" style="height: 450px;overflow: auto">
+                <div style="padding-left: 25%;">
+                    <md-input-container>
+                        <label>Prenom</label>
+                        <input ng-model="commerciaux.arrModifCommercial.name">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Nom</label>
+                        <input ng-model="commerciaux.arrModifCommercial.surname">
+                    </md-input-container>
+                </div>
+                <div style="padding-left: 25%;">
+                    <md-input-container style="width: 45%;">
+                        <label>Email</label>
+                        <input ng-model="commerciaux.arrModifCommercial.email">
+                    </md-input-container>
+                </div>
+                <div style="padding-left: 25%;">
+                    <md-input-container>
+                        <label>Code Postal</label>
+                        <input ng-model="commerciaux.arrModifCommercial.postalcode">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Telephone</label>
+                        <input ng-model="commerciaux.arrModifCommercial.phone">
+                    </md-input-container>
+
+                </div>
+                <div style="padding-left: 25%;">
+                    <md-input-container>
+                        <label>Pays</label>
+                        <md-select ng-model="commerciaux.arrModifCommercial.pays">
+                            <md-option ng-repeat="item in commerciaux.arrPays" ng-value="item">
+                                {{item}}
+                            </md-option>
+                        </md-select>
+                    </md-input-container>
+                </div>
+                <div style="padding-left: 25%;">
+                    <md-input-container>
+                        <label>Address</label>
+                        <input ng-model="commerciaux.arrModifCommercial.address">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Ville</label>
+                        <input ng-model="commerciaux.arrModifCommercial.city">
+                    </md-input-container>
+                </div>
+                <div style="padding-left: 25%;">
+                    <md-input-container>
+                        <label>Min Valeur</label>
+                        <input ng-model="commerciaux.arrModifCommercial.min_val">
+                    </md-input-container>
+                    <md-input-container>
+                        <label>Max Valeur</label>
+                        <input  ng-model="commerciaux.arrModifCommercial.max_val">
+                    </md-input-container>
+                </div>
+                <div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" ng-click="commerciaux.fnRemoveModal()">Quitter</button>
+                <button type="button" class="btn btn-success pull-right" ng-click="commerciaux.fnSaveModifs()">Valider</button>
+            </div>
+        </div>
+    </div>
+</div>

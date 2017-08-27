@@ -25,6 +25,8 @@ class users
     private $_nosiret = "";
     private $_token = "";
     private $_salesman = 0;
+    private $_min_val = 0;
+    private $_max_val = 0;
 
     private static $SELECT = "SELECT * FROM customers_auth ";
 
@@ -119,6 +121,16 @@ class users
         $this->_salesman = $val;
     }
 
+    public function setMinVal($val)
+    {
+        $this->_min_val = $val;
+    }
+
+    public function setMaxVal($val)
+    {
+        $this->_max_val = $val;
+    }
+
     //**** Getters *****
 
     public function getUid()
@@ -203,6 +215,16 @@ class users
         return $this->_salesman;
     }
 
+    public function getMinVal()
+    {
+        return $this->_min_val;
+    }
+
+    public function getMaxVal()
+    {
+        return $this->_max_val;
+    }
+
     public function delete($uid)
     {
         $requete = "delete from customers_auth where uid=" . $uid;
@@ -233,6 +255,8 @@ class users
             $requete .= ",postalcode='" . $this->_postalcode . "'";
             $requete .= ",token='" . $this->_token . "'";
             $requete .= ",salesman='" . $this->_salesman . "'";
+            $requete .= ",min_val='" . $this->_min_val . "'";
+            $requete .= ",max_val='" . $this->_max_val . "'";
             $requete .= " where uid=" . $this->_uid;
 
         } else {
@@ -251,7 +275,9 @@ class users
             $requete .= "nosiret,";
             $requete .= "token,";
             $requete .= "created,";
-            $requete .= "salesman";
+            $requete .= "salesman,";
+            $requete .= "min_val,";
+            $requete .= "max_val";
             $requete .= ") VALUES (";
             $requete .= "'" . $this->_company_name . "',";
             $requete .= "'" . $this->_name . "',";
@@ -267,7 +293,9 @@ class users
             $requete .= "'" . $this->_nosiret . "',";
             $requete .= "'" . $this->_token . "',";
             $requete .= "'" . $this->_created . "',";
-            $requete .= "'" . $this->_salesman . "')";
+            $requete .= "'" . $this->_salesman . "',";
+            $requete .= "'" . $this->_min_val . "',";
+            $requete .= "'" . $this->_max_val . "')";
         }
 
         $r = $this->conn->query($requete) or die($this->conn->error . __LINE__);
@@ -298,7 +326,9 @@ class users
         $user->_nosiret = $rs["nosiret"];
         $user->_created = $rs["created"];
         $user->_token = $rs["token"];
-        $user->_salesman= $rs["salesman"];
+        $user->_salesman = $rs["salesman"];
+        $user->_min_val= $rs["min_val"];
+        $user->_max_val= $rs["max_val"];
         return $user;
     }
 
@@ -317,7 +347,7 @@ class users
     public function rechCommercial()
     { // Recherche de toutes les adresses
         $listUSERS = array();
-        $requete = self::$SELECT." where salesman=1";
+        $requete = self::$SELECT . " where salesman=1";
         $rs = $this->conn->query($requete) or die($this->conn->error . __LINE__);
         $rows = [];
         while ($row = mysqli_fetch_array($rs)) {

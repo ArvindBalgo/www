@@ -24,4 +24,6 @@ $response["postalcode"] = $session['postalcode'];
 $response["tel"] = $session['tel'];
 $response["token"] = $session['token'];
 $response["salesman"] = $session['salesman'];
+$response["min_val"] = $session['min_val'];
+$response["max_val"] = $session['max_val'];
 echoResponse(200, $response);

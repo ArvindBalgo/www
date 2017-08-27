@@ -10,7 +10,7 @@ $response = array();
 $db = new DbHandler();
 $password = $r->customer->password;
 $email = $r->customer->email;
-$user = $db->getOneRecord("select uid,name,password,email,created,admin, pays, surname, city, postalcode,phone, address, admintype, token, salesman  from customers_auth where (phone='$email' or email='$email') and admin=0");
+$user = $db->getOneRecord("select uid,name,password,email,created,admin, pays, surname, city, postalcode,phone, address, admintype, token, salesman, min_val, max_val  from customers_auth where (phone='$email' or email='$email') and admin=0");
 
 if ($user != NULL) {
     if (passwordHash::check_password($user['password'], $password)) {
@@ -29,6 +29,8 @@ if ($user != NULL) {
         $response['city'] = $user['city'];
         $response['postalcode'] = $user['postalcode'];
         $response['salesman'] = $user['salesman'];
+        $response['min_val'] = $user['min_val'];
+        $response['max_val'] = $user['max_val'];
 
         $token =  substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil(25/strlen($x)) )),1,25);
         $user1 = new users();
@@ -53,6 +55,8 @@ if ($user != NULL) {
         $_SESSION['address'] = $user['address'];
         $_SESSION['token'] = $token;
         $_SESSION['salesman'] = $user['salesman'];
+        $_SESSION['min_val'] = $user['min_val'];
+        $_SESSION['max_val'] = $user['max_val'];
     } else {
         $response['status'] = "error";
         $response['message'] = 'Login failed. Incorrect credentials';

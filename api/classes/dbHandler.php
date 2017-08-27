@@ -73,6 +73,8 @@ class DbHandler
             $sess["postalcode"] = $_SESSION['postalcode'];
             $sess["token"] = $_SESSION['token'];
             $sess["salesman"] = $_SESSION['salesman'];
+            $sess["min_val"] = $_SESSION['min_val'];
+            $sess["max_val"] = $_SESSION['max_val'];
         } else {
             $sess["uid"] = '';
             $sess["name"] = 'Guest';
@@ -87,6 +89,8 @@ class DbHandler
             $sess["postalcode"] = '';
             $sess["token"] = '';
             $sess["salesman"] = 0;
+            $sess["min_val"] = 0;
+            $sess["max_val"] = 0;
         }
         return $sess;
     }
@@ -110,6 +114,8 @@ class DbHandler
             unset($_SESSION['postalcode']);
             unset($_SESSION['token']);
             unset($_SESSION['salesman']);
+            unset($_SESSION['min_val']);
+            unset($_SESSION['max_val']);
 
             $info = 'info';
             if (isSet($_COOKIE[$info])) {
