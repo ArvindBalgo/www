@@ -16,7 +16,8 @@ if ($mode == 1) {
             'postalcode'=>$user->getPostalCode(),
             'country'=>$user->getPays(),
             'city'=>$user->getCity(),
-            'email'=>$user->getEmail()
+            'email'=>$user->getEmail(),
+            'department'=>$user->getDepartment()
         );
 
         print json_encode($arrInfo);

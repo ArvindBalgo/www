@@ -27,6 +27,7 @@ class users
     private $_salesman = 0;
     private $_min_val = 0;
     private $_max_val = 0;
+    private $_department = 0;
 
     private static $SELECT = "SELECT * FROM customers_auth ";
 
@@ -131,6 +132,11 @@ class users
         $this->_max_val = $val;
     }
 
+    public function setDepartment($val)
+    {
+        $this->_department = $val;
+    }
+
     //**** Getters *****
 
     public function getUid()
@@ -225,6 +231,11 @@ class users
         return $this->_max_val;
     }
 
+    public function getDepartment()
+    {
+        return $this->_department;
+    }
+
     public function delete($uid)
     {
         $requete = "delete from customers_auth where uid=" . $uid;
@@ -257,6 +268,7 @@ class users
             $requete .= ",salesman='" . $this->_salesman . "'";
             $requete .= ",min_val='" . $this->_min_val . "'";
             $requete .= ",max_val='" . $this->_max_val . "'";
+            $requete .= ",department='" . $this->_department . "'";
             $requete .= " where uid=" . $this->_uid;
 
         } else {
@@ -277,7 +289,8 @@ class users
             $requete .= "created,";
             $requete .= "salesman,";
             $requete .= "min_val,";
-            $requete .= "max_val";
+            $requete .= "max_val,";
+            $requete .= "departement";
             $requete .= ") VALUES (";
             $requete .= "'" . $this->_company_name . "',";
             $requete .= "'" . $this->_name . "',";
@@ -295,7 +308,8 @@ class users
             $requete .= "'" . $this->_created . "',";
             $requete .= "'" . $this->_salesman . "',";
             $requete .= "'" . $this->_min_val . "',";
-            $requete .= "'" . $this->_max_val . "')";
+            $requete .= "'" . $this->_max_val . "',";
+            $requete .= "'" . $this->_department . "')";
         }
 
         $r = $this->conn->query($requete) or die($this->conn->error . __LINE__);
@@ -327,8 +341,9 @@ class users
         $user->_created = $rs["created"];
         $user->_token = $rs["token"];
         $user->_salesman = $rs["salesman"];
-        $user->_min_val= $rs["min_val"];
-        $user->_max_val= $rs["max_val"];
+        $user->_min_val = $rs["min_val"];
+        $user->_max_val = $rs["max_val"];
+        $user->_department= $rs["department"];
         return $user;
     }
 

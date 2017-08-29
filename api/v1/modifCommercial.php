@@ -22,6 +22,7 @@ $pays = $_GET["pays"];
 $city = $_GET["city"];
 $min_val = $_GET["min_val"];
 $max_val = $_GET["max_val"];
+$department= $_GET["departement"];
 /*
 $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 $charactersLength = strlen($characters);
@@ -52,5 +53,6 @@ $user->setPays($pays);
 $user->setCity($city);
 $user->setMinVal($min_val);
 $user->setMaxVal($max_val);
+$user->setDepartment($department);
 $user->save();
 echo "done";

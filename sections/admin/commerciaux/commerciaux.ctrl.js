@@ -21,7 +21,8 @@ angular
             address: "",
             city: "",
             min_val: 0,
-            max_val: 0
+            max_val: 0,
+            department: ""
         };
         vm.arrModifCommercial = [];
         vm.arrPays = ["FR", "EN", "ES", "AL", "IT"];
@@ -76,7 +77,8 @@ angular
                     address: vm.arrModifCommercial.address,
                     city: vm.arrModifCommercial.city,
                     min_val: vm.arrModifCommercial.min_val,
-                    max_val: vm.arrModifCommercial.max_val
+                    max_val: vm.arrModifCommercial.max_val,
+                    department: vm.arrModifCommercial.department
                 },
                 url: 'api/v1/modifCommercial.php'
             }).then(function successCallback(response) {
@@ -105,7 +107,8 @@ angular
                     address: vm.arrCommercial.address,
                     city: vm.arrCommercial.city,
                     min_val: vm.arrCommercial.min_val,
-                    max_val: vm.arrCommercial.max_val
+                    max_val: vm.arrCommercial.max_val,
+                    department: vm.arrCommercial.department
                 },
                 url: 'api/v1/signupCommercial.php'
             }).then(function successCallback(response) {
