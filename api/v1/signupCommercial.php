@@ -21,6 +21,7 @@ $pays = $_GET["pays"];
 $city = $_GET["city"];
 $min_val = $_GET["min_val"];
 $max_val = $_GET["max_val"];
+$department= $_GET["department"];
 
 $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 $charactersLength = strlen($characters);
@@ -57,6 +58,7 @@ if (!$isUserExists) {
     $users->setSalesman(1);
     $users->setMinVal($min_val);
     $users->setMaxVal($max_val);
+    $users->setDepartment($department);
     $users->save();
 
     $mail = new PHPMailer;

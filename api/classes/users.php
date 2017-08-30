@@ -290,7 +290,7 @@ class users
             $requete .= "salesman,";
             $requete .= "min_val,";
             $requete .= "max_val,";
-            $requete .= "departement";
+            $requete .= "department";
             $requete .= ") VALUES (";
             $requete .= "'" . $this->_company_name . "',";
             $requete .= "'" . $this->_name . "',";
