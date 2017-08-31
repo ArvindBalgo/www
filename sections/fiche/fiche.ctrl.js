@@ -11,7 +11,7 @@ angular
         vm.listMetier = [];
         vm.libMetier = [];
         vm.arrProduits = [];
-        vm.arrGalleryImagesPerso= [];
+        vm.arrGalleryImagesPerso = [];
         vm.activeId = 1;
         vm.activeTabId = 1;
         vm.isShow = 1;
@@ -35,6 +35,19 @@ angular
             $('[data-toggle="popover"]').popover()
         });
 
+        Data.get('session.php').then(function (results) {
+            if (results.uid) {
+                $scope.isLogged = true;
+                $scope.isCommercial = false;
+                if (results.salesman == 1) {
+                    $scope.isCommercial = true;
+                }
+
+                $scope.utilisateur = results.name;
+            }
+            $scope.sessionInfo = results;
+        });
+
         var uploader = $scope.uploader = new FileUploader({
             url: 'api/galleryUploadCustom.php'
         });
@@ -43,27 +56,26 @@ angular
 
         uploader.filters.push({
             name: 'customFilter',
-            fn: function(item /*{File|FileLikeObject}*/, options) {
+            fn: function (item /*{File|FileLikeObject}*/, options) {
                 return this.queue.length < 100;
             }
         });
         uploader.filters.push({
             name: 'imageFilter',
-            fn: function(item /*{File|FileLikeObject}*/, options) {
+            fn: function (item /*{File|FileLikeObject}*/, options) {
                 var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
                 return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
             }
         });
-        uploader.formData.push({
-        });
-        uploader.onBeforeUploadItem = function(item) {
+        uploader.formData.push({});
+        uploader.onBeforeUploadItem = function (item) {
 
         };
-        uploader.onAfterAddingFile = function(item) {
+        uploader.onAfterAddingFile = function (item) {
             console.log("on after adding all files", item);
             uploader.uploadAll();
         }
-        uploader.onSuccessItem = function(fileItem, response, status, headers) {
+        uploader.onSuccessItem = function (fileItem, response, status, headers) {
             console.info('onSuccessItem', response);
             vm.arrGalleryImagesPerso.push(response);
 
@@ -2174,6 +2186,25 @@ angular
                         return;
 
                     };
+
+                    vm.saveProdCommercial = function () {
+                        $http({
+                            method: 'POST',
+                            data: $.param({
+                                mode: 17,
+                                title: vm.produit.titre,
+                                id_cata: vm.currentProd,
+                                data: yourDesigner.getProduct()
+                            }),
+                            url: 'api/v1/metierCRUDPOST.php',
+                            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                        }).then(function successCallback(response) {
+                            toastr.options.positionClass = 'toast-top-right';
+                            toastr.success($scope.langue["produit_save"]);
+                        }, function errorCallback(error) {
+                        });
+                    };
+
                     vm.fnClickTabs = function (tabVal) {
                         vm.activeTabId = tabVal;
                     };
@@ -2782,25 +2813,31 @@ angular
          */
         vm.linkMonPanier = "../assets/carts/mon_panier.png";
         vm.linkAjoutPanier = "../assets/carts/ajouter_panier.png";
+        vm.linkSaveProd = "../assets/carts/model_save.png";
         if (lang == "FR") {
             vm.linkMonPanier = "../assets/carts/mon_panier.png";
             vm.linkAjoutPanier = "../assets/carts/ajouter_panier.png";
+            vm.linkSaveProd = "../assets/carts/model_save.png";
         }
         else if (lang == "ES") {
             vm.linkMonPanier = "../assets/carts/cesta_espagnol.png";
             vm.linkAjoutPanier = "../assets/carts/cart_espagnol.png";
+            vm.linkSaveProd = "../assets/carts/model_save.png";
         }
         else if (lang == "EN") {
             vm.linkMonPanier = "../assets/carts/cart_english.png";
             vm.linkAjoutPanier = "../assets/carts/add_cart_english.png";
+            vm.linkSaveProd = "../assets/carts/model_save.png";
         }
         else if (lang == "AL") {
             vm.linkMonPanier = "../assets/carts/warenkorb_deutch.png";
             vm.linkAjoutPanier = "../assets/carts/cart_deutch.png";
+            vm.linkSaveProd = "../assets/carts/model_save.png";
         }
         else if (lang == "IT") {
             vm.linkMonPanier = "../assets/carts/carrello_italiano.png";
             vm.linkAjoutPanier = "../assets/carts/cart_italien.png";
+            vm.linkSaveProd = "../assets/carts/model_save.png";
         }
         if (lang == "" || lang == null) {
             lang = "FR";

@@ -31,6 +31,10 @@ angular
 
                 $scope.utilisateur = results.name;
             }
+            else {
+                $scope.isLogged = false;
+                $scope.isCommercial = false;
+            }
             $scope.sessionInfo = results;
         });
 

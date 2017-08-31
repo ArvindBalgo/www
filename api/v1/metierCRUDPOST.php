@@ -1,9 +1,12 @@
 <?php
 include_once 'include_all.php';
+if (!isset($_SESSION)) {
+    session_start();
+}
 $mode = $_POST['mode'];
 
 
-if ($mode == 0){
+if ($mode == 0) {
 //delete function to delete a category
     $id = $_POST["id"];
 
@@ -13,21 +16,18 @@ if ($mode == 0){
     $modelmetier = new modelmetier();
     $modelmetier = $modelmetier->delete($id);
     print json_encode("done");
-}
-else if($mode == 1) {
+} else if ($mode == 1) {
     $id = $_POST["id"];
 
     $modelmetier_category = new modelmetier_category();
     $modelmetier_category = $modelmetier_category->delete($id);
     print json_encode("done");
-}
-else if ($mode == 2) {
+} else if ($mode == 2) {
     $id = $_POST["id"];
-    $metier  = new listmetier();
+    $metier = new listmetier();
     $metier->delete($id);
     print json_encode("done");
-}
-else if($mode == 3) {
+} else if ($mode == 3) {
 
     /*
      * 0=>apropos
@@ -42,10 +42,9 @@ else if($mode == 3) {
 
     $doc = new docs();
     $doc = $doc->findByPrimaryKey($_POST['type']);
-    $arrData = array('id'=>$doc->getId(), 'clef'=>$doc->getCle() , 'title'=>$doc->getTitle() , 'description'=>$doc->getDescription(), 'data'=>$apropos);
+    $arrData = array('id' => $doc->getId(), 'clef' => $doc->getCle(), 'title' => $doc->getTitle(), 'description' => $doc->getDescription(), 'data' => $apropos);
     print json_encode($arrData);
-}
-else if($mode == 4) {
+} else if ($mode == 4) {
     $doc = new docs();
     /*
      * 0=>apropos
@@ -63,8 +62,7 @@ else if($mode == 4) {
     $docu->save();
 
     print 'done';
-}
-else if($mode == 5) {
+} else if ($mode == 5) {
     $apropos = new apropos();
     $apropos->setDescription('');
     $apropos->save();
@@ -74,10 +72,9 @@ else if($mode == 5) {
 
     $doc = new docs();
     $doc = $doc->findByPrimaryKey($_POST['type']);
-    $arrData = array('id'=>$doc->getId(), 'clef'=>$doc->getCle() , 'title'=>$doc->getTitle() , 'description'=>$doc->getDescription(), 'data'=>$apropos);
+    $arrData = array('id' => $doc->getId(), 'clef' => $doc->getCle(), 'title' => $doc->getTitle(), 'description' => $doc->getDescription(), 'data' => $apropos);
     print json_encode($arrData);
-}
-else if($mode == 6) {
+} else if ($mode == 6) {
     $contenu = json_decode($_POST['contenu']);
 
     $docu = new docs();
@@ -85,7 +82,7 @@ else if($mode == 6) {
     $docu->setTitle($contenu->title);
     $docu->setDescription(addslashes($docu->getDescription()));
     $docu->save();
-    foreach ($contenu->data as $ligne){
+    foreach ($contenu->data as $ligne) {
         $apropos = new apropos();
         $apropos = $apropos->findByPrimaryKey($ligne->id);
         $apropos->setDescription(addslashes($ligne->description));
@@ -94,9 +91,7 @@ else if($mode == 6) {
 
     echo json_encode('done');
 
-}
-
-else if($mode == 7) {
+} else if ($mode == 7) {
     $contenu = json_decode($_POST['contenu']);
 
     $apropos = new apropos();
@@ -106,15 +101,12 @@ else if($mode == 7) {
 
     echo json_encode('done');
 
-}
-
-else if($mode == 8) {
+} else if ($mode == 8) {
     $apropos = new apropos();
     $apropos = $apropos->delete($_POST["id"]);
     echo json_encode('done');
 
-}
-else if($mode == 9) {
+} else if ($mode == 9) {
     $contenu = json_decode($_POST['contenu']);
 
     $docu = new docs();
@@ -122,8 +114,7 @@ else if($mode == 9) {
     $docu->setTitle($contenu->title);
     $docu->setDescription(addslashes($docu->getDescription()));
     $docu->save();
-}
-else if($mode == 10) {
+} else if ($mode == 10) {
 
     /*
      * 1=>apropos
@@ -138,11 +129,10 @@ else if($mode == 10) {
 
     $doc = new docs();
     $doc = $doc->findByPrimaryKey($_POST['type']);
-    $arrData = array('id'=>$doc->getId(), 'clef'=>$doc->getCle() , 'title'=>($doc->getTitle()) , 'description'=>($doc->getDescription()), 'data'=>$conditionvente);
+    $arrData = array('id' => $doc->getId(), 'clef' => $doc->getCle(), 'title' => ($doc->getTitle()), 'description' => ($doc->getDescription()), 'data' => $conditionvente);
 
     print json_encode($arrData);
-}
-else if($mode == 11) {
+} else if ($mode == 11) {
 
     $conditionvente = new conditionvente();
     $conditionvente->setDescription('');
@@ -153,11 +143,9 @@ else if($mode == 11) {
 
     $doc = new docs();
     $doc = $doc->findByPrimaryKey($_POST['type']);
-    $arrData = array('id'=>$doc->getId(), 'clef'=>$doc->getCle() , 'title'=>$doc->getTitle() , 'description'=>$doc->getDescription(), 'data'=>$conditionvente);
+    $arrData = array('id' => $doc->getId(), 'clef' => $doc->getCle(), 'title' => $doc->getTitle(), 'description' => $doc->getDescription(), 'data' => $conditionvente);
     print json_encode($arrData);
-}
-
-else if($mode == 12) {
+} else if ($mode == 12) {
     $contenu = json_decode($_POST['contenu']);
 
     $conditionvente = new conditionvente();
@@ -167,14 +155,12 @@ else if($mode == 12) {
 
     echo json_encode('done');
 
-}
-else if($mode == 13) {
+} else if ($mode == 13) {
     $conditionvente = new conditionvente();
     $conditionvente = $conditionvente->delete($_POST["id"]);
 
     echo json_encode('done');
-}
-else if($mode == 14) {
+} else if ($mode == 14) {
     $contenu = json_decode($_POST['contenu']);
 
     $docu = new docs();
@@ -182,14 +168,12 @@ else if($mode == 14) {
     $docu->setTitle($contenu->title);
     $docu->setDescription(addslashes($docu->getDescription()));
     $docu->save();
-}
-else if($mode == 15) {
+} else if ($mode == 15) {
     // delete by session
     $temp_prod = new temp_prod();
     $temp_prod->delBySessionKey(session_id());
     echo "done";
-}
-else if($mode == 16) {
+} else if ($mode == 16) {
     //add instructions
     $pays = $_POST["param"];
     $arrData = [];
@@ -214,7 +198,7 @@ else if($mode == 16) {
         $instruction = $instruction->rechercher();
         //print json_encode($instruction);
     }
-    $arrData["instruction"]=$instruction;
+    $arrData["instruction"] = $instruction;
 
 
     //list des metiers
@@ -231,18 +215,28 @@ else if($mode == 16) {
     $pub = new pub();
     $pub = $pub->findByPays($pays);
 
-    if($pub == null) {
+    if ($pub == null) {
         $arrData["pub"] = null;
-    }
-    else{
+    } else {
         $arrPub = array(
-            "id"    =>  $pub->getId(),
-            "actif" =>  $pub->getActif(),
-            "link"  =>  $pub->getLink(),
-            "pays"  =>  $pub->getPays()
+            "id" => $pub->getId(),
+            "actif" => $pub->getActif(),
+            "link" => $pub->getLink(),
+            "pays" => $pub->getPays()
         );
         $arrData["pub"] = $arrPub;
     }
 
     print json_encode($arrData);
+} else if ($mode == 17) {
+    $customSalesman  =new custom_salesman();
+    $customSalesman->setIdCata($_POST["id_cata"]);
+    $customSalesman->setIdSalesman($_SESSION['uid']);
+    $customSalesman->setData(json_encode($_POST["data"]));
+    $customSalesman->save();
+} else if($mode == 18){
+    $customSalesman =new custom_salesman();
+    $customSalesman = $customSalesman->rechSalesman($_SESSION['uid']);
+    print json_encode($customSalesman);
+
 }
