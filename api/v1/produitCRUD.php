@@ -1,4 +1,5 @@
 <?php
+
 include_once 'include_all.php';
 
 $mode = $_GET['mode'];
@@ -30,6 +31,7 @@ else if($mode == 3) {
     $pays = $_GET["pays"];
     $pub = new pub();
     $pub = $pub->findByPays($pays);
+
 
     if($pub == null) {
         print 'null';

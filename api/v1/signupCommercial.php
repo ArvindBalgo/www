@@ -77,7 +77,7 @@ if (!$isUserExists) {
     $mail->isHTML(true);
 
     $mail->Subject = utf8_decode('Compte Commerciale');
-    $mail->Body = utf8_decode('Bonjour ' . strtoupper($name) . " " . strtoupper($surname) . ", <br> Votre compte commerciale est maintenant actif. Voici les info concerné pour se connecter <br>Utilisateur:" . $email . "<br> Mot de passe:" . $password . "  <br> Cordialement <br> Exakom");
+    $mail->Body = utf8_decode('Bonjour ' . strtoupper($name) . " " . strtoupper($surname) . ", <br> Votre compte commerciale est maintenant actif. Voici vos identifiants de connexion <br>Utilisateur:" . $email . "<br> Mot de passe:" . $password . "  <br> Cordialement <br> Exakom");
 
     if (!$mail->send()) {
         //echo 'Message could not be sent.';
@@ -85,6 +85,32 @@ if (!$isUserExists) {
     } else {
         // echo 'Message has been sent';
     }
+
+    $mailAdmin = new PHPMailer;
+    $mailAdmin->isSMTP();                                      // Set mailer to use SMTP
+    $mailAdmin->Host = 'mail.exakom.fr';  // Specify main and backup SMTP servers
+    $mailAdmin->SMTPAuth = true;                               // Enable SMTP authentication
+    $mailAdmin->Username = 'contact@exakom.fr';                 // SMTP username
+    $mailAdmin->Password = '95961b98';                           // SMTP password
+    $mailAdmin->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+    $mailAdmin->Port = 25;
+
+    $mailAdmin->setFrom('contact@exakom.fr', 'Exakom');
+    $mailAdmin->addAddress('contact@exakom.fr', strtoupper($name) . " " . strtoupper($surname));     // Add a recipient
+//$mail->addAddress('ellen@example.com');               // Name is optional
+    $mailAdmin->addReplyTo('contact@exakom.fr', 'Information');
+    $mailAdmin->isHTML(true);
+
+    $mailAdmin->Subject = utf8_decode('Compte Commercial');
+    $mailAdmin->Body = utf8_decode('Bonjour ' . strtoupper($name) . " " . strtoupper($surname) . ", <br> Votre compte commercial est maintenant actif. Voici vos identifiants de connexion <br>Utilisateur:" . $email . "<br> Mot de passe:" . $password . "  <br> Cordialement <br> Exakom");
+
+    if (!$mailAdmin->send()) {
+        //echo 'Message could not be sent.';
+        // echo 'Mailer Error: ' . $mail->ErrorInfo;
+    } else {
+        // echo 'Message has been sent';
+    }
+
     echo "done";
     /*$table_name = "customers_auth";
     $column_names = array('phone', 'name','surname', 'email', 'password', 'city', 'address', 'pays', 'postalcode', 'nosiret');
