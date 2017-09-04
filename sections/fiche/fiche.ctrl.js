@@ -2813,31 +2813,31 @@ angular
          */
         vm.linkMonPanier = "../assets/carts/mon_panier.png";
         vm.linkAjoutPanier = "../assets/carts/ajouter_panier.png";
-        vm.linkSaveProd = "../assets/carts/model_save.png";
+        vm.linkSaveProd = "../assets/carts/model_sauvegarde/francais.png";
         if (lang == "FR") {
             vm.linkMonPanier = "../assets/carts/mon_panier.png";
             vm.linkAjoutPanier = "../assets/carts/ajouter_panier.png";
-            vm.linkSaveProd = "../assets/carts/model_save.png";
+            vm.linkSaveProd = "../assets/carts/model_sauvegarde/francais.png";
         }
         else if (lang == "ES") {
             vm.linkMonPanier = "../assets/carts/cesta_espagnol.png";
             vm.linkAjoutPanier = "../assets/carts/cart_espagnol.png";
-            vm.linkSaveProd = "../assets/carts/model_save.png";
+            vm.linkSaveProd = "../assets/carts/model_sauvegarde/espagnol.png";
         }
         else if (lang == "EN") {
             vm.linkMonPanier = "../assets/carts/cart_english.png";
             vm.linkAjoutPanier = "../assets/carts/add_cart_english.png";
-            vm.linkSaveProd = "../assets/carts/model_save.png";
+            vm.linkSaveProd = "../assets/carts/model_sauvegarde/eng.png";
         }
         else if (lang == "AL") {
             vm.linkMonPanier = "../assets/carts/warenkorb_deutch.png";
             vm.linkAjoutPanier = "../assets/carts/cart_deutch.png";
-            vm.linkSaveProd = "../assets/carts/model_save.png";
+            vm.linkSaveProd = "../assets/carts/model_sauvegarde/allemand.png";
         }
         else if (lang == "IT") {
             vm.linkMonPanier = "../assets/carts/carrello_italiano.png";
             vm.linkAjoutPanier = "../assets/carts/cart_italien.png";
-            vm.linkSaveProd = "../assets/carts/model_save.png";
+            vm.linkSaveProd = "../assets/carts/model_sauvegarde/italien.png";
         }
         if (lang == "" || lang == null) {
             lang = "FR";

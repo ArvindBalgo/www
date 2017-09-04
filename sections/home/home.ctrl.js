@@ -362,6 +362,7 @@ angular
             if (lang_sel == "FR") {
                 vm.isFrance = true;
                 vm.linkmonpanier = "../assets/carts/mon_panier.png";
+                vm.linkSaveProd = "../assets/carts/model_sauvegarde/francais.png";
             }
             else {
                 vm.isFrance = false;
@@ -371,24 +372,28 @@ angular
                  value.libelle = value.libelle_en;
                  });*/
                 vm.linkmonpanier = "../assets/carts/cart_english.png";
+                vm.linkSaveProd = "../assets/carts/model_sauvegarde/eng.png";
             }
             else if (lang_sel == 'AL') {
                 /*angular.forEach(vm.btnMetier, function(value) {
                  value.libelle = value.libelle_al;
                  });*/
                 vm.linkmonpanier = "../assets/carts/warenkorb_deutch.png";
+                vm.linkSaveProd = "../assets/carts/model_sauvegarde/allemand.png";
             }
             else if (lang_sel == 'ES') {
                 /*angular.forEach(vm.btnMetier, function(value) {
                  value.libelle = value.libelle_es;
                  });*/
                 vm.linkmonpanier = "../assets/carts/cesta_espagnol.png";
+                vm.linkSaveProd = "../assets/carts/model_sauvegarde/espagnol.png";
             }
             else if (lang_sel == 'IT') {
                 /*angular.forEach(vm.btnMetier, function(value) {
                  value.libelle = value.libelle_it;
                  });*/
                 vm.linkmonpanier = "../assets/carts/carrello_italiano.png";
+                vm.linkSaveProd = "../assets/carts/model_sauvegarde/italien.png";
             }
         };
 
