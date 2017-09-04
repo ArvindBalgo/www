@@ -231,6 +231,7 @@ if ($mode == 0) {
 } else if ($mode == 17) {
     $customSalesman  =new custom_salesman();
     $customSalesman->setIdCata($_POST["id_cata"]);
+    $customSalesman->setTitle($_POST["title"]);
     $customSalesman->setIdSalesman($_SESSION['uid']);
     $customSalesman->setData(json_encode($_POST["data"]));
     $customSalesman->save();

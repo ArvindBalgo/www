@@ -2188,6 +2188,11 @@ angular
                     };
 
                     vm.saveProdCommercial = function () {
+                        if (typeof vm.produit.titre == 'undefined' || (vm.produit.titre).trim() == "") {
+                            bootbox.alert("<div style='text-align: center'><b>Veuillez renseigner le titre s'il-vous-plait.</b></div>");
+                            return;
+                        }
+
                         $http({
                             method: 'POST',
                             data: $.param({

@@ -14,6 +14,7 @@ angular
         vm.strMsgCode = "Verification Code";
         vm.userState = '';
         vm.states = [];
+        vm.xfois = "2FOIS";
         vm.orderNum = 0;
         vm.xmois = 1;
 
@@ -132,10 +133,10 @@ angular
 
         vm.fnCheckXmois = function () {
             console.log(vm.xmois, " setup of xmois ");
-            if(vm.xmois > 6) {
+            if (vm.xmois > 6) {
                 vm.xmois = 6;
             }
-            if(vm.xmois < 1) {
+            if (vm.xmois < 1) {
                 vm.xmois = 1;
             }
         }
@@ -222,9 +223,12 @@ angular
                     $("#dp_retourvok").val(response.data.id);
                     $("#dp_retourvhs").val(response.data.id);
                     $("#dp_retourvhs1").val(response.data.id);
+                    $("#id_xfois").val(vm.userState + 1 + "FOIS");
 
                     $('body').removeClass("spinner");
                     if (vm.userState >= 1) {
+                      //  vm.xfois = vm.userState + 1 + "FOIS";
+
                         document.getElementById("knp-form_xfois").submit();
                     }
                     else {

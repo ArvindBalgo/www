@@ -4,6 +4,7 @@ class custom_salesman
 {
     //**** Variables declarations ****
     private $_id = null;
+    private $_title = "";
     private $_id_cata = 0;
     private $_id_front = 0;
     private $_id_back = 0;
@@ -25,6 +26,11 @@ class custom_salesman
     public function setId($id)
     {
         $this->_id = $id;
+    }
+
+    public function setTitle($val)
+    {
+        $this->_title = $val;
     }
 
     public function setIdCata($val)
@@ -59,6 +65,11 @@ class custom_salesman
         return $this->_id;
     }
 
+    public function getTitle()
+    {
+        return $this->_title;
+    }
+
     public function getIdCata()
     {
         return $this->_id_cata;
@@ -90,31 +101,34 @@ class custom_salesman
         $r = $this->conn->query($requete) or die($this->conn->error . __LINE__);
     }
 
-    //***** fonction de modification/cr�ation *****
+    //***** fonction de modification/création *****
     public function save()
     {
 
         if ($this->_id > 0) {
             $requete = "UPDATE custom_salesman SET id_cata='" . ($this->_id_cata) . "'";
-            $requete .= ", id_front=".$this->_id_front;
-            $requete .= ", id_back=".$this->_id_back;
-            $requete .= ", id_salesman=".$this->_id_salesman;
-            $requete .= ", data='".$this->_data."'";
+            $requete .= ", title='" . $this->_title . "'";
+            $requete .= ", id_front=" . $this->_id_front;
+            $requete .= ", id_back=" . $this->_id_back;
+            $requete .= ", id_salesman=" . $this->_id_salesman;
+            $requete .= ", data='" . $this->_data . "'";
             $requete .= " WHERE id=" . $this->_id;
 
         } else {
             $requete = "INSERT INTO custom_salesman (";
             $requete .= "id_cata";
+            $requete .= ",title";
             $requete .= ",id_front";
             $requete .= ",id_back";
             $requete .= ",id_salesman";
             $requete .= ",data";
             $requete .= ") VALUES (";
-            $requete .= "'" . $this->_id_cata. "',";
+            $requete .= "'" . $this->_id_cata . "',";
+            $requete .= "'" . $this->_title . "',";
             $requete .= "'" . $this->_id_front . "',";
             $requete .= "'" . $this->_id_back . "',";
             $requete .= "'" . $this->_id_salesman . "',";
-            $requete .= "'" . $this->_data. "')";
+            $requete .= "'" . $this->_data . "')";
         }
 
         $r = $this->conn->query($requete) or die($this->conn->error . __LINE__);
@@ -127,11 +141,12 @@ class custom_salesman
     {
         $custom_salesman = new custom_salesman();
         $custom_salesman->_id = $rs["id"];
+        $custom_salesman->_title = $rs["title"];
         $custom_salesman->_id_cata = $rs["id_cata"];
         $custom_salesman->_id_front = $rs["id_front"];
-        $custom_salesman->_id_back= $rs["id_back"];
-        $custom_salesman->_id_salesman= $rs["id_salesman"];
-        $custom_salesman->_data= $rs["data"];
+        $custom_salesman->_id_back = $rs["id_back"];
+        $custom_salesman->_id_salesman = $rs["id_salesman"];
+        $custom_salesman->_data = $rs["data"];
         return $custom_salesman;
     }
 
@@ -150,7 +165,7 @@ class custom_salesman
     public function rechSalesman($id)
     { // Recherche de toutes les adresses
         $listLOG = array();
-        $requete = self::$SELECT." where id_salesman =".$id;
+        $requete = self::$SELECT . " where id_salesman =" . $id;
         $rs = $this->conn->query($requete) or die($this->conn->error . __LINE__);
         $rows = [];
         while ($row = mysqli_fetch_array($rs)) {
