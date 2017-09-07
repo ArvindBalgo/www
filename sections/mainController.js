@@ -102,6 +102,20 @@ angular
             });
         };
 
+         $scope.signUp1 = function (customer) {
+                    customer.pays = $('#userPays').val();
+                    Data.post('signupClient2.php', {
+                        customer: customer
+                    }).then(function (results) {
+                        Data.toast(results);
+                        $('#newClient').modal('hide');
+                        $(".modal-backdrop").remove();
+                        if (results.status == 1) {
+                            $location.path('home');
+                        }
+                    });
+                };
+
         $scope.logout = function () {
             bootbox.dialog({
                 message: "Voulez-vous deconnecter?",

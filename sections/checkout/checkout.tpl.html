@@ -94,7 +94,51 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-md-3" ng-show="checkout.isSalesman==1">
+        <md-input-container style="margin-right: 10px;">
+            <label>Client</label>
+            <md-select ng-model="checkout.selClient" ng-change="checkout.test()">
+                <md-option ng-repeat="item in checkout.listClients" value="{{item}}">
+                    {{item.surname | uppercase}} {{item.name | uppercase}}
+                </md-option>
+            </md-select>
+        </md-input-container>
+        <table border="0" cellpadding="2" cellspacing="0" width="100%">
+            <meta charset="UTF-8">
+            <tr>
+                <td width="50%"><label>{{'chk_company' | translate}}</label></td>
+                <td width="100%"><label>{{checkout.selectedClient.company_name}}</label></td>
+            </tr>
+            <tr>
+                <td width="50%"><label>{{'chk_nom' | translate}}</label></td>
+                <td width="50%"><label>{{checkout.selectedClient.name}} {{checkout.selectedClient.surname}}</label></td>
+            </tr>
+            <tr>
+                <td width="50%"><label>{{'chk_tel' | translate}}</label></td>
+                <td width="50%"><label>{{checkout.selectedClient.phone}}</label></td>
+            </tr>
+            <tr>
+                <td width="50%"><label>{{'chk_address' | translate}}</label></td>
+                <td width="50%"><label>{{checkout.selectedClient.address}}</label></td>
+            </tr>
+            <tr>
+                <td><label>{{'chk_codepostal' | translate}}</label></td>
+                <td width="50%"><label>{{checkout.selectedClient.postalcode}}</label></td>
+            </tr>
+            <tr>
+                <td width="50%"><label>{{'chk_city' | translate}}</label></td>
+                <td width="50%"><label>{{checkout.selectedClient.city}}</label></td>
+            </tr>
+            <tr>
+                <td width="50%"><label>{{'chk_department' | translate}}</label></td>
+                <td width="50%"><label>{{checkout.selectedClient.department}}</label></td>
+            </tr>
+        </table>
+        <button class="btn btn-lg btn-success" value="Facturation" ng-click="checkout.fnPayCommercial()">
+            {{'paiement' | translate}}
+        </button>
+    </div>
+    <div class="col-md-3" ng-show="checkout.isSalesman==0">
         <div class="col-md-12">
             <label class="label label-info">{{'billing' | translate}}</label>
         </div>
@@ -264,7 +308,6 @@
                 {{'paiement' | translate}}
             </button>
         </div>
-
     </div>
 </div>
 <footer>

@@ -662,4 +662,208 @@ if ($mode == 0) {
     $langue  = new langue();
     $langue = $langue->rechMultiKeys($_GET['lang']);
     print json_encode($langue);
+}else if ($mode == 22) {
+    $arrListKeys = json_decode($_GET["list"]);
+    $id_user = $_GET['id_user'];
+    $tva = new tva();
+    $tva = $tva->findByPays($_SESSION['pays']);
+    $frais_livraison = 0;
+    $totalPrixHT = 0;
+    foreach ($arrListKeys as $val) {
+        foreach ($val as $key => $item) {
+            $tempProd = new temp_prod();
+            $tempProd = $tempProd->findByComboKeyRandom($key, $item);
+            if ($tempProd) {
+                $fraisLivraison = new frais_livraison();
+                $fraisLivraison = $fraisLivraison->findByIdDimQte($tempProd->getIdProduit(), $tempProd->getDimension(), $tempProd->getQte(), $_SESSION["pays"]);
+                $frais_livraison = $frais_livraison + floatval($fraisLivraison["price"]);
+
+                $totalPrixHT = $totalPrixHT + ($tempProd->getUnitPrix() * $tempProd->getQte());
+            }
+        }
+    }
+    $orders = new orders_main();
+    $orders->setIdUser($id_user);
+    $orders->setIdCommercial($_SESSION['uid']);
+    $orders->setViaCommercial(1);
+    $orders->setTotalLivraisonHT($frais_livraison);
+    $orders->setTotalLivraisonTTC(number_format(($frais_livraison * $tva->getValue()) / 100 + $frais_livraison, 2, '.', ''));
+    $orders->setTotalPrixHT(number_format($totalPrixHT, 2, '.', ''));
+    $orders->setTotalPrixTTC(number_format((($totalPrixHT * $tva->getValue()) / 100) + $totalPrixHT, 2, '.', ''));
+    $orders->setTax(number_format((($totalPrixHT * $tva->getValue()) / 100), 2, '.', ''));
+    $orders->setTotalPrixNet(number_format((($totalPrixHT * $tva->getValue()) / 100) + $totalPrixHT, 2, '.', ''));
+    $orders->setTax(number_format((($totalPrixHT * $tva->getValue()) / 100), 2, '.', ''));
+    $orders->setStatus("NEW");
+    $orders->setCreatedBy($id_user);
+    $orders->setModifiedBy($id_user);
+    $orders->setDateCreated(date("Y-m-d H:i:s"));
+    $orders->setDateModified(date("Y-m-d H:i:s"));
+    $orders->save();
+    $lastID = $orders->fnGetLastId();
+
+    /*if($_GET["coupon"] != "") {
+        $couponMain = new coupon_main();
+        $couponMain = $couponMain->findByPrimaryKey($_GET["coupon"]);
+        if($couponMain){
+            $ordersMain = new orders_main();
+            $ordersMain = $ordersMain->findByPrimaryKey($lastID["id"]);
+            $discountVal = 1 - ($couponMain->getVal()/100);
+            if($ordersMain){
+                $ordersMain->setTotalPrixNet(number_format((($ordersMain->getTotalPrixTTC() + $ordersMain->getTotalLivraisonTTC()) * ($discountVal)), 2, '.', ''));
+                $ordersMain->save();
+            }
+            $couponDetail = new coupon_details();
+            $couponDetail = $couponDetail->findByCouponUser($_GET["coupon"], $_SESSION["uid"]);
+            $couponDetail->setFlag("USED");
+            $couponDetail->setDateUsed(date("Y-m-d"));
+            $couponDetail->setIdOrder($lastID["id"]);
+            $couponDetail->save();
+        }
+    }*/
+
+    foreach ($arrListKeys as $val1) {
+        foreach ($val1 as $key => $item) {
+            $tempProd = new temp_prod();
+            $tempProd = $tempProd->findByComboKeyRandom($key, $item);
+
+            if ($tempProd) {
+                $fraisLivraison = new frais_livraison();
+                $fraisLivraison = $fraisLivraison->findByIdDimQte($tempProd->getIdProduit(), $tempProd->getDimension(), $tempProd->getQte(), $_SESSION["pays"]);
+                $frais_livraison = $frais_livraison + floatval($fraisLivraison["price"]);
+
+                $totalPrixHT = $totalPrixHT + ($tempProd->getUnitPrix() * $tempProd->getQte());
+                $orders_details = new orders_details();
+                $orders_details->setIdOrder($lastID["id"]);
+                $orders_details->setBase64Image($tempProd->getbase64Image());
+                $orders_details->setBonRepli($tempProd->getBonRepli());
+                $orders_details->setCommentaire($tempProd->getCommentaire());
+                $orders_details->setDimension($tempProd->getDimension());
+                $orders_details->setIdDimension($tempProd->getIdDimension());
+                $orders_details->setEscargot($tempProd->getEscargot());
+                $orders_details->setEscargotVal($tempProd->getEscargotVal());
+                $orders_details->setContours($tempProd->getContours());
+                $orders_details->setLiserai($tempProd->getLiserai());
+                $orders_details->setOpt($tempProd->getOpt());
+                $orders_details->setPrixHT(number_format(($tempProd->getUnitPrix() * $tempProd->getQte()), 2, '.', ''));
+                $orders_details->setPrixTTC(number_format(((($tempProd->getUnitPrix() * $tempProd->getQte()) * $tva->getValue()) / 100) + ($tempProd->getUnitPrix() * $tempProd->getQte()), 2, '.', ''));
+                $orders_details->setUnitPrix($tempProd->getUnitPrix());
+                $orders_details->setPrixLivraisonHT(number_format($fraisLivraison["price"], 2, '.', ''));
+                $orders_details->setPrixLivraisonTTC(number_format(($fraisLivraison["price"] * $tva->getValue()) / 100 + $fraisLivraison["price"], 2, '.', ''));
+                $orders_details->setIdSupport($tempProd->getIdSupport());
+                $orders_details->setSupport($tempProd->getSupport());
+                $orders_details->setQte($tempProd->getQte());
+                $orders_details->setIdQte($tempProd->getIdQte());
+                $orders_details->setTitle($tempProd->getTitle());
+                $orders_details->setData(json_encode($tempProd->getData()));
+                $orders_details->setFlag("NEW");
+                $orders_details->setStatus("INCOMPLETE");
+                $orders_details->setDateCreated(date("Y-m-d H:i:s"));
+                $orders_details->setDateModified(date("Y-m-d H:i:s"));
+                $orders_details->setCreatedBy($id_user);
+                $orders_details->setModifiedBy($id_user);
+                $orders_details->save();
+                $orders_details = new orders_details();
+                $orders_details = $orders_details->getMaxId();
+
+                $TEMPIMGLOC = 'tempimg.png';
+
+                $dataURI = $tempProd->getbase64Image();
+            }
+        }
+    }
+
+    /*
+     * Appel à création pdf
+     */
+    /*$mode = 0;
+    $post_id = $lastID['id'];
+
+    include_once 'pdf_generation_order.php';*/
+
+    $mail = new PHPMailer;
+    $mailAdmin = new PHPMailer;
+
+//$mail->SMTPDebug = 3;                               // Enable verbose debug output
+
+    $idUser = $_SESSION['uid'];
+    $user = new users();
+    $user = $user->findByPrimaryKey($idUser);
+    $paysClient = $user->getPays();
+    $pays = $paysClient;
+
+    $mail->isSMTP();                                      // Set mailer to use SMTP
+    $mail->Host = 'mail.exakom.fr';  // Specify main and backup SMTP servers
+    $mail->SMTPAuth = true;                               // Enable SMTP authentication
+    $mail->Username = 'contact@exakom.fr';                 // SMTP username
+    $mail->Password = '95961b98';                           // SMTP password
+    $mail->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+    $mail->Port = 25;                                    // TCP port to connect to
+
+    $mail->setFrom('contact@exakom.fr', 'Exakom');
+    $mail->addAddress($user->getEmail(), strtoupper($user->getName()) . " " . strtoupper($user->getSurname()));     // Add a recipient
+//$mail->addAddress('ellen@example.com');               // Name is optional
+    $mail->addReplyTo('contact@exakom.fr', 'Information');
+//$mail->addCC('cc@example.com');
+//$mail->addBCC('bcc@example.com');
+
+//$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
+//$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+    $mail->isHTML(true);                                  // Set email format to HTML
+
+    if ($pays == 'FR') {
+        $mail->Subject = utf8_decode('Réception de commande Exakom');
+        $mail->Body = utf8_decode('Bonjour ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Votre commande N° " . $lastID["id"] . " a bien été enregistrée, vous recevrez bientôt votre facture. <br> Cordialement <br> Exakom");
+
+    } else if ($pays == "EN") {
+        $mail->Subject = utf8_decode('Exakom order receipt');
+        $mail->Body = utf8_decode('Hello ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Your order N° " . $lastID["id"] . " has been registered, you will soon receive your invoice. <br> Regards <br> Exakom");
+    } else if ($pays == "AL") {
+        $mail->Subject = utf8_decode('Exakom bestellen quittung');
+        $mail->Body = utf8_decode('Hallo ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Ihre Bestellung Nr " . $lastID["id"] . " registriert worden ist, werden Sie bald Ihre Rechnung. <br> Grüße <br> Exakom");
+    } else if ($pays == "ES") {
+        $mail->Subject = utf8_decode('Recibo de pedido de Exakom');
+        $mail->Body = utf8_decode('Holla ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Su orden N ° " . $lastID["id"] . " haya sido registrada, pronto recibirá su factura. <br> Saludos <br> Exakom");
+    } else if ($pays == "IT") {
+        $mail->Subject = utf8_decode('Ricevuta di ordine Exakom');
+        $mail->Body = utf8_decode('Ciao ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Il tuo ordine N °  " . $lastID["id"]. " è stato registrato, riceverai presto la tua fattura.<br> Saluti <br> Exakom");
+    }
+
+    if (!$mail->send()) {
+        //echo 'Message could not be sent.';
+        // echo 'Mailer Error: ' . $mail->ErrorInfo;
+    } else {
+        // echo 'Message has been sent';
+    }
+
+    $mailAdmin->isSMTP();                                      // Set mailer to use SMTP
+    $mailAdmin->Host = 'mail.exakom.fr';  // Specify main and backup SMTP servers
+    $mailAdmin->SMTPAuth = true;                               // Enable SMTP authentication
+    $mailAdmin->Username = 'contact@exakom.fr';                 // SMTP username
+    $mailAdmin->Password = '95961b98';                           // SMTP password
+    $mailAdmin->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
+    $mailAdmin->Port = 25;                                    // TCP port to connect to
+
+    $mailAdmin->setFrom('contact@exakom.fr', 'Exakom');
+    $mailAdmin->addAddress('contact@exakom.fr', "Admin");     // Add a recipient     // Name is optional
+    $mailAdmin->addAddress('balgo_arvind@hotmail.com');               // Name is optional
+    $mailAdmin->addReplyTo('contact@exakom.fr', 'Information');
+//$mail->addCC('cc@example.com');
+//$mail->addBCC('bcc@example.com');
+
+//$mail->addAttachment('/var/tmp/file.tar.gz');         // Add attachments
+//$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
+    $mailAdmin->isHTML(true);                                  // Set email format to HTML
+
+    $mailAdmin->Subject = utf8_decode('Réception de commande');
+    $mailAdmin->Body = utf8_decode('Bonjour Exakom' . " <br> Une nouvelle commande a été fait par le client " . $user->getName() . " " . $user->getSurname() . " <br> No Commande: " . $lastID["id"] . " <br> Bien à vous, <br> Exakom.");
+
+    if (!$mailAdmin->send()) {
+        //echo 'Message could not be sent.';
+        // echo 'Mailer Error: ' . $mail->ErrorInfo;
+    } else {
+        // echo 'Message has been sent';
+    }
+
+
+    print_r(json_encode($lastID));
 }

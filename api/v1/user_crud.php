@@ -1,6 +1,7 @@
 <?php
 session_start();
 include_once 'include_all.php';
+include_once '../chromePHP.php';
 date_default_timezone_set('America/Los_Angeles');
 $mode = $_GET['mode'];
 if ($mode == 1) {
@@ -57,4 +58,14 @@ else if($mode == 3) {
     else {
         print "no session";
     }
+}
+else if($mode == 4) {
+    $userCommercial = new users();
+    $userCommercial = $userCommercial->findByPrimaryKey($_SESSION['uid']);
+    if($userCommercial) {
+        $users = new users();
+        $users = $users->rechClientParCommercial($userCommercial->getUid(), $userCommercial->getDepartment());
+        print json_encode($users);
+    }
+
 }

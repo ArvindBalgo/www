@@ -5,6 +5,8 @@ class orders_main
     //**** Variables declarations ****
     private $_id = null;
     private $_id_user = 0;
+    private $_id_commercial = 0;
+    private $_via_commercial = 0;
     private $_total_livraison_ht = 0;
     private $_total_livraison_ttc = 0;
     private $_total_prix_ht = 0;
@@ -38,6 +40,16 @@ class orders_main
     public function setIdUser($val)
     {
         $this->_id_user = $val;
+    }
+
+    public function setIdCommercial($val)
+    {
+        $this->_id_commercial = $val;
+    }
+
+    public function setViaCommercial($val)
+    {
+        $this->_via_commercial = $val;
     }
 
     public function setTotalLivraisonHT($val)
@@ -110,6 +122,16 @@ class orders_main
     public function getIdUser()
     {
         return $this->_id_user;
+    }
+
+    public function getIdCommercial()
+    {
+        return $this->_id_commercial;
+    }
+
+    public function getViaCommercial()
+    {
+        return $this->_via_commercial;
     }
 
     public function getTotalLivraisonHT()
@@ -185,23 +207,27 @@ class orders_main
 
         if ($this->_id > 0) {
             $requete = "UPDATE orders_main SET id_user='" . ($this->_id_user) . "'";
-            $requete .= ", total_livraison_ht='".$this->_total_livraison_ht . "'";
-            $requete .= ", total_livraison_ttc='".$this->_total_livraison_ttc . "'";
-            $requete .= ", total_prix_ht='".$this->_total_prix_ht . "'";
-            $requete .= ", total_prix_ttc='".$this->_total_prix_ttc . "'";
-            $requete .= ", tax='".$this->_tax . "'";
-            $requete .= ", total_prix_net='".$this->_total_prix_net . "'";
-            $requete .= ", comments='".$this->_comments . "'";
-            $requete .= ", status='".$this->_status . "'";
-            $requete .= ", date_created='".$this->_date_created . "'";
-            $requete .= ", date_modified='".$this->_date_modified . "'";
-            $requete .= ", created_by='".$this->_created_by . "'";
-            $requete .= ", modified_by='".$this->_modified_by . "'";
+            $requete .= ", id_commercial='" . $this->_id_commercial . "'";
+            $requete .= ", via_commercial='" . $this->_via_commercial . "'";
+            $requete .= ", total_livraison_ht='" . $this->_total_livraison_ht . "'";
+            $requete .= ", total_livraison_ttc='" . $this->_total_livraison_ttc . "'";
+            $requete .= ", total_prix_ht='" . $this->_total_prix_ht . "'";
+            $requete .= ", total_prix_ttc='" . $this->_total_prix_ttc . "'";
+            $requete .= ", tax='" . $this->_tax . "'";
+            $requete .= ", total_prix_net='" . $this->_total_prix_net . "'";
+            $requete .= ", comments='" . $this->_comments . "'";
+            $requete .= ", status='" . $this->_status . "'";
+            $requete .= ", date_created='" . $this->_date_created . "'";
+            $requete .= ", date_modified='" . $this->_date_modified . "'";
+            $requete .= ", created_by='" . $this->_created_by . "'";
+            $requete .= ", modified_by='" . $this->_modified_by . "'";
             $requete .= " WHERE id=" . $this->_id;
 
         } else {
             $requete = "INSERT INTO orders_main (";
             $requete .= "id_user";
+            $requete .= ",id_commercial";
+            $requete .= ",via_commercial";
             $requete .= ",total_livraison_ht";
             $requete .= ",total_livraison_ttc";
             $requete .= ",total_prix_ht";
@@ -216,18 +242,20 @@ class orders_main
             $requete .= ",modified_by";
             $requete .= ") VALUES (";
             $requete .= "'" . $this->_id_user . "',";
+            $requete .= "'" . $this->_id_commercial . "',";
+            $requete .= "'" . $this->_via_commercial . "',";
             $requete .= "'" . $this->_total_livraison_ht . "',";
             $requete .= "'" . $this->_total_livraison_ttc . "',";
             $requete .= "'" . $this->_total_prix_ht . "',";
             $requete .= "'" . $this->_total_prix_ttc . "',";
             $requete .= "'" . $this->_tax . "',";
-            $requete .= "'" . $this->_total_prix_net. "',";
+            $requete .= "'" . $this->_total_prix_net . "',";
             $requete .= "'" . $this->_comments . "',";
             $requete .= "'" . $this->_status . "',";
-            $requete .= "'" . $this->_date_created. "',";
+            $requete .= "'" . $this->_date_created . "',";
             $requete .= "'" . $this->_date_modified . "',";
             $requete .= "'" . $this->_created_by . "',";
-            $requete .= "'" . $this->_modified_by. "')";
+            $requete .= "'" . $this->_modified_by . "')";
         }
         chromePHP::log($requete);
         $r = $this->conn->query($requete) or die($this->conn->error . __LINE__);
@@ -243,6 +271,8 @@ class orders_main
         $orders_main->_total_livraison_ht = $rs["total_livraison_ht"];
         $orders_main->_total_livraison_ttc = $rs["total_livraison_ttc"];
         $orders_main->_id_user = $rs["id_user"];
+        $orders_main->_id_commercial= $rs["id_commercial"];
+        $orders_main->_via_commercial= $rs["via_commercial"];
         $orders_main->_total_prix_ht = $rs["total_prix_ht"];
         $orders_main->_total_prix_ttc = $rs["total_prix_ttc"];
         $orders_main->_tax = $rs["tax"];
@@ -276,15 +306,17 @@ class orders_main
         return $this->mapSqlToObject(mysqli_fetch_array($rs));
     }
 
-    public function fnGetLastId(){
+    public function fnGetLastId()
+    {
         $requete = "select max(id) as id from orders_main";
         $rs = $this->conn->query($requete);
 
         return mysqli_fetch_array($rs);
     }
 
-    public function findAllOngoingOrders() {
-        $requete= self::$SELECT." where status !='ARCHIEVE' and id_user>0";
+    public function findAllOngoingOrders()
+    {
+        $requete = self::$SELECT . " where status !='ARCHIEVE' and id_user>0";
         $rs = $this->conn->query($requete) or die($this->conn->error . __LINE__);
         $rows = [];
         while ($row = mysqli_fetch_array($rs)) {
@@ -293,8 +325,9 @@ class orders_main
         return $rows;
     }
 
-    public function findByUser($idUser) {
-        $requete= self::$SELECT." where id_user =".$idUser ." order by date_created desc";
+    public function findByUser($idUser)
+    {
+        $requete = self::$SELECT . " where id_user =" . $idUser . " order by date_created desc";
         $rs = $this->conn->query($requete) or die($this->conn->error . __LINE__);
         $rows = [];
         while ($row = mysqli_fetch_array($rs)) {

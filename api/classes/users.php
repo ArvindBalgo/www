@@ -371,6 +371,21 @@ class users
         return $rows;
     }
 
+    public function rechClientParCommercial($idCommercial, $strDepts)
+    { // Recherche de toutes les adresses
+        $arrDepartments = explode(',', $strDepts);
+        $strModified = implode("','", $arrDepartments);
+
+        $listUSERS = array();
+        $requete = "SELECT uid, company_name, name, surname, email, phone, address, city, pays, postalcode, nosiret, department from customers_auth" . " where salesman=0 and admintype=0 and department in ('".$strModified."')";
+        $rs = $this->conn->query($requete) or die($this->conn->error . __LINE__);
+        $rows = [];
+        while ($row = mysqli_fetch_array($rs)) {
+            $rows[] = $row;
+        }
+        return $rows;
+    }
+
     public function findByPrimaryKey($key)
     { // Recherche d'une adresse par id
         $requete = self::$SELECT . " WHERE uid=" . $key;

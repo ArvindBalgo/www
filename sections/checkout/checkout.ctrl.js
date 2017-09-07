@@ -20,7 +20,7 @@ angular
         vm.isSalesman = 0;
         vm.percDiscount = 0;
         vm.strMsgDiscount = "";
-
+        vm.listClients = [];
         vm.lang = sessionStorage.getItem("LANG");
         if (vm.lang == "" || vm.lang == null) {
             vm.lang = "FR";
@@ -69,6 +69,7 @@ angular
                 params: {mode: 19, data: JSON.stringify(arrKeysDL)},
                 url: 'api/v1/sampleControl.php'
             }).then(function successCallback(response) {
+                vm.fnGetListClients();
                 var arrFraisLivr = response.data;
 
                 vm.montants.frais_livr = 0;
@@ -198,7 +199,7 @@ angular
             }, function errorCallback(error) {
 
             });
-        }
+        };
 
         vm.fnPay = function () {
             vm.lang = sessionStorage.getItem("LANG");
@@ -222,7 +223,6 @@ angular
             angular.forEach(vm.arrProduits, function (value, key) {
                 arrListCheckoutProds[key] = {};
                 arrListCheckoutProds[key][value.idn_key] = value.random_str;
-                // arrListCheckoutProds.push(value.random_str);
             });
 
             var valCoupon = sessionStorage.getItem("coupon");
@@ -261,8 +261,54 @@ angular
                     console.log(error);
                     $('body').removeClass("spinner");
                 });
+        };
 
+        vm.fnPayCommercial = function () {
+            vm.lang = sessionStorage.getItem("LANG");
+            if (vm.lang == "" || vm.lang == null) {
+                vm.lang = "FR";
+            }
+            if (vm.lang == 'AL') {
+                vm.lang = 'DE'
+            }
 
+            vm.arrProduits = [];
+            var count = Number(sessionStorage.getItem("produitCount"));
+            var arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
+            if (arrProds != null) {
+                angular.forEach(arrProds, function (value) {
+                    vm.arrProduits.push(JSON.parse(sessionStorage.getItem(value)));
+                });
+            }
+
+            var arrListCheckoutProds = new Array();
+            angular.forEach(vm.arrProduits, function (value, key) {
+                arrListCheckoutProds[key] = {};
+                arrListCheckoutProds[key][value.idn_key] = value.random_str;
+            });
+
+            var valCoupon = sessionStorage.getItem("coupon");
+            if (!valCoupon) {
+                valCoupon = "";
+            }
+            $('body').addClass("spinner");
+            $http({
+                method: 'GET',
+                params: {mode: 22, list: JSON.stringify(arrListCheckoutProds), coupon: valCoupon, id_user:vm.selectedClient.uid},
+                url: 'api/v1/sampleControl.php'
+            }).then(function successCallback(response) {
+                    vm.arrProduits = [];
+                    sessionStorage.clear();
+                    // toastr.success("Order Confirmed");
+                    // To submit to kliknpay
+                    vm.orderNum = response.data.id;
+                    $location.path('/client');
+                    $('body').removeClass("spinner");
+                }
+                , function errorCallback(error) {
+                    console.log(error);
+                    $('body').removeClass("spinner");
+                });
         };
 
         vm.fnCalcDisc = function() {
@@ -274,6 +320,22 @@ angular
             vm.montants.montant_net = (vm.montants.montant_net_orig * (1 - (vm.percDiscount / 100))).toFixed(2);
             vm.strMsgDiscount = (vm.montants.montant_net_orig - vm.montants.montant_net).toFixed(2) + " Euro";
         };
+
+        vm.fnGetListClients = function(){
+            $http({
+                method: 'GET',
+                params: {mode: 4},
+                url: 'api/v1/user_crud.php'
+            }).then(function successCallback(response) {
+               console.log(response.data);
+               vm.listClients = response.data;
+            });
+        };
+
+        vm.test = function() {
+            vm.selectedClient = JSON.parse(vm.selClient);
+        }
+
 
         var lang = sessionStorage.getItem("LANG");
         $http({
