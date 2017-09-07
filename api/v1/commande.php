@@ -154,12 +154,23 @@ if ($mode == 1) {
     print json_encode($rows);
 } else if ($mode == 6) {
     $idClient = $_SESSION['uid'];
+    $user = new users();
+    $user = $user->findByPrimaryKey($idClient);
+
     $orderMain = new orders_main();
-    $orderMain = $orderMain->findByUser($idClient);
+    if($user->getSalesman() == 1) {
+        $orderMain = $orderMain->findByIdCommercial($idClient);
+    }
+    else {
+        $orderMain = $orderMain->findByUser($idClient);
+    }
     $rows = [];
     foreach ($orderMain as $item) {
         $ordersDetails = new orders_details();
         $facture  = new factures();
+        $client = new users();
+        $client = $client->findByPrimaryKey($item['id_user']);
+
         $facture = $facture->findByIdOrder($item["id"]);
         if($facture) {
             $item['pdf_src'] = $facture->getPdfSrc();
@@ -169,6 +180,8 @@ if ($mode == 1) {
 
         $ordersDetails = $ordersDetails->getCountProds($item["id"]);
         $item["num_prods"] = $ordersDetails["prods"];
+        $item["client_name"] = $client->getSurname() ." ". $client->getName();
+        $item["postalcode"] = $client->getPostalCode();
         $item["displayDetails"] = false;
         $dateTime = new DateTime($item["date_created"]);
         $item["date_commande"] = $dateTime->format("h:m d/m/Y");
