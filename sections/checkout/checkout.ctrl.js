@@ -17,6 +17,9 @@ angular
         vm.xfois = "2FOIS";
         vm.orderNum = 0;
         vm.xmois = 1;
+        vm.isSalesman = 0;
+        vm.percDiscount = 0;
+        vm.strMsgDiscount = "";
 
         vm.lang = sessionStorage.getItem("LANG");
         if (vm.lang == "" || vm.lang == null) {
@@ -145,7 +148,10 @@ angular
             Data.get('session.php').then(function (results) {
                 if (results.uid) {
                     //vm.userDetails = results;
+                    console.log(results);
+                    vm.isSalesman = results.salesman;
                     vm.getUserDetails();
+                    vm.getSalesmanDetails();
                 }
                 $scope.sessionInfo = results;
             });
@@ -158,10 +164,25 @@ angular
                 url: 'api/v1/user_crud.php'
             }).then(function successCallback(response) {
                 vm.userDetails = response.data;
+                console.log(vm.userDetails, " ==>");
             }, function errorCallback(error) {
 
             });
         };
+
+        vm.getSalesmanDetails = function () {
+            $http({
+                method: 'GET',
+                params: {mode: 3, id:$scope.sessionInfo.uid},
+                url: 'api/v1/user_crud.php'
+            }).then(function successCallback(response) {
+                vm.salesmanDetails = response.data;
+                console.log(vm.salesmanDetails, " ==>");
+            }, function errorCallback(error) {
+
+            });
+        };
+
 
         vm.fnLoadPub = function () {
             var langSel = sessionStorage.getItem('LANG');
@@ -242,6 +263,16 @@ angular
                 });
 
 
+        };
+
+        vm.fnCalcDisc = function() {
+            if(parseInt(vm.percDiscount) < parseInt(vm.salesmanDetails.minval) || parseInt(vm.percDiscount) > parseInt(vm.salesmanDetails.maxval)) {
+                vm.montants.montant_net = (vm.montants.montant_net_orig).toFixed(2);
+                vm.strMsgDiscount = "% hors limit.";
+                return;
+            }
+            vm.montants.montant_net = (vm.montants.montant_net_orig * (1 - (vm.percDiscount / 100))).toFixed(2);
+            vm.strMsgDiscount = (vm.montants.montant_net_orig - vm.montants.montant_net).toFixed(2) + " Euro";
         };
 
         var lang = sessionStorage.getItem("LANG");

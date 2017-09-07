@@ -33,3 +33,28 @@ else if($mode == 2) {
 
     print json_encode($user);
 }
+else if($mode == 3) {
+    $user = new users();
+    $user = $user->findByPrimaryKey($_GET['id']);
+    if ($user) {
+        $arrInfo = array('id' => $user->getUid(),
+            'name' => $user->getName(),
+            'surname' => $user->getSurname(),
+            'company' => $user->getCompanyName(),
+            'telephone'=> $user->getPhone(),
+            'address'=>$user->getAddress(),
+            'postalcode'=>$user->getPostalCode(),
+            'country'=>$user->getPays(),
+            'city'=>$user->getCity(),
+            'email'=>$user->getEmail(),
+            'department'=>$user->getDepartment(),
+            'minval'=>$user->getMinVal(),
+            'maxval'=>$user->getMaxVal()
+        );
+
+        print json_encode($arrInfo);
+    }
+    else {
+        print "no session";
+    }
+}

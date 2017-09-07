@@ -70,12 +70,19 @@
                     <small> Euro</small>
                 </label>
             </div>
-            <div class="col-md-12" style="margin-bottom: 25px;">
+            <div class="col-md-12" ng-show="checkout.isSalesman==0" style="margin-bottom: 25px;">
                 <label class="label label-default"
                        style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">{{'checkout_coupon_discount' | translate}}: </label>
                 <input type="text" style="width: 165px;" ng-blur="checkout.fnCheckCode()"
                        ng-model="checkout.discountCode">
                 <label class="label label-default" ng-show="checkout.isDiscountChecked">{{checkout.strMsgCode}}</label>
+            </div>
+            <div class="col-md-12" ng-show="checkout.isSalesman==1" style="margin-bottom: 25px;">
+                <label class="label label-default"
+                       style="font-size: large; width: 165px; margin-right: 10px;display: inline-block;text-align: right;">{{'checkout_perc_discount' | translate}}: </label>
+                <input type="text" style="width: 165px;" ng-blur="checkout.fnCalcDisc()"
+                       ng-model="checkout.percDiscount">
+                <label class="label label-default">{{checkout.strMsgDiscount}}</label>
             </div>
             <div class="col-md-12" style="margin-bottom: 25px;">
                 <label class="label label-default"
@@ -263,7 +270,7 @@
 <footer>
     <div class="signature">
         <div class="col-md-4">
-            <span class='block-image' ng-show="apropos.isFrance"><img style="width: 60px; height: 60px;"
+            <span class='block-image' ng-show="checkout.isFrance"><img style="width: 60px; height: 60px;"
                                                                       src="images/Logo_fabrique_en_france.png"></span>
             <span class='block-image'><img style="width: 60px; height: 60px;"
                                            src="images/logo_Imprim_vert_vert.png"></span>
