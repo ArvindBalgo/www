@@ -26,14 +26,16 @@ $surname = $r->customer->surname;
 $email = $r->customer->email;
 $address = $r->customer->address;
 $password = $r->customer->password;
-$postalcode = $r->customer->codepostal;
+$postalcode = $r->customer->postalcode;
 $nosiret = $r->customer->nosiret;
+$departement= $r->customer->department;
+$companyName= $r->customer->company_name;
 
 $isUserExists = $db->getOneRecord("select 1 from customers_auth where (phone='$phone' or email='$email') and admin=0");
 if(!$isUserExists){
     $r->customer->password = passwordHash::hash($password);
     $table_name = "customers_auth";
-    $column_names = array('phone', 'name','surname', 'email', 'password', 'city', 'address', 'pays', 'postalcode', 'nosiret');
+    $column_names = array('phone', 'name','surname', 'email', 'password', 'city', 'address', 'pays', 'postalcode', 'nosiret', 'department', 'company_name');
     $result = $db->insertIntoTable($r->customer, $column_names, $table_name);
     if ($result != NULL) {
         $response["status"] = 1;

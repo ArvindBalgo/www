@@ -42,6 +42,10 @@ angular
             $("#myModal").modal();
         };
 
+        $scope.newClientModal = function () {
+            $("#newClient").modal();
+        };
+
         $scope.doLogin = function (customer) {
             Data.post('loginClient.php', {
                 customer: customer
@@ -90,6 +94,8 @@ angular
                 customer: customer
             }).then(function (results) {
                 Data.toast(results);
+                $('#newClient').modal('hide');
+                $(".modal-backdrop").remove();
                 if (results.status == 1) {
                     $location.path('home');
                 }

@@ -34,6 +34,11 @@
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right" style="cursor: pointer; padding-right: 20px">
+                        <li ng-show="isCommercial">
+                            <a ng-click="newClientModal()" data-toggle="modal" style="color: white">
+                                <span class="glyphicon glyphicon-user"> Création Client</span>
+                            </a>
+                        </li>
                         <li ng-show="!isLogged">
                             <a ng-click="loginModal()" data-toggle="modal" style="color: white">
                                 <span class="glyphicon glyphicon-user"> Connection</span>
@@ -73,7 +78,6 @@
             </div>
         </div>
         <div class="col-md-4 col-sm-4">
-
             <div class="btn2">
                 <span class="icon"><span class="glyphicon glyphicon-phone"></span></span>
                 <span class="txt">{{'besoin_aide' | translate}} <br>{{'etre_rapeler' | translate}}</span>
@@ -210,6 +214,17 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
+                                                <label class="col-sm-5 control-label no-padding-right"
+                                                       for="company_name">{{'company_name' | translate}}</label>
+                                                <div class="col-sm-7">
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input type="text" class="form-control"
+                                                               placeholder="{{'company_name' | translate}}"
+                                                               ng-model="signup.company_name" required/>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
                                                 <label class="col-sm-5 control-label no-padding-right" for="name">{{'name'
                                                     | translate}}</label>
                                                 <div class="col-sm-7">
@@ -265,7 +280,7 @@
                                                 <div class="col-sm-7">
                                                      <span class="block input-icon input-icon-right">
                                                         <input type="text" class="form-control"
-                                                               placeholder="Code Postal" ng-model="signup.codepostal"
+                                                               placeholder="Code Postal" ng-model="signup.postalcode"
                                                                required/>
                                                     </span>
                                                 </div>
@@ -296,6 +311,18 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
+                                                <label class="col-sm-5 control-label no-padding-right"
+                                                       for="departement">{{'departement'
+                                                    | translate}}</label>
+                                                <div class="col-sm-7">
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input type="text" class="form-control"
+                                                               placeholder="Departement"
+                                                               ng-model="signup.department"/>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
                                                 <span class="lbl col-sm-5"> </span>
                                                 <div class="col-sm-7">
                                                     <button type="submit"
@@ -317,7 +344,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
 
@@ -363,5 +389,197 @@
             </div>
         </div>
 
+    </div>
+</div>
+
+<!--Modal Creation client-->
+<div id="newClient" class="modal fade" data-backdrop="static" style="z-index: 1050">
+    <div class="modal-dialog" style="width: 75%;height: 500px;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">{{'registration' | translate}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="page-content">
+                    <div class="row">
+                        <div class="col-md-6 col-sm-offset-1">
+                            <div id="login-box">
+                                <div>
+                                    <div>
+                                        <form name="signupForm" class="form-horizontal" role="form">
+                                            <div class="form-group">
+                                                <label class="col-sm-5 control-label no-padding-right" for="email">{{'mail'
+                                                    | translate}}</label>
+                                                <div class="col-sm-7">
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input type="text" class="form-control" placeholder="Email"
+                                                               name="email" ng-model="signup.email" focus required/>
+                                                        <span ng-show="signupForm.email.$error.email"
+                                                              class="help-inline">{{'mail_msg' | translate}}</span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-5 control-label no-padding-right" for="password">{{'password'
+                                                    | translate}}</label>
+                                                <div class="col-sm-7">
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input type="password" class="form-control" name="password"
+                                                               placeholder="Mot de Passe" ng-model="signup.password"
+                                                               required/>
+                                                        <small class="errorMessage"
+                                                               data-ng-show="signupForm.password.$dirty && signupForm.password.$invalid"> {{'enter_password' | translate}}</small>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-5 control-label no-padding-right" for="password2">{{'confirm_password'
+                                                    | translate}}</label>
+                                                <div class="col-sm-7">
+                                                    <span class="block input-icon input-icon-right">
+                                                    <input type="password" class="form-control" name="password2"
+                                                           placeholder="Mot de Passe" ng-model="signup.password2"
+                                                           password-match="signup.password" required/>
+                                                    <small class="errorMessage"
+                                                           data-ng-show="signupForm.password2.$dirty && signupForm.password2.$error.required"> {{'enter_password' | translate}}</small>
+
+                                                    <small class="errorMessage"
+                                                           data-ng-show="signupForm.password2.$dirty && signupForm.password2.$error.passwordNoMatch && !signupForm.password2.$error.required"> {{password_msg}}</small>
+
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-5 control-label no-padding-right"
+                                                       for="company_name">{{'company_name' | translate}}</label>
+                                                <div class="col-sm-7">
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input type="text" class="form-control"
+                                                               placeholder="{{'company_name' | translate}}"
+                                                               ng-model="signup.company_name" required/>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-5 control-label no-padding-right" for="name">{{'name'
+                                                    | translate}}</label>
+                                                <div class="col-sm-7">
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input type="text" class="form-control" placeholder="Nom"
+                                                               ng-model="signup.name" required/>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-5 control-label no-padding-right" for="surname">{{'surname'
+                                                    | translate}}</label>
+                                                <div class="col-sm-7">
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input type="text" class="form-control" placeholder="Prénom"
+                                                               ng-model="signup.surname" required/>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-5 control-label no-padding-right" for="phone">{{'no_tel'
+                                                    | translate}}</label>
+                                                <div class="col-sm-7">
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input type="text" class="form-control" placeholder="Phone"
+                                                               name="phone" ng-model="signup.phone" required/>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-5 control-label no-padding-right" for="address">{{'adresse'
+                                                    | translate}}</label>
+                                                <div class="col-sm-7">
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input type="text" class="form-control" placeholder="Adresse"
+                                                               ng-model="signup.address" required/>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-5 control-label no-padding-right" for="ville">{{'ville'
+                                                    | translate}}</label>
+                                                <div class="col-sm-7">
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input type="text" class="form-control" placeholder="Ville"
+                                                               ng-model="signup.ville" required/>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-5 control-label no-padding-right" for="codepostal">{{'code_postal'
+                                                    | translate}}</label>
+                                                <div class="col-sm-7">
+                                                     <span class="block input-icon input-icon-right">
+                                                        <input type="text" class="form-control"
+                                                               placeholder="Code Postal" ng-model="signup.postalcode"
+                                                               required/>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-5 control-label no-padding-right"
+                                                       for="pays">Pays</label>
+                                                <div class="col-sm-7">
+                                                     <span class="block input-icon input-icon-right">
+                                                        <select id="userPays" name="pays">
+                                                          <option value="FR" selected>FR</option>
+                                                          <option value="AL">AL</option>
+                                                          <option value="EN">EN</option>
+                                                          <option value="ES">ES</option>
+                                                          <option value="IT">IT</option>
+                                                        </select>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-5 control-label no-padding-right" for="nosiret">{{'no_siret'
+                                                    | translate}}</label>
+                                                <div class="col-sm-7">
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input type="text" class="form-control" placeholder="No Siret"
+                                                               ng-model="signup.nosiret"/>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-5 control-label no-padding-right"
+                                                       for="departement">{{'departement'
+                                                    | translate}}</label>
+                                                <div class="col-sm-7">
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input type="text" class="form-control"
+                                                               placeholder="Departement"
+                                                               ng-model="signup.department"/>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <span class="lbl col-sm-5"> </span>
+                                                <div class="col-sm-7">
+                                                    <button type="submit"
+                                                            class="width-35 pull-right btn btn-sm btn-primary"
+                                                            ng-click="signUp(signup)"
+                                                            data-ng-disabled="signupForm.$invalid">
+                                                        {{'registration' | translate}}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            </fieldset>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

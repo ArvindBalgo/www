@@ -406,6 +406,15 @@
                                                 </div>
                                             </div>
                                             <div class="form-group">
+                                                <label class="col-sm-5 control-label no-padding-right" for="company_name">{{'company_name' | translate}}</label>
+                                                <div class="col-sm-7">
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input type="text" class="form-control" placeholder="{{'company_name' | translate}}"
+                                                               ng-model="signup.company_name" required/>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
                                                 <label class="col-sm-5 control-label no-padding-right" for="name">{{'name'
                                                     | translate}}</label>
                                                 <div class="col-sm-7">
@@ -473,6 +482,16 @@
                                                     <span class="block input-icon input-icon-right">
                                                         <input type="text" class="form-control" placeholder="No Siret"
                                                                ng-model="signup.nosiret" required/>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group">
+                                                <label class="col-sm-5 control-label no-padding-right" for="departement">{{'department'
+                                                    | translate}}</label>
+                                                <div class="col-sm-7">
+                                                    <span class="block input-icon input-icon-right">
+                                                        <input type="text" class="form-control" placeholder="Departement"
+                                                               ng-model="signup.department" required/>
                                                     </span>
                                                 </div>
                                             </div>
