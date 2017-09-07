@@ -180,7 +180,8 @@ if ($mode == 1) {
 
         $ordersDetails = $ordersDetails->getCountProds($item["id"]);
         $item["num_prods"] = $ordersDetails["prods"];
-        $item["client_name"] = $client->getSurname() ." ". $client->getName();
+        $item["company_name"] = $client->getCompanyName();
+        $item["salesman"] = $user->getSalesman();
         $item["postalcode"] = $client->getPostalCode();
         $item["displayDetails"] = false;
         $dateTime = new DateTime($item["date_created"]);
