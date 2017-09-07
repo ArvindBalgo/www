@@ -1,5 +1,6 @@
 <?php
 include_once 'include_all.php';
+include_once '../chromePHP.php';
 if (!isset($_SESSION)) {
     session_start();
 }
@@ -229,15 +230,23 @@ if ($mode == 0) {
 
     print json_encode($arrData);
 } else if ($mode == 17) {
-    $customSalesman  =new custom_salesman();
+    $customSalesman = new custom_salesman();
     $customSalesman->setIdCata($_POST["id_cata"]);
     $customSalesman->setTitle($_POST["title"]);
     $customSalesman->setIdSalesman($_SESSION['uid']);
     $customSalesman->setData(json_encode($_POST["data"]));
     $customSalesman->save();
-} else if($mode == 18){
-    $customSalesman =new custom_salesman();
+} else if ($mode == 18) {
+    $customSalesman = new custom_salesman();
     $customSalesman = $customSalesman->rechSalesman($_SESSION['uid']);
-    print json_encode($customSalesman);
+    $rows = [];
+    foreach ($customSalesman as $val) {
+
+        $cata = new cata();
+        $cata = $cata->findByPrimaryKey($val['id_cata']);
+        $val['src'] = $cata->getSrc();
+        $rows[] = $val;
+    }
+    print json_encode($rows);
 
 }

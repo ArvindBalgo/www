@@ -5,6 +5,7 @@ angular
         $("body").removeClass("modal-open");
         var vm = this;
         vm.currentProd = $routeParams.idcata;
+        vm.flagRoute = $routeParams.flag;
         vm.models = [];
         vm.gabarits = [];
         vm.modelsTous = [];
@@ -1082,6 +1083,7 @@ angular
                     };
 
                     vm.fnModelClick = function (id, id_model_metier) {
+                        vm.currentProd = id;
                         vm.prodEnCours = [];
                         vm.produit.titre = "";
                         vm.produit.commentaire = "";
@@ -1894,11 +1896,11 @@ angular
                         }
                         if (vm.prodEnCours.length != 0) {
                             bootbox.dialog({
-                                message: "Cette produit est issue d'une produit déjà dans le panier. Souhaitez-vouz modifier l'existant ou le rajouter comme nouveau",
-                                title: "Modification/Ajout Produit",
+                                message: $scope.langue["message_modifprod"],
+                                title: $scope.langue["entete_modifprod"],
                                 buttons: {
                                     annuler: {
-                                        label: "Nouveau Produit",
+                                        label: $scope.langue["label_modifprod_new"],
                                         className: "btn-secondary",
                                         callback: function () {
                                             var countProduit = 0;
@@ -1986,7 +1988,7 @@ angular
                                         }
                                     },
                                     valider: {
-                                        label: "Modifier Existant",
+                                        label: $scope.langue["label_modifprod_valider"],
                                         className: "btn-success",
                                         callback: function () {
                                             var countProduit = 0;

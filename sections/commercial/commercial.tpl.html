@@ -1,6 +1,11 @@
 <header ng-include="'sections/header.html'"></header>
 <div class="row" style="margin: 0px !important;">
-    Espace commerciale
+    <div class="col-md-3" style="margin-bottom: 5px; margin-top: 5px;" ng-repeat="item in commercial.arrInfo">
+        <div class="tileImg" ng-click="commercial.redirectModel(item)">
+            <img style="width: 200px; height: 200px" ng-src="{{item.src}}">
+            <span><p>{{item.title}}</p></span>
+        </div>
+    </div>
 </div>
 <footer>
     <div class="signature">

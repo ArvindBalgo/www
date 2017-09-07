@@ -265,7 +265,7 @@ angular
             sessionStorage.setItem("id_model", $id_cata);
             sessionStorage.setItem("idModelMetier", $id_modelMetier);
             sessionStorage.setItem("idMetier", $id_metier);
-            $location.path('fichetech/' + $id_cata);
+            $location.path('fichetech/' + $id_cata+'/0');
         };
 
         vm.fnClickBtn = function ($obj) {

@@ -8,7 +8,7 @@ app.config(['$routeProvider',
             templateUrl: 'sections/home/home.tpl.html',
             controller: 'HomeController as home'
         })
-            .when('/fichetech/:idcata', {
+            .when('/fichetech/:idcata/:flag', {
                 title: 'Fiche Technique',
                 templateUrl: 'sections/fiche/fiche.tpl.html',
                 controller: 'ficheController as fiche'
