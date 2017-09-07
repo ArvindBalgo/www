@@ -14,11 +14,23 @@ if ($mode == 1) {
         $user = new users();
         $user = $user->findByPrimaryKey($item["id_user"]);
 
+        $commercial = new users();
+        $commercial = $commercial->findByPrimaryKey($item['id_commercial']);
         if (!$user) {
             break;
         }
         $item["name"] = $user->getName();
         $item["surname"] = $user->getSurname();
+        if($commercial) {
+            $item["comm_name"] = $commercial->getName();
+            $item["comm_surname"] = $commercial->getSurname();
+        }
+        else {
+            $item["comm_name"] = "";
+            $item["comm_surname"] = "";
+        }
+
+
         $item["codepostale"] = $user->getPostalCode();
         $modifUser = new users();
         $modifUser = $modifUser->findByPrimaryKey($item["modified_by"]);

@@ -28,17 +28,14 @@
                                 <div>Date: {{order.date_created}}</div>
                                 <div>Nb Produits: {{order.num_prods}}</div>
                                 <div>Montant: {{order.total_prix_ttc}}</div>
-                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Crée Par: {{order.surname}} {{order.name}}</div>
+                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Utilisateur: {{order.surname}} {{order.name}}</div>
+                                <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Commercial: {{order.comm_surname}} {{order.comm_name}}</div>
                                 <div style="font-family: 'Lucida Grande', Tahoma, Arial, Helvetica, sans-serif;">Modifié Par: {{order.modified_user}}</div>
                                 <div>
                                     <md-select placeholder="Deplacer" ng-model="home.etat" ng-model-options="{trackBy: '$value.id'}" md-on-close="home.fnSetStage(order, home.etat)" style="font-size: 10px;width: 90%;">
                                         <md-option ng-value="state" ng-repeat="state in home.states">{{state.name}}</md-option>
                                     </md-select>
-                                    <!--<span><button class="btn btn-sm btn-success" style="font-size: 12px;" ng-click="home.fnStart(order)">Démarrer</button></span>
-                                    <span><button class="btn btn-sm btn-danger" style="font-size: 12px;" ng-click="home.fnReject(order)">Rejeter</button></span>-->
                                     <span class="glyphicon glyphicon-eye-open pull-right" style="cursor:pointer;" ng-click="home.fnToggleEye(order)"></span>
-                                    <!--<span><a class="glyphicon glyphicon-save-file" style="cursor:pointer;" target="_blank" href="../../../api/pdf/factures/{{order.id}}.pdf" ></a></span>
-                                    <span><button class="btn btn-circle btn-sm" ng-click="home.fnGeneratePdf(order.id)"><span class="glyphicon glyphicon-book"></span></button></span>-->
                                 </div>
                             </div>
                         </td>
