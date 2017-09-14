@@ -64,6 +64,10 @@ if ($mode == 0) {
     $facture->Cell(65, 10, $userInfo->getName() . " " . $userInfo->getSurname());
     $facture->Ln(5);
 
+    $facture->Cell(40, 10, 'Pays: ');
+    $facture->Cell(65, 10, $userInfo->getPays());
+    $facture->Ln(5);
+
     $facture->Cell(40, 10, 'No Siret ');
     $facture->Cell(65, 10, $userInfo->getSiret());
     $facture->Ln(10);
