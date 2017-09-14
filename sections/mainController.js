@@ -108,6 +108,10 @@ angular
                         customer: customer
                     }).then(function (results) {
                         Data.toast(results);
+                        if(results.status =='error') {
+                            bootbox.alert('Erreur sur la page');
+                            return;
+                        }
                         $('#newClient').modal('hide');
                         $(".modal-backdrop").remove();
                         if (results.status == 1) {
