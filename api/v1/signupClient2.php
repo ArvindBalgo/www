@@ -23,7 +23,7 @@ $db = new DbHandler();
 $phone = $r->customer->phone;
 $name = $r->customer->name;
 $surname = $r->customer->surname;
-$email = $r->customer->email;
+$email = strtolower(trim($r->customer->email));
 $address = $r->customer->address;
 $password = $r->customer->password;
 $postalcode = $r->customer->postalcode;
@@ -31,7 +31,7 @@ $nosiret = $r->customer->nosiret;
 $departement= $r->customer->department;
 $companyName= $r->customer->company_name;
 
-$isUserExists = $db->getOneRecord("select 1 from customers_auth where (phone='$phone' or email='$email') and admin=0");
+$isUserExists = $db->getOneRecord("select 1 from customers_auth where (email='$email') and admin=0");
 if(!$isUserExists){
     $r->customer->password = passwordHash::hash($password);
     $table_name = "customers_auth";
