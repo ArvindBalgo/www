@@ -593,7 +593,7 @@ if ($mode == 0) {
     $mail->setFrom('contact@exakom.fr', 'Exakom');
     $mail->addAddress($user->getEmail(), strtoupper($user->getName()) . " " . strtoupper($user->getSurname()));     // Add a recipient
 //$mail->addAddress('ellen@example.com');               // Name is optional
-    $mail->addReplyTo('contact@exakom.fr', 'Information');
+    $mail->addReplyTo('admin@exakom.fr', 'Information');
 //$mail->addCC('cc@example.com');
 //$mail->addBCC('bcc@example.com');
 
@@ -634,10 +634,10 @@ if ($mode == 0) {
     $mailAdmin->SMTPSecure = 'tls';                            // Enable TLS encryption, `ssl` also accepted
     $mailAdmin->Port = 25;                                    // TCP port to connect to
 
-    $mailAdmin->setFrom('contact@exakom.fr', 'Exakom');
-    $mailAdmin->addAddress('contact@exakom.fr', "Admin");     // Add a recipient     // Name is optional
+    $mailAdmin->setFrom('admin@exakom.fr', 'Exakom');
+    $mailAdmin->addAddress('admin@exakom.fr', "Admin");     // Add a recipient     // Name is optional
     $mailAdmin->addAddress('balgo_arvind@hotmail.com');               // Name is optional
-    $mailAdmin->addReplyTo('contact@exakom.fr', 'Information');
+    $mailAdmin->addReplyTo('admin@exakom.fr', 'Information');
 //$mail->addCC('cc@example.com');
 //$mail->addBCC('bcc@example.com');
 

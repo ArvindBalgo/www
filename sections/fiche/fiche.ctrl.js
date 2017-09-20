@@ -2690,7 +2690,7 @@ angular
                     data: vm.listMetier.modelsmetier
                 });
 
-                $(".sel_model_metier").select2().val(localStorage.idModelMetier).trigger("change");
+
 
                 /*$(".sel_metier").on("select2:select", function (e) {
                  vm.rechModels($(".sel_metier").select2().val() , $(".sel_model_metier").select2().val());
@@ -2700,6 +2700,9 @@ angular
                     //  vm.rechModels($(".sel_metier").select2().val() , $(".sel_model_metier").select2().val());
                     vm.rechModels($(".sel_model_metier").select2().val());
                 });
+
+                $(".sel_model_metier").select2().val(vm.listMetier.modelsmetier[0].id).trigger("change");
+                vm.rechModels($(".sel_model_metier").select2().val());
 
             }, function errorCallback(error) {
                 console.log(error);
