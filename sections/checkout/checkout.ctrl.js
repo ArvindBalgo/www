@@ -329,6 +329,7 @@ angular
             }).then(function successCallback(response) {
                console.log(response.data);
                vm.listClients = response.data;
+               vm.selClient = "";
             });
         };
 

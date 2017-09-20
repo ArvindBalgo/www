@@ -1,2 +1,20 @@
 <header ng-include="'sections/admin/header.html'"></header>
-<div>compte</div>
+<div class="row">
+    <div class="col-md-12">
+        <table ng-table="compte.tableParams" class="table table-condensed table-bordered table-striped">
+            <tr ng-repeat="row in $data">
+                <td data-title="'Company Name'" filter="{company_name: 'text'}" sortable="'company_name'">{{row.company_name}}</td>
+                <td data-title="'Name'">{{row.surname}} {{row.name}}</td>
+                <td data-title="'Email'" ><b>{{row.email}}</b></td>
+                <td data-title="'PostalCode'" ><b>{{row.postalcode}}</b></td>
+                <td data-title="'Address'" ><b>{{row.address}}</b></td>
+                <td data-title="'PostalCode'" ><b>{{row.postalcode}}</b></td>
+                <td data-title="'city'" ><b>{{row.city}}</b></td>
+                <td data-title="'No Siret'" ><b>{{row.nosiret}}</b></td>
+                <td data-title="'Department'" ><b>{{row.department}}</b></td>
+                <td data-title="'Pays'" ><b>{{row.pays}}</b></td>
+
+            </tr>
+        </table>
+    </div>
+</div>

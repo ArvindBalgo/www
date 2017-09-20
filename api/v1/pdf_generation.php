@@ -51,17 +51,17 @@ if ($mode == 0) {
     $facture->Cell(40, 10, 'Date: ');
     $facture->Cell(65, 10, $orderInfo->getDateCreated());
     $facture->Cell(30, 10, 'Adresse :', 0, 0, 'R');
-    $facture->Cell(45, 10, $userInfo->getAddress(), 0, 0, 'R');
+    $facture->Cell(45, 10, utf8_decode($userInfo->getAddress()), 0, 0, 'R');
     $facture->Ln(5);
 
     $facture->Cell(40, 10, utf8_decode('Societé: '));
-    $facture->Cell(65, 10, $userInfo->getCompanyName());
+    $facture->Cell(65, 10, utf8_decode($userInfo->getCompanyName()));
     $facture->Cell(30, 10, '', 0, 0, 'R');
-    $facture->Cell(45, 10, $userInfo->getPostalCode() ." ". $userInfo->getCity(), 0, 0, 'R');
+    $facture->Cell(45, 10, $userInfo->getPostalCode() ." ". utf8_decode($userInfo->getCity()), 0, 0, 'R');
     $facture->Ln(5);
 
     $facture->Cell(40, 10, 'Responsable: ');
-    $facture->Cell(65, 10, $userInfo->getName() . " " . $userInfo->getSurname());
+    $facture->Cell(65, 10, utf8_decode($userInfo->getName()) . " " . utf8_decode($userInfo->getSurname()));
     $facture->Ln(5);
 
     $facture->Cell(40, 10, 'Pays: ');

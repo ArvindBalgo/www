@@ -61,7 +61,7 @@ app.config(['$routeProvider',
             .when('/compte', {
                 title: 'Compte',
                 templateUrl: 'sections/admin/compte/compte.tpl.html',
-                controller: 'CompteController as compte'
+                controller: 'compteController as compte'
             })
             .when('/model', {
                 title: 'Model',

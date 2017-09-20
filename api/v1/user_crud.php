@@ -69,3 +69,8 @@ else if($mode == 4) {
     }
 
 }
+else if ($mode == 5){
+    $users = new users();
+    $users = $users->rechercher();
+    print json_encode($users);
+}
