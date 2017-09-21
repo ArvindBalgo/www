@@ -250,3 +250,14 @@ if ($mode == 0) {
     print json_encode($rows);
 
 }
+else if($mode == 19) {
+    $customSalesman = new custom_salesman();
+    $customSalesman = $customSalesman->findByPrimaryKey($_POST['id']);
+    if($customSalesman) {
+        $row = [];
+        $row['id'] = $customSalesman->getId();
+        $row['idCata'] = $customSalesman->getIdCata();
+        $row['data'] = ($customSalesman->getData());
+        print json_encode($row);
+    }
+}

@@ -88,6 +88,11 @@ app.config(['$routeProvider',
                 templateUrl: 'sections/commercial/commercial.tpl.html',
                 controller: 'commercialController as commercial'
             })
+            .when('/savedmodel/:id', {
+                title: 'Models',
+                templateUrl: 'sections/saved_model/saved_model.tpl.html',
+                controller: 'savedModelController as saved'
+            })
             .otherwise({
                 redirectTo: '/home'
             });
