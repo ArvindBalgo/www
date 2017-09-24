@@ -2195,21 +2195,42 @@ angular
                             return;
                         }
 
-                        $http({
-                            method: 'POST',
-                            data: $.param({
-                                mode: 17,
-                                title: vm.produit.titre,
-                                id_cata: vm.currentProd,
-                                data: yourDesigner.getProduct()
-                            }),
-                            url: 'api/v1/metierCRUDPOST.php',
-                            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                        }).then(function successCallback(response) {
-                            toastr.options.positionClass = 'toast-top-right';
-                            toastr.success($scope.langue["produit_save"]);
-                        }, function errorCallback(error) {
+                        yourDesigner.getProductDataURL(function (dataURL) {
+                           // var randomStr = Math.random().toString(36);
+                            var d = new Date();
+                            var randomStr = d.getTime();
+
+                            $http({
+                                method: 'POST',
+                                data: $.param({base64_image: dataURL, randomStr: randomStr}),
+                                url: 'api/v1/save_img.php',
+                                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                            }).then(function successCallback(response) {
+
+                            }, function errorCallback(error) {
+                                console.log(error);
+                            });
+
+                            $http({
+                                method: 'POST',
+                                data: $.param({
+                                    mode: 17,
+                                    title: vm.produit.titre,
+                                    id_cata: vm.currentProd,
+                                    image_url:randomStr,
+                                    data: yourDesigner.getProduct()
+                                }),
+                                url: 'api/v1/metierCRUDPOST.php',
+                                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                            }).then(function successCallback(response) {
+                                toastr.options.positionClass = 'toast-top-right';
+                                toastr.success($scope.langue["produit_save"]);
+                            }, function errorCallback(error) {
+                            });
                         });
+
+
+
                     };
 
                     vm.fnClickTabs = function (tabVal) {

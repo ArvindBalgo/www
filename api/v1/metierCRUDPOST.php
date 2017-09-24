@@ -233,21 +233,22 @@ if ($mode == 0) {
     $customSalesman = new custom_salesman();
     $customSalesman->setIdCata($_POST["id_cata"]);
     $customSalesman->setTitle($_POST["title"]);
+    $customSalesman->setImageSrc($_POST["image_url"].".png");
     $customSalesman->setIdSalesman($_SESSION['uid']);
     $customSalesman->setData(json_encode($_POST["data"]));
     $customSalesman->save();
 } else if ($mode == 18) {
     $customSalesman = new custom_salesman();
     $customSalesman = $customSalesman->rechSalesman($_SESSION['uid']);
-    $rows = [];
+    /*$rows = [];
     foreach ($customSalesman as $val) {
 
         $cata = new cata();
         $cata = $cata->findByPrimaryKey($val['id_cata']);
         $val['src'] = $cata->getSrc();
         $rows[] = $val;
-    }
-    print json_encode($rows);
+    }*/
+    print json_encode($customSalesman);
 
 }
 else if($mode == 19) {

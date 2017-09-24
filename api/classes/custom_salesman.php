@@ -5,6 +5,7 @@ class custom_salesman
     //**** Variables declarations ****
     private $_id = null;
     private $_title = "";
+    private $_image_src = "";
     private $_id_cata = 0;
     private $_id_front = 0;
     private $_id_back = 0;
@@ -31,6 +32,11 @@ class custom_salesman
     public function setTitle($val)
     {
         $this->_title = $val;
+    }
+
+    public function setImageSrc($val)
+    {
+        $this->_image_src = $val;
     }
 
     public function setIdCata($val)
@@ -68,6 +74,11 @@ class custom_salesman
     public function getTitle()
     {
         return $this->_title;
+    }
+
+    public function getImageSrc()
+    {
+        return $this->_image_src;
     }
 
     public function getIdCata()
@@ -108,6 +119,7 @@ class custom_salesman
         if ($this->_id > 0) {
             $requete = "UPDATE custom_salesman SET id_cata='" . ($this->_id_cata) . "'";
             $requete .= ", title='" . $this->_title . "'";
+            $requete .= ", image_src='" . $this->_image_src. "'";
             $requete .= ", id_front=" . $this->_id_front;
             $requete .= ", id_back=" . $this->_id_back;
             $requete .= ", id_salesman=" . $this->_id_salesman;
@@ -118,6 +130,7 @@ class custom_salesman
             $requete = "INSERT INTO custom_salesman (";
             $requete .= "id_cata";
             $requete .= ",title";
+            $requete .= ",image_src";
             $requete .= ",id_front";
             $requete .= ",id_back";
             $requete .= ",id_salesman";
@@ -125,6 +138,7 @@ class custom_salesman
             $requete .= ") VALUES (";
             $requete .= "'" . $this->_id_cata . "',";
             $requete .= "'" . $this->_title . "',";
+            $requete .= "'" . $this->_image_src. "',";
             $requete .= "'" . $this->_id_front . "',";
             $requete .= "'" . $this->_id_back . "',";
             $requete .= "'" . $this->_id_salesman . "',";
@@ -142,6 +156,7 @@ class custom_salesman
         $custom_salesman = new custom_salesman();
         $custom_salesman->_id = $rs["id"];
         $custom_salesman->_title = $rs["title"];
+        $custom_salesman->_image_src= $rs["image_src"];
         $custom_salesman->_id_cata = $rs["id_cata"];
         $custom_salesman->_id_front = $rs["id_front"];
         $custom_salesman->_id_back = $rs["id_back"];
