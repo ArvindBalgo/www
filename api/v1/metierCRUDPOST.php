@@ -259,6 +259,59 @@ else if($mode == 19) {
         $row['id'] = $customSalesman->getId();
         $row['idCata'] = $customSalesman->getIdCata();
         $row['data'] = ($customSalesman->getData());
+        $cata = new cata();
+        $cata = $cata->findByPrimaryKey($customSalesman->getIdCata());
+        $id_souscategory_coeffprix = $cata->getIdSousCategoryCoeffPrix();
+        $tarif_man = new tarif_manuel();
+        $tarif_man = $tarif_man->findByIDCata($cata->getId_Cata());
+
+        $coeffprix = new coeff_prix();
+        $coeffprix = $coeffprix->findByProduit($id_souscategory_coeffprix);
+
+        $cata_metier = new cata_metier();
+        $cata_metier = $cata_metier->findByIdCata($customSalesman->getIdCata());
+
+        if ($id_souscategory_coeffprix >= 0) {
+            $coeffprix1 = new coeff_prix();
+            $coeffprix1 = $coeffprix1->getListIdPapierSupport($cata_metier->getIdModelMetier(), $id_souscategory_coeffprix);
+
+        } else {
+            $tarif_manuel = new tarif_manuel();
+            $tarif_manuel = $tarif_manuel->getSupportById($cata->getId_Cata());
+            $coeffprix1 = $tarif_manuel;
+        }
+
+        if ($coeffprix1['ligne'] != null) {
+            $cata_papier = new cata_papier();
+            $cata_papier = $cata_papier->findByList($coeffprix1['ligne']);
+        } else {
+            $cata_papier = array();
+        }
+
+        $cata_dim = new cata_dimension();
+        $cata_dim = $cata_dim->findByIDSCategory($cata_metier->getIdModelMetier(), $id_souscategory_coeffprix);
+
+        $cataMetier = new cata_metier();
+        $cataMetier = $cataMetier->findByIdCata($customSalesman->getIdCata());
+
+        $modelMetier = new modelmetier();
+        $modelMetier = $modelMetier->findByPrimaryKey($cataMetier->getIdMetier());
+
+        $row['title'] = $cata->getLibelle();
+        $row["escargot"] = $cata->getEscargot();
+        $row["contours"] = $cata->getContours();
+        $row["liserai"] = $cata->getLiserai();
+        $row["coucher"] = $cata->getCoucher();
+        $row["dimensions"] = $cata ->getDimensions();
+        $row["qte"] = $modelMetier->getQte();
+        $row["idmodelmetier"] = $modelMetier->getId();
+        $row["type_support"] = $cata_papier;
+        $row["info_prix"] = $coeffprix;
+        $row["coeff_dims"] = $cata_dim;
+        $row["type_tarif"] = $id_souscategory_coeffprix;
+        $row["tarifManuel"] = $tarif_man;
+
+
         print json_encode($row);
     }
 }

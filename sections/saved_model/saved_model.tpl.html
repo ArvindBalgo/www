@@ -1,4 +1,135 @@
 <header ng-include="'sections/header.html'"></header>
+<div class="a2a_kit a2a_kit_size_52 a2a_floating_style a2a_vertical_style"
+     style="right:0px; top:100px;background-color: transparent;">
+    <div style="margin-bottom: 5px;">
+        <img src="{{saved.linkMonPanier}}" ng-click="saved.fnClickPanier()"
+             style="width:120px; height:65px;cursor:pointer;">
+
+    </div>
+    <div>
+        <img src="{{saved.linkAjoutPanier}}" ng-click="saved.fnAddBasket()"
+             style="width:120px; height:65px;cursor:pointer;">
+    </div>
+    <div>
+        <img ng-show="isCommercial" src="{{saved.linkSaveProd}}" ng-click="saved.saveProdCommercial()"
+             style="width:120px; height:65px;cursor:pointer;">
+    </div>
+</div>
+<script src="js/page.js" type="application/javascript"></script>
+<div class="row">
+    <div class="col-md-12">
+        <div class="row">
+            <div class="col-md-9" style="margin-left: 50px"><h3 id="clothing">{{'create_maquette' |
+                translate}}</h3></div>
+        </div>
+        <div class="row" style="margin: 2px">
+            <div class="col-md-8 well well-sm" style="margin-left: 50px">{{'bonatirer_msg' | translate}}</div>
+            <div class="col-md-12" style="padding-bottom: 5px">
+                <div class="col-md-3" style="font-weight: bold">
+                    {{'titre' | translate}}
+                </div>
+                <div class="col-md-7">
+                    <input type="text" class="form-control" ng-model="saved.produit.titre"
+                           placeholder="Titre" aria-describedby="basic-addon1">
+                </div>
+            </div>
+            <div class="col-md-12" style="padding-bottom: 5px" ng-show="saved.infoProd.escargot == 1">
+                <div class="col-md-3" style="font-weight: bold">
+                    {{'opt_attache' | translate}}
+                </div>
+                <div class="col-md-7">
+                    <form>
+                        <label class="radio-inline">
+                            <input id="aucunEscargot" type="radio" name="optescargot" value="0">{{'aucun'
+                            |translate}}
+                        </label>
+                        <label class="radio-inline">
+                            <input id="avecTrou" type="radio" name="optescargot" value="1">{{'attache_escargot'
+                            | translate}}
+                        </label>
+                        <label class="radio-inline">
+                            <input id="sansTrou" type="radio" name="optescargot" value="2">{{'avec_trou' |
+                            translate}}
+                        </label>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-12" style="padding-bottom: 5px"
+                 ng-show="saved.infoProd.contours == 1 || saved.infoProd.liserai == 1">
+                <div class="col-md-3" style="font-weight: bold">
+                    {{'carac_add' | translate}}
+                </div>
+                <div class="col-md-7">
+                    <form>
+                        <label class="radio-inline">
+                            <input id="aucun" type="radio" name="optradio" value="0">{{'aucun' | translate}}
+                        </label>
+                        <label ng-show="saved.infoProd.contours == 1" class="radio-inline">
+                            <input id="trait" type="radio" name="optradio" value="1">{{'cadre' | translate}}
+                        </label>
+                        <label class="radio-inline" ng-show="saved.infoProd.liserai == 1">
+                            <input id="liserai" type="radio" name="optradio" value="2">{{'lisere' |
+                            translate}}
+                        </label>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-12" style="padding-bottom: 5px">
+                <div class="col-md-3" style="font-weight: bold">
+                    {{'commande' | translate}}
+                </div>
+                <div class="col-md-7">
+                    <form>
+                        <label class="radio-inline">
+                            <input id="cmdBonTirer" type="radio" name="optcommande" value="1">{{'bonatirer_avec'
+                            | translate}}
+                        </label>
+                        <label class="radio-inline">
+                            <input id="cmdBonNonTirer" type="radio" name="optcommande" value="2">{{'bonatirer_sans'
+                            | translate}}
+                        </label>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-12" style="padding-bottom: 5px">
+                <div class="col-md-3" style="font-weight: bold">
+                    {{'finition_ppr' | translate}}
+                </div>
+                <div class="col-md-7" style="padding-bottom: 5px">
+                    <select class="sel_papier" style="width: 100%;"></select>
+                </div>
+            </div>
+            <div class="col-md-12" style="padding-bottom: 5px">
+                <div class="col-md-3" style="font-weight: bold">
+                    {{'dimensions' | translate}}
+                </div>
+                <div class="col-md-7" style="padding-bottom: 5px">
+                    <select class="sel_dimensions" style="width: 100%;"></select>
+                </div>
+            </div>
+            <div class="col-md-12" style="padding-bottom: 5px">
+                <div class="col-md-3" style="font-weight: bold">
+                    {{'qte' | translate}}
+                </div>
+                <div class="col-md-7">
+                    <select class="sel_qte" style="width: 100%;"></select>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="col-md-3" style="font-weight: bold">
+                    {{'vos_instructions' | translate}}
+                </div>
+                <div class="col-md-7">
+                                <textarea class="form-control" rows="5" id="comment"
+                                          ng-model="saved.produit.commentaire"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
 <div class="row">
     <div class="col-md-12">
         <div id="model"
@@ -8,3 +139,87 @@
 </div>
 <footer class="sig">
 </footer>
+
+
+<div id="modalPanier" class="modal fade" data-backdrop="static" style="overflow: hidden">
+    <div class="modal-dialog" style="width: 90%;overflow-y: auto">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title"><span class="glyphicon glyphicon-shopping-cart"></span><span> {{'panier_produit' | translate}}</span>
+                </h4>
+            </div>
+            <div class="modal-body" style="overflow: hidden">
+                <div class="row">
+                    <h3 style="color: purple; font-weight: bold; padding-bottom: 15px; font-size:medium;">
+                        {{'promo_libelle' | translate}}
+                    </h3>
+                </div>
+                <div class="row">
+                    <table border="1">
+                        <th class="paddingTable">{{'titre' | translate}}</th>
+                        <th class="paddingTable">{{'opt_attache' | translate}}</th>
+                        <th class="paddingTable">{{'additionel' | translate}}</th>
+                        <th class="paddingTable">{{'commande' | translate}}</th>
+                        <th class="paddingTable">{{'dimension_libelle' | translate}}</th>
+                        <th class="paddingTable">{{'finition_ppr' | translate}}</th>
+                        <th class="paddingTable">{{'qte' | translate}}</th>
+                        <th class="paddingTable">{{'unit_price' | translate}} Euro</th>
+                        <th class="paddingTable">{{'instructions' | translate}}</th>
+                        <th class="paddingTable">{{'actions' | translate}}</th>
+                        <tr ng-repeat="(key, ligne) in saved.arrProduits">
+                            <td class="paddingTable">{{ligne.title}}</td>
+                            <!--Escargot-->
+                            <td class="paddingTable" ng-show="ligne.escargot_val == 0">{{'aucun' | translate}}</td>
+                            <td class="paddingTable" ng-show="ligne.escargot_val == 1">{{'attache_escargot' |
+                                translate}}
+                            </td>
+                            <td class="paddingTable" ng-show="ligne.escargot_val == 2">{{'avec_trou' | translate}}</td>
+                            <!--Caractéristiques Optionnel-->
+                            <td class="paddingTable" ng-show="ligne.opt==0">{{'aucun' | translate}}</td>
+                            <td class="paddingTable" ng-show="ligne.opt==1">{{'avec_cadre' | translate}}</td>
+                            <td class="paddingTable" ng-show="ligne.opt==2">{{'avec_lisere' | translate}}</td>
+                            <!--Bon de commande-->
+                            <td class="paddingTable" ng-show="ligne.bonrepli==1">{{'avec_bat' | translate}}</td>
+                            <td class="paddingTable" ng-show="ligne.bonrepli==2">{{'sans_bat' | translate}}</td>
+                            <td class="paddingTable">{{ligne.dimension}}</td>
+                            <td class="paddingTable">{{ligne.support}}</td>
+                            <td class="paddingTable">{{ligne.qte}}</td>
+                            <!--td class="paddingTable">{{ligne.commentaire}}</td-->
+                            <td class="paddingTable">{{ligne.unitprix}}</td>
+                            <td class="paddingTable" style="text-align: center">
+                                <button ng-show="saved.fnShowButtonComm(ligne.commentaire)" type="button"
+                                        class="btn btn-primary btn-circle1"
+                                        ng-click="saved.fnAlertCommentaire(ligne.commentaire)"><b>i</b></button>
+                            </td>
+                            <td>
+                                <button type='button'
+                                        class='btn btn-success btn-circle'
+                                        style='margin-left: 5px;margin-top: 5px;'
+                                        ng-click='saved.fnImgClient(ligne)'>
+                                    <i class='glyphicon glyphicon-picture'></i>
+                                </button>
+                                <button type='button'
+                                        class='btn btn-default btn-circle'
+                                        style='margin-left: 5px;margin-top: 5px;'
+                                        ng-click='saved.fnDelClient(ligne)'>
+                                    <i class='glyphicon glyphicon-trash'></i>
+                                </button>
+                            </td>
+
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" ng-click="" data-dismiss="modal">{{'quit' |
+                    translate}}
+                </button>
+                <button type="button" class="btn btn-success pull-right" href="#/conditionvente"
+                        ng-click="saved.fnCheckOut()">{{'valider' |
+                    translate}}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
