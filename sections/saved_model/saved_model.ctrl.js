@@ -945,7 +945,7 @@ angular
                                 bootbox.alert("<div style='text-align: center'><b>Veuillez renseigner le titre s'il-vous-plait.</b></div>");
                                 return;
                             }
-                            if (vm.prodEnCours.length != 0) {
+                            /*if (vm.prodEnCours.length != 0) {
                                 bootbox.dialog({
                                     message: $scope.langue["message_modifprod"],
                                     title: $scope.langue["entete_modifprod"],
@@ -1128,8 +1128,8 @@ angular
                                         }
                                     }
                                 });
-                            }
-                            else {
+                            }*/
+                           // else {
                                 yourDesigner.getProductDataURL(function (dataURL) {
                                     var randomStr = Math.random().toString(36);
 
@@ -1235,7 +1235,7 @@ angular
                                     });
 
                                 });
-                            }
+                           // }
                             return;
 
                         };

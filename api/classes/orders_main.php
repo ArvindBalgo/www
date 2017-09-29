@@ -317,6 +317,7 @@ class orders_main
     public function findAllOngoingOrders()
     {
         $requete = self::$SELECT . " where status !='ARCHIEVE' and id_user>0";
+       // $requete = self::$SELECT;
         $rs = $this->conn->query($requete) or die($this->conn->error . __LINE__);
         $rows = [];
         while ($row = mysqli_fetch_array($rs)) {

@@ -10,39 +10,43 @@ if ($mode == 1) {
     $orders = $orders->findAllOngoingOrders();
 
     $rows = [];
+    chromePHP::log($orders);
     foreach ($orders as $item) {
         $user = new users();
         $user = $user->findByPrimaryKey($item["id_user"]);
+        /*chromePHP::log("***********************");
+        chromePHP::log($item);
+        chromePHP::log("++++++++++++++++++++++++++++++++");*/
 
         $commercial = new users();
         $commercial = $commercial->findByPrimaryKey($item['id_commercial']);
-        if (!$user) {
-            break;
-        }
-        $item["name"] = $user->getName();
-        $item["surname"] = $user->getSurname();
-        if($commercial) {
-            $item["comm_name"] = $commercial->getName();
-            $item["comm_surname"] = $commercial->getSurname();
-        }
-        else {
-            $item["comm_name"] = "";
-            $item["comm_surname"] = "";
-        }
+        if ($user) {
+            $item["name"] = $user->getName();
+            $item["surname"] = $user->getSurname();
+            if($commercial) {
+                $item["comm_name"] = $commercial->getName();
+                $item["comm_surname"] = $commercial->getSurname();
+            }
+            else {
+                $item["comm_name"] = "";
+                $item["comm_surname"] = "";
+            }
 
 
-        $item["codepostale"] = $user->getPostalCode();
-        $modifUser = new users();
-        $modifUser = $modifUser->findByPrimaryKey($item["modified_by"]);
-        $item["modified_user"] = "";
-        if ($modifUser) {
-            $item["modified_user"] = $modifUser->getSurname() . " " . $modifUser->getName();
+            $item["codepostale"] = $user->getPostalCode();
+            $modifUser = new users();
+            $modifUser = $modifUser->findByPrimaryKey($item["modified_by"]);
+            $item["modified_user"] = "";
+            if ($modifUser) {
+                $item["modified_user"] = $modifUser->getSurname() . " " . $modifUser->getName();
+            }
+            $ordersDetails = new orders_details();
+            $ordersDetails = $ordersDetails->getCountProds($item["id"]);
+            $item["num_prods"] = $ordersDetails["prods"];
+            $item["displayDetails"] = false;
+            $rows[] = $item;
         }
-        $ordersDetails = new orders_details();
-        $ordersDetails = $ordersDetails->getCountProds($item["id"]);
-        $item["num_prods"] = $ordersDetails["prods"];
-        $item["displayDetails"] = false;
-        $rows[] = $item;
+
     }
     print json_encode($rows);
 
