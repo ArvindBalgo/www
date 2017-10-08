@@ -57,8 +57,6 @@ if($mode == 0) {
     foreach ($arrData["papier"] as $key=>$ligne) {
         $arrData["papier"][$key]["qte"] = $test;
     }
-
-
     //tarif actuels
     $cata_support = new cata_support();
     $cata_support  = $cata_support->findBySousCategory($_GET["id"]);
@@ -76,6 +74,18 @@ if($mode == 0) {
 
     print json_encode($arrData);
 
+    $cata = null;
+    $arrDims = null;
+    $cata_dimension = null;
+    $dimension = null;
+    $dimensionAll = null;
+    $cata_metier = null;
+    $arrQte = null;
+    $arrData = null;
+    $test = null;
+    $cata_papier = null;
+    $cata_support = null;
+    $cprix = null;
 }
 else if($mode == 1) {
     $flagCustom = $_POST["custom"];
@@ -107,4 +117,7 @@ else if($mode == 1) {
             }
         }
     }
+    $tarifmanuel = null;
+    $cata = null;
+    $arrTarif = null;
 }

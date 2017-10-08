@@ -56,3 +56,4 @@ $user->setMaxVal($max_val);
 $user->setDepartment($department);
 $user->save();
 echo "done";
+$user=null;

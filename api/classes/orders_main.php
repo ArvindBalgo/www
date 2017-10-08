@@ -7,6 +7,7 @@ class orders_main
     private $_id_user = 0;
     private $_id_commercial = 0;
     private $_via_commercial = 0;
+    private $_val_commer_disc = 0;
     private $_total_livraison_ht = 0;
     private $_total_livraison_ttc = 0;
     private $_total_prix_ht = 0;
@@ -50,6 +51,11 @@ class orders_main
     public function setViaCommercial($val)
     {
         $this->_via_commercial = $val;
+    }
+
+    public function setValCommercialDisc($val)
+    {
+        $this->_val_commer_disc = $val;
     }
 
     public function setTotalLivraisonHT($val)
@@ -134,6 +140,11 @@ class orders_main
         return $this->_via_commercial;
     }
 
+    public function getValCommercialDisc()
+    {
+        return $this->_val_commer_disc;
+    }
+
     public function getTotalLivraisonHT()
     {
         return $this->_total_livraison_ht;
@@ -209,6 +220,7 @@ class orders_main
             $requete = "UPDATE orders_main SET id_user='" . ($this->_id_user) . "'";
             $requete .= ", id_commercial='" . $this->_id_commercial . "'";
             $requete .= ", via_commercial='" . $this->_via_commercial . "'";
+            $requete .= ", val_commer_disc='" . $this->_val_commer_disc . "'";
             $requete .= ", total_livraison_ht='" . $this->_total_livraison_ht . "'";
             $requete .= ", total_livraison_ttc='" . $this->_total_livraison_ttc . "'";
             $requete .= ", total_prix_ht='" . $this->_total_prix_ht . "'";
@@ -228,6 +240,7 @@ class orders_main
             $requete .= "id_user";
             $requete .= ",id_commercial";
             $requete .= ",via_commercial";
+            $requete .= ",val_commer_disc";
             $requete .= ",total_livraison_ht";
             $requete .= ",total_livraison_ttc";
             $requete .= ",total_prix_ht";
@@ -244,6 +257,7 @@ class orders_main
             $requete .= "'" . $this->_id_user . "',";
             $requete .= "'" . $this->_id_commercial . "',";
             $requete .= "'" . $this->_via_commercial . "',";
+            $requete .= "'" . $this->_val_commer_disc. "',";
             $requete .= "'" . $this->_total_livraison_ht . "',";
             $requete .= "'" . $this->_total_livraison_ttc . "',";
             $requete .= "'" . $this->_total_prix_ht . "',";
@@ -273,6 +287,7 @@ class orders_main
         $orders_main->_id_user = $rs["id_user"];
         $orders_main->_id_commercial= $rs["id_commercial"];
         $orders_main->_via_commercial= $rs["via_commercial"];
+        $orders_main->_val_commer_disc= $rs["val_commer_disc"];
         $orders_main->_total_prix_ht = $rs["total_prix_ht"];
         $orders_main->_total_prix_ttc = $rs["total_prix_ttc"];
         $orders_main->_tax = $rs["tax"];

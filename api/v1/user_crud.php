@@ -26,13 +26,15 @@ if ($mode == 1) {
     else {
         print "no session";
     }
-
+    $user = null;
+    $arrInfo = null;
 }
 else if($mode == 2) {
     $user = new users();
     $user = $user->rechCommercial();
 
     print json_encode($user);
+    $user = null;
 }
 else if($mode == 3) {
     $user = new users();
@@ -58,6 +60,8 @@ else if($mode == 3) {
     else {
         print "no session";
     }
+    $user = null;
+    $arrInfo = null;
 }
 else if($mode == 4) {
     $userCommercial = new users();
@@ -67,10 +71,12 @@ else if($mode == 4) {
         $users = $users->rechClientParCommercial($userCommercial->getUid(), $userCommercial->getDepartment());
         print json_encode($users);
     }
-
+    $userCommercial = null;
+    $users = null;
 }
 else if ($mode == 5){
     $users = new users();
     $users = $users->rechercher();
     print json_encode($users);
+    $users = null;
 }

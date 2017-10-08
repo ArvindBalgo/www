@@ -29,9 +29,6 @@ if ($mode == 0) {
     $orderDetailInfo = $orderDetailInfo->getProds($id);
     $userInfo = new users();
     $userInfo = $userInfo->findByPrimaryKey($orderInfo->getIdUser());
-    chromePHP::log($orderDetailInfo);
-    chromePHP::log($orderInfo);
-    chromePHP::log($userInfo);
     $facture = new PDF();
     $facture->AddPage();
     $facture->SetFont('Arial', 'B', 16);
@@ -123,9 +120,10 @@ if ($mode == 0) {
     $bill->setPdfSrc($id . '.pdf');
     $bill->save();
 
-    unset($orderInfo);
-    unset($orderDetailInfo);
-    unset($userInfo);
-    unset($bill);
+    $orderInfo=null;
+    $orderDetailInfo=null;
+    $userInfo=null;
+    $bill=null;
+    $facture=null;
     //print ("../../../api/pdf/factures/" . $id . '.pdf');
 }

@@ -130,12 +130,22 @@ header('Content-Type: application/json');
 header_remove('Set-Cookie');
 if($result) {
     print "product_".$strTime;
+    $commande = null;
+    $commande_ligne = null;
+    $commande_ligne_params = null;
+    $decoded = null;
+    $result = null;
     die();
 	//$png_url = get_folder_url().$png_url;
 	//echo ($png_url);
 }
 else {
 	echo json_encode(0);
+    $commande = null;
+    $commande_ligne = null;
+    $commande_ligne_params = null;
+    $decoded = null;
+    $result = null;
 }
 
 //returns the current folder URL

@@ -531,7 +531,8 @@ class orders_details
                     om.date_created,
                     om.status, 
                     ca.name, 
-                    ca.surname 
+                    ca.surname,
+                    ca.company_name
                     FROM `orders_details` od 
                     inner join orders_main om on (od.id_order  = om.id) 
                     inner join customers_auth ca on (om.id_user = ca.uid)";
@@ -556,7 +557,7 @@ class orders_details
         $requete = self::$SELECT . " WHERE id=" . $key;
         $rs = $this->conn->query($requete);
 
-        return json_encode(mysqli_fetch_array($rs));
+        return (mysqli_fetch_array($rs));
     }
 
     public function getCountProds($id)

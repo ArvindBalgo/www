@@ -20,6 +20,7 @@ if($mode == 0) {
             $cprix->setIdSupport($val->id);
             $cprix->setIdSouscategoryPrix( intval($_GET["tarifid"]));
             $cprix->save();
+            $cprix=null;
         }
     }
 
@@ -35,6 +36,7 @@ if($mode == 0) {
             $coeffprix->delBySousCategoryPapier(intval($_GET["id_souscategory"]) , $ligneVal, intval($_GET["tarifid"]));
         }
     }
+    $coeffprix = null;
 
 
     //sauvegarde des dimensions
@@ -44,5 +46,6 @@ if($mode == 0) {
         $dim->setCoeff($val->coeff);
         $dim->save();
     }
+    $dim = null;
     return "done";
 }

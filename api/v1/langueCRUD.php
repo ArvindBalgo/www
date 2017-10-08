@@ -13,6 +13,7 @@ if($mode == 0) {
     $langue = new langue();
     $langue = $langue->rechercher();
     print json_encode($langue);
+    $langue=null;
 }
 else if($mode == 1) {
     $langue = new langue();
@@ -26,6 +27,7 @@ else if($mode == 1) {
         $langue->save();
         print 0;
     }
+    $langue=null;
 }
 else if($mode == 2) {
     $obj = json_decode($_GET["obj"]);
@@ -44,10 +46,13 @@ else if($mode == 2) {
     $lang = new langue();
     $lang = $lang->rechercher();
     print json_encode($lang);
+    $langue=null;
+    $lang=null;
 }
 else if($mode == 3) {
     $lang = $_GET['lang'];
     $langue = new langue();
     $langue = $langue->rechByLang($lang);
     print json_encode($langue);
+    $langue=null;
 }

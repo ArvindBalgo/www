@@ -191,12 +191,20 @@ header('Content-Type: application/json');
 header_remove('Set-Cookie');
 if($result) {
     print "product_".$strTime;
+    $cata = null;
+    $cata_ligne = null;
+    $cata_ligne_params = null;
+    $cata_metier = null;
     die();
 	//$png_url = get_folder_url().$png_url;
 	//echo ($png_url);
 }
 else {
 	echo json_encode(0);
+    $cata = null;
+    $cata_ligne = null;
+    $cata_ligne_params = null;
+    $cata_metier = null;
 }
 
 //returns the current folder URL

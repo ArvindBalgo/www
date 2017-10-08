@@ -14,6 +14,8 @@ if ($mode == 0) {
 
     $modelmetier = new modelmetier();
     $modelmetier = $modelmetier->delete($id);
+    $modelmetier = null;
+    $modelmetier_category = null;
     print "done";
 } else if ($mode == 1) {
     $id = $_GET["id"];
@@ -21,10 +23,12 @@ if ($mode == 0) {
     $modelmetier_category = new modelmetier_category();
     $modelmetier_category = $modelmetier_category->delete($id);
     print "done";
+    $modelmetier_category = null;
 } else if ($mode == 2) {
     $id = $_GET["id"];
     $metier = new listmetier();
     $metier->delete($id);
+    $metier = null;
     print "done";
 } else if ($mode == 3) {
 
@@ -62,6 +66,9 @@ if ($mode == 0) {
     $doc = $doc->findByPrimaryKey($_GET['type']);
     $arrData = array('id' => $doc->getId(), 'clef' => $doc->getCle(), 'title' => $doc->getTitle(), 'description' => $doc->getDescription(), 'data' => $apropos);
     print json_encode($arrData);
+    $arrData = null;
+    $apropos = null;
+    $doc = null;
 } else if ($mode == 4) {
     //$doc = new docs();
     /*
@@ -94,7 +101,7 @@ if ($mode == 0) {
     $docu->setTitle($_GET["title"]);
     $docu->setDescription(addslashes($_GET["contenu"]));
     $docu->save();
-
+    $docu = null;
     print 'done';
 } else if ($mode == 5) {
     $pays = $_GET["param"];
@@ -134,6 +141,10 @@ if ($mode == 0) {
     $doc = $doc->findByPrimaryKey($_GET['type']);
     $arrData = array('id' => $doc->getId(), 'clef' => $doc->getCle(), 'title' => $doc->getTitle(), 'description' => $doc->getDescription(), 'data' => $apropos);
     print json_encode($arrData);
+    $arrData = null;
+    $apropos = null;
+    $apropos1 = null;
+    $doc = null;
 } else if ($mode == 6) {
     $contenu = json_decode($_GET['contenu']);
 
@@ -175,7 +186,9 @@ if ($mode == 0) {
     }
 
     return 'done';
-
+    $apropos = null;
+    $docu = null;
+    $contenu = null;
 } else if ($mode == 7) {
     $contenu = json_decode($_GET['contenu']);
     $pays = $_GET["param"];
@@ -200,7 +213,8 @@ if ($mode == 0) {
     $apropos->save();
 
     return 'done';
-
+    $apropos = null;
+    $contenu = null;
 } else if ($mode == 8) {
     $pays = $_GET["param"];
     if ($pays == "") {
@@ -221,7 +235,7 @@ if ($mode == 0) {
 
     $apropos = $apropos->delete($_GET["id"]);
     return 'done';
-
+    $apropos = null;
 } else if ($mode == 9) {
     $contenu = json_decode($_GET['contenu']);
     $pays = $_GET["param"];
@@ -244,6 +258,8 @@ if ($mode == 0) {
     $docu->setTitle($contenu->title);
     $docu->setDescription(addslashes($docu->getDescription()));
     $docu->save();
+    $docu = null;
+    $contenu = null;
 } else if ($mode == 10) {
 
     /*
@@ -283,6 +299,9 @@ if ($mode == 0) {
     $arrData = array('id' => $doc->getId(), 'clef' => $doc->getCle(), 'title' => ($doc->getTitle()), 'description' => ($doc->getDescription()), 'data' => $conditionvente);
 
     print json_encode($arrData);
+    $arrData = null;
+    $doc = null;
+    $conditionvente = null;
 } else if ($mode == 11) {
 
     $pays = $_GET["param"];
@@ -322,6 +341,9 @@ if ($mode == 0) {
     $doc = $doc->findByPrimaryKey($_GET['type']);
     $arrData = array('id' => $doc->getId(), 'clef' => $doc->getCle(), 'title' => $doc->getTitle(), 'description' => $doc->getDescription(), 'data' => $conditionvente1);
     print json_encode($arrData);
+    $arrData = null;
+    $conditionvente1 = null;
+    $doc = null;
 } else if ($mode == 12) {
     $contenu = json_decode($_GET['contenu']);
     $pays = $_GET["param"];
@@ -345,7 +367,8 @@ if ($mode == 0) {
     $conditionvente->save();
 
     return 'done';
-
+    $conditionvente = null;
+    $contenu = null;
 } else if ($mode == 13) {
     $pays = $_GET["param"];
     if ($pays == "") {
@@ -366,7 +389,7 @@ if ($mode == 0) {
 
     // $conditionvente = new conditionvente();
     $conditionvente = $conditionvente->delete($_GET["id"]);
-
+    $conditionvente = null;
     return 'done';
 } else if ($mode == 14) {
     $contenu = json_decode($_GET['contenu']);
@@ -397,11 +420,15 @@ if ($mode == 0) {
     $docu->setTitle($contenu->title);
     $docu->setDescription(addslashes($docu->getDescription()));
     $docu->save();
+    $docu = null;
+    $conditionvente = null;
+    $contenu = null;
 } else if ($mode == 15) {
     $tva = new tva();
     $tva = $tva->rechercher();
 
     print json_encode($tva);
+    $tva = null;
 } else if ($mode == 16) {
     $arrData = json_decode($_GET["data"]);
     foreach ($arrData as $item) {
@@ -414,6 +441,8 @@ if ($mode == 0) {
     $tva = new tva();
     $tva = $tva->rechercher();
     print json_encode($tva);
+    $tva = null;
+    $arrData = null;
 } else if ($mode == 17) {
     date_default_timezone_set('America/Los_Angeles');
     $coupon_detail = new coupon_details();
@@ -429,12 +458,11 @@ if ($mode == 0) {
 
             // Check that user date is between start & end
 
-            if(($user_ts >= $start_ts) && ($user_ts <= $end_ts)) {
+            if (($user_ts >= $start_ts) && ($user_ts <= $end_ts)) {
                 $row["authentificate"] = "VERIFIED";
                 $row["montant"] = $couponMain->getVal();
                 $row["id"] = $couponMain->getId();
-            }
-            else {
+            } else {
                 $row["authentificate"] = "NOTVALID";
                 $row["montant"] = "0";
                 $row["id"] = 0;
@@ -450,4 +478,6 @@ if ($mode == 0) {
         $row["id"] = 0;
     }
     print json_encode($row);
+    $couponMain = null;
+    $row = null;
 }

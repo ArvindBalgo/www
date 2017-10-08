@@ -33,6 +33,6 @@ $temp_prod->setIdDimension($_POST["id_dimension"]);
 $temp_prod->setIdQte($_POST["id_qte"]);
 
 $temp_prod->save();
-
+$temp_prod = null;
 print json_encode("done");
 ?>

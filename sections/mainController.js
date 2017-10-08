@@ -21,7 +21,7 @@ angular
             $scope.isActualLang = "DEUTSCH";
         }
 
-        Data.get('session.php').then(function (results) {
+        /*Data.get('session.php').then(function (results) {
             if (results.uid) {
                 $scope.isLogged = true;
                 $scope.isCommercial = false;
@@ -36,7 +36,7 @@ angular
                 $scope.isCommercial = false;
             }
             $scope.sessionInfo = results;
-        });
+        });*/
 
         $scope.loginModal = function () {
             $("#myModal").modal();

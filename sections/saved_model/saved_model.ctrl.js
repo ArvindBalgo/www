@@ -16,6 +16,7 @@ angular
 
         var vm = this;
         vm.id  = $routeParams.id;
+        vm.langURL = "";
         $scope.header = "Produit Client";
         vm.currentProd = $routeParams.idCommDetail;
         vm.infoProd = [];
@@ -86,53 +87,57 @@ angular
                 lang = "FR";
             }
             $translate.use(sessionStorage.getItem('LANG'));
+            vm.langURL = urlLang;
             $http({
                 method: 'GET',
                 params: {mode: 3, lang: lang},
                 url: 'api/v1/langueCRUD.php'
             }).then(function successCallback(response) {
                 $scope.langue = angular.copy(response.data);
+                vm.fnMetier();
             });
             vm.setLang = function (langKey) {
                 // You can change the language during runtime
                 $translate.use(langKey);
             };
 
-            $scope.$watch('isActualLang', function (ov, nv) {
-                vm.setLang(sessionStorage.getItem("LANG"));
-                var lang = sessionStorage.getItem("LANG");
+        };
+        $scope.$watch('isActualLang', function (ov, nv) {
+            vm.setLang(sessionStorage.getItem("LANG"));
+            var lang = sessionStorage.getItem("LANG");
 
+            vm.linkMonPanier = "../assets/carts/mon_panier.png";
+            vm.linkAjoutPanier = "../assets/carts/ajouter_panier.png";
+            vm.linkSaveProd = "../assets/carts/model_sauvegarde/francais.png";
+            if (lang == "FR") {
                 vm.linkMonPanier = "../assets/carts/mon_panier.png";
                 vm.linkAjoutPanier = "../assets/carts/ajouter_panier.png";
                 vm.linkSaveProd = "../assets/carts/model_sauvegarde/francais.png";
-                if (lang == "FR") {
-                    vm.linkMonPanier = "../assets/carts/mon_panier.png";
-                    vm.linkAjoutPanier = "../assets/carts/ajouter_panier.png";
-                    vm.linkSaveProd = "../assets/carts/model_sauvegarde/francais.png";
-                }
-                else if (lang == "ES") {
-                    vm.linkMonPanier = "../assets/carts/cesta_espagnol.png";
-                    vm.linkAjoutPanier = "../assets/carts/cart_espagnol.png";
-                    vm.linkSaveProd = "../assets/carts/model_sauvegarde/espagnol.png";
-                }
-                else if (lang == "EN") {
-                    vm.linkMonPanier = "../assets/carts/cart_english.png";
-                    vm.linkAjoutPanier = "../assets/carts/add_cart_english.png";
-                    vm.linkSaveProd = "../assets/carts/model_sauvegarde/eng.png";
-                }
-                else if (lang == "AL") {
-                    vm.linkMonPanier = "../assets/carts/warenkorb_deutch.png";
-                    vm.linkAjoutPanier = "../assets/carts/cart_deutch.png";
-                    vm.linkSaveProd = "../assets/carts/model_sauvegarde/allemand.png";
-                }
-                else if (lang == "IT") {
-                    vm.linkMonPanier = "../assets/carts/carrello_italiano.png";
-                    vm.linkAjoutPanier = "../assets/carts/cart_italien.png";
-                    vm.linkSaveProd = "../assets/carts/model_sauvegarde/italien.png";
-                }
+            }
+            else if (lang == "ES") {
+                vm.linkMonPanier = "../assets/carts/cesta_espagnol.png";
+                vm.linkAjoutPanier = "../assets/carts/cart_espagnol.png";
+                vm.linkSaveProd = "../assets/carts/model_sauvegarde/espagnol.png";
+            }
+            else if (lang == "EN") {
+                vm.linkMonPanier = "../assets/carts/cart_english.png";
+                vm.linkAjoutPanier = "../assets/carts/add_cart_english.png";
+                vm.linkSaveProd = "../assets/carts/model_sauvegarde/eng.png";
+            }
+            else if (lang == "AL") {
+                vm.linkMonPanier = "../assets/carts/warenkorb_deutch.png";
+                vm.linkAjoutPanier = "../assets/carts/cart_deutch.png";
+                vm.linkSaveProd = "../assets/carts/model_sauvegarde/allemand.png";
+            }
+            else if (lang == "IT") {
+                vm.linkMonPanier = "../assets/carts/carrello_italiano.png";
+                vm.linkAjoutPanier = "../assets/carts/cart_italien.png";
+                vm.linkSaveProd = "../assets/carts/model_sauvegarde/italien.png";
+            }
 
-            });
+        });
 
+        vm.fnMetier = function() {
             $http({
                 method: "POST",
                 url: "/api/v1/metierCRUDPOST.php",
@@ -241,7 +246,7 @@ angular
                                 stageWidth: 2000,
                                 stageHeight: 1000,
                                 editorMode: true,
-                                langJSON: urlLang,
+                                langJSON: vm.langURL,
                                 lazyLoad: true,
                                 improvedResizeQuality: true,
                                 loadFirstProductInStage: true,
@@ -946,296 +951,296 @@ angular
                                 return;
                             }
                             /*if (vm.prodEnCours.length != 0) {
-                                bootbox.dialog({
-                                    message: $scope.langue["message_modifprod"],
-                                    title: $scope.langue["entete_modifprod"],
-                                    buttons: {
-                                        annuler: {
-                                            label: $scope.langue["label_modifprod_new"],
-                                            className: "btn-secondary",
-                                            callback: function () {
-                                                var countProduit = 0;
-                                                var arrProds = [];
-                                                if (sessionStorage.produitCount) {
-                                                    countProduit = Number(sessionStorage.produitCount) + 1;
-                                                }
-                                                var obj = {};
-                                                yourDesigner.getProductDataURL(function (dataURL) {
+                             bootbox.dialog({
+                             message: $scope.langue["message_modifprod"],
+                             title: $scope.langue["entete_modifprod"],
+                             buttons: {
+                             annuler: {
+                             label: $scope.langue["label_modifprod_new"],
+                             className: "btn-secondary",
+                             callback: function () {
+                             var countProduit = 0;
+                             var arrProds = [];
+                             if (sessionStorage.produitCount) {
+                             countProduit = Number(sessionStorage.produitCount) + 1;
+                             }
+                             var obj = {};
+                             yourDesigner.getProductDataURL(function (dataURL) {
 
-                                                    //obj.base64_image    = dataURL;
-                                                    obj.title = vm.produit.titre;
-                                                    obj.commentaire = vm.produit.commentaire;
-                                                    obj.opt = $('input[name="optradio"]:checked').val();
-                                                    obj.contours = vm.infoProd.contours;
-                                                    obj.liserai = vm.infoProd.liserai;
-                                                    obj.escargot = vm.infoProd.escargot;
-                                                    obj.escargot_val = $('input[name="optescargot"]:checked').val();
-                                                    obj.id_dimension = $('.sel_dimensions').select2('data')[0].id;
-                                                    obj.dimension = $('.sel_dimensions').select2('data')[0].text;
-                                                    obj.id_qte = $('.sel_qte').select2('data')[0].id;
-                                                    obj.qte = $('.sel_qte').select2('data')[0].text;
-                                                    obj.bonrepli = $('input[name="optcommande"]:checked').val();
-                                                    obj.prix = vm.prixvente;
-                                                    obj.idsupport = $('.sel_papier').select2('data')[0].id;
-                                                    obj.support = $('.sel_papier').select2('data')[0].text;
-                                                    obj.unitprix = vm.unitprix;
-                                                    obj.idn_key = "produit" + countProduit;
-                                                    obj.random_str = Math.random().toString(36).substring(7);
-                                                    obj.arrDims = vm.arrCurrentDims;
-                                                    obj.arrQtes = vm.arrCurrentQtes;
-                                                    obj.idProduit = vm.infoProd.idCata;
+                             //obj.base64_image    = dataURL;
+                             obj.title = vm.produit.titre;
+                             obj.commentaire = vm.produit.commentaire;
+                             obj.opt = $('input[name="optradio"]:checked').val();
+                             obj.contours = vm.infoProd.contours;
+                             obj.liserai = vm.infoProd.liserai;
+                             obj.escargot = vm.infoProd.escargot;
+                             obj.escargot_val = $('input[name="optescargot"]:checked').val();
+                             obj.id_dimension = $('.sel_dimensions').select2('data')[0].id;
+                             obj.dimension = $('.sel_dimensions').select2('data')[0].text;
+                             obj.id_qte = $('.sel_qte').select2('data')[0].id;
+                             obj.qte = $('.sel_qte').select2('data')[0].text;
+                             obj.bonrepli = $('input[name="optcommande"]:checked').val();
+                             obj.prix = vm.prixvente;
+                             obj.idsupport = $('.sel_papier').select2('data')[0].id;
+                             obj.support = $('.sel_papier').select2('data')[0].text;
+                             obj.unitprix = vm.unitprix;
+                             obj.idn_key = "produit" + countProduit;
+                             obj.random_str = Math.random().toString(36).substring(7);
+                             obj.arrDims = vm.arrCurrentDims;
+                             obj.arrQtes = vm.arrCurrentQtes;
+                             obj.idProduit = vm.infoProd.idCata;
 
-                                                    if (typeof vm.produit.commentaire == 'undefined') {
-                                                        vm.produit.commentaire = " ";
-                                                    }
-                                                    $.ajax({
-                                                        url: 'api/v1/temp_produit.php',
-                                                        type: 'post',
-                                                        dataType: 'json',
-                                                        success: function (data) {
-                                                        },
-                                                        data: {
-                                                            modified: false,
-                                                            base64_image: dataURL,
-                                                            title: vm.produit.titre,
-                                                            comm: vm.produit.commentaire,
-                                                            opt: $('input[name="optradio"]:checked').val(),
-                                                            contours: vm.infoProd.contours,
-                                                            liserai: vm.infoProd.liserai,
-                                                            escargot: vm.infoProd.escargot,
-                                                            idmodelmetier: vm.infoProd.idmodelmetier,
-                                                            idproduit: vm.infoProd.idCata,
-                                                            escargot_val: $('input[name="optescargot"]:checked').val(),
-                                                            dimension: $('.sel_dimensions').select2('data')[0].text,
-                                                            id_dimension: $('.sel_dimensions').select2('data')[0].id,
-                                                            qte: $('.sel_qte').select2('data')[0].text,
-                                                            id_qte: $('.sel_qte').select2('data')[0].id,
-                                                            bonrepli: $('input[name="optcommande"]:checked').val(),
-                                                            data: yourDesigner.getProduct(),
-                                                            prix: vm.prixvente,
-                                                            idsupport: $('.sel_papier').select2('data')[0].id,
-                                                            support: $('.sel_papier').select2('data')[0].text,
-                                                            unitprix: vm.unitprix,
-                                                            random_str: obj.random_str,
-                                                            idn_key: "produit" + countProduit
-                                                        }
-                                                    }).done(function (data) {
-                                                    });
+                             if (typeof vm.produit.commentaire == 'undefined') {
+                             vm.produit.commentaire = " ";
+                             }
+                             $.ajax({
+                             url: 'api/v1/temp_produit.php',
+                             type: 'post',
+                             dataType: 'json',
+                             success: function (data) {
+                             },
+                             data: {
+                             modified: false,
+                             base64_image: dataURL,
+                             title: vm.produit.titre,
+                             comm: vm.produit.commentaire,
+                             opt: $('input[name="optradio"]:checked').val(),
+                             contours: vm.infoProd.contours,
+                             liserai: vm.infoProd.liserai,
+                             escargot: vm.infoProd.escargot,
+                             idmodelmetier: vm.infoProd.idmodelmetier,
+                             idproduit: vm.infoProd.idCata,
+                             escargot_val: $('input[name="optescargot"]:checked').val(),
+                             dimension: $('.sel_dimensions').select2('data')[0].text,
+                             id_dimension: $('.sel_dimensions').select2('data')[0].id,
+                             qte: $('.sel_qte').select2('data')[0].text,
+                             id_qte: $('.sel_qte').select2('data')[0].id,
+                             bonrepli: $('input[name="optcommande"]:checked').val(),
+                             data: yourDesigner.getProduct(),
+                             prix: vm.prixvente,
+                             idsupport: $('.sel_papier').select2('data')[0].id,
+                             support: $('.sel_papier').select2('data')[0].text,
+                             unitprix: vm.unitprix,
+                             random_str: obj.random_str,
+                             idn_key: "produit" + countProduit
+                             }
+                             }).done(function (data) {
+                             });
 
-                                                    sessionStorage.setItem("produitCount", countProduit);
+                             sessionStorage.setItem("produitCount", countProduit);
 
-                                                    arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
-                                                    if (arrProds == null) {
-                                                        arrProds = [];
-                                                    }
-                                                    arrProds.push("produit" + countProduit);
-                                                    sessionStorage.setItem("arrProds", JSON.stringify(arrProds));
-                                                    vm.prodEnCours = obj;
-                                                    sessionStorage.setItem("produit" + countProduit, JSON.stringify(obj));
-                                                    vm.arrProduits = [];
-                                                });
-                                                toastr.options.positionClass = 'toast-top-right';
-                                                toastr.success($scope.langue["produit_rajoute"]);
-                                            }
-                                        },
-                                        valider: {
-                                            label: $scope.langue["label_modifprod_valider"],
-                                            className: "btn-success",
-                                            callback: function () {
-                                                var countProduit = 0;
-                                                var arrProds = [];
+                             arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
+                             if (arrProds == null) {
+                             arrProds = [];
+                             }
+                             arrProds.push("produit" + countProduit);
+                             sessionStorage.setItem("arrProds", JSON.stringify(arrProds));
+                             vm.prodEnCours = obj;
+                             sessionStorage.setItem("produit" + countProduit, JSON.stringify(obj));
+                             vm.arrProduits = [];
+                             });
+                             toastr.options.positionClass = 'toast-top-right';
+                             toastr.success($scope.langue["produit_rajoute"]);
+                             }
+                             },
+                             valider: {
+                             label: $scope.langue["label_modifprod_valider"],
+                             className: "btn-success",
+                             callback: function () {
+                             var countProduit = 0;
+                             var arrProds = [];
 
-                                                if (sessionStorage.produitCount) {
-                                                    countProduit = Number(sessionStorage.produitCount) + 1;
-                                                }
-                                                var obj = {};
-                                                yourDesigner.getProductDataURL(function (dataURL) {
+                             if (sessionStorage.produitCount) {
+                             countProduit = Number(sessionStorage.produitCount) + 1;
+                             }
+                             var obj = {};
+                             yourDesigner.getProductDataURL(function (dataURL) {
 
-                                                    //obj.base64_image    = dataURL;
-                                                    obj.title = vm.produit.titre;
-                                                    obj.commentaire = vm.produit.commentaire;
-                                                    obj.opt = $('input[name="optradio"]:checked').val();
-                                                    obj.contours = vm.infoProd.contours;
-                                                    obj.liserai = vm.infoProd.liserai;
-                                                    obj.escargot = vm.infoProd.escargot;
-                                                    obj.escargot_val = $('input[name="optescargot"]:checked').val();
+                             //obj.base64_image    = dataURL;
+                             obj.title = vm.produit.titre;
+                             obj.commentaire = vm.produit.commentaire;
+                             obj.opt = $('input[name="optradio"]:checked').val();
+                             obj.contours = vm.infoProd.contours;
+                             obj.liserai = vm.infoProd.liserai;
+                             obj.escargot = vm.infoProd.escargot;
+                             obj.escargot_val = $('input[name="optescargot"]:checked').val();
 
-                                                    obj.id_dimension = $('.sel_dimensions').select2('data')[0].id;
-                                                    obj.dimension = $('.sel_dimensions').select2('data')[0].text;
-                                                    obj.id_qte = $('.sel_qte').select2('data')[0].id;
-                                                    obj.qte = $('.sel_qte').select2('data')[0].text;
-                                                    obj.bonrepli = $('input[name="optcommande"]:checked').val();
-                                                    obj.prix = vm.prixvente;
-                                                    obj.idsupport = $('.sel_papier').select2('data')[0].id;
-                                                    obj.support = $('.sel_papier').select2('data')[0].text;
-                                                    obj.unitprix = vm.unitprix;
-                                                    obj.idn_key = vm.prodEnCours.idn_key;
-                                                    obj.random_str = vm.prodEnCours.random_str;
-                                                    obj.arrDims = vm.arrCurrentDims;
-                                                    obj.arrQtes = vm.arrCurrentQtes;
-                                                    obj.idProduit = vm.infoProd.idCata;
+                             obj.id_dimension = $('.sel_dimensions').select2('data')[0].id;
+                             obj.dimension = $('.sel_dimensions').select2('data')[0].text;
+                             obj.id_qte = $('.sel_qte').select2('data')[0].id;
+                             obj.qte = $('.sel_qte').select2('data')[0].text;
+                             obj.bonrepli = $('input[name="optcommande"]:checked').val();
+                             obj.prix = vm.prixvente;
+                             obj.idsupport = $('.sel_papier').select2('data')[0].id;
+                             obj.support = $('.sel_papier').select2('data')[0].text;
+                             obj.unitprix = vm.unitprix;
+                             obj.idn_key = vm.prodEnCours.idn_key;
+                             obj.random_str = vm.prodEnCours.random_str;
+                             obj.arrDims = vm.arrCurrentDims;
+                             obj.arrQtes = vm.arrCurrentQtes;
+                             obj.idProduit = vm.infoProd.idCata;
 
-                                                    if (typeof vm.produit.commentaire == 'undefined') {
-                                                        vm.produit.commentaire = " ";
-                                                    }
-                                                    $.ajax({
-                                                        url: 'api/v1/temp_produit.php',
-                                                        type: 'post',
-                                                        dataType: 'json',
-                                                        success: function (data) {
+                             if (typeof vm.produit.commentaire == 'undefined') {
+                             vm.produit.commentaire = " ";
+                             }
+                             $.ajax({
+                             url: 'api/v1/temp_produit.php',
+                             type: 'post',
+                             dataType: 'json',
+                             success: function (data) {
 
-                                                        },
-                                                        data: {
-                                                            modified: true,
-                                                            base64_image: dataURL,
-                                                            title: vm.produit.titre,
-                                                            comm: vm.produit.commentaire,
-                                                            opt: $('input[name="optradio"]:checked').val(),
-                                                            contours: vm.infoProd.contours,
-                                                            liserai: vm.infoProd.liserai,
-                                                            escargot: vm.infoProd.escargot,
-                                                            escargot_val: $('input[name="optescargot"]:checked').val(),
-                                                            idmodelmetier: vm.infoProd.idmodelmetier,
-                                                            idproduit: vm.infoProd.idCata,
-                                                            dimension: $('.sel_dimensions').select2('data')[0].text,
-                                                            id_dimension: $('.sel_dimensions').select2('data')[0].id,
-                                                            qte: $('.sel_qte').select2('data')[0].text,
-                                                            id_qte: $('.sel_qte').select2('data')[0].id,
-                                                            bonrepli: $('input[name="optcommande"]:checked').val(),
-                                                            data: yourDesigner.getProduct(),
-                                                            prix: vm.prixvente,
-                                                            idsupport: $('.sel_papier').select2('data')[0].id,
-                                                            support: $('.sel_papier').select2('data')[0].text,
-                                                            unitprix: vm.unitprix,
-                                                            random_str: obj.random_str,
-                                                            idn_key: vm.prodEnCours.idn_key
-                                                        }
-                                                    }).done(function (data) {
-                                                    });
+                             },
+                             data: {
+                             modified: true,
+                             base64_image: dataURL,
+                             title: vm.produit.titre,
+                             comm: vm.produit.commentaire,
+                             opt: $('input[name="optradio"]:checked').val(),
+                             contours: vm.infoProd.contours,
+                             liserai: vm.infoProd.liserai,
+                             escargot: vm.infoProd.escargot,
+                             escargot_val: $('input[name="optescargot"]:checked').val(),
+                             idmodelmetier: vm.infoProd.idmodelmetier,
+                             idproduit: vm.infoProd.idCata,
+                             dimension: $('.sel_dimensions').select2('data')[0].text,
+                             id_dimension: $('.sel_dimensions').select2('data')[0].id,
+                             qte: $('.sel_qte').select2('data')[0].text,
+                             id_qte: $('.sel_qte').select2('data')[0].id,
+                             bonrepli: $('input[name="optcommande"]:checked').val(),
+                             data: yourDesigner.getProduct(),
+                             prix: vm.prixvente,
+                             idsupport: $('.sel_papier').select2('data')[0].id,
+                             support: $('.sel_papier').select2('data')[0].text,
+                             unitprix: vm.unitprix,
+                             random_str: obj.random_str,
+                             idn_key: vm.prodEnCours.idn_key
+                             }
+                             }).done(function (data) {
+                             });
 
-                                                    sessionStorage.setItem("produitCount", countProduit);
+                             sessionStorage.setItem("produitCount", countProduit);
 
-                                                    if (arrProds == null) {
-                                                        arrProds = [];
-                                                    }
-                                                    vm.prodEnCours = obj;
-                                                    sessionStorage.setItem(vm.prodEnCours.idn_key, JSON.stringify(obj));
-                                                    vm.arrProduits = [];
-                                                });
-                                                toastr.options.positionClass = 'toast-top-right';
-                                                toastr.success($scope.langue["produit_rajoute"]);
-                                            }
-                                        }
-                                    }
+                             if (arrProds == null) {
+                             arrProds = [];
+                             }
+                             vm.prodEnCours = obj;
+                             sessionStorage.setItem(vm.prodEnCours.idn_key, JSON.stringify(obj));
+                             vm.arrProduits = [];
+                             });
+                             toastr.options.positionClass = 'toast-top-right';
+                             toastr.success($scope.langue["produit_rajoute"]);
+                             }
+                             }
+                             }
+                             });
+                             }*/
+                            // else {
+                            yourDesigner.getProductDataURL(function (dataURL) {
+                                var randomStr = Math.random().toString(36);
+
+                                $http({
+                                    method: 'POST',
+                                    data: $.param({base64_image: dataURL, randomStr: randomStr}),
+                                    url: 'api/v1/save_img.php',
+                                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                                }).then(function successCallback(response) {
+
+                                }, function errorCallback(error) {
+                                    console.log(error);
                                 });
-                            }*/
-                           // else {
-                                yourDesigner.getProductDataURL(function (dataURL) {
-                                    var randomStr = Math.random().toString(36);
 
-                                    $http({
-                                        method: 'POST',
-                                        data: $.param({base64_image: dataURL, randomStr: randomStr}),
-                                        url: 'api/v1/save_img.php',
-                                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                                    }).then(function successCallback(response) {
+                                var countProduit = 0;
+                                var arrProds = [];
+                                if (sessionStorage.produitCount) {
+                                    countProduit = Number(sessionStorage.produitCount) + 1;
+                                }
+                                var obj = {};
+                                obj.title = vm.produit.titre;
+                                obj.commentaire = vm.produit.commentaire;
+                                obj.opt = $('input[name="optradio"]:checked').val();
+                                obj.contours = vm.infoProd.contours;
+                                obj.liserai = vm.infoProd.liserai;
+                                obj.escargot = vm.infoProd.escargot;
+                                obj.escargot_val = $('input[name="optescargot"]:checked').val();
+                                obj.id_dimension = $('.sel_dimensions').select2('data')[0].id;
+                                obj.dimension = $('.sel_dimensions').select2('data')[0].text;
+                                obj.id_qte = $('.sel_qte').select2('data')[0].id;
+                                obj.qte = $('.sel_qte').select2('data')[0].text;
+                                obj.bonrepli = $('input[name="optcommande"]:checked').val();
+                                obj.prix = vm.prixvente;
+                                obj.idsupport = $('.sel_papier').select2('data')[0].id;
+                                obj.support = $('.sel_papier').select2('data')[0].text;
+                                obj.unitprix = vm.unitprix;
+                                obj.idn_key = "produit" + countProduit;
+                                obj.random_str = Math.random().toString(36).substring(7);
+                                obj.arrDims = vm.arrCurrentDims;
+                                obj.arrQtes = vm.arrCurrentQtes;
+                                obj.idProduit = vm.infoProd.idCata;
 
-                                    }, function errorCallback(error) {
-                                        console.log(error);
-                                    });
 
-                                    var countProduit = 0;
-                                    var arrProds = [];
-                                    if (sessionStorage.produitCount) {
-                                        countProduit = Number(sessionStorage.produitCount) + 1;
+                                if (typeof vm.produit.commentaire == 'undefined') {
+                                    vm.produit.commentaire = " ";
+                                }
+
+                                $http({
+                                    method: 'POST',
+                                    data: $.param({
+                                        modified: false,
+                                        base64_image: randomStr,
+                                        title: vm.produit.titre,
+                                        comm: vm.produit.commentaire,
+                                        opt: $('input[name="optradio"]:checked').val(),
+                                        contours: vm.infoProd.contours,
+                                        liserai: vm.infoProd.liserai,
+                                        escargot: vm.infoProd.escargot,
+                                        escargot_val: $('input[name="optescargot"]:checked').val(),
+                                        dimension: $('.sel_dimensions').select2('data')[0].text,
+                                        id_dimension: $('.sel_dimensions').select2('data')[0].id,
+                                        idmodelmetier: vm.infoProd.idmodelmetier,
+                                        idproduit: vm.infoProd.idCata,
+                                        qte: $('.sel_qte').select2('data')[0].text,
+                                        id_qte: $('.sel_qte').select2('data')[0].id,
+                                        bonrepli: $('input[name="optcommande"]:checked').val(),
+                                        prix: vm.prixvente,
+                                        idsupport: $('.sel_papier').select2('data')[0].id,
+                                        support: $('.sel_papier').select2('data')[0].text,
+                                        unitprix: vm.unitprix,
+                                        random_str: obj.random_str,
+                                        idn_key: "produit" + countProduit,
+                                        data: yourDesigner.getProduct()
+                                    }),
+                                    url: 'api/v1/temp_produit.php',
+                                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                                }).then(function successCallback(response) {
+                                    sessionStorage.setItem("produitCount", countProduit);
+                                    arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
+                                    if (arrProds == null) {
+                                        arrProds = [];
                                     }
-                                    var obj = {};
-                                    obj.title = vm.produit.titre;
-                                    obj.commentaire = vm.produit.commentaire;
-                                    obj.opt = $('input[name="optradio"]:checked').val();
-                                    obj.contours = vm.infoProd.contours;
-                                    obj.liserai = vm.infoProd.liserai;
-                                    obj.escargot = vm.infoProd.escargot;
-                                    obj.escargot_val = $('input[name="optescargot"]:checked').val();
-                                    obj.id_dimension = $('.sel_dimensions').select2('data')[0].id;
-                                    obj.dimension = $('.sel_dimensions').select2('data')[0].text;
-                                    obj.id_qte = $('.sel_qte').select2('data')[0].id;
-                                    obj.qte = $('.sel_qte').select2('data')[0].text;
-                                    obj.bonrepli = $('input[name="optcommande"]:checked').val();
-                                    obj.prix = vm.prixvente;
-                                    obj.idsupport = $('.sel_papier').select2('data')[0].id;
-                                    obj.support = $('.sel_papier').select2('data')[0].text;
-                                    obj.unitprix = vm.unitprix;
-                                    obj.idn_key = "produit" + countProduit;
-                                    obj.random_str = Math.random().toString(36).substring(7);
-                                    obj.arrDims = vm.arrCurrentDims;
-                                    obj.arrQtes = vm.arrCurrentQtes;
-                                    obj.idProduit = vm.infoProd.idCata;
-
-
-                                    if (typeof vm.produit.commentaire == 'undefined') {
-                                        vm.produit.commentaire = " ";
+                                    arrProds.push("produit" + countProduit);
+                                    vm.prodEnCours = obj;
+                                    sessionStorage.setItem("arrProds", JSON.stringify(arrProds));
+                                    sessionStorage.setItem("produit" + countProduit, JSON.stringify(obj));
+                                    vm.arrProduits = [];
+                                    toastr.options.positionClass = 'toast-top-right';
+                                    toastr.success($scope.langue["produit_rajoute"]);
+                                }, function errorCallback(error) {
+                                    sessionStorage.setItem("produitCount", countProduit);
+                                    arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
+                                    if (arrProds == null) {
+                                        arrProds = [];
                                     }
-
-                                    $http({
-                                        method: 'POST',
-                                        data: $.param({
-                                            modified: false,
-                                            base64_image: randomStr,
-                                            title: vm.produit.titre,
-                                            comm: vm.produit.commentaire,
-                                            opt: $('input[name="optradio"]:checked').val(),
-                                            contours: vm.infoProd.contours,
-                                            liserai: vm.infoProd.liserai,
-                                            escargot: vm.infoProd.escargot,
-                                            escargot_val: $('input[name="optescargot"]:checked').val(),
-                                            dimension: $('.sel_dimensions').select2('data')[0].text,
-                                            id_dimension: $('.sel_dimensions').select2('data')[0].id,
-                                            idmodelmetier: vm.infoProd.idmodelmetier,
-                                            idproduit: vm.infoProd.idCata,
-                                            qte: $('.sel_qte').select2('data')[0].text,
-                                            id_qte: $('.sel_qte').select2('data')[0].id,
-                                            bonrepli: $('input[name="optcommande"]:checked').val(),
-                                            prix: vm.prixvente,
-                                            idsupport: $('.sel_papier').select2('data')[0].id,
-                                            support: $('.sel_papier').select2('data')[0].text,
-                                            unitprix: vm.unitprix,
-                                            random_str: obj.random_str,
-                                            idn_key: "produit" + countProduit,
-                                            data: yourDesigner.getProduct()
-                                        }),
-                                        url: 'api/v1/temp_produit.php',
-                                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                                    }).then(function successCallback(response) {
-                                        sessionStorage.setItem("produitCount", countProduit);
-                                        arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
-                                        if (arrProds == null) {
-                                            arrProds = [];
-                                        }
-                                        arrProds.push("produit" + countProduit);
-                                        vm.prodEnCours = obj;
-                                        sessionStorage.setItem("arrProds", JSON.stringify(arrProds));
-                                        sessionStorage.setItem("produit" + countProduit, JSON.stringify(obj));
-                                        vm.arrProduits = [];
-                                        toastr.options.positionClass = 'toast-top-right';
-                                        toastr.success($scope.langue["produit_rajoute"]);
-                                    }, function errorCallback(error) {
-                                        sessionStorage.setItem("produitCount", countProduit);
-                                        arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
-                                        if (arrProds == null) {
-                                            arrProds = [];
-                                        }
-                                        arrProds.push("produit" + countProduit);
-                                        vm.prodEnCours = obj;
-                                        sessionStorage.setItem("arrProds", JSON.stringify(arrProds));
-                                        sessionStorage.setItem("produit" + countProduit, JSON.stringify(obj));
-                                        vm.arrProduits = [];
-                                        toastr.options.positionClass = 'toast-top-right';
-                                        toastr.success($scope.langue["produit_rajoute"]);
-                                    });
-
+                                    arrProds.push("produit" + countProduit);
+                                    vm.prodEnCours = obj;
+                                    sessionStorage.setItem("arrProds", JSON.stringify(arrProds));
+                                    sessionStorage.setItem("produit" + countProduit, JSON.stringify(obj));
+                                    vm.arrProduits = [];
+                                    toastr.options.positionClass = 'toast-top-right';
+                                    toastr.success($scope.langue["produit_rajoute"]);
                                 });
-                           // }
+
+                            });
+                            // }
                             return;
 
                         };
@@ -1291,121 +1296,118 @@ angular
                 })
                 .error(function (data, status, headers, config) {
                 });
-
-            vm.fnClickPanier = function () {
-                vm.arrProduits = [];
-                var count = Number(sessionStorage.getItem("produitCount"));
-                var arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
-                if (arrProds != null) {
-                    angular.forEach(arrProds, function (value) {
-                        vm.arrProduits.push(JSON.parse(sessionStorage.getItem(value)));
-                    });
-                }
-
-                $("#modalPanier").modal();
-            };
-            vm.fnShowButtonComm = function (text) {
-                if (text != "" && typeof text !== 'undefined') {
-                    return true;
-                }
-                else {
-                    return false;
-                }
-            };
-
-            vm.fnAlertCommentaire = function (text) {
-                if (text != "" && typeof text !== 'undefined') {
-                    bootbox.alert("<div style='text-align: center'>" + text + "</div>");
-                }
-            };
-
-            vm.fnImgClient = function (produit) {
-                $('body').addClass("spinner");
-                $http({
-                    method: 'POST',
-                    data: $.param({mode: 2, key_prod: produit.idn_key}),
-                    url: 'api/v1/recupTempProd.php',
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                }).then(function successCallback(response) {
-                        bootbox.alert("<img style='width: 400px;height: 400px' src='../../api/imgs_temp/" + response.data + "'>");
-
-                        $('body').removeClass("spinner");
-                        vm.arrProduits = response.data;
-                    },
-                    function errorCallback(error) {
-                        console.log(error);
-                    });
-
-                //bootbox.alert("<img style='width: 100%;height: 100%' src='"+produit.base64_image+"'>");
-            };
-
-            vm.fnDelClient = function (produit) {
-                bootbox.dialog({
-                    message: "Confirmez vous la suppression?",
-                    title: "Suppression",
-                    buttons: {
-                        annuler: {
-                            label: "Non",
-                            className: "btn-secondary",
-                            callback: function () {
-
-                            }
-                        },
-                        valider: {
-                            label: "Oui",
-                            className: "btn-danger",
-                            callback: function () {
-                                sessionStorage.removeItem(produit.idn_key);
-                                var arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
-                                arrProds.splice(arrProds.indexOf(produit.idn_key), 1);
-                                sessionStorage.setItem("arrProds", JSON.stringify(arrProds));
-                                angular.forEach(vm.arrProduits, function (value, key) {
-                                    if (value.idn_key == produit.idn_key) {
-                                        vm.arrProduits.splice(key, 1);
-                                    }
-                                });
-                                $scope.$apply();
-                            }
-                        }
-                    }
-                });
-            };
-
-            vm.fnCheckOut = function () {
-                vm.fnValidMaquette();
-            }
-
-            vm.fnValidMaquette = function () {
-                Data.get('session.php').then(function (results) {
-                    if (results.uid) {
-                        $scope.isLogged = true;
-                        $scope.isCommercial = false;
-                        if (results.salesman == 1) {
-                            $scope.isCommercial = true;
-                        }
-                        $scope.utilisateur = results.name;
-                        vm.fnGetFraisLivr();
-                    }
-                    else if (!results.uid) {
-                        $scope.alertMsg = "Veuillez vous connecter ou vous enregistrer pour pouvoir continuer svp.";
-                        $('#modalPanier').modal('hide');
-                        $('#myModal').modal();
-                    }
-                    $scope.sessionInfo = results;
-                    //$location();
-                })
-            };
-
-            vm.fnGetFraisLivr = function () {
-                $('#modalPanier').modal('hide');
-                $location.path('/checkout');
-                return;
-            };
-
         };
 
+        vm.fnClickPanier = function () {
+            vm.arrProduits = [];
+            var count = Number(sessionStorage.getItem("produitCount"));
+            var arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
+            if (arrProds != null) {
+                angular.forEach(arrProds, function (value) {
+                    vm.arrProduits.push(JSON.parse(sessionStorage.getItem(value)));
+                });
+            }
 
+            $("#modalPanier").modal();
+        };
+        vm.fnShowButtonComm = function (text) {
+            if (text != "" && typeof text !== 'undefined') {
+                return true;
+            }
+            else {
+                return false;
+            }
+        };
+        vm.fnAlertCommentaire = function (text) {
+            if (text != "" && typeof text !== 'undefined') {
+                bootbox.alert("<div style='text-align: center'>" + text + "</div>");
+            }
+        };
 
-        vm.fnInit();
+        vm.fnImgClient = function (produit) {
+            $('body').addClass("spinner");
+            $http({
+                method: 'POST',
+                data: $.param({mode: 2, key_prod: produit.idn_key}),
+                url: 'api/v1/recupTempProd.php',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function successCallback(response) {
+                    bootbox.alert("<img style='width: 400px;height: 400px' src='../../api/imgs_temp/" + response.data + "'>");
 
+                    $('body').removeClass("spinner");
+                    vm.arrProduits = response.data;
+                },
+                function errorCallback(error) {
+                    console.log(error);
+                });
+
+            //bootbox.alert("<img style='width: 100%;height: 100%' src='"+produit.base64_image+"'>");
+        };
+
+        vm.fnDelClient = function (produit) {
+            bootbox.dialog({
+                message: "Confirmez vous la suppression?",
+                title: "Suppression",
+                buttons: {
+                    annuler: {
+                        label: "Non",
+                        className: "btn-secondary",
+                        callback: function () {
+
+                        }
+                    },
+                    valider: {
+                        label: "Oui",
+                        className: "btn-danger",
+                        callback: function () {
+                            sessionStorage.removeItem(produit.idn_key);
+                            var arrProds = JSON.parse(sessionStorage.getItem("arrProds"));
+                            arrProds.splice(arrProds.indexOf(produit.idn_key), 1);
+                            sessionStorage.setItem("arrProds", JSON.stringify(arrProds));
+                            angular.forEach(vm.arrProduits, function (value, key) {
+                                if (value.idn_key == produit.idn_key) {
+                                    vm.arrProduits.splice(key, 1);
+                                }
+                            });
+                            $scope.$apply();
+                        }
+                    }
+                }
+            });
+        };
+
+        vm.fnCheckOut = function () {
+            vm.fnValidMaquette();
+        }
+
+        vm.fnValidMaquette = function () {
+            Data.get('session.php').then(function (results) {
+                if (results.uid) {
+                    $scope.isLogged = true;
+                    $scope.isCommercial = false;
+                    if (results.salesman == 1) {
+                        $scope.isCommercial = true;
+                    }
+                    $scope.utilisateur = results.name;
+                    vm.fnGetFraisLivr();
+                }
+                else if (!results.uid) {
+                    $scope.alertMsg = "Veuillez vous connecter ou vous enregistrer pour pouvoir continuer svp.";
+                    $('#modalPanier').modal('hide');
+                    $('#myModal').modal();
+                }
+                $scope.sessionInfo = results;
+                //$location();
+            })
+        };
+
+        vm.fnGetFraisLivr = function () {
+            $('#modalPanier').modal('hide');
+            $location.path('/checkout');
+            return;
+        };
+
+        $(document).ready(function() {
+            vm.fnInit();
+        });
     });

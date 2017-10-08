@@ -19,7 +19,7 @@ if ( !empty( $_FILES ) ) {
     $police->setActive(1);
     $police->setPath($filenme);
     $police->save();
-
+    $police = null;
     echo 'test';
 
 } else {

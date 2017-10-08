@@ -51,12 +51,11 @@ angular
                 url: 'api/v1/produitDetails.php',
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function successCallback(response) {
-                console.log(response.data);
+               // console.log(response.data.data);
                 vm.infoProd = response.data;
                 var result = vm.infoProd.data.slice(1, -1);
+                console.clear();
                 console.log(JSON.parse(result));
-
-
                 $timeout(function () {
                     $("#imgScroll").endlessScroll({
                         width: '100%',

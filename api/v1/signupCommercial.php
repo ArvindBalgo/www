@@ -134,6 +134,9 @@ if (!$isUserExists) {
         $response["message"] = "Failed to create customer. Please try again";
         echoResponse(201, $response);
     }*/
+    $users = null;
+    $mailAdmin = null;
+    $mail = null;
 } else {
     $response["status"] = "error";
     $response["message"] = "An user with the provided phone or email exists!";

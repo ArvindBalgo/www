@@ -9,6 +9,7 @@ if($mode == 1) {
     $temp_prod = $temp_prod->findBySession(session_id());
 
     print json_encode($temp_prod);
+    $temp_prod=null;
 }
 else if($mode == 2) {
     $key = trim($_POST["key_prod"]);
@@ -22,6 +23,7 @@ else if($mode == 2) {
     else {
         print $temp_prod->getbase64Image();
     }
+    $temp_prod=null;
 
 }
 else if($mode == 3) {
@@ -36,4 +38,5 @@ else if($mode == 3) {
     else {
         print json_encode($temp_prod);
     }
+    $temp_prod=null;
 }

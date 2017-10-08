@@ -11,9 +11,9 @@ if ($mode == 0) {
     $id = $_GET["id"];
     $cata = new cata();
     $results = $cata->findAllByMetier($id);
-    /*$sample = new gabarits();
-    $sample = $sample->findByIdModel($id);*/
     print json_encode($results);
+    $cata = null;
+    $results = null;
     return;
 } else if ($mode == 1) {
     $type = $_GET["type"];
@@ -57,6 +57,14 @@ if ($mode == 0) {
         $arrData[] = array('id' => $ligne["id"], 'title' => $ligne["libelle"], 'thumbnail_src' => $ligne["src"], 'elemfront' => $arrFront, 'elemback' => $arrBack);
     }
     print json_encode($arrData);
+    $arrData = null;
+    $arrBack = null;
+    $cata_ligne = null;
+    $cata_ligne_params = null;
+    $cata_ligne_params1 = null;
+    $cata_back = null;
+    $cata = null;
+    $sample = null;
     //print json_encode($sample);
     return;
 } else if ($mode == 2) {
@@ -67,6 +75,8 @@ if ($mode == 0) {
     $sample->setContent(($data));
     $sample->save();
     print json_decode($data);
+    $sample = null;
+    $data = null;
 } else if ($mode == 3) {
     $cata_metier = new cata_metier();
     $cata_metier = $cata_metier->findByMetier($_GET["metier"]);
@@ -104,11 +114,22 @@ if ($mode == 0) {
 
     }
     print json_encode($arrData);
+    $arrData = null;
+    $arrFront = null;
+    $arrBack = null;
+    $cata_ligne_params = null;
+    $cata_ligne_params1 = null;
+    $cata_back = null;
+    $cata_ligne = null;
+    $cata = null;
+    $cata_metier = null;
     return;
 } else if ($mode == 4) {
     $cata = new cata();
     $results = $cata->findAllBySousCategory($_GET["id"]);
     print json_encode($results);
+    $results = null;
+    $cata = null;
     return;
 } else if ($mode == 5) {
     $cata = new cata();
@@ -172,6 +193,16 @@ if ($mode == 0) {
     //}
     print json_encode($arrData);
     //print json_encode($sample);
+    $arrData = null;
+    $cata = null;
+    $cataMetier = null;
+    $modelMetier = null;
+    $arrBack = null;
+    $cata_ligne_params1 = null;
+    $cata_ligne_params = null;
+    $cata_ligne = null;
+    $arrFront = null;
+    $cata_back = null;
     return;
 } else if ($mode == 6) {
     $cata_metier = new cata_metier();
@@ -188,7 +219,9 @@ if ($mode == 0) {
 
     $cata = new cata();
     $cata->delete($_GET["id"]);
-
+    $cata = null;
+    $cata_ligne = null;
+    $cata_metier = null;
     print "done";
 } else if ($mode == 7) {
     $id = $_GET["id"];
@@ -214,6 +247,10 @@ if ($mode == 0) {
         'qte' => $modelMetier->getQte()
     );
     print json_encode($arrCata);
+    $arrCata = null;
+    $modelMetier = null;
+    $cataMetier = null;
+    $cata = null;
 } else if ($mode == 8) {
     $arrData = [];
     $metier = new listmetier();
@@ -227,6 +264,9 @@ if ($mode == 0) {
     //print json_encode($modelMetier);
     //print json_encode($metier);
     print json_encode($arrData);
+    $arrData = null;
+    $metier = null;
+    $modelMetier = null;
 } else if ($mode == 9) {
     $cata = new cata();
     $cata = $cata->findByPrimaryKey($_GET["id_model"]);
@@ -324,13 +364,27 @@ if ($mode == 0) {
 
     print json_encode($arrData);
     //print json_encode($sample);
+    $arrData = null;
+    $arrBack = null;
+    $cata_ligne_params1 = null;
+    $cata_ligne_params = null;
+    $cata_ligne = null;
+    $modelMetier = null;
+    $cata_dim = null;
+    $cataMetier = null;
+    $cata_papier = null;
+    $tarif_manuel = null;
+    $coeffprix1 = null;
+    $coeffprix = null;
+    $tarif_man = null;
+    $cata = null;
     return;
 } else if ($mode == 10) {
     $modelMetier = new modelmetier();
 
     $modelMetier = $modelMetier->rechTous();
     print json_encode($modelMetier);
-
+    $modelMetier = null;
 } else if ($mode == 11) {
     $id = $_GET["id"];
     $cata = new cata();
@@ -338,12 +392,16 @@ if ($mode == 0) {
     /*$sample = new gabarits();
     $sample = $sample->findByIdModel($id);*/
     print json_encode($results);
+    $results = null;
+    $cata = null;
     return;
 } else if ($mode == 12) {
     $id = $_GET["id"];
     $cata = new cata();
     $results = $cata->findAllBySousCategory($id);
     print json_encode($results);
+    $results = null;
+    $cata = null;
     return;
 } else if ($mode == 13) {
     $id_produit = $_GET["id_produit"];
@@ -352,6 +410,7 @@ if ($mode == 0) {
     $cataMetier = new cata_metier();
     $cataMetier = $cataMetier->fnUpdateSubCat($id_produit, $id_subcategory);
     print json_encode($cataMetier);
+    $cataMetier = null;
 } else if ($mode == 14) {
     $id = $_GET["id"];
     $cata = new cata();
@@ -359,11 +418,14 @@ if ($mode == 0) {
     /*$sample = new gabarits();
     $sample = $sample->findByIdModel($id);*/
     print json_encode($results);
+    $results = null;
+    $cata = null;
     return;
 } else if ($mode == 15) {
     $pays = new pays();
     $pays = $pays->rechercher();
     print json_encode($pays);
+    $pays = null;
 } else if ($mode == 16) {
     //fill all delivery charges
     $id_produit = $_GET["id"];
@@ -419,6 +481,10 @@ if ($mode == 0) {
     $arrResponse["IT"] = $fraisLivraison;
 
     print json_encode($arrResponse);
+    $arrResponse = null;
+    $fraisLivraison = null;
+    $fraisLivr = null;
+    $cata = null;
 } else if ($mode == 17) {
     $arrData = json_decode($_GET["data"]);
     foreach ($arrData as $item) {
@@ -428,6 +494,7 @@ if ($mode == 0) {
         $livr->setWeight($item->weight);
         $livr->save();
     }
+    $livr = null;
     return "done";
 } else if ($mode == 18) {
     $item = json_decode($_GET["data"]);
@@ -436,6 +503,7 @@ if ($mode == 0) {
     $livr->setPrice($item->price);
     $livr->setWeight($item->weight);
     $livr->save();
+    $livr = null;
     return "done";
 } else if ($mode == 19) {
     $tva = new tva();
@@ -455,6 +523,9 @@ if ($mode == 0) {
             'pays' => $fraisLivraison["pays"]);
     }
     print json_encode(array('frais_livraison' => $arrFrais, 'tax' => $tva->getValue(), 'pays' => $tva->getPays()));
+    $fraisLivraison = null;
+    $arrFrais = null;
+    $arrData = null;
 } else if ($mode == 20) {
     $arrListKeys = json_decode($_GET["list"]);
     $id_user = $_SESSION['uid'];
@@ -492,14 +563,14 @@ if ($mode == 0) {
     $orders->save();
     $lastID = $orders->fnGetLastId();
 
-    if($_GET["coupon"] != "") {
+    if ($_GET["coupon"] != "") {
         $couponMain = new coupon_main();
         $couponMain = $couponMain->findByPrimaryKey($_GET["coupon"]);
-        if($couponMain){
+        if ($couponMain) {
             $ordersMain = new orders_main();
             $ordersMain = $ordersMain->findByPrimaryKey($lastID["id"]);
-            $discountVal = 1 - ($couponMain->getVal()/100);
-            if($ordersMain){
+            $discountVal = 1 - ($couponMain->getVal() / 100);
+            if ($ordersMain) {
                 $ordersMain->setTotalPrixNet(number_format((($ordersMain->getTotalPrixTTC() + $ordersMain->getTotalLivraisonTTC()) * ($discountVal)), 2, '.', ''));
                 $ordersMain->save();
             }
@@ -616,7 +687,7 @@ if ($mode == 0) {
         $mail->Body = utf8_decode('Holla ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Su orden N ° " . $lastID["id"] . " haya sido registrada, pronto recibirá su factura. <br> Saludos <br> Exakom");
     } else if ($pays == "IT") {
         $mail->Subject = utf8_decode('Ricevuta di ordine Exakom');
-        $mail->Body = utf8_decode('Ciao ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Il tuo ordine N °  " . $lastID["id"]. " è stato registrato, riceverai presto la tua fattura.<br> Saluti <br> Exakom");
+        $mail->Body = utf8_decode('Ciao ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Il tuo ordine N °  " . $lastID["id"] . " è stato registrato, riceverai presto la tua fattura.<br> Saluti <br> Exakom");
     }
 
     if (!$mail->send()) {
@@ -657,12 +728,25 @@ if ($mode == 0) {
 
 
     print_r(json_encode($lastID));
+    $mailAdmin = null;
+    $mail = null;
+    $user = null;
+    $orders_details = null;
+    $dataURI = null;
+    $fraisLivraison = null;
+    $tempProd = null;
+    $couponDetail = null;
+    $couponMain = null;
+    $ordersMain = null;
+    $orders = null;
+    $tva = null;
 } else if ($mode == 21) {
 
-    $langue  = new langue();
+    $langue = new langue();
     $langue = $langue->rechMultiKeys($_GET['lang']);
     print json_encode($langue);
-}else if ($mode == 22) {
+    $langue = null;
+} else if ($mode == 22) {
     $arrListKeys = json_decode($_GET["list"]);
     $id_user = $_GET['id_user'];
     $tva = new tva();
@@ -682,16 +766,23 @@ if ($mode == 0) {
             }
         }
     }
+    $discountPrice = (($totalPrixHT * $tva->getValue()) / 100) + $totalPrixHT + (($frais_livraison * $tva->getValue()) / 100 + $frais_livraison);
+    if ($_GET["percent_disc"] > 0) {
+        $discountPrice = $discountPrice * (1 - ($_GET["percent_disc"] / 100));
+    }
+
     $orders = new orders_main();
     $orders->setIdUser($id_user);
     $orders->setIdCommercial($_SESSION['uid']);
     $orders->setViaCommercial(1);
     $orders->setTotalLivraisonHT($frais_livraison);
+    $orders->setValCommercialDisc($_GET["percent_disc"]);
     $orders->setTotalLivraisonTTC(number_format(($frais_livraison * $tva->getValue()) / 100 + $frais_livraison, 2, '.', ''));
     $orders->setTotalPrixHT(number_format($totalPrixHT, 2, '.', ''));
     $orders->setTotalPrixTTC(number_format((($totalPrixHT * $tva->getValue()) / 100) + $totalPrixHT, 2, '.', ''));
     $orders->setTax(number_format((($totalPrixHT * $tva->getValue()) / 100), 2, '.', ''));
-    $orders->setTotalPrixNet(number_format((($totalPrixHT * $tva->getValue()) / 100) + $totalPrixHT, 2, '.', ''));
+    //$orders->setTotalPrixNet(number_format((($totalPrixHT * $tva->getValue()) / 100) + $totalPrixHT, 2, '.', ''));
+    $orders->setTotalPrixNet(number_format($discountPrice, 2, '.', ''));
     $orders->setTax(number_format((($totalPrixHT * $tva->getValue()) / 100), 2, '.', ''));
     $orders->setStatus("NEW");
     $orders->setCreatedBy($id_user);
@@ -825,7 +916,7 @@ if ($mode == 0) {
         $mail->Body = utf8_decode('Holla ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Su orden N ° " . $lastID["id"] . " haya sido registrada, pronto recibirá su factura. <br> Saludos <br> Exakom");
     } else if ($pays == "IT") {
         $mail->Subject = utf8_decode('Ricevuta di ordine Exakom');
-        $mail->Body = utf8_decode('Ciao ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Il tuo ordine N °  " . $lastID["id"]. " è stato registrato, riceverai presto la tua fattura.<br> Saluti <br> Exakom");
+        $mail->Body = utf8_decode('Ciao ' . strtoupper($user->getName()) . " " . strtoupper($user->getSurname()) . ", <br> Il tuo ordine N °  " . $lastID["id"] . " è stato registrato, riceverai presto la tua fattura.<br> Saluti <br> Exakom");
     }
 
     if (!$mail->send()) {
@@ -866,4 +957,13 @@ if ($mode == 0) {
 
 
     print_r(json_encode($lastID));
+    $mailAdmin = null;
+    $mail = null;
+    $user = null;
+    $dataURI = null;
+    $orders = null;
+    $ordersMain = null;
+    $orders_details = null;
+    $tempProd = null;
+    $fraisLivraison = null;
 }

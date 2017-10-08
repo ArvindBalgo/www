@@ -28,16 +28,15 @@ $pathCategory = "groupe";
         $cata_image->setIdCategory($_POST["id_category"]);
         chromePHP::log($_POST["displaySrc"], " display serc");
         if($_POST["displaySrc"] == 1) {
-            chromePHP::log("SET into here");
             $cata_image->setDisplaySrc("images/gallery/".$pathCategory."/".$_FILES['file']['name']);
         }
         else {
-
-            chromePHP::log("ESETNKJ");
             $cata_image->setSrc("images/gallery/".$pathCategory."/".$_FILES['file']['name']);
         }
 
         $cata_image->save();
+        $cata_image = null;
+
         echo json_encode("DONE");
 
     } else {

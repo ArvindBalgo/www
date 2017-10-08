@@ -34,72 +34,6 @@ angular
         vm.scat = {};
         vm.linkmonpanier = "../assets/carts/mon_panier.png";
 
-
-        Data.get('session.php').then(function (results) {
-            $scope.sessionInfo = results;
-            if (results.uid) {
-                $scope.isLogged = true;
-                $scope.utilisateur = results.name;
-                $scope.isCommercial = false;
-                if (results.salesman == 1) {
-                    $scope.isCommercial = true;
-                }
-            }
-            $scope.sessionInfo = results;
-
-            if (sessionStorage.getItem('LANG') == "" || sessionStorage.getItem('LANG') == null) {
-                document.getElementById("myNav").style.width = "100%";
-
-                $timeout(function () {
-                    $(document).ready(function () {
-
-                        // CSSMap;
-                        $("#map-europe").CSSMap({
-                            "size": 250,
-                            "cities": true,
-                            "tooltips": "floating-top-center",
-                            "responsive": "auto",
-                            "mapStyle": "vintage"
-                        });
-                        // END OF THE CSSMap;
-                    });
-                    $("#map-europe").removeClass("cssmap-250");
-                    $("#map-europe").addClass("cssmap-650");
-                }, 5);
-
-                document.getElementById("panier_btn").style.display = "none";
-                $('body').css({
-                    'overflow': 'hidden'
-                });
-                vm.isFrance = false;
-            }
-            else {
-
-                $translate.use(sessionStorage.getItem('LANG'));
-                if (sessionStorage.getItem('LANG') == 'FR') {
-                    vm.isFrance = true;
-                }
-                $http({
-                    method: 'GET',
-                    params: {mode: 3, lang: sessionStorage.getItem('LANG')},
-                    url: 'api/v1/langueCRUD.php'
-                }).then(function successCallback(response) {
-                    $scope.langue = angular.copy(response.data);
-                    document.getElementById("myNav").style.width = "0%";
-                    document.getElementById("panier_btn").style.display = "block";
-                    $('body').css({
-                        'overflow': 'auto'
-                    });
-                    //toastr.success($scope.langue.welcome_msg);
-                }, function errorCallback(error) {
-                    console.log(error);
-                });
-            }
-            //$( document ).width("1382");
-
-
-        });
-
         vm.instructions = [];
 
         vm.description = "";
@@ -512,7 +446,78 @@ angular
             vm.fnLoadPub();
         };
 
-        vm.fnInstructions();
+        vm.fnGetSession = function() {
+            Data.get('session.php').then(function (results) {
+                console.log(results, "________");
+                $scope.sessionInfo = results;
+                if (results.uid) {
+                    $scope.isLogged = true;
+                    $scope.utilisateur = results.name;
+                    $scope.isCommercial = false;
+                    if (results.salesman == 1) {
+                        $scope.isCommercial = true;
+                    }
+                }
+                $scope.sessionInfo = results;
+
+                if (sessionStorage.getItem('LANG') == "" || sessionStorage.getItem('LANG') == null) {
+                    document.getElementById("myNav").style.width = "100%";
+
+                    $timeout(function () {
+                        $(document).ready(function () {
+
+                            // CSSMap;
+                            $("#map-europe").CSSMap({
+                                "size": 250,
+                                "cities": true,
+                                "tooltips": "floating-top-center",
+                                "responsive": "auto",
+                                "mapStyle": "vintage"
+                            });
+                            // END OF THE CSSMap;
+                        });
+                        $("#map-europe").removeClass("cssmap-250");
+                        $("#map-europe").addClass("cssmap-650");
+                    }, 5);
+
+                    document.getElementById("panier_btn").style.display = "none";
+                    $('body').css({
+                        'overflow': 'hidden'
+                    });
+                    vm.isFrance = false;
+                }
+                else {
+
+                    $translate.use(sessionStorage.getItem('LANG'));
+                    if (sessionStorage.getItem('LANG') == 'FR') {
+                        vm.isFrance = true;
+                    }
+                    $http({
+                        method: 'GET',
+                        params: {mode: 3, lang: sessionStorage.getItem('LANG')},
+                        url: 'api/v1/langueCRUD.php'
+                    }).then(function successCallback(response) {
+                        $scope.langue = angular.copy(response.data);
+                        document.getElementById("myNav").style.width = "0%";
+                        document.getElementById("panier_btn").style.display = "block";
+                        $('body').css({
+                            'overflow': 'auto'
+                        });
+                        //toastr.success($scope.langue.welcome_msg);
+                    }, function errorCallback(error) {
+                        console.log(error);
+                    });
+                }
+
+                vm.fnInstructions();
+                //$( document ).width("1382");
+
+
+            });
+        }
+        $(document).ready(function() {
+            vm.fnGetSession();
+        })
         /*vm.fnRecupMetier();
          vm.fnModelMetierAll();
          vm.fnLoadPub();*/

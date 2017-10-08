@@ -152,7 +152,7 @@ angular
                     console.log(results);
                     vm.isSalesman = results.salesman;
                     vm.getUserDetails();
-                    vm.getSalesmanDetails();
+                    vm.getSalesmanDetails(results.uid);
                 }
                 $scope.sessionInfo = results;
             });
@@ -171,10 +171,10 @@ angular
             });
         };
 
-        vm.getSalesmanDetails = function () {
+        vm.getSalesmanDetails = function (uid) {
             $http({
                 method: 'GET',
-                params: {mode: 3, id:$scope.sessionInfo.uid},
+                params: {mode: 3, id:uid},
                 url: 'api/v1/user_crud.php'
             }).then(function successCallback(response) {
                 vm.salesmanDetails = response.data;
@@ -294,7 +294,7 @@ angular
             $('body').addClass("spinner");
             $http({
                 method: 'GET',
-                params: {mode: 22, list: JSON.stringify(arrListCheckoutProds), coupon: valCoupon, id_user:vm.selectedClient.uid},
+                params: {mode: 22, list: JSON.stringify(arrListCheckoutProds), coupon: valCoupon, id_user:vm.selectedClient.uid, percent_disc:vm.percDiscount},
                 url: 'api/v1/sampleControl.php'
             }).then(function successCallback(response) {
                     vm.arrProduits = [];
@@ -315,6 +315,7 @@ angular
             if(parseInt(vm.percDiscount) < parseInt(vm.salesmanDetails.minval) || parseInt(vm.percDiscount) > parseInt(vm.salesmanDetails.maxval)) {
                 vm.montants.montant_net = (vm.montants.montant_net_orig).toFixed(2);
                 vm.strMsgDiscount = "% hors limit.";
+                vm.percDiscount = 0;
                 return;
             }
             vm.montants.montant_net = (vm.montants.montant_net_orig * (1 - (vm.percDiscount / 100))).toFixed(2);

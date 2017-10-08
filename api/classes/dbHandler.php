@@ -65,6 +65,7 @@ class DbHandler
             $sess["email"] = $_SESSION['email'];
             $sess["admin"] = $_SESSION['admin'];
             $sess["admintype"] = $_SESSION['admintype'];
+            $sess["type"] = $_SESSION['admintype'];
             $sess["pays"] = $_SESSION['pays'];
             $sess["city"] = $_SESSION['city'];
             $sess["surname"] = $_SESSION['surname'];
@@ -81,6 +82,7 @@ class DbHandler
             $sess["email"] = '';
             $sess["admin"] = '0';
             $sess["admintype"] = '0';
+            $sess["type"] = '0';
             $sess["pays"] = 'FR';
             $sess["city"] = '';
             $sess["surname"] = '';

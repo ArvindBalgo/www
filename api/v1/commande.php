@@ -10,24 +10,19 @@ if ($mode == 1) {
     $orders = $orders->findAllOngoingOrders();
 
     $rows = [];
-    chromePHP::log($orders);
     foreach ($orders as $item) {
         $user = new users();
         $user = $user->findByPrimaryKey($item["id_user"]);
-        /*chromePHP::log("***********************");
-        chromePHP::log($item);
-        chromePHP::log("++++++++++++++++++++++++++++++++");*/
-
         $commercial = new users();
         $commercial = $commercial->findByPrimaryKey($item['id_commercial']);
         if ($user) {
             $item["name"] = $user->getName();
             $item["surname"] = $user->getSurname();
-            if($commercial) {
+            $item["company"] = $user->getCompanyName();
+            if ($commercial) {
                 $item["comm_name"] = $commercial->getName();
                 $item["comm_surname"] = $commercial->getSurname();
-            }
-            else {
+            } else {
                 $item["comm_name"] = "";
                 $item["comm_surname"] = "";
             }
@@ -45,9 +40,12 @@ if ($mode == 1) {
             $item["num_prods"] = $ordersDetails["prods"];
             $item["displayDetails"] = false;
             $rows[] = $item;
+            $ordersDetails = null;
         }
-
+        $user = null;
+        $commercial = null;
     }
+    $orders = null;
     print json_encode($rows);
 
 } elseif ($mode == 2) {
@@ -64,10 +62,10 @@ if ($mode == 1) {
     $order->setModifiedBy($_SESSION['uid']);
     $order->setDateModified(date("Y-m-d H:i:s"));
     $order->save();
-
+    $order = null;
     $orderDetails = new orders_details();
-    $ordersDetails = $orderDetails->updateStatusProds($idOrder, $status);
-
+    $orderDetails = $orderDetails->updateStatusProds($idOrder, $status);
+    $orderDetails = null;
     $orders = new orders_main();
     $orders = $orders->findAllOngoingOrders();
 
@@ -81,10 +79,11 @@ if ($mode == 1) {
         $ordersDetails = new orders_details();
         $ordersDetails = $ordersDetails->getCountProds($item["id"]);
         $item["num_prods"] = $ordersDetails["prods"];
+        $ordersDetails = null;
         $item["displayDetails"] = false;
         $rows[] = $item;
     }
-
+    $orders = null;
     print json_encode($rows);
 } else if ($mode == 4) {
     $idOrder = $_POST["idOrder"];
@@ -100,10 +99,10 @@ if ($mode == 1) {
         $orderMain->setDateModified(date("Y-m-d H:i:s"));
         $orderMain->save();
     }
-
+    $orderMain = null;
     $orderDetails = new orders_details();
-    $ordersDetails = $orderDetails->updateStatusProds($idOrder, $status);
-
+    $orderDetails = $orderDetails->updateStatusProds($idOrder, $status);
+    $orderDetails = null;
     $orders = new orders_main();
     $orders = $orders->findAllOngoingOrders();
 
@@ -119,8 +118,10 @@ if ($mode == 1) {
         $item["num_prods"] = $ordersDetails["prods"];
         $item["displayDetails"] = false;
         $rows[] = $item;
+        $user = null;
+        $ordersDetails = null;
     }
-
+    $orders = null;
     print json_encode($rows);
 } else if ($mode == 5) {
     $idOrder = $_POST["idOrder"];
@@ -134,10 +135,11 @@ if ($mode == 1) {
         $orderMain->setDateModified(date("Y-m-d H:i:s"));
         $orderMain->save();
     }
-
+    $orderMain = null;
     $orderDetails = new orders_details();
-    $ordersDetails = $orderDetails->updateStatusProds($idOrder, $status);
+    $orderDetails = $orderDetails->updateStatusProds($idOrder, $status);
 
+    $orderDetails = null;
     $orders = new orders_main();
     $orders = $orders->findAllOngoingOrders();
 
@@ -153,7 +155,10 @@ if ($mode == 1) {
         $item["num_prods"] = $ordersDetails["prods"];
         $item["displayDetails"] = false;
         $rows[] = $item;
+        $ordersDetails = null;
+        $user = null;
     }
+    $orders = null;
 
     print json_encode($rows);
 } else if ($mode == 6) {
@@ -162,23 +167,22 @@ if ($mode == 1) {
     $user = $user->findByPrimaryKey($idClient);
 
     $orderMain = new orders_main();
-    if($user->getSalesman() == 1) {
+    if ($user->getSalesman() == 1) {
         $orderMain = $orderMain->findByIdCommercial($idClient);
-    }
-    else {
+    } else {
         $orderMain = $orderMain->findByUser($idClient);
     }
     $rows = [];
     foreach ($orderMain as $item) {
         $ordersDetails = new orders_details();
-        $facture  = new factures();
+        $facture = new factures();
         $client = new users();
         $client = $client->findByPrimaryKey($item['id_user']);
 
         $facture = $facture->findByIdOrder($item["id"]);
-        if($facture) {
+        if ($facture) {
             $item['pdf_src'] = $facture->getPdfSrc();
-        }else {
+        } else {
             $item['pdf_src'] = null;
         }
 
@@ -212,10 +216,15 @@ if ($mode == 1) {
         }
 
         $rows[] = $item;
+        $client = null;
+        $ordersDetails = null;
+        $facture = null;
     }
 
+    $user = null;
+    $orderMain = null;
+    $idClient = null;
     print json_encode($rows);
-
 } else if ($mode == 7) {
     $idClient = $_SESSION['uid'];
     $orderMain = new orders_main();
@@ -240,8 +249,9 @@ if ($mode == 1) {
         $rows[] = $row;
     }
 
+    $ordersDetails = null;
+    $orderMain = null;
     print json_encode($rows);
-
 } else if ($mode == 8) {
     $idClient = $_SESSION["uid"];
     $user = new users();
@@ -258,6 +268,7 @@ if ($mode == 1) {
     $row["pays"] = $user->getPays();
     $row["postalcode"] = $user->getPostalCode();
     $row["siret"] = $user->getSiret();
+    $user = null;
     print json_encode($row);
 } else if ($mode == 9) {
     $idClient = $_SESSION["uid"];
@@ -268,15 +279,15 @@ if ($mode == 1) {
         $user = new users();
         $user = $user->findByPrimaryKey($idClient);
         $clientOrig = array(
-            "surname"=>$user->getSurname(),
-            "name"=>$user->getName(),
-            "company_name"=>$user->getCompanyName(),
-            "address"=>$user->getAddress(),
-            "postalCode"=>$user->getPostalCode(),
-            "phone"=>$user->getPhone(),
-            "city"=>$user->getCity(),
-            "pays"=>$user->getPays(),
-            "siret"=>$user->getSiret()
+            "surname" => $user->getSurname(),
+            "name" => $user->getName(),
+            "company_name" => $user->getCompanyName(),
+            "address" => $user->getAddress(),
+            "postalCode" => $user->getPostalCode(),
+            "phone" => $user->getPhone(),
+            "city" => $user->getCity(),
+            "pays" => $user->getPays(),
+            "siret" => $user->getSiret()
         );
 
         $user->setSurname($_POST["surname"]);
@@ -308,26 +319,28 @@ if ($mode == 1) {
         $mailAdmin->isHTML(true);                                  // Set email format to HTML
 
         $mailAdmin->Subject = utf8_decode('Info client');
-        $mailAdmin->Body    = utf8_decode('Bonjour Exakom'. " <br> Une mise-à-jour des info a été fait par le client ".$clientOrig["surname"]
-            . " ". $clientOrig["name"]
-            ." <br> Nom : ".$clientOrig["surname"]." ==> " . $_POST["surname"]
-            ." <br> Prénom : ".$clientOrig["name"]." ==> " . $_POST["name"]
-            ." <br> Societé : ".$clientOrig["company_name"]." ==> " . $_POST["company_name"]
-            ." <br> Address : ".$clientOrig["address"]." ==> " . $_POST["address"]
-            ." <br> Code Postal : ".$clientOrig["postalCode"]." ==> " . $_POST["postalcode"]
-            ." <br> Phone: ".$clientOrig["phone"]." ==> " . $_POST["phone"]
-            ." <br> Phone: ".$clientOrig["city"]." ==> " . $_POST["city"]
-            ." <br> Phone: ".$clientOrig["pays"]." ==> " . $_POST["pays"]
-            ." <br> Phone: ".$clientOrig["siret"]." ==> " . $_POST["siret"]
-            ." <br> Bien à vous, <br> Exakom.");
+        $mailAdmin->Body = utf8_decode('Bonjour Exakom' . " <br> Une mise-à-jour des info a été fait par le client " . $clientOrig["surname"]
+            . " " . $clientOrig["name"]
+            . " <br> Nom : " . $clientOrig["surname"] . " ==> " . $_POST["surname"]
+            . " <br> Prénom : " . $clientOrig["name"] . " ==> " . $_POST["name"]
+            . " <br> Societé : " . $clientOrig["company_name"] . " ==> " . $_POST["company_name"]
+            . " <br> Address : " . $clientOrig["address"] . " ==> " . $_POST["address"]
+            . " <br> Code Postal : " . $clientOrig["postalCode"] . " ==> " . $_POST["postalcode"]
+            . " <br> Phone: " . $clientOrig["phone"] . " ==> " . $_POST["phone"]
+            . " <br> Phone: " . $clientOrig["city"] . " ==> " . $_POST["city"]
+            . " <br> Phone: " . $clientOrig["pays"] . " ==> " . $_POST["pays"]
+            . " <br> Phone: " . $clientOrig["siret"] . " ==> " . $_POST["siret"]
+            . " <br> Bien à vous, <br> Exakom.");
 
-        if(!$mailAdmin->send()) {
+        if (!$mailAdmin->send()) {
             //echo 'Message could not be sent.';
             // echo 'Mailer Error: ' . $mail->ErrorInfo;
         } else {
             // echo 'Message has been sent';
         }
-
+        $mailAdmin = null;
+        $user = null;
+        $clientOrig = null;
         print json_encode("DONE");
     }
 }

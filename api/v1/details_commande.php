@@ -3,17 +3,18 @@ session_start();
 include_once 'include_all.php';
 require_once '../PHPMailerAutoload.php';
 $mode = $_GET['mode'];
+date_default_timezone_set('America/Los_Angeles');
 if ($mode == 1) {
     $details = new orders_details();
     $details = $details->rechCustom();
-
     print json_encode($details);
-
+    $details = null;
 } else if ($mode == 2) {
     $factures = new factures();
     $factures = $factures->rechByOrder();
 
     print json_encode($factures);
+    $factures = null;
 } else if ($mode == 3) {
     date_default_timezone_set('America/Los_Angeles');
     $mail = new PHPMailer;
@@ -40,7 +41,7 @@ if ($mode == 1) {
     $mail->setFrom('contact@exakom.fr', 'Exakom');
     $mail->addAddress($user->getEmail(), strtoupper($user->getName()) . " " . strtoupper($user->getSurname()));     // Add a recipient
     $mail->addReplyTo('contact@exakom.fr', 'Information');
-    $mail->addAttachment('../pdf/'.$_GET["id_order"].".pdf");         // Add attachments
+    $mail->addAttachment('../pdf/' . $_GET["id_order"] . ".pdf");         // Add attachments
 //$mail->addAttachment('/tmp/image.jpg', 'new.jpg');    // Optional name
     $mail->isHTML(true);                                  // Set email format to HTML
 
@@ -68,4 +69,7 @@ if ($mode == 1) {
     } else {
         // echo 'Message has been sent';
     }
+    $mail = null;
+    $orders = null;
+    $user = null;
 }

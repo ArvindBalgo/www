@@ -18,6 +18,7 @@ class PDF extends FPDF
         $this->Cell(0, 10, utf8_decode("Pour la communauté Européene, TVA à défalquer sur la base de l'article 259-A et 259-B"), 0, 0, 'C');
         $this->Cell(0, 10, 'Page ' . $this->PageNo(), 0, 0, 'C');
     }
+    
 }
 
 if ($mode == 0) {
@@ -79,7 +80,7 @@ if ($mode == 0) {
     $facture->SetFont('', 'B');
     // Header
     $header = array("Quantité", 'Description', 'Prix Unitaire HT', 'Total');
-    $w = array(40, 35, 40, 45);
+    $w = array(25, 100, 40, 25);
     for ($i = 0; $i < count($header); $i++)
         $facture->Cell($w[$i], 7, utf8_decode($header[$i]), 1, 0, 'C', true);
     $facture->Ln();
@@ -92,7 +93,13 @@ if ($mode == 0) {
     if ($orderDetailInfo) {
         foreach ($orderDetailInfo as $row) {
             $facture->Cell($w[0], 6, $row['qte'], 'LRB', 0, 'L', $fill);
-            $facture->Cell($w[1], 6, $row['title'], 'LRB', 0, 'L', $fill);
+            if(strlen($row['title']) > 37) {
+                $facture->Cell($w[1], 6, substr($row['title'], 0, 37)."...", 'LRB', 0, 'L', $fill);
+            }
+            else {
+                $facture->Cell($w[1], 6, $row['title'], 'LRB', 0, 'L', $fill);
+            }
+
             $facture->Cell($w[2], 6, $row['unitprix'], 'LRB', 0, 'R', $fill);
             $facture->Cell($w[3], 6, $row['prix_ht'], 'LRB', 0, 'R', $fill);
             $facture->Ln();
@@ -106,10 +113,19 @@ if ($mode == 0) {
     $facture->Cell($w[2], 6, ("Montant Total HT"), 0, 0, 'L', true);
     $facture->Cell($w[3], 6, number_format((float)$orderInfo->getTotalPrixHT(), 2, '.', ''), "LRTB", 0, 'R', false);
     $facture->Ln();
-    $facture->Cell($w[0], 6, "", 0, 0, 'L', false);
-    $facture->Cell($w[1], 6, (""), 0, 0, 'L', false);
-    $facture->Cell($w[2], 6, ("Coupon Remise"), 0, 0, 'L', true);
-    $facture->Cell($w[3], 6, (""), "LRTB", 0, 'R', false);
+    if($orderInfo->getViaCommercial() == 1) {
+        $facture->Cell($w[0], 6, "", 0, 0, 'L', false);
+        $facture->Cell($w[1], 6, (""), 0, 0, 'L', false);
+        $facture->Cell($w[2], 6, ("Remise Commercial"), 0, 0, 'L', true);
+        $facture->Cell($w[3], 6, $orderInfo->getValCommercialDisc()." %", "LRTB", 0, 'R', false);
+    }
+    else {
+        $facture->Cell($w[0], 6, "", 0, 0, 'L', false);
+        $facture->Cell($w[1], 6, (""), 0, 0, 'L', false);
+        $facture->Cell($w[2], 6, ("Coupon Remise"), 0, 0, 'L', true);
+        $facture->Cell($w[3], 6, (""), "LRTB", 0, 'R', false);
+    }
+
     $facture->Ln();
     $facture->Cell($w[0], 6, "", 0, 0, 'L', false);
     $facture->Cell($w[1], 6, (""), 0, 0, 'L', false);
@@ -124,7 +140,7 @@ if ($mode == 0) {
     $facture->Cell($w[0], 6, "", 0, 0, 'L', false);
     $facture->Cell($w[1], 6, (""), 0, 0, 'L', false);
     $facture->Cell($w[2], 6, ("Montant TTC"), 0, 0, 'L', true);
-    $facture->Cell($w[3], 6, number_format((float)$orderInfo->getTotalPrixTTC(), 2, '.', ''), "B", 0, 'R', false);
+    $facture->Cell($w[3], 6, number_format((float)$orderInfo->getTotalPrixNet(), 2, '.', ''), "B", 0, 'R', false);
 
     $fileNameFacture = "../pdf/factures/" . $id . '.pdf';
     //$pdf->Output($filename, 'F');
@@ -135,9 +151,10 @@ if ($mode == 0) {
     $bill->setPdfSrc($id . '.pdf');
     $bill->save();
 
-    unset($orderInfo);
-    unset($orderDetailInfo);
-    unset($userInfo);
-    unset($bill);
+    $orderInfo=null;
+    $orderDetailInfo=null;
+    $userInfo=null;
+    $bill=null;
+    $facture=null;
     //print ("../../../api/pdf/factures/" . $id . '.pdf');
 }

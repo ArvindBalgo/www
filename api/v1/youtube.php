@@ -8,6 +8,7 @@ if ($mode == 1) {
     $youtube = $youtube->rechercher();
 
     print json_encode($youtube);
+    $youtube = null;
 }
 else if ($mode == 2) {
     $youtube = new youtube_links();
@@ -20,6 +21,7 @@ else if ($mode == 2) {
     $youtube = $youtube->rechercher();
 
     print json_encode($youtube);
+    $youtube = null;
 }
 else if($mode == 3) {
     $youtube = new youtube_links();
@@ -33,4 +35,5 @@ else if($mode == 3) {
     $youtube = $youtube->rechercher();
 
     print json_encode($youtube);
+    $youtube = null;
 }

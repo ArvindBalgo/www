@@ -18,6 +18,7 @@ if ( !empty( $_FILES ) ) {
     }
 
    // $answer = array( $_POST );
+    $gabarit = null;
     echo json_encode("DONE");
 
 } else {

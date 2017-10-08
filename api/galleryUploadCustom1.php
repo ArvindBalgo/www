@@ -13,6 +13,8 @@
         move_uploaded_file( $tempPath, $uploadPath );
 
         echo ('tmp_admin/' . $_FILES[ 'file' ][ 'name' ]);
+        $tempPath = null;
+        $uploadPath = null;
 
     } else {
         echo '';

@@ -10,6 +10,7 @@ if($_POST["id_model"] > 0 && $_POST["img_modified"] == 0){
     $modelmetier->setQte($_POST["qte"]);
     $modelmetier->setActive(intval($_POST["active"]));
     $modelmetier->save();
+    $modelmetier = null;
     echo "done";
 }
 else{
@@ -30,6 +31,7 @@ else{
         $modelmetier->setSrc('assets/img/'.$_FILES['file']['name']);
         $modelmetier->setActive(intval($_POST["active"]));
         $modelmetier->save();
+        $modelmetier =  null;
         echo json_encode("DONE");
 
     } else {

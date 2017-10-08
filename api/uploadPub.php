@@ -14,7 +14,7 @@ if ( !empty( $_FILES ) ) {
     $pub->setActif(1);
     $pub->setlink('assets/pubs/' . $_FILES['file']['name']);
     $pub->save();
-
+    $pub = null;
     echo json_encode("DONE");
 
 } else {

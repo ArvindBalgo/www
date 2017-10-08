@@ -7,6 +7,7 @@ if ($mode == 0){
     $data = new polices();
     $data = $data->rechercher();
     print json_encode($data);
+    $data=null;
 }
 else if($mode == 1) {
     $nom = $_GET["nom"];
@@ -16,17 +17,20 @@ else if($mode == 1) {
     $police->setPath($path);
     $police->setActive(1);
     $police->save();
+    $police=null;
 }
 else if($mode == 2) {
     $data = new polices();
     $data = $data->rechercher1();
     print json_encode($data);
+    $data=null;
 }
 else if($mode == 3) {
     $id = $_GET["id"];
     $police = new polices();
     $police->delete($id);
     print "done";
+    $police=null;
 }
 else if($mode = 4) {
     $id = $_GET["id"];
@@ -35,4 +39,5 @@ else if($mode = 4) {
     $police = $police->findByPrimaryKey($id);
     $police->setNom($nom);
     $police->save();
+    $police=null;
 }

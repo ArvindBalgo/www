@@ -9,6 +9,7 @@ if ($mode == 0){
     $cata = new cata();
     $cata = $cata->findAllBySousCategory($id);
     print json_encode($cata);
+    $cata=null;
 }
 else if($mode == 1) {
     $id = $_GET["id"];
@@ -18,6 +19,8 @@ else if($mode == 1) {
     $cataMetier = new cata_metier();
     $cataMetier->deleteIdCata($id);
     print "done";
+    $cataMetier=null;
+    $cata=null;
 }
 else if($mode == 2) {
     $id = $_GET["id_cata"];
@@ -26,6 +29,7 @@ else if($mode == 2) {
     $cata->setKeyDescription($_GET["key"]);
     $cata->save();
     print "done";
+    $cata=null;
 }
 else if($mode == 3) {
     $pays = $_GET["pays"];
@@ -44,4 +48,6 @@ else if($mode == 3) {
         "pays"  =>  $pub->getPays()
     );
     print json_encode($arrPub);
+    $arrPub=null;
+    $pub=null;
 }

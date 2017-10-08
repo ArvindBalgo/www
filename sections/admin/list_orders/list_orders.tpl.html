@@ -19,6 +19,9 @@
                 <td  data-title="'No Commande'" filter="{id_order: 'number'}">
                     {{details.id_order}}
                 </td>
+                <td data-title="'Societé'">
+                    {{details.company_name}}
+                </td>
                 <td sortable="'Etape'" data-title="'status'" filter="{status: 'text'}">
                     {{details.status}}
                 </td>
@@ -36,9 +39,6 @@
                 </td>
                 <td data-title="'Prix Livraison Hors tax'">
                     {{details.prix_livraison_ht}}
-                </td>
-                <td data-title="'Prix Livraison Hors tax'">
-                    {{details.prix_livraison_ttc}}
                 </td>
                 <td data-title="'Prix totale'">
                     {{details.prix_ttc}}

@@ -12,4 +12,5 @@ if ($mode == 0){
 
 
     print ($orderDetail);
+    $orderDetail=null;
 }

@@ -17,6 +17,7 @@ if ( !empty( $_FILES ) ) {
     $subCategory->setMessage($_POST["message"]);
     $subCategory->setKeyMessage($_POST["key_message"]);
     $subCategory->save();
+    $subCategory = null;
     echo json_encode("DONE");
 
 } else {

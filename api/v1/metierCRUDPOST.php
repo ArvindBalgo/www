@@ -17,17 +17,21 @@ if ($mode == 0) {
     $modelmetier = new modelmetier();
     $modelmetier = $modelmetier->delete($id);
     print json_encode("done");
+    $modelmetier = null;
+    $modelmetier_category = null;
 } else if ($mode == 1) {
     $id = $_POST["id"];
 
     $modelmetier_category = new modelmetier_category();
     $modelmetier_category = $modelmetier_category->delete($id);
     print json_encode("done");
+    $modelmetier_category = null;
 } else if ($mode == 2) {
     $id = $_POST["id"];
     $metier = new listmetier();
     $metier->delete($id);
     print json_encode("done");
+    $metier = null;
 } else if ($mode == 3) {
 
     /*
@@ -45,6 +49,9 @@ if ($mode == 0) {
     $doc = $doc->findByPrimaryKey($_POST['type']);
     $arrData = array('id' => $doc->getId(), 'clef' => $doc->getCle(), 'title' => $doc->getTitle(), 'description' => $doc->getDescription(), 'data' => $apropos);
     print json_encode($arrData);
+    $arrData = null;
+    $apropos = null;
+    $doc = null;
 } else if ($mode == 4) {
     $doc = new docs();
     /*
@@ -63,6 +70,7 @@ if ($mode == 0) {
     $docu->save();
 
     print 'done';
+    $docu = null;
 } else if ($mode == 5) {
     $apropos = new apropos();
     $apropos->setDescription('');
@@ -91,7 +99,10 @@ if ($mode == 0) {
     }
 
     echo json_encode('done');
-
+    $doc = null;
+    $docu = null;
+    $apropos = null;
+    $arrData = null;
 } else if ($mode == 7) {
     $contenu = json_decode($_POST['contenu']);
 
@@ -101,12 +112,13 @@ if ($mode == 0) {
     $apropos->save();
 
     echo json_encode('done');
-
+    $apropos = null;
+    $contenu = null;
 } else if ($mode == 8) {
     $apropos = new apropos();
     $apropos = $apropos->delete($_POST["id"]);
     echo json_encode('done');
-
+    $apropos = null;
 } else if ($mode == 9) {
     $contenu = json_decode($_POST['contenu']);
 
@@ -115,6 +127,8 @@ if ($mode == 0) {
     $docu->setTitle($contenu->title);
     $docu->setDescription(addslashes($docu->getDescription()));
     $docu->save();
+    $contenu = null;
+    $docu = null;
 } else if ($mode == 10) {
 
     /*
@@ -133,6 +147,9 @@ if ($mode == 0) {
     $arrData = array('id' => $doc->getId(), 'clef' => $doc->getCle(), 'title' => ($doc->getTitle()), 'description' => ($doc->getDescription()), 'data' => $conditionvente);
 
     print json_encode($arrData);
+    $doc = null;
+    $arrData = null;
+    $conditionvente = null;
 } else if ($mode == 11) {
 
     $conditionvente = new conditionvente();
@@ -146,6 +163,9 @@ if ($mode == 0) {
     $doc = $doc->findByPrimaryKey($_POST['type']);
     $arrData = array('id' => $doc->getId(), 'clef' => $doc->getCle(), 'title' => $doc->getTitle(), 'description' => $doc->getDescription(), 'data' => $conditionvente);
     print json_encode($arrData);
+    $arrData = null;
+    $doc = null;
+    $conditionvente = null;
 } else if ($mode == 12) {
     $contenu = json_decode($_POST['contenu']);
 
@@ -155,12 +175,14 @@ if ($mode == 0) {
     $conditionvente->save();
 
     echo json_encode('done');
-
+    $contenu = null;
+    $conditionvente = null;
 } else if ($mode == 13) {
     $conditionvente = new conditionvente();
     $conditionvente = $conditionvente->delete($_POST["id"]);
 
     echo json_encode('done');
+    $conditionvente = null;
 } else if ($mode == 14) {
     $contenu = json_decode($_POST['contenu']);
 
@@ -169,11 +191,14 @@ if ($mode == 0) {
     $docu->setTitle($contenu->title);
     $docu->setDescription(addslashes($docu->getDescription()));
     $docu->save();
+    $docu = null;
+    $contenu = null;
 } else if ($mode == 15) {
     // delete by session
     $temp_prod = new temp_prod();
     $temp_prod->delBySessionKey(session_id());
     echo "done";
+    $temp_prod = null;
 } else if ($mode == 16) {
     //add instructions
     $pays = $_POST["param"];
@@ -229,14 +254,19 @@ if ($mode == 0) {
     }
 
     print json_encode($arrData);
+    $arrData = null;
+    $arrPub = null;
+    $metier = null;
+    $instruction = null;
 } else if ($mode == 17) {
     $customSalesman = new custom_salesman();
     $customSalesman->setIdCata($_POST["id_cata"]);
     $customSalesman->setTitle($_POST["title"]);
-    $customSalesman->setImageSrc($_POST["image_url"].".png");
+    $customSalesman->setImageSrc($_POST["image_url"] . ".png");
     $customSalesman->setIdSalesman($_SESSION['uid']);
     $customSalesman->setData(json_encode($_POST["data"]));
     $customSalesman->save();
+    $customSalesman = null;
 } else if ($mode == 18) {
     $customSalesman = new custom_salesman();
     $customSalesman = $customSalesman->rechSalesman($_SESSION['uid']);
@@ -249,12 +279,11 @@ if ($mode == 0) {
         $rows[] = $val;
     }*/
     print json_encode($customSalesman);
-
-}
-else if($mode == 19) {
+    $customSalesman = null;
+} else if ($mode == 19) {
     $customSalesman = new custom_salesman();
     $customSalesman = $customSalesman->findByPrimaryKey($_POST['id']);
-    if($customSalesman) {
+    if ($customSalesman) {
         $row = [];
         $row['id'] = $customSalesman->getId();
         $row['idCata'] = $customSalesman->getIdCata();
@@ -302,7 +331,7 @@ else if($mode == 19) {
         $row["contours"] = $cata->getContours();
         $row["liserai"] = $cata->getLiserai();
         $row["coucher"] = $cata->getCoucher();
-        $row["dimensions"] = $cata ->getDimensions();
+        $row["dimensions"] = $cata->getDimensions();
         $row["qte"] = $modelMetier->getQte();
         $row["idmodelmetier"] = $modelMetier->getId();
         $row["type_support"] = $cata_papier;
@@ -313,5 +342,14 @@ else if($mode == 19) {
 
 
         print json_encode($row);
+        $row = null;
+        $modelmetier = null;
+        $cata_metier = null;
+        $cata_dim = null;
+        $cata_papier = null;
+        $coeffprix1 = null;
+        $cata = null;
+        $tarif_man = null;
+        $coeffprix = null;
     }
 }

@@ -11,6 +11,8 @@ if ( !empty( $_FILES ) ) {
     $cata->setSrc('assets/img/'.$_FILES['file']['name']);
 
     $cata->save();
+    $cata = null;
+
     echo json_encode("DONE");
 
 } else {
