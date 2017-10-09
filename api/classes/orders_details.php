@@ -5,6 +5,7 @@ class orders_details
     //**** Variables declarations ****
     private $_id = null;
     private $_id_order = 0;
+    private $_id_prodref = 0;
     private $_base64_image = "";
     private $_bonrepli = 0;
     private $_commentaire = "";
@@ -55,6 +56,10 @@ class orders_details
         $this->_id_order = $val;
     }
 
+    public function setIdProdRef($val)
+    {
+        $this->_id_prodref = $val;
+    }
 
     public function setBase64Image($val)
     {
@@ -224,6 +229,11 @@ class orders_details
         return $this->_id_order;
     }
 
+    public function getIdProdRef()
+    {
+        return $this->_id_prodref;
+    }
+
     public function getBase64Image()
     {
         return $this->_base64_image;
@@ -371,6 +381,7 @@ class orders_details
 
         if ($this->_id > 0) {
             $requete = "UPDATE orders_details SET id_order='" . ($this->_id_order) . "'";
+            $requete .= ",id_prodref='" . $this->_id_prodref. "'";
             $requete .= ",base64_image='" . $this->_base64_image . "'";
             $requete .= ",bonrepli='" . $this->_bonrepli . "'";
             $requete .= ",commentaire='" . $this->_commentaire . "'";
@@ -403,6 +414,7 @@ class orders_details
         } else {
             $requete = "INSERT INTO orders_details (";
             $requete .= "id_order";
+            $requete .= ",id_prodref";
             $requete .= ",base64_image";
             $requete .= ",bonrepli";
             $requete .= ",commentaire";
@@ -432,6 +444,7 @@ class orders_details
             $requete .= ",status";
             $requete .= ") VALUES (";
             $requete .= "'" . $this->_id_order . "',";
+            $requete .= "'" . $this->_id_prodref. "',";
             $requete .= "'" . $this->_base64_image . "',";
             $requete .= "'" . $this->_bonrepli . "',";
             $requete .= "'" . $this->_commentaire . "',";
@@ -471,6 +484,7 @@ class orders_details
         $orders_details = new orders_details();
         $orders_details->_id = $rs["id"];
         $orders_details->_id_order = $rs["id_order"];
+        $orders_details->_id_prodref= $rs["id_prodref"];
         $orders_details->_base64_image = $rs["base64_image"];
         $orders_details->_bonrepli = $rs["bonrepli"];
         $orders_details->_commentaire = $rs["commentaire"];
@@ -523,7 +537,8 @@ class orders_details
                     od.prix_ttc, 
                     od.unitprix, 
                     od.prix_livraison_ht, 
-                    od.prix_livraison_ttc, 
+                    od.prix_livraison_ttc,
+                    om.val_commer_disc,
                     od.qte, 
                     od.title,
                     od.base64_image, 
@@ -569,7 +584,6 @@ class orders_details
 
     public function getMaxId()
     {
-        $requete = "select max(id) as id from orders_details ";
         $requete = "select max(id) as id from orders_details ";
         $rs = $this->conn->query($requete);
         return mysqli_fetch_array($rs);

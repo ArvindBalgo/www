@@ -596,6 +596,7 @@ if ($mode == 0) {
                 $totalPrixHT = $totalPrixHT + ($tempProd->getUnitPrix() * $tempProd->getQte());
                 $orders_details = new orders_details();
                 $orders_details->setIdOrder($lastID["id"]);
+                $orders_details->setIdProdRef($tempProd->getIdProduit());
                 $orders_details->setBase64Image($tempProd->getbase64Image());
                 $orders_details->setBonRepli($tempProd->getBonRepli());
                 $orders_details->setCommentaire($tempProd->getCommentaire());
@@ -780,10 +781,10 @@ if ($mode == 0) {
     $orders->setTotalLivraisonTTC(number_format(($frais_livraison * $tva->getValue()) / 100 + $frais_livraison, 2, '.', ''));
     $orders->setTotalPrixHT(number_format($totalPrixHT, 2, '.', ''));
     $orders->setTotalPrixTTC(number_format((($totalPrixHT * $tva->getValue()) / 100) + $totalPrixHT, 2, '.', ''));
-    $orders->setTax(number_format((($totalPrixHT * $tva->getValue()) / 100), 2, '.', ''));
+    $orders->setTax(number_format((($totalPrixHT * $tva->getValue()  + ($frais_livraison * $tva->getValue())) / 100), 2, '.', ''));
     //$orders->setTotalPrixNet(number_format((($totalPrixHT * $tva->getValue()) / 100) + $totalPrixHT, 2, '.', ''));
     $orders->setTotalPrixNet(number_format($discountPrice, 2, '.', ''));
-    $orders->setTax(number_format((($totalPrixHT * $tva->getValue()) / 100), 2, '.', ''));
+    $orders->setTax(number_format((($totalPrixHT * $tva->getValue() + ($frais_livraison * $tva->getValue())) / 100), 2, '.', ''));
     $orders->setStatus("NEW");
     $orders->setCreatedBy($id_user);
     $orders->setModifiedBy($id_user);
@@ -825,6 +826,7 @@ if ($mode == 0) {
                 $totalPrixHT = $totalPrixHT + ($tempProd->getUnitPrix() * $tempProd->getQte());
                 $orders_details = new orders_details();
                 $orders_details->setIdOrder($lastID["id"]);
+                $orders_details->setIdProdRef($tempProd->getIdProduit());
                 $orders_details->setBase64Image($tempProd->getbase64Image());
                 $orders_details->setBonRepli($tempProd->getBonRepli());
                 $orders_details->setCommentaire($tempProd->getCommentaire());

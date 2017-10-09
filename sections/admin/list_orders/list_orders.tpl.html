@@ -43,6 +43,13 @@
                 <td data-title="'Prix totale'">
                     {{details.prix_ttc}}
                 </td>
+                <td data-title="'Remise'">
+                    {{details.val_commer_disc}}
+                </td>
+                <td  data-title="'Prix Remise'">
+                    <span ng-show="details.val_commer_disc > 0">{{details.prix_ttc * (1-details.val_commer_disc/100)}}</span>
+                    <span ng-show="details.val_commer_disc == 0">{{details.prix_ttc}}</span>
+                </td>
                 <td data-title="'Utilisateur'">
                     {{details.name}} {{details.surname}}
                 </td>

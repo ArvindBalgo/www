@@ -7,7 +7,7 @@ angular
         vm.id = 0;
         vm.arrContents = [];
         vm.isFrance = false;
-        vm.montants = {frais_livr: 0, prix_total_ht: 0, tax: 0, prix_ttc: 0, montant_net: 0, montant_net_orig: 0};
+        vm.montants = {frais_livr: 0, prix_total_ht: 0, tax: 0, prix_ttc: 0, montant_net: 0, montant_net_orig: 0, tax_ttc:0};
         vm.arrProduits = [];
         vm.userDetails = [];
         vm.discountCode = "";
@@ -78,6 +78,7 @@ angular
                 vm.montants.valTax = 0;
                 vm.montants.prix_ttc = 0;
                 vm.montants.montant_net = 0;
+                vm.montants.tax_ttc = 0;
 
                 angular.forEach(vm.arrProduits, function (value) {
                     angular.forEach(arrFraisLivr.frais_livraison, function (item) {
@@ -91,6 +92,7 @@ angular
                 vm.montants.prix_total_ht = vm.montants.prix_total_ht.toFixed(2);
                 vm.montants.tax = ((Number(arrFraisLivr.tax) / 100) * vm.montants.prix_total_ht).toFixed(2);
                 vm.montants.taxLivr = ((Number(arrFraisLivr.tax) / 100) * vm.montants.frais_livr).toFixed(2);
+                vm.montants.tax_ttc = ((Number(arrFraisLivr.tax) / 100) * vm.montants.prix_total_ht) + ((Number(arrFraisLivr.tax) / 100) * vm.montants.frais_livr);
                 vm.montants.valTax = (1 + (Number(arrFraisLivr.tax) / 100));
                 vm.montants.prix_ttc = Number(vm.montants.prix_total_ht) + Number(vm.montants.tax);
                 vm.montants.prix_ttc = (vm.montants.prix_ttc).toFixed(2);

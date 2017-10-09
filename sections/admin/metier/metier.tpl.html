@@ -108,7 +108,7 @@
 </div>
 
 <div id="modalModel" class="modal fade" data-backdrop="static">
-    <div class="modal-dialog" style="width: 50%;height: 500px;">
+    <div class="modal-dialog" style="width: 50%;height: 100%;">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -250,7 +250,6 @@
 
                         </div>
                     </div>
-
                     <div class="row">
                         <div class="col-md-2"><b>Message </b></div>
                         <div class="col-md-8 col-sm-8 input-group" style="margin-bottom: 5px;">
@@ -266,6 +265,11 @@
                     <div class="row">
                         <input class="col-md-5 col-md-offset-2" style="margin-top: 15px" type="file" nv-file-select="" uploader="uploader">
                     </div>
+                </div>
+                <div>
+                    <button class="btn btn-danger pull-left" data-dismiss="modal">Annuler</button>
+                    <button class="btn btn-primary pull-right"  ng-click="metier.fnValidateText()">Valider Text</button>
+                    <button type="button" class="btn btn-success" ng-click="uploader.uploadAll()"><span class="glyphicon glyphicon-upload"></span> Valider</button>
                 </div>
             </div>
             <div class="modal-footer">
@@ -331,13 +335,18 @@
                         </table>
                     </div>
                 </div>
+                <div>
+                    <button class="btn btn-danger pull-left" data-dismiss="modal">Annuler</button>
+                    <button class="btn btn-danger pull-right" ng-click="metier.fnCalcPrix()">Grille de prix</button>
+                    <button class="btn btn-danger pull-right" ng-click="metier.fnValidPrix()">Valider</button>
+                </div>
             </div>
-            <div class="modal-footer">
+            <!--<div class="modal-footer">
                 <button class="btn btn-danger pull-left" data-dismiss="modal">Annuler</button>
                 <button class="btn btn-danger pull-right" ng-click="metier.fnCalcPrix()">Grille de prix</button>
                 <button class="btn btn-danger pull-right" ng-click="metier.fnValidPrix()">Valider</button>
             </div>
-        </div>
+-->        </div>
     </div>
 </div>
 
