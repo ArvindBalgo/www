@@ -11,6 +11,6 @@ if ($mode == 0){
     $orderDetail = $orderDetail->findByPrimaryKey1($id);
 
 
-    print ($orderDetail);
+    print json_encode($orderDetail);
     $orderDetail=null;
 }

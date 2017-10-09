@@ -362,7 +362,7 @@ class temp_prod
             $requete .= "'" . $this->_support . "',";
             $requete .= "'" . $this->_qte . "',";
             $requete .= "'" . $this->_title . "',";
-            $requete .= "'" . json_encode($this->_data) . "',";
+            $requete .= "'" . addslashes(json_encode($this->_data) ). "',";
             $requete .= "'" . $this->_random_str . "',";
             $requete .= "'" . $this->_escargot_val . "',";
             $requete .= "'" . $this->_contours. "',";
@@ -370,7 +370,6 @@ class temp_prod
             $requete .= "'" . $this->_id_dimension . "',";
             $requete .= "'" . $this->_id_qte . "')";
         }
-        chromePHP::log($requete);
         $r = $this->conn->query($requete) or die($this->conn->error . __LINE__);
         return $r;
     }
