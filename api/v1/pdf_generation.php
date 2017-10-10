@@ -116,7 +116,7 @@ if ($mode == 0) {
     if($orderInfo->getViaCommercial() == 1) {
         $facture->Cell($w[0], 6, "", 0, 0, 'L', false);
         $facture->Cell($w[1], 6, (""), 0, 0, 'L', false);
-        $facture->Cell($w[2], 6, ("Remise Commercial"), 0, 0, 'L', true);
+        $facture->Cell($w[2], 6, ("Remise"), 0, 0, 'L', true);
         $facture->Cell($w[3], 6, $orderInfo->getValCommercialDisc()." %", "LRTB", 0, 'R', false);
     }
     else {

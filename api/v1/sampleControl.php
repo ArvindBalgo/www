@@ -552,9 +552,14 @@ if ($mode == 0) {
     $orders->setTotalLivraisonTTC(number_format(($frais_livraison * $tva->getValue()) / 100 + $frais_livraison, 2, '.', ''));
     $orders->setTotalPrixHT(number_format($totalPrixHT, 2, '.', ''));
     $orders->setTotalPrixTTC(number_format((($totalPrixHT * $tva->getValue()) / 100) + $totalPrixHT, 2, '.', ''));
-    $orders->setTax(number_format((($totalPrixHT * $tva->getValue()) / 100), 2, '.', ''));
+    if($_GET["percent_disc"] > 0) {
+        $orders->setTax(number_format(($totalPrixHT + $frais_livraison) * ($tva->getValue()/100) * (1-($_GET["percent_disc"]/100)), 2, '.',''));
+    }
+    else {
+        $orders->setTax(number_format(($totalPrixHT + $frais_livraison) * ($tva->getValue()/100)), 2, '.','');
+    }
     $orders->setTotalPrixNet(number_format((($totalPrixHT * $tva->getValue()) / 100) + $totalPrixHT, 2, '.', ''));
-    $orders->setTax(number_format((($totalPrixHT * $tva->getValue()) / 100), 2, '.', ''));
+    //$orders->setTax(number_format((($totalPrixHT * $tva->getValue()) / 100), 2, '.', ''));
     $orders->setStatus("NEW");
     $orders->setCreatedBy($id_user);
     $orders->setModifiedBy($id_user);
@@ -781,10 +786,16 @@ if ($mode == 0) {
     $orders->setTotalLivraisonTTC(number_format(($frais_livraison * $tva->getValue()) / 100 + $frais_livraison, 2, '.', ''));
     $orders->setTotalPrixHT(number_format($totalPrixHT, 2, '.', ''));
     $orders->setTotalPrixTTC(number_format((($totalPrixHT * $tva->getValue()) / 100) + $totalPrixHT, 2, '.', ''));
-    $orders->setTax(number_format((($totalPrixHT * $tva->getValue()  + ($frais_livraison * $tva->getValue())) / 100), 2, '.', ''));
+    if($_GET["percent_disc"] > 0) {
+        $orders->setTax(number_format(($totalPrixHT + $frais_livraison) * ($tva->getValue()/100) * (1-($_GET["percent_disc"]/100)), 2, '.',''));
+    }
+    else {
+        $orders->setTax(number_format(($totalPrixHT + $frais_livraison) * ($tva->getValue()/100)), 2, '.','');
+    }
+
     //$orders->setTotalPrixNet(number_format((($totalPrixHT * $tva->getValue()) / 100) + $totalPrixHT, 2, '.', ''));
     $orders->setTotalPrixNet(number_format($discountPrice, 2, '.', ''));
-    $orders->setTax(number_format((($totalPrixHT * $tva->getValue() + ($frais_livraison * $tva->getValue())) / 100), 2, '.', ''));
+    //$orders->setTax(number_format((($totalPrixHT * $tva->getValue() + ($frais_livraison * $tva->getValue())) / 100), 2, '.', ''));
     $orders->setStatus("NEW");
     $orders->setCreatedBy($id_user);
     $orders->setModifiedBy($id_user);
@@ -838,7 +849,13 @@ if ($mode == 0) {
                 $orders_details->setLiserai($tempProd->getLiserai());
                 $orders_details->setOpt($tempProd->getOpt());
                 $orders_details->setPrixHT(number_format(($tempProd->getUnitPrix() * $tempProd->getQte()), 2, '.', ''));
-                $orders_details->setPrixTTC(number_format(((($tempProd->getUnitPrix() * $tempProd->getQte()) * $tva->getValue()) / 100) + ($tempProd->getUnitPrix() * $tempProd->getQte()), 2, '.', ''));
+                if($_GET["percent_disc"] > 0) {
+                    $orders_details->setPrixTTC(number_format(((($orders_details->getPrixHT()+$fraisLivraison["price"]) * (1+$tva->getValue()/100) * (1-($_GET["percent_disc"]/100)))), 2, '.', ''));
+                }
+                else{
+                    $orders_details->setPrixTTC(number_format((($orders_details->getPrixHT() * $tva->getValue()) / 100) + ($tempProd->getUnitPrix() * $tempProd->getQte()), 2, '.', ''));
+                }
+
                 $orders_details->setUnitPrix($tempProd->getUnitPrix());
                 $orders_details->setPrixLivraisonHT(number_format($fraisLivraison["price"], 2, '.', ''));
                 $orders_details->setPrixLivraisonTTC(number_format(($fraisLivraison["price"] * $tva->getValue()) / 100 + $fraisLivraison["price"], 2, '.', ''));

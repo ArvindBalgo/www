@@ -21,6 +21,7 @@ angular
         vm.percDiscount = 0;
         vm.strMsgDiscount = "";
         vm.listClients = [];
+        vm.tax = 0;
         vm.lang = sessionStorage.getItem("LANG");
         if (vm.lang == "" || vm.lang == null) {
             vm.lang = "FR";
@@ -79,6 +80,7 @@ angular
                 vm.montants.prix_ttc = 0;
                 vm.montants.montant_net = 0;
                 vm.montants.tax_ttc = 0;
+                vm.tax = arrFraisLivr.tax;
 
                 angular.forEach(vm.arrProduits, function (value) {
                     angular.forEach(arrFraisLivr.frais_livraison, function (item) {
@@ -92,7 +94,13 @@ angular
                 vm.montants.prix_total_ht = vm.montants.prix_total_ht.toFixed(2);
                 vm.montants.tax = ((Number(arrFraisLivr.tax) / 100) * vm.montants.prix_total_ht).toFixed(2);
                 vm.montants.taxLivr = ((Number(arrFraisLivr.tax) / 100) * vm.montants.frais_livr).toFixed(2);
-                vm.montants.tax_ttc = ((Number(arrFraisLivr.tax) / 100) * vm.montants.prix_total_ht) + ((Number(arrFraisLivr.tax) / 100) * vm.montants.frais_livr);
+                if(vm.percDiscount > 0) {
+                    vm.montants.tax_ttc = (Number(vm.montants.frais_livr)+Number(vm.montants.prix_total_ht)) * (Number(arrFraisLivr.tax) / 100) * (1- Number(vm.percDiscount)/100);
+                }
+                else {
+                    vm.montants.tax_ttc = (Number(vm.montants.frais_livr)+Number(vm.montants.prix_total_ht)) * (Number(arrFraisLivr.tax) / 100);
+                }
+
                 vm.montants.valTax = (1 + (Number(arrFraisLivr.tax) / 100));
                 vm.montants.prix_ttc = Number(vm.montants.prix_total_ht) + Number(vm.montants.tax);
                 vm.montants.prix_ttc = (vm.montants.prix_ttc).toFixed(2);
@@ -318,10 +326,25 @@ angular
                 vm.montants.montant_net = (vm.montants.montant_net_orig).toFixed(2);
                 vm.strMsgDiscount = "% hors limit.";
                 vm.percDiscount = 0;
+                if(vm.percDiscount > 0) {
+                    vm.montants.tax_ttc = (Number(vm.montants.frais_livr)+Number(vm.montants.prix_total_ht)) * (Number(vm.tax) / 100) * (1- Number(vm.percDiscount)/100);
+                }
+                else {
+                    vm.montants.tax_ttc = (Number(vm.montants.frais_livr)+Number(vm.montants.prix_total_ht)) * (Number(vm.tax) / 100);
+                }
                 return;
             }
             vm.montants.montant_net = (vm.montants.montant_net_orig * (1 - (vm.percDiscount / 100))).toFixed(2);
             vm.strMsgDiscount = (vm.montants.montant_net_orig - vm.montants.montant_net).toFixed(2) + " Euro";
+            if(vm.percDiscount > 0) {
+                vm.montants.tax_ttc = (Number(vm.montants.frais_livr)+Number(vm.montants.prix_total_ht)) * (Number(vm.tax) / 100) * (1- Number(vm.percDiscount)/100);
+            }
+            else {
+                vm.montants.tax_ttc = (Number(vm.montants.frais_livr)+Number(vm.montants.prix_total_ht)) * (Number(vm.tax) / 100);
+            }
+            vm.montants.tax_ttc = vm.montants.tax_ttc.toFixed(2)
+
+
         };
 
         vm.fnGetListClients = function(){
