@@ -123,7 +123,7 @@ class custom_salesman
             $requete .= ", id_front=" . $this->_id_front;
             $requete .= ", id_back=" . $this->_id_back;
             $requete .= ", id_salesman=" . $this->_id_salesman;
-            $requete .= ", data='" . $this->_data . "'";
+            $requete .= ", data='" . addslashes(json_encode($this->_data) ) . "'";
             $requete .= " WHERE id=" . $this->_id;
 
         } else {
@@ -142,7 +142,7 @@ class custom_salesman
             $requete .= "'" . $this->_id_front . "',";
             $requete .= "'" . $this->_id_back . "',";
             $requete .= "'" . $this->_id_salesman . "',";
-            $requete .= "'" . $this->_data . "')";
+            $requete .= "'" . addslashes(json_encode($this->_data)) . "')";
         }
 
         $r = $this->conn->query($requete) or die($this->conn->error . __LINE__);

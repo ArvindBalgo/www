@@ -264,7 +264,7 @@ if ($mode == 0) {
     $customSalesman->setTitle($_POST["title"]);
     $customSalesman->setImageSrc($_POST["image_url"] . ".png");
     $customSalesman->setIdSalesman($_SESSION['uid']);
-    $customSalesman->setData(json_encode($_POST["data"]));
+    $customSalesman->setData(($_POST["data"]));
     $customSalesman->save();
     $customSalesman = null;
 } else if ($mode == 18) {

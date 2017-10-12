@@ -100,6 +100,7 @@ angular
                 else {
                     vm.montants.tax_ttc = (Number(vm.montants.frais_livr)+Number(vm.montants.prix_total_ht)) * (Number(arrFraisLivr.tax) / 100);
                 }
+                vm.montants.tax_ttc = vm.montants.tax_ttc.toFixed(2);
 
                 vm.montants.valTax = (1 + (Number(arrFraisLivr.tax) / 100));
                 vm.montants.prix_ttc = Number(vm.montants.prix_total_ht) + Number(vm.montants.tax);
@@ -332,6 +333,7 @@ angular
                 else {
                     vm.montants.tax_ttc = (Number(vm.montants.frais_livr)+Number(vm.montants.prix_total_ht)) * (Number(vm.tax) / 100);
                 }
+                vm.montants.tax_ttc = vm.montants.tax_ttc.toFixed(2)
                 return;
             }
             vm.montants.montant_net = (vm.montants.montant_net_orig * (1 - (vm.percDiscount / 100))).toFixed(2);
@@ -342,7 +344,7 @@ angular
             else {
                 vm.montants.tax_ttc = (Number(vm.montants.frais_livr)+Number(vm.montants.prix_total_ht)) * (Number(vm.tax) / 100);
             }
-            vm.montants.tax_ttc = vm.montants.tax_ttc.toFixed(2)
+            vm.montants.tax_ttc = vm.montants.tax_ttc.toFixed(2);
 
 
         };

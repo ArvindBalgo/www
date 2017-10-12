@@ -18,6 +18,9 @@ angular
         vm.currentImg = "";
         vm.qteComm = "";
         vm.selectedObj = {};
+        vm.istable1 = true;
+        vm.istable2 = true;
+        vm.istable3 = true;
 
         vm.libMetier = "";
         vm.modelLibelle = "";
@@ -44,6 +47,16 @@ angular
         vm.currentTarifID = {};
         vm.paysList = [];
         vm.arrFraisLivr = [];
+
+        vm.fnToggleT1 = function() {
+            vm.istable1 = !vm.istable1;
+        };
+        vm.fnToggleT2 = function() {
+            vm.istable2 = !vm.istable2;
+        };
+        vm.fnToggleT3 = function() {
+            vm.istable3 = !vm.istable3;
+        };
 
         var uploader = $scope.uploader12 = new FileUploader({
             url: 'api/categoryupload.php'

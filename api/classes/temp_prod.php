@@ -311,7 +311,7 @@ class temp_prod
             $requete .= ", support='" . $this->_support . "'";
             $requete .= ", qte=" . $this->_qte . "";
             $requete .= ", title='" . $this->_title . "'";
-            $requete .= ", data='" . json_encode($this->_data) . "'";
+            $requete .= ", data='" . addslashes(json_encode($this->_data) ). "'";
             $requete .= ", random_str='" . json_encode($this->_random_str) . "'";
             $requete .= ", escargot_val='" . ($this->_escargot_val) . "'";
             $requete .= ", contours='" . ($this->_contours) . "'";

@@ -287,10 +287,13 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title"> {{metier.scDescription}}</h4>
+                <button ng-click="metier.fnToggleT1();">Toggle T1</button>
+                <button ng-click="metier.fnToggleT2();">Toggle T2</button>
+                <button ng-click="metier.fnToggleT3();">Toggle T3</button>
             </div>
             <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-4 scrollit" style="height: 500px">
+                        <div class="col-md-4 scrollit" ng-show="metier.istable1" style="height: 500px">
                             <table >
                                 <th>Dimension</th>
                                 <th>Coefficient</th>
@@ -303,7 +306,7 @@
                                 </tr>
                             </table>
                         </div>
-                        <div class="col-md-8 scrollit" style="height: 500px;">
+                        <div class="col-md-8 scrollit" ng-show="metier.istable2" style="height: 500px;">
                             <table>
                                 <th>SEL</th>
                                 <th>Type de support</th>
@@ -316,7 +319,7 @@
                             </table>
                         </div>
                     </div>
-                <div class="row" style="margin-top: 20px">
+                <div class="row" ng-show="metier.istable3" style="margin-top: 20px">
                     <div class="col-md-11 scrollit" style="height: 300px">
                         <table>
                             <th></th>
@@ -335,18 +338,18 @@
                         </table>
                     </div>
                 </div>
-                <div>
+               <!-- <div>
                     <button class="btn btn-danger pull-left" data-dismiss="modal">Annuler</button>
                     <button class="btn btn-danger pull-right" ng-click="metier.fnCalcPrix()">Grille de prix</button>
                     <button class="btn btn-danger pull-right" ng-click="metier.fnValidPrix()">Valider</button>
-                </div>
+                </div>-->
             </div>
-            <!--<div class="modal-footer">
+            <div class="modal-footer">
                 <button class="btn btn-danger pull-left" data-dismiss="modal">Annuler</button>
                 <button class="btn btn-danger pull-right" ng-click="metier.fnCalcPrix()">Grille de prix</button>
                 <button class="btn btn-danger pull-right" ng-click="metier.fnValidPrix()">Valider</button>
             </div>
--->        </div>
+        </div>
     </div>
 </div>
 

@@ -94,10 +94,10 @@ if ($mode == 0) {
         foreach ($orderDetailInfo as $row) {
             $facture->Cell($w[0], 6, $row['qte'], 'LRB', 0, 'L', $fill);
             if(strlen($row['title']) > 37) {
-                $facture->Cell($w[1], 6, substr($row['title'], 0, 37)."...", 'LRB', 0, 'L', $fill);
+                $facture->Cell($w[1], 6, substr(utf8_decode($row['title']), 0, 37)."...", 'LRB', 0, 'L', $fill);
             }
             else {
-                $facture->Cell($w[1], 6, $row['title'], 'LRB', 0, 'L', $fill);
+                $facture->Cell($w[1], 6, utf8_decode($row['title']), 'LRB', 0, 'L', $fill);
             }
 
             $facture->Cell($w[2], 6, $row['unitprix'], 'LRB', 0, 'R', $fill);
