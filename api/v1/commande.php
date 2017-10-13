@@ -235,6 +235,8 @@ if ($mode == 1) {
 
     foreach ($orderDetails as $item) {
         $row = [];
+        $cataPapier = new cata_papier();
+        $cataPapier = $cataPapier->findByPrimaryKey($item["idsupport"]);
         $row["id"] = $item["id"];
         $row["title"] = $item["title"];
         $row["dimension"] = $item["dimension"];
@@ -246,7 +248,9 @@ if ($mode == 1) {
         $row["unitprix"] = $item["unitprix"];
         $row["prix_ttc"] = $item["prix_ttc"];
         $row["commentaire"] = $item["commentaire"];
+        $row["papier"] = $cataPapier->getDescription();
         $rows[] = $row;
+        $cataPapier = null;
     }
 
     $ordersDetails = null;
