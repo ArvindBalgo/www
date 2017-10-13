@@ -569,7 +569,7 @@ class orders_details
 
     public function findByPrimaryKey1($key)
     { // Recherche d'une adresse par id
-        $requete = self::$SELECT . " WHERE id=" . $key;
+        $requete = "SELECT od.*, cp.description FROM orders_details od inner join cata_papier cp on (od.idsupport = cp.id) WHERE od.id=" . $key;
         $rs = $this->conn->query($requete);
 
         return (mysqli_fetch_array($rs));
