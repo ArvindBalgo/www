@@ -33,11 +33,11 @@ if ($user != NULL) {
         $response['max_val'] = $user['max_val'];
 
         $token =  substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil(25/strlen($x)) )),1,25);
-        $user1 = new users();
+        /*$user1 = new users();
         $user1 = $user1->findByPrimaryKey($user['uid']);
         $user1->setToken($token);
         $user1->save();
-        $response['token'] = $token;
+        $response['token'] = $token;*/
 
         if (!isset($_SESSION)) {
             session_start();

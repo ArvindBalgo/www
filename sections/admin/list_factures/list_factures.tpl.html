@@ -7,6 +7,7 @@
                 <td data-title="'Etape'">{{row.status}}</td>
                 <td data-title="'Prix'" ><b>{{row.total_prix_net| currency : "€ "}}</b></td>
                 <td data-title="'Utilisateur'" ><b>{{row.name}} {{row.surname}}</b></td>
+                <td data-title="'Société'" ><b>{{row.company_name}}</b></td>
                 <td data-title="">
                     <button ng-show="row.pdf_src ==null" ng-click="factures.fnGeneratePdf(row.id)" class="btn btn-info btn-circle">G</button>
                     <span ng-show="row.pdf_src != null" ><a class="glyphicon glyphicon-picture" style="cursor:pointer;" target="_blank" href="../../../api/pdf/factures/{{row.pdf_src}}" ></a></span>

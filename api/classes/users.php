@@ -257,7 +257,7 @@ class users
             $requete .= ",email='" . $this->_email . "'";
             $requete .= ",phone='" . $this->_phone . "'";
             $requete .= ",password='" . $this->_password . "'";
-            $requete .= ",address='" . $this->_address . "'";
+            $requete .= ",address='" . addslashes($this->_address ). "'";
             $requete .= ",city='" . $this->_city . "'";
             $requete .= ",pays='" . $this->_pays . "'";
             $requete .= ",created='" . $this->_created . "'";
@@ -298,7 +298,7 @@ class users
             $requete .= "'" . $this->_email . "',";
             $requete .= "'" . $this->_phone . "',";
             $requete .= "'" . $this->_password . "',";
-            $requete .= "'" . $this->_address . "',";
+            $requete .= "'" . addslashes($this->_address) . "',";
             $requete .= "'" . $this->_city . "',";
             $requete .= "'" . $this->_pays . "',";
             $requete .= "'" . $this->_postalcode . "',";
@@ -311,7 +311,6 @@ class users
             $requete .= "'" . $this->_max_val . "',";
             $requete .= "'" . $this->_department . "')";
         }
-
         $r = $this->conn->query($requete) or die($this->conn->error . __LINE__);
         return $r;
     }

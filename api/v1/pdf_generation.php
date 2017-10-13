@@ -51,8 +51,8 @@ if ($mode == 0) {
     $facture->SetFont('Arial', '', 12);
     $facture->Cell(40, 10, 'Date: ');
     $facture->Cell(65, 10, $orderInfo->getDateCreated());
-    $facture->Cell(30, 10, 'Adresse :', 0, 0, 'R');
-    $facture->Cell(45, 10, utf8_decode($userInfo->getAddress()), 0, 0, 'R');
+    $facture->Cell(30, 10, '', 0, 0, 'R');
+    $facture->Cell(45, 10, utf8_decode(strtoupper($userInfo->getAddress())), 0, 0, 'R');
     $facture->Ln(5);
 
     $facture->Cell(40, 10, utf8_decode('Societé: '));
@@ -108,7 +108,8 @@ if ($mode == 0) {
     }
 
     $facture->Ln();
-    $facture->Cell($w[0], 6, utf8_decode("Modalité de Paiement"), 0, 0, 'L', false);
+    $facture->Cell($w[0], 6, utf8_decode(""), 0, 0, 'L', false);
+    //$facture->Cell($w[0], 6, utf8_decode("Modalité de Paiement"), 0, 0, 'L', false);
     $facture->Cell($w[1], 6, (""), 0, 0, 'L', false);
     $facture->Cell($w[2], 6, ("Montant Total HT"), 0, 0, 'L', true);
     $facture->Cell($w[3], 6, number_format((float)$orderInfo->getTotalPrixHT(), 2, '.', ''), "LRTB", 0, 'R', false);

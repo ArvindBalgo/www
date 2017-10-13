@@ -292,12 +292,12 @@ if ($mode == 1) {
 
         $user->setSurname($_POST["surname"]);
         $user->setName($_POST["name"]);
-        $user->setCompanyName($_POST["company_name"]);
-        $user->setAddress($_POST["address"]);
+        $user->setCompanyName(addslashes($_POST["company_name"]));
+        $user->setAddress(addslashes($_POST["address"]));
         $user->setPostalCode($_POST["postalcode"]);
         $user->setPhone($_POST["phone"]);
-        $user->setCity($_POST["city"]);
-        $user->setPays($_POST["pays"]);
+        $user->setCity(addslashes($_POST["city"]));
+        $user->setPays(addslashes($_POST["pays"]));
         $user->setSiret($_POST["siret"]);
         $user->save();
 
