@@ -1,6 +1,6 @@
 angular
     .module('myApp')
-    .controller('savedModelController', function($scope, $rootScope, $routeParams, $location, $http, Data, $timeout, $routeParams, $translate) {
+    .controller('savedModelController', function($scope, $rootScope, $routeParams, $location, $http, Data, $timeout, $routeParams, $translate, FileUploader) {
         Data.get('session.php').then(function (results) {
             if (results.uid) {
                 $scope.isCommercial = false;
@@ -20,19 +20,51 @@ angular
         $scope.header = "Produit Client";
         vm.currentProd = $routeParams.idCommDetail;
         vm.infoProd = [];
+        vm.activeTabId = 1;
+        vm.productsDesign = [];
+        vm.imagesList = [];
+        vm.arrGalleryImagesPerso = [];
 
         vm.produit = [{titre: "", commentaire: ''}];
         console.log(vm.currentProd, "current produit");
+
+        var uploader = $scope.uploader = new FileUploader({
+            url: 'api/galleryUploadCustom.php'
+        });
+
+// FILTERS
+
+        uploader.filters.push({
+            name: 'customFilter',
+            fn: function (item /*{File|FileLikeObject}*/, options) {
+                return this.queue.length < 100;
+            }
+        });
+        uploader.filters.push({
+            name: 'imageFilter',
+            fn: function (item /*{File|FileLikeObject}*/, options) {
+                var type = '|' + item.type.slice(item.type.lastIndexOf('/') + 1) + '|';
+                return '|jpg|png|jpeg|bmp|gif|'.indexOf(type) !== -1;
+            }
+        });
+        uploader.formData.push({});
+        uploader.onBeforeUploadItem = function (item) {
+
+        };
+        uploader.onAfterAddingFile = function (item) {
+            console.log("on after adding all files", item);
+            uploader.uploadAll();
+        }
+        uploader.onSuccessItem = function (fileItem, response, status, headers) {
+            console.info('onSuccessItem', response);
+            vm.arrGalleryImagesPerso.push(response);
+
+        };
 
 
         vm.productsDesign = [];
 
         vm.fnInit = function (idprod) {
-            console.log("**************************************");
-            console.log(localStorage.idModelMetier);
-            console.log(vm.currentProd);
-            console.log(idprod);
-            console.log("**************************************");
             var lang = sessionStorage.getItem("LANG");
             var urlLang = "";
             if (lang == 'FR') {
@@ -94,7 +126,8 @@ angular
                 url: 'api/v1/langueCRUD.php'
             }).then(function successCallback(response) {
                 $scope.langue = angular.copy(response.data);
-                vm.fnMetier();
+                vm.fnGetImages();
+
             });
             vm.setLang = function (langKey) {
                 // You can change the language during runtime
@@ -301,7 +334,6 @@ angular
                         var arrProducts = [];
                         var arrFront = [];
                         var arrBack = [];
-                        console.log(data, " -----")
                         angular.forEach(data[0].elements, function (value1) {
                             console.log(value1, '====' );
                             var flag = false;
@@ -1288,6 +1320,23 @@ angular
 
 
                         };
+
+                        vm.fnImagesLoad = function (ligne) {
+                            vm.imagesList = ligne.data;
+                            $('#imagesListModal').modal();
+                        };
+
+                        vm.fnUploadImg = function (image) {
+                            yourDesigner.addCustomImage(image.src, image.libelle);
+                        };
+
+                        vm.fnUploadImgCustom = function (image) {
+                            yourDesigner.addCustomImage(image, 'custom');
+                        };
+
+                        vm.loadModalImgs = function () {
+                            $('#imagesModal').modal();
+                        };
                     }, 0);
 
 
@@ -1296,6 +1345,14 @@ angular
                 })
                 .error(function (data, status, headers, config) {
                 });
+        };
+
+        vm.loadModalImgs = function () {
+            $('#imagesModal').modal();
+        };
+
+        vm.fnClickTabs = function (tabVal) {
+            vm.activeTabId = tabVal;
         };
 
         vm.fnClickPanier = function () {
@@ -1400,6 +1457,21 @@ angular
                 //$location();
             })
         };
+
+        vm.fnGetImages =  function() {
+            $http({
+                method: 'GET',
+                params: {mode: 6},
+                url: 'api/v1/imageInfo.php'
+            }).then(function successCallback(response) {
+                vm.productsDesign = response.data;
+                vm.fnMetier();
+            }, function errorCallback(error) {
+                console.log(error);
+            });
+        };
+
+
 
         vm.fnGetFraisLivr = function () {
             $('#modalPanier').modal('hide');
